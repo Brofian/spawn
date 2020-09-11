@@ -12,10 +12,8 @@ class Response {
     private $html = '';
     private $responseCode = 200;
     private $templateFolders = array();
-    public $config = array();
 
-    public function __construct($config) {
-        $this->config = $config;
+    public function __construct() {
     }
 
 

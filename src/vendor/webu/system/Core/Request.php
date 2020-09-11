@@ -34,12 +34,9 @@ class Request {
     private $requestController = 'index';
     /** @var string  */
     private $requestActionPath = '';
-    /** @var array  */
-    private $config = array();
 
 
-    public function __construct($config) {
-        $this->config = $config;
+    public function __construct() {
     }
 
     public function gatherInformations() {
@@ -52,7 +49,7 @@ class Request {
 
     public function addToAccessLog() {
         $text  = 'Call to "';
-        $text .= $this->config['address'] . '/' . $this->requestURI;
+        $text .= MAIN_ADDRESS . '/' . $this->requestURI;
         if(sizeof($this->requestURIParams)) {
             $text .= '" with the params ';
             $text .= implode(', ', $this->requestURIParams);
@@ -108,7 +105,7 @@ class Request {
         $this->post = $_POST;
         $this->cookies = new CookieHelper();
         $this->session = new SessionHelper();
-        $this->database = new DatabaseHelper($this->config);
+        $this->database = new DatabaseHelper();
     }
 
     /*

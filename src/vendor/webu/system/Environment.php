@@ -19,16 +19,13 @@ class Environment {
     public $request;
     /** @var Response  */
     public $response;
-    /** @var array */
-    public $config;
 
-    public function __construct($config)
+    public function __construct()
     {
         Debugger::dump("test");
 
-        $this->request = new Request($config);
-        $this->response = new Response($config);
-        $this->config = $config;
+        $this->request = new Request();
+        $this->response = new Response();
 
         try {
             $this->init();
@@ -55,7 +52,7 @@ class Environment {
 
         if($controller === false) {
             //fallback
-            $controller = $moduleHelper->getModuleByAlias($this->config["defaultController"]);
+            $controller = $moduleHelper->getModuleByAlias(DEFAULTCONTROLLER);
 
             if ($controller === false) {
                 throw new \Exception("Controller " . $this->request->getRequestController() . ' not found!');
@@ -88,7 +85,7 @@ class Environment {
 
         Logger::writeToErrorLog($e->getTraceAsString(), $e->getMessage());
 
-        if($this->config['mode'] == 'dev') {
+        if(MODE == 'dev') {
             $message = $e->getMessage() ?? 'No error-message provided!';
             $trace = $e->getTrace() ?? [];
 

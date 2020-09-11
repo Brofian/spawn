@@ -22,19 +22,19 @@ class DatabaseHelper {
     /** @var PDO | false */
     private $connection = false;
 
-    public function __construct($config) {
+    public function __construct() {
 
-        $this->readConfig($config);
+        $this->loadDBConfig();
         $this->createConnection();
 
     }
 
-    private function readConfig($config) {
-        $this->host = $config["db"]["host"];
-        $this->username = $config["db"]["username"];
-        $this->password = $config["db"]["password"];
-        $this->database = $config["db"]["database"];
-        $this->port = $config["db"]["port"];
+    private function loadDBConfig() {
+        $this->host = DB_HOST;
+        $this->username = DB_USERNAME;
+        $this->password = DB_PASSWORD;
+        $this->database = DB_DATABASE;
+        $this->port = DB_PORT;
     }
 
     private function createConnection() {

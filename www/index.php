@@ -11,19 +11,19 @@
     //prepare global autoload class
     global $autoloadClass;
     $autoloadClass = new \webu\autoloader\Autoloader();
-    $autoloadClass->alwaysReload = ($config["mode"] == "dev");
+    $autoloadClass->alwaysReload = (MODE == "dev");
 
     //set autloader
     spl_autoload_register(
         function($className) use ($autoloadClass) {
             $autoloadClass->autoload($className);
         },
-        ($config["mode"] == "dev")
+        (MODE == "dev")
     );
 
 
 
-    $environment = new \webu\system\Environment($config);
+    $environment = new \webu\system\Environment();
 
 
 ?>
