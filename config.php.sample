@@ -1,0 +1,30 @@
+<?php
+
+/*
+ * Do not edit this!
+ */
+global $config;
+$config = array();
+
+
+
+
+/*
+ * Only edit the values in this section
+ */
+
+// mode = dev | pub
+$config["mode"] = "dev";
+
+$config['address'] = "localhost";
+
+$config["db"] = [
+    'host'      => 'localhost',
+    'username'  => 'root',
+    'password'  => '',
+    'database'  => 'db1',
+    'port'      => '3306'
+];
+
+
+$config["defaultController"] = 'Main';
