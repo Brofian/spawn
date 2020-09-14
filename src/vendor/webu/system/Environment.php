@@ -22,7 +22,7 @@ class Environment {
 
     public function __construct()
     {
-        Debugger::dump("test");
+        //Debugger::dump("test");
 
         $this->request = new Request();
         $this->response = new Response();
