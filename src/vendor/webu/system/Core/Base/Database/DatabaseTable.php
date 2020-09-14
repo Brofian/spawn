@@ -31,6 +31,7 @@ abstract class DatabaseTable
 
 
     abstract public function init() : bool;
+
     abstract public function getTableName() : string;
 
 

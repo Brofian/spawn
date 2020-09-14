@@ -7,11 +7,13 @@ use webu\system\Core\Custom\Debugger;
 class RoutingHelper
 {
 
+    //these routes can be set by the user or modules(maybe via backend?)
     public $specialRoutes = [
         //pattern:
         // 'controller:action' => controller class path
     ];
 
+    //these routes are set in the config.php and must exist
     public $systemRoutes = [
         '404:index' => NOTFOUNDCONTROLLER
     ];

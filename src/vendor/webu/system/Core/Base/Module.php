@@ -2,7 +2,8 @@
 
 namespace webu\system\Core\Base;
 
-class Module {
+class Module
+{
 
     private $path = '';
     private $basepath = '';
@@ -25,32 +26,39 @@ class Module {
      * Returns the controller of this module
      * @return mixed
      */
-    public function getModuleController() {
+    public function getModuleController()
+    {
         $moduleController = new $this->classname_full();
         return $moduleController;
     }
 
-    public function getPath() : string {
+    public function getPath(): string
+    {
         return $this->path;
     }
 
-    public function getBasepath() : string {
+    public function getBasepath(): string
+    {
         return $this->basepath;
     }
 
-    public function getClassname() : string {
+    public function getClassname(): string
+    {
         return $this->classname;
     }
 
-    public function getFullClassname() : string {
+    public function getFullClassname(): string
+    {
         return $this->classname_full;
     }
 
-    public function getNamespace() : string {
+    public function getNamespace(): string
+    {
         return $this->namespace;
     }
 
-    public function getAlias() : string {
+    public function getAlias(): string
+    {
         return $this->alias;
     }
 
@@ -59,7 +67,8 @@ class Module {
      * @param string $path
      * @return Module
      */
-    public function setPath(string $path) : Module {
+    public function setPath(string $path): Module
+    {
         $this->path = $path;
         return $this;
     }
@@ -68,7 +77,8 @@ class Module {
      * @param string $basepath
      * @return Module
      */
-    public function setBasepath(string $basepath) : Module {
+    public function setBasepath(string $basepath): Module
+    {
         $this->basepath = $basepath;
         return $this;
     }
@@ -77,7 +87,8 @@ class Module {
      * @param string $classname
      * @return Module
      */
-    public function setClassname(string $classname) : Module {
+    public function setClassname(string $classname): Module
+    {
         $this->classname = $classname;
         return $this;
     }
@@ -86,7 +97,8 @@ class Module {
      * @param string $classname_full
      * @return Module
      */
-    public function setFullClassname(string $classname_full) : Module {
+    public function setFullClassname(string $classname_full): Module
+    {
         $this->classname_full = $classname_full;
         return $this;
     }
@@ -95,7 +107,8 @@ class Module {
      * @param string $namespace
      * @return Module
      */
-    public function setNamespace(string $namespace) : Module {
+    public function setNamespace(string $namespace): Module
+    {
         $this->namespace = $namespace;
         return $this;
     }
@@ -104,7 +117,8 @@ class Module {
      * @param string $alias
      * @return Module
      */
-    public function setAlias(string $alias) : Module {
+    public function setAlias(string $alias): Module
+    {
         $this->alias = $alias;
         return $this;
     }

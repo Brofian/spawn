@@ -14,11 +14,13 @@ use webu\system\core\Response;
 /*
  * The Main Environment to handle the system
  */
-class Environment {
 
-    /** @var Request  */
+class Environment
+{
+
+    /** @var Request */
     public $request;
-    /** @var Response  */
+    /** @var Response */
     public $response;
 
     public function __construct()
@@ -30,15 +32,15 @@ class Environment {
 
         try {
             $this->init();
-        }
-        catch(\Throwable $exception) {
+        } catch (\Throwable $exception) {
             $this->handleException($exception);
         }
 
     }
 
 
-    public function init() {
+    public function init()
+    {
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
 
@@ -47,7 +49,8 @@ class Environment {
     }
 
 
-    private function loadController() {
+    private function loadController()
+    {
 
         //get data from url
         $requestController = $this->request->getRequestController();
@@ -68,18 +71,19 @@ class Environment {
         );
     }
 
-    private function handleException(\Throwable $e) {
+    private function handleException(\Throwable $e)
+    {
 
         Logger::writeToErrorLog($e->getTraceAsString(), $e->getMessage());
 
-        if(MODE == 'dev') {
+        if (MODE == 'dev') {
             $message = $e->getMessage() ?? 'No error-message provided!';
             $trace = $e->getTrace() ?? [];
 
-            echo "ERROR: <b>".$message."</b><br><pre>";
+            echo "ERROR: <b>" . $message . "</b><br><pre>";
 
             echo "<ul>";
-            foreach($trace as $step) {
+            foreach ($trace as $step) {
                 echo "<li>";
                 echo "<b>" . $step['file'] . ":" . $step['line'] . "</b>";
                 echo " in function <b>" . $step['function'] . "</b>";
@@ -87,12 +91,10 @@ class Environment {
             echo "</ul>";
 
             var_dump($e);
-        }
-        else {
+        } else {
             echo "Leider ist etwas schief gelaufen :(";
         }
     }
-
 
 
 }

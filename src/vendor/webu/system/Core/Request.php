@@ -12,34 +12,37 @@ use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\SessionHelper;
 
-class Request {
+class Request
+{
 
-    /** @var array  */
+    /** @var array */
     private $get = array();
-    /** @var array  */
+    /** @var array */
     private $post = array();
-    /** @var CookieHelper  */
+    /** @var CookieHelper */
     private $cookies = null;
-    /** @var SessionHelper  */
+    /** @var SessionHelper */
     private $session = null;
-    /** @var DatabaseHelper  */
+    /** @var DatabaseHelper */
     private $database = null;
-    /** @var string  */
+    /** @var string */
     private $baseURI = '';
-    /** @var string  */
+    /** @var string */
     private $requestURI = '';
-    /** @var array  */
+    /** @var array */
     private $requestURIParams = array();
-    /** @var string  */
+    /** @var string */
     private $requestController = 'index';
-    /** @var string  */
+    /** @var string */
     private $requestActionPath = '';
 
 
-    public function __construct() {
+    public function __construct()
+    {
     }
 
-    public function gatherInformations() {
+    public function gatherInformations()
+    {
         //Load all Informations, found in the request
         $this->setParams();
         $this->setBaseURI();
@@ -47,10 +50,11 @@ class Request {
         $this->setRequestURIParams();
     }
 
-    public function addToAccessLog() {
-        $text  = 'Call to "';
+    public function addToAccessLog()
+    {
+        $text = 'Call to "';
         $text .= MAIN_ADDRESS . '/' . $this->requestURI;
-        if(sizeof($this->requestURIParams)) {
+        if (sizeof($this->requestURIParams)) {
             $text .= '" with the params ';
             $text .= implode(', ', $this->requestURIParams);
         }
@@ -59,21 +63,21 @@ class Request {
     }
 
 
-
-    private function setRequestURIParams() {
+    private function setRequestURIParams()
+    {
         $params = explode("/", $this->requestURI);
-        foreach($params as &$param) {
+        foreach ($params as &$param) {
             $param = strtolower(trim($param));
         }
         $this->requestURIParams = $params;
 
-        if($params[0] == '') $params = [];
+        if ($params[0] == '') $params = [];
 
         //get the controller
-        if(sizeof($params) > 0) {
+        if (sizeof($params) > 0) {
             $this->requestController = $params[0];
 
-            if(sizeof($params) > 1) {
+            if (sizeof($params) > 1) {
                 array_shift($params);
                 $this->requestActionPath = implode('/', $params);
             }
@@ -82,14 +86,16 @@ class Request {
 
     }
 
-    private function setRequestURI() {
+    private function setRequestURI()
+    {
         $requestURI = $_SERVER['REQUEST_URI'];
         $getSeperator = strrpos($requestURI, '?');
-        if($getSeperator == false)  $this->requestURI = trim($requestURI, "/");
-        else                        $this->requestURI = trim(substr($requestURI, 0, $getSeperator-1), "/");
+        if ($getSeperator == false) $this->requestURI = trim($requestURI, "/");
+        else                        $this->requestURI = trim(substr($requestURI, 0, $getSeperator - 1), "/");
     }
 
-    private function setBaseURI() {
+    private function setBaseURI()
+    {
         if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
             $uri = 'https://';
         } else {
@@ -100,7 +106,8 @@ class Request {
         $this->baseURI = $uri; //e.g. 'http://localhost//'
     }
 
-    private function setParams() {
+    private function setParams()
+    {
         $this->get = $_GET;
         $this->post = $_POST;
         $this->cookies = new CookieHelper();
@@ -113,42 +120,58 @@ class Request {
      */
 
     /** @return array */
-    public function getParamGet() : array {
+    public function getParamGet(): array
+    {
         return $this->get;
     }
+
     /** @return array */
-    public function getParamPost() : array {
+    public function getParamPost(): array
+    {
         return $this->post;
     }
+
     /** @return CookieHelper */
-    public function getParamCookies() : array {
+    public function getParamCookies(): array
+    {
         return $this->cookies;
     }
+
     /** @return SessionHelper */
-    public function getParamSession() : array {
+    public function getParamSession(): array
+    {
         return $this->session;
     }
+
     /** @return DatabaseHelper */
-    public function getDatabase() {
+    public function getDatabase()
+    {
         return $this->database;
     }
+
     /** @return string */
-    public function getRequestController() {
+    public function getRequestController()
+    {
         return $this->requestController;
     }
+
     /** @return string */
-    public function getRequestActionPath() {
+    public function getRequestActionPath()
+    {
         return $this->requestActionPath;
     }
+
     /** @return string */
-    public function getRequestURI() {
+    public function getRequestURI()
+    {
         return $this->requestURI;
     }
+
     /** @return array */
-    public function getRequestURIParams() {
+    public function getRequestURIParams()
+    {
         return $this->requestURIParams;
     }
-
 
 
 }

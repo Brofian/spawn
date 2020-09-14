@@ -2,7 +2,8 @@
 
 namespace webu\system\Core\Base\Database\Storage;
 
-class DatabaseAttributes {
+class DatabaseAttributes
+{
 
     const NONE = '';
     const BINARY = 'BINARY';

@@ -14,8 +14,6 @@ namespace webu\system\Core\Base\Custom;
  * - string (the name of the currently selected file)
  * - string (the relative path the currently selected file from the root)
  */
-
-
 class FileCrawler
 {
 
@@ -33,9 +31,10 @@ class FileCrawler
      * @param callable $checkFunction
      * @return array
      */
-    public function searchInfos(string $rootPath, callable $checkFunction, int $maxDepth = 999) : array {
+    public function searchInfos(string $rootPath, callable $checkFunction, int $maxDepth = 999): array
+    {
 
-        if(is_callable($checkFunction) == false) return [];
+        if (is_callable($checkFunction) == false) return [];
         $this->checkFunction = $checkFunction;
 
         $this->maxDepth = $maxDepth;
@@ -51,7 +50,7 @@ class FileCrawler
      * @param array $classes
      * @return array
      */
-    private function scanDirs(string $current, array &$ergs, int $depth = 0) :array
+    private function scanDirs(string $current, array &$ergs, int $depth = 0): array
     {
         $currentContents = scandir($current);
 
@@ -76,7 +75,7 @@ class FileCrawler
 
             } else if (is_dir($path) && $depth < $this->maxDepth) {
                 //if class is another dir, scan it
-                $this->scanDirs($path, $ergs, $depth+1);
+                $this->scanDirs($path, $ergs, $depth + 1);
 
             }
 

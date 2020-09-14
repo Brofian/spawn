@@ -2,10 +2,11 @@
 
 use webu\system\Core\Base\Database\DatabaseTable;
 
-class ProjectClassTable extends DatabaseTable {
+class ProjectClassTable extends DatabaseTable
+{
 
 
-    public function getTableName() : string
+    public function getTableName(): string
     {
         return "project_classes";
     }

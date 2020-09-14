@@ -38,4 +38,8 @@ class EntryTable extends DatabaseTable  {
     }
 
 
+    public function init(): bool
+    {
+        // TODO: Implement init() method.
+    }
 }

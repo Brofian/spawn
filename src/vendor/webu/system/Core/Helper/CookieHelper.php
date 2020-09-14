@@ -2,9 +2,10 @@
 
 namespace webu\system\Core\Helper;
 
-class CookieHelper {
+class CookieHelper
+{
 
-    /** @var array  */
+    /** @var array */
     private $cookies = array();
 
     public function __construct()
@@ -19,11 +20,12 @@ class CookieHelper {
      * @param bool $overrideExisting
      * @return bool
      */
-    public function set(string $key, string $value, bool $overrideExisting) {
-        if(isset($this->cookies[$key]) && $overrideExisting == false) return false;
+    public function set(string $key, string $value, bool $overrideExisting)
+    {
+        if (isset($this->cookies[$key]) && $overrideExisting == false) return false;
 
-        $this->cookies[$key]    = $value;
-        $_COOKIE[$key]          = $value;
+        $this->cookies[$key] = $value;
+        $_COOKIE[$key] = $value;
         return false;
     }
 
@@ -33,8 +35,9 @@ class CookieHelper {
      * @param bool $fallback
      * @return bool|mixed
      */
-    public function get(string $key, bool $fallback = false) {
-        if(isset($this->cookies[$key])) return $this->cookies[$key];
+    public function get(string $key, bool $fallback = false)
+    {
+        if (isset($this->cookies[$key])) return $this->cookies[$key];
         return $fallback;
     }
 

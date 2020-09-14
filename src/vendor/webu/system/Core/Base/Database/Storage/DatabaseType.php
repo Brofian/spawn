@@ -2,7 +2,8 @@
 
 namespace webu\system\Core\Base\Database\Storage;
 
-class DatabaseType {
+class DatabaseType
+{
 
     const TINYINT = 'TINYINT';
     const SMALLINT = 'SMALLINT';

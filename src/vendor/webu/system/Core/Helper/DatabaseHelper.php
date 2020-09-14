@@ -4,6 +4,7 @@ namespace webu\system\Core\Base\Helper;
 
 use PDO;
 use PDOException;
+use webu\system\Core\Custom\Debugger;
 
 class DatabaseHelper {
 
@@ -22,12 +23,13 @@ class DatabaseHelper {
     /** @var PDO | false */
     private $connection = false;
 
+
     public function __construct() {
 
         $this->loadDBConfig();
         $this->createConnection();
-
     }
+
 
     private function loadDBConfig() {
         $this->host = DB_HOST;
@@ -37,15 +39,16 @@ class DatabaseHelper {
         $this->port = DB_PORT;
     }
 
+
     private function createConnection() {
         try {
             $this->connection = new PDO("mysql:host=".$this->host.";dbname=".$this->database.";port=".$this->port."",$this->username,$this->password);
         }
         catch(PDOException $pdoException) {
             $this->connection = false;
+            Debugger::ddump('Cant connect to the database! Please check the credentials in the config.php file');
         }
     }
-
 
 
 }

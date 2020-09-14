@@ -10,7 +10,7 @@ $autoloadClass->alwaysReload = (MODE == "dev");
 
 //set autloader
 spl_autoload_register(
-    function($className) use ($autoloadClass) {
+    function ($className) use ($autoloadClass) {
         $autoloadClass->autoload($className);
     },
     (MODE == "dev")

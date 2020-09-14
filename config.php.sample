@@ -1,7 +1,10 @@
 <?php
 
-// mode = dev | pub
-define('MODE', 			'dev');
+// mode = dev | stage | pub
+//          dev allows all debug tools, errors and messages
+//          stage allows errors and messages
+//          pub blocks everything, that should not be visible to public
+define('MODE', 'dev');
 
 // The main-web-adress
 define('MAIN_ADDRESS',	'www.example.com');
@@ -19,3 +22,5 @@ define('DB_PORT', 		'3306');
 
 //Default Config
 define('DEFAULTCONTROLLER', 'Main');
+define('NOTFOUNDCONTROLLER', '404');
+define('ERRORCONTROLLER', '505');

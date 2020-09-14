@@ -5,7 +5,12 @@
     define('RELROOT', ".." );
 
     //load config
-    require("../config.php");
+    include("../config.php");
+    if(!defined('MODE')) {
+        echo "Please create the config.php file with the sample pattern";
+        die();
+    }
+
 
     //load autoloader
     require("../src/vendor/webu/.autoloader/AutoloadInit.php");
