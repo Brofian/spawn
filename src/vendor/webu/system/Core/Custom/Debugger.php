@@ -5,6 +5,7 @@ namespace webu\system\Core\Custom;
 class Debugger {
 
 
+    //the format for dumping an variable
     private static function writeBacktrace($var) {
         $string = '';
 
@@ -20,13 +21,15 @@ class Debugger {
     }
 
 
-    public static function mdump($var) {
+    //dumps the variable and continue system execution
+    public static function dump($var) {
 
         echo self::writeBacktrace($var);
 
     }
 
-    public static function dump($var) {
+    //dumps the variable and dies
+    public static function ddump($var) {
 
         echo self::writeBacktrace($var);
 

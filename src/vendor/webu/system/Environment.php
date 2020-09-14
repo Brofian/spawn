@@ -7,6 +7,7 @@ use http\Exception;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\ModuleHelper;
+use webu\system\Core\Helper\RoutingHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -41,45 +42,31 @@ class Environment {
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
 
-        $moduleHelper = new ModuleHelper();
-        $moduleHelper->loadModules();
+        $this->loadController();
 
+    }
+
+
+    private function loadController() {
+
+        //get data from url
         $requestController = $this->request->getRequestController();
         $requestActionPath = $this->request->getRequestActionPath();
 
 
-        $controller = $moduleHelper->getModuleByAlias($requestController);
+        $routingHelper = new RoutingHelper();
+        $erg = $routingHelper->route(
+            $requestController,
+            $requestActionPath
+        );
+        $controller = $erg['controller'];
+        $action = $erg['action'];
 
-        if($controller === false) {
-            //fallback
-            $controller = $moduleHelper->getModuleByAlias(DEFAULTCONTROLLER);
-
-            if ($controller === false) {
-                throw new \Exception("Controller " . $this->request->getRequestController() . ' not found!');
-            }
-        }
-
-
-        $actions = $controller::getControllerRoutes();
-        if(isset($actions[$requestActionPath])) {
-            $action = $actions[$requestActionPath];
-            $controller->$action(
-                $this->request,
-                $this->response
-            );
-        }
-        else {
-            throw new \Exception("Path " . $requestActionPath . '" in Controller "'. $requestController .'" not found!');
-        }
-
+        $controller->$action(
+            $this->request,
+            $this->response
+        );
     }
-
-
-
-    private function checkController(string $controller) {
-        
-    }
-
 
     private function handleException(\Throwable $e) {
 

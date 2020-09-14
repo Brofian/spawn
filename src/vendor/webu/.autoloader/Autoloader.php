@@ -10,6 +10,16 @@ class Autoloader {
     public $classpaths = array();
     public $alwaysReload = true;
 
+    public function __construct()
+    {
+        if(MODE == 'dev') {
+            $this->alwaysReload = true;
+        }
+
+        //load FileEditor
+        require_once(ROOT . '\\src\\vendor\\webu\\system\\Core\\Custom\\FileEditor.php');
+    }
+
     //the autoload function
     public function autoload($className = false) : bool {
         if(!$className) return false;
