@@ -28,6 +28,6 @@ class blabla extends Controller {
 
 
     public function index(Request $request, Response $response) {
-        echo "blabla Index action";
+        //echo "blabla Index action";
     }
 }

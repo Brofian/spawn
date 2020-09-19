@@ -26,8 +26,7 @@ class Main extends Controller
 
     public function index(Request $request, Response $response)
     {
-        echo '<link rel="icon" type="image/png" href="favicon.png">';
-        echo "Main Index Action";
+        //echo "Main Index Action";
     }
 
 }

@@ -2,6 +2,7 @@
 var/cache
 var/images
 var/.log
+vendor
 
 #Config File (but sample is included)
 config.php

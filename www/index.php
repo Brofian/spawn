@@ -13,7 +13,9 @@
 
 
     //load autoloader
-    require("../src/vendor/webu/.autoloader/AutoloadInit.php");
+    require("../src/webu/.autoloader/AutoloadInit.php");
+    //load twig autoloader
+    require_once("../vendor/autoload.php");
 
     //load system environment
     $environment = new \webu\system\Environment();

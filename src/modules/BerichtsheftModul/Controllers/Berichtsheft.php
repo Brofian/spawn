@@ -37,12 +37,12 @@ class Berichtsheft extends Controller
 
     public function index(Request $request, Response $response)
     {
-        echo "Berichtsheft Index Action";
+        //echo "Berichtsheft Index Action";
     }
 
     public function test(Request $request, Response $response, int $i)
     {
-        echo "Berichtsheft Test Action: " . $i;
+        //echo "Berichtsheft Test Action: " . $i;
     }
 
 }

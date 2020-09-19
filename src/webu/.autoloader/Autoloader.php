@@ -18,7 +18,7 @@ class Autoloader
         }
 
         //load FileEditor
-        require_once(ROOT . '\\src\\vendor\\webu\\system\\Core\\Custom\\FileEditor.php');
+        require_once(ROOT . '\\src\\webu\\system\\Core\\Custom\\FileEditor.php');
     }
 
     //the autoload function
@@ -72,7 +72,7 @@ class Autoloader
     private function createPathsFile($fileName)
     {
         //load all classes recursivly
-        require_once("../src/vendor/webu/system/Core/Custom/FileCrawler.php");
+        require_once("../src/webu/system/Core/Custom/FileCrawler.php");
 
         $crawler = new FileCrawler();
         $data = $crawler->searchInfos(
