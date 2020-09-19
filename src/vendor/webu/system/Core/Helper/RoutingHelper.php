@@ -2,7 +2,9 @@
 
 namespace webu\system\Core\Helper;
 
+use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Custom\Debugger;
+use webu\system\Environment;
 
 class RoutingHelper
 {
@@ -115,5 +117,43 @@ class RoutingHelper
         return true;
     }
 
+
+    /**
+     * If a module requires custom Params, then add them
+     *
+     * @param Environment $environment
+     * @param string $controller
+     * @param string $action
+     * @return array
+     */
+    public function addValuesToCustomParams(Environment $environment, Controller $controller, string $action) {
+
+        //$controller will be from the controller class
+        //required params is an array, containing the methods as keys
+        $requiredParams = $controller::getAdditionalFunctionParams();
+
+        //default params (always there)
+        $params = [
+            $environment->request,
+            $environment->response
+        ];
+
+        foreach($requiredParams as $actionKey => $requiredParam) {
+
+            //safety checks
+            if(is_string($actionKey) == false) continue;
+            if($actionKey != $action)           continue;
+
+            foreach($requiredParam as $reqparams) {
+                if($reqparams == 'DebugInteger') {
+                    $params[] = 42;
+                }
+            }
+
+        }
+
+        return $params;
+
+    }
 
 }

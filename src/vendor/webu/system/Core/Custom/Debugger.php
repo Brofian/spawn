@@ -7,17 +7,16 @@ class Debugger
 
 
     //the format for dumping an variable
-    private static function writeBacktrace($var)
+    private static function writeBacktrace($var, $backtrace)
     {
         $string = '';
-
-        $backtrace = debug_backtrace();
-        $string .= "
+;
+        echo "
                 <div style='background: #FFAAAA; border: 2px solid black; padding:10px'>
                     At: <b>" . $backtrace[0]["file"] . ":" . $backtrace[0]["line"] . "</b>
                     <pre>";
-        $string .= var_dump($var);
-        $string .= "</pre></div>";
+        var_dump($var);
+        echo "</pre></div>";
 
         return $string;
     }
@@ -27,7 +26,7 @@ class Debugger
     public static function dump($var)
     {
 
-        echo self::writeBacktrace($var);
+        echo self::writeBacktrace($var, debug_backtrace());
 
     }
 
@@ -35,7 +34,7 @@ class Debugger
     public static function ddump($var)
     {
 
-        echo self::writeBacktrace($var);
+        echo self::writeBacktrace($var, debug_backtrace());
 
         die();
     }

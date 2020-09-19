@@ -24,15 +24,25 @@ class Berichtsheft extends Controller
         ];
     }
 
+    public static function getAdditionalFunctionParams() : array {
+        return  [
+            //function name => [list of additional param identifiers]
+            'index' => [],
+            'test' => [
+                'DebugInteger' //see list in RoutingHelper:148
+            ]
+        ];
+    }
+
 
     public function index(Request $request, Response $response)
     {
         echo "Berichtsheft Index Action";
     }
 
-    public function test(Request $request, Response $response)
+    public function test(Request $request, Response $response, int $i)
     {
-        echo "Berichtsheft Test Action";
+        echo "Berichtsheft Test Action: " . $i;
     }
 
 }

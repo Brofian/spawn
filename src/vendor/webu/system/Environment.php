@@ -4,6 +4,7 @@ namespace webu\system;
 
 
 use http\Exception;
+use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\ModuleHelper;
@@ -62,13 +63,20 @@ class Environment
             $requestController,
             $requestActionPath
         );
+
+        /** @var string $controller */
         $controller = $erg['controller'];
+        /** @var string $action */
         $action = $erg['action'];
 
-        $controller->$action(
-            $this->request,
-            $this->response
+        $params = $routingHelper->addValuesToCustomParams($this, $controller,$action);
+
+        //call the controller method
+        call_user_func_array(
+            array($controller,$action),
+            $params
         );
+
     }
 
     private function handleException(\Throwable $e)

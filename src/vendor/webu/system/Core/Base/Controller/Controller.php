@@ -27,6 +27,11 @@ class Controller
         ];
     }
 
+    public static function getAdditionalFunctionParams(): array {
+        return [];
+    }
+
+
     public function index(Request $request, Response $response)
     {
         echo 'Main Index Action';
