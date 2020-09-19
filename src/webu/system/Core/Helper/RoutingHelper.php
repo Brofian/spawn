@@ -4,6 +4,7 @@ namespace webu\system\Core\Helper;
 
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Module\Module;
 use webu\system\Environment;
 
 class RoutingHelper
@@ -20,6 +21,8 @@ class RoutingHelper
         '404:index' => NOTFOUNDCONTROLLER
     ];
 
+    /** @var ModuleHelper  */
+    private $moduleHelper = null;
 
     protected $routing = [
         'controller' => '',
@@ -93,6 +96,8 @@ class RoutingHelper
         $moduleHelper = new ModuleHelper();
         $moduleHelper->loadModules();
 
+        $this->moduleHelper = $moduleHelper;
+
         $controller = $moduleHelper->getControllerByAlias($reqController);
 
         if($controller === false) {
@@ -103,7 +108,6 @@ class RoutingHelper
                 return false;
             }
         }
-
 
         $actions = $controller::getControllerRoutes();
         if(isset($actions[$reqAction])) {
@@ -155,6 +159,14 @@ class RoutingHelper
 
         return $params;
 
+    }
+
+
+    /**
+     * @return ModuleHelper
+     */
+    public function getModuleHelper() : ModuleHelper {
+        return $this->moduleHelper;
     }
 
 }

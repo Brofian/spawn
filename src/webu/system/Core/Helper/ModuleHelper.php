@@ -14,11 +14,16 @@ class ModuleHelper
 
     /** @var array $modules */
     private $modules = array();
-    /** @var array $modules */
+    /** @var array $controllers */
     private $controllers = array();
 
+    /** @var ModuleStorage $currentModule */
+    private $currentModule = null;
+    /** @var ControllerStorage $currentController */
+    private $currentController = null;
 
-    /**
+
+    /**W
      * @param $search
      * @return mixed|bool
      */
@@ -34,6 +39,7 @@ class ModuleHelper
                 $alias = strtolower($controller->getAlias());
 
                 if ($alias === $search) {
+                    $this->currentController = $controller;
                     return $controller->getInstance();
                 }
             }
@@ -72,7 +78,7 @@ class ModuleHelper
         foreach ($moduleStorages as $moduleStorage) {
 
             /** @var array $controllerStorages */
-            $controllerStorages = $this->loadControllersFromModule($moduleStorage->getBasePath());
+            $controllerStorages = $this->loadControllersFromModule($moduleStorage);
 
             if(sizeof($controllerStorages) > 0) {
                 $moduleName = $moduleStorage->getName();
@@ -90,7 +96,8 @@ class ModuleHelper
     }
 
 
-    private function loadControllersFromModule(string $modulePath) {
+    private function loadControllersFromModule(ModuleStorage $moduleStorage) {
+        $modulePath = $moduleStorage->getBasePath();
 
         $controllerDir = $modulePath . '\\Controllers';
 
@@ -135,6 +142,11 @@ class ModuleHelper
             0
         );
 
+        /** @var ControllerStorage $erg */
+        foreach($ergs as $erg) {
+            $erg->setModule($moduleStorage);
+        }
+
 
         return $ergs;
     }
@@ -174,6 +186,7 @@ class ModuleHelper
                 $module->setNamespace($namespace);
                 $module->setName($class);
                 $module->setBasePath(dirname($path));
+                $module->setAbsolutePath(str_replace(RELROOT, ROOT, dirname($path)));
 
                 $ergs[] = $module;
 
@@ -196,5 +209,11 @@ class ModuleHelper
         return false;
     }
 
+    /**
+     * @return ControllerStorage
+     */
+    public function getCurrentController() : ControllerStorage{
+        return $this->currentController;
+    }
 
 }

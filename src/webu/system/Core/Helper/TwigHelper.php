@@ -15,19 +15,25 @@ class TwigHelper
 
     private $targetFile = '';
 
+    private $templateDirs = [
+        //default template dir
+        ROOT . '\\src\\Template\\Resources'
+    ];
+
     private $twig = false;
 
     public function __construct()
     {
-        $this->loadTwig();
+    }
 
-        $this->assign("name", "Fabian");
+    public function finish() {
+        $this->loadTwig();
         $this->startRendering();
     }
 
-
     private function loadTwig() {
-        $loader = new \Twig\Loader\FilesystemLoader(ROOT.'\\src\\Template\\Resources');
+
+        $loader = new \Twig\Loader\FilesystemLoader($this->templateDirs);
         $twig = new Environment($loader);
 
         if(is_object($twig) == false) {
@@ -38,11 +44,16 @@ class TwigHelper
     }
 
 
-    public function startRendering() {
-        echo $this->twig->render('index.html.twig', $this->variables);
+    private function startRendering() {
+        //TODO: Start-Date dynamisch laden abhängig von controller
+        echo $this->twig->render('Berichtsheft/index.html.twig', $this->variables);
     }
 
 
+
+    public function addTemplateDir(string $path) {
+        $this->templateDirs[] = $path;
+    }
 
 
 

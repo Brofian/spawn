@@ -3,6 +3,9 @@
 namespace modules\BerichtsheftModul\Controllers;
 
 use webu\system\Core\Base\Controller\Controller;
+use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Helper\ModuleHelper;
+use webu\system\Core\Helper\RoutingHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -37,7 +40,13 @@ class Berichtsheft extends Controller
 
     public function index(Request $request, Response $response)
     {
+        $twig = $response->getTwigHelper();
+
+
+        $twig->assign('name', 'Angelina');
+
         //echo "Berichtsheft Index Action";
+        $twig->addTemplateDir($this->getCurrentModulePath($request) . '\\Resources');
     }
 
     public function test(Request $request, Response $response, int $i)

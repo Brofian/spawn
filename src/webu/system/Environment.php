@@ -3,11 +3,8 @@
 namespace webu\system;
 
 
-use http\Exception;
 use webu\system\Core\Base\Controller\Controller;
-use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Custom\Logger;
-use webu\system\Core\Helper\ModuleHelper;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
@@ -44,39 +41,15 @@ class Environment
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
 
-        $this->loadController();
-
-    }
-
-
-    private function loadController()
-    {
-
-        //get data from url
-        $requestController = $this->request->getRequestController();
-        $requestActionPath = $this->request->getRequestActionPath();
-
-
-        $routingHelper = new RoutingHelper();
-        $erg = $routingHelper->route(
-            $requestController,
-            $requestActionPath
+        $this->request->loadController(
+            $this->request->getRequestController(),
+            $this->request->getRequestActionPath(),
+            $this
         );
 
-        /** @var Controller $controller */
-        $controller = $erg['controller'];
-        /** @var string $action */
-        $action = $erg['action'];
-
-        $params = $routingHelper->addValuesToCustomParams($this, $controller,$action);
-
-        //call the controller method
-        call_user_func_array(
-            array($controller,$action),
-            $params
-        );
-
+        $this->response->getTwigHelper()->finish();
     }
+
 
     private function handleException(\Throwable $e)
     {

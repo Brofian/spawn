@@ -7,10 +7,13 @@ namespace webu\system\core;
  */
 
 use http\Cookie;
+use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
+use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Helper\SessionHelper;
+use webu\system\Environment;
 
 class Request
 {
@@ -25,6 +28,8 @@ class Request
     private $session = null;
     /** @var DatabaseHelper */
     private $database = null;
+    /** @var RoutingHelper  */
+    private $routingHelper = null;
     /** @var string */
     private $baseURI = '';
     /** @var string */
@@ -115,6 +120,34 @@ class Request
         $this->database = new DatabaseHelper();
     }
 
+
+
+    public function loadController($requestController, $requestActionPath, Environment $e)
+    {
+
+        $routingHelper = new RoutingHelper();
+        $this->routingHelper = $routingHelper;
+        $erg = $this->routingHelper->route(
+            $requestController,
+            $requestActionPath
+        );
+
+        /** @var Controller $controller */
+        $controller = $erg['controller'];
+        /** @var string $action */
+        $action = $erg['action'];
+
+        $params = $this->routingHelper->addValuesToCustomParams($e, $controller,$action);
+
+        //call the controller method
+        call_user_func_array(
+            array($controller,$action),
+            $params
+        );
+
+    }
+
+
     /*
      * Getter & Setter Methoden
      */
@@ -132,21 +165,27 @@ class Request
     }
 
     /** @return CookieHelper */
-    public function getParamCookies(): array
+    public function getParamCookies(): CookieHelper
     {
         return $this->cookies;
     }
 
     /** @return SessionHelper */
-    public function getParamSession(): array
+    public function getParamSession(): SessionHelper
     {
         return $this->session;
     }
 
     /** @return DatabaseHelper */
-    public function getDatabase()
+    public function getDatabase() : DatabaseHelper
     {
         return $this->database;
+    }
+
+    /** @return RoutingHelper */
+    public function getRouting() : RoutingHelper
+    {
+        return $this->routingHelper;
     }
 
     /** @return string */

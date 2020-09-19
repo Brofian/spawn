@@ -7,6 +7,7 @@ class ControllerStorage
     private $classname = '';
     private $classname_full = '';
     private $namespace = '';
+    private $module = null;
     /**
      * The Alias is used to determine, if the controller is called
      * @var string
@@ -27,6 +28,13 @@ class ControllerStorage
     {
         $controller = $this->classname_full;
         return new $controller();
+    }
+
+    /**
+     * @return ModuleStorage
+     */
+    public function getModule() : ModuleStorage {
+        return $this->module;
     }
 
     public function getClassname(): string
@@ -89,6 +97,10 @@ class ControllerStorage
     {
         $this->alias = $alias;
         return $this;
+    }
+
+    public function setModule(ModuleStorage $module) {
+        $this->module = $module;
     }
 
 }

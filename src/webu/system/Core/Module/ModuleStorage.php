@@ -12,12 +12,16 @@ class ModuleStorage {
     private $name = '';
     private $namespace = '';
     private $callableName = '';
-
+    private $absolutePath = '';
 
     public function getInstance() {
         $callable = $this->callableName;
         /** @var Module $callable */
         return new $callable();
+    }
+
+    public function getAbsolutePath() : string {
+        return $this->absolutePath;
     }
 
     public function getName() {
@@ -33,6 +37,10 @@ class ModuleStorage {
         return $this->basepath;
     }
 
+
+    public function setAbsolutePath(string $absolutepath) {
+        $this->absolutePath = $absolutepath;
+    }
     public function setBasePath(string $basepath) {
         $this->basepath = $basepath;
     }
@@ -47,26 +55,3 @@ class ModuleStorage {
     }
 
 }
-
-/*
-// @var Module $fullClassname
-
-$alias = $fullClassname::getControllerAlias();
-$alias = strtolower(trim($alias));
-
-
-if (isset($ergs[$alias])) {
-    throw new \Exception("Duplicated Module! \"".$alias."\"");
-}
-
-
-$ergs[$alias] = [
-    'path' => $path,
-    'basepath' => $matches[1],
-    'classname' => $class,
-    'classname_full' => $fullClassname,
-    'namespace' => $namespace,
-    'alias' => $alias
-];
-
-*/
