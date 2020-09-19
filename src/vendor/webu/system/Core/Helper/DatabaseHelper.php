@@ -4,6 +4,7 @@ namespace webu\system\Core\Base\Helper;
 
 use PDO;
 use PDOException;
+use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Custom\Debugger;
 
 class DatabaseHelper {
@@ -20,9 +21,8 @@ class DatabaseHelper {
     private $port       = '';
     /** @var string  */
     private $dbUrl = '';
-    /** @var PDO | false */
-    private $connection = false;
-
+    /** @var DatabaseConnection */
+    private $connection;
 
     public function __construct() {
 
@@ -42,7 +42,7 @@ class DatabaseHelper {
 
     private function createConnection() {
         try {
-            $this->connection = new PDO("mysql:host=".$this->host.";dbname=".$this->database.";port=".$this->port."",$this->username,$this->password);
+            $this->connection = new DatabaseConnection($this->host, $this->database, $this->port, $this->username, $this->password);
         }
         catch(PDOException $pdoException) {
             $this->connection = false;
