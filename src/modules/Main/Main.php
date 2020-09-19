@@ -10,25 +10,5 @@ use webu\system\core\Response;
 class Main extends Module
 {
 
-    //The Main Controller for the module
-
-    public static function getControllerAlias(): string
-    {
-        return 'Main';
-    }
-
-    public static function getControllerRoutes(): array
-    {
-        return [
-            '' => 'index',
-        ];
-    }
-
-
-    public function index(Request $request, Response $response)
-    {
-        echo '<link rel="icon" type="image/png" href="favicon.png">';
-        echo "Main Index Action";
-    }
 
 }
