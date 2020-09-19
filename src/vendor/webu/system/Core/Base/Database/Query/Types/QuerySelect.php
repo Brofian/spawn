@@ -3,18 +3,32 @@
 namespace webu\system\Core\Base\Database\Query\Types;
 
 
+use MongoDB\Driver\Query;
+
 class QuerySelect extends QueryBase
 {
 
+    /** @var string */
     const COMMAND = 'SELECT ';
 
+    /** @var string */
     private $columns = '*';
+    /** @var string */
     private $table = '';
+    /** @var array */
     private $where = array();
+    /** @var string */
     private $orderby = '';
+    /** @var string */
     private $limit = '';
+    /** @var array */
     private $join = array();
 
+    /**
+     * QuerySelect constructor.
+     * @param mixed $columns
+     * @return QuerySelect
+     */
     public function __construct($columns = null)
     {
         if ($columns != null) {
@@ -23,14 +37,19 @@ class QuerySelect extends QueryBase
         return $this;
     }
 
+    /**
+     * Builds an returns the sql
+     *
+     * @return string
+     */
     public function getSql(): string
     {
         $sql = self::COMMAND . ' ';
         $sql .= $this->columns . ' ';
         $sql .= 'FROM ' . $this->table . ' ';
 
-        if(sizeof($this->join) > 0) {
-            foreach($this->join as $join) {
+        if (sizeof($this->join) > 0) {
+            foreach ($this->join as $join) {
                 $sql .= $join . ' ';
             }
         }
@@ -66,12 +85,20 @@ class QuerySelect extends QueryBase
     }
 
 
+    /**
+     * @param string $tableName
+     * @return QuerySelect
+     */
     public function from(string $tableName)
     {
         $this->table = $tableName;
         return $this;
     }
 
+    /**
+     * @param $columns
+     * @return QuerySelect
+     */
     public function setColumns($columns)
     {
         if (is_string($columns)) {
@@ -85,12 +112,24 @@ class QuerySelect extends QueryBase
                 }
             }
         }
+        return $this;
     }
 
-    public function join(string $tableName, string $column1, string $column2, int $joinType = 0, string $as = '') {
+    /**
+     * Adds a join to the query. The joinTypes can be called from QuerySelect::constants
+     *
+     * @param string $tableName
+     * @param string $column1
+     * @param string $column2
+     * @param int $joinType
+     * @param string $as
+     * @return QuerySelect
+     */
+    public function join(string $tableName, string $column1, string $column2, int $joinType = 0, string $as = '')
+    {
 
         $j = '';
-        switch($joinType) {
+        switch ($joinType) {
             case 1:
                 $j .= 'LEFT JOIN ';
                 break;
@@ -111,7 +150,7 @@ class QuerySelect extends QueryBase
 
         $j .= $tableName . ' ';
 
-        if($as != '') {
+        if ($as != '') {
             $j .= 'AS ' . $as . ' ';
         }
 
@@ -123,9 +162,16 @@ class QuerySelect extends QueryBase
     }
 
 
+    /**
+     * Adds a where-condition
+     *
+     * @param string $column
+     * @param $value
+     * @return QuerySelect
+     */
     public function where(string $column, $value)
     {
-        if(is_string($value)) {
+        if (is_string($value)) {
             $value = '\'' . $value . '\'';
         }
 
@@ -134,6 +180,13 @@ class QuerySelect extends QueryBase
         return $this;
     }
 
+    /**
+     * Adds the orderby-parameter
+     *
+     * @param string $column
+     * @param bool $reverse
+     * @return QuerySelect
+     */
     public function orderby(string $column, bool $reverse = false)
     {
         $direction = ($reverse) ? 'DESC' : 'ASC';
@@ -142,13 +195,19 @@ class QuerySelect extends QueryBase
         return $this;
     }
 
+    /**
+     * Adds the limit-parameter
+     *
+     * @param int $val1
+     * @param int|null $val2
+     * @return QuerySelect
+     */
     public function limit(int $val1, int $val2 = null)
     {
         $this->limit = $val1;
         if ($val2 != null) {
-            $this->limit = $val2;
+            $this->limit .= '' . $val2;
         }
-
 
         return $this;
     }

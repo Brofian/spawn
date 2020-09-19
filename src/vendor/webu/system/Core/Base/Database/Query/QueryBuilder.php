@@ -13,12 +13,14 @@ class QueryBuilder
     /** @var DatabaseConnection $connection */
     public $connection;
 
-
-    public function select($columns) : QuerySelect {
+    /**
+     * @param string|array
+     * @return QuerySelect
+     */
+    public function select($columns): QuerySelect
+    {
         return new QuerySelect($columns);
     }
-
-
 
 
 }
