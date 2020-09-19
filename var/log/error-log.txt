@@ -1,0 +1,80 @@
+[2020-09-06 02:46:57] Path regw" in Controller "gewge" not found!
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(32): webu\system\Environment->init()
+#1 D:\Xampp\htdocs\www\index.php(26): webu\system\Environment->__construct(Array)
+#2 {main}
+[2020-09-06 02:47:22] Path regw" in Controller "gewge" not found!
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(32): webu\system\Environment->init()
+#1 D:\Xampp\htdocs\www\index.php(26): webu\system\Environment->__construct(Array)
+#2 {main}
+[2020-09-06 02:47:27] Path regw" in Controller "gewge" not found!
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(32): webu\system\Environment->init()
+#1 D:\Xampp\htdocs\www\index.php(26): webu\system\Environment->__construct(Array)
+#2 {main}
+[2020-09-06 02:47:32] Path regw" in Controller "gewge" not found!
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(32): webu\system\Environment->init()
+#1 D:\Xampp\htdocs\www\index.php(26): webu\system\Environment->__construct(Array)
+#2 {main}
+[2020-09-06 05:31:47] Class 'webu\autoloader\FileCrawler' not found
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Core\Helper\ModuleHelper.php(43): webu\system\Core\Helper\ModuleHelper->loadModuleClasses()
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(46): webu\system\Core\Helper\ModuleHelper->loadModules()
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(32): webu\system\Environment->init()
+#3 D:\Xampp\htdocs\www\index.php(26): webu\system\Environment->__construct(Array)
+#4 {main}
+[2020-09-19 12:02:27] Argument 2 passed to webu\system\Core\Helper\RoutingHelper::addValuesToCustomParams() must be of the type string, object given, called in D:\Xampp\htdocs\src\vendor\webu\system\Environment.php on line 72
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(72): webu\system\Core\Helper\RoutingHelper->addValuesToCustomParams(Object(webu\system\Environment), Object(modules\Main\Main), 'index')
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#3 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#4 {main}
+[2020-09-19 12:02:28] Argument 2 passed to webu\system\Core\Helper\RoutingHelper::addValuesToCustomParams() must be of the type string, object given, called in D:\Xampp\htdocs\src\vendor\webu\system\Environment.php on line 72
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(72): webu\system\Core\Helper\RoutingHelper->addValuesToCustomParams(Object(webu\system\Environment), Object(modules\Main\Main), 'index')
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#3 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#4 {main}
+[2020-09-19 12:04:34] Too few arguments to function modules\Berichtsheft\Berichtsheft::test(), 2 passed and exactly 3 expected
+#0 [internal function]: modules\Berichtsheft\Berichtsheft->test(Object(webu\system\core\Request), Object(webu\system\core\Response))
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(76): call_user_func_array(Array, Array)
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#3 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#4 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#5 {main}
+[2020-09-19 12:11:17] Too few arguments to function modules\Berichtsheft\Berichtsheft::test(), 2 passed and exactly 3 expected
+#0 [internal function]: modules\Berichtsheft\Berichtsheft->test(Object(webu\system\core\Request), Object(webu\system\core\Response))
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(76): call_user_func_array(Array, Array)
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#3 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#4 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#5 {main}
+[2020-09-19 05:10:29] Argument 2 passed to webu\system\Core\Helper\RoutingHelper::addValuesToCustomParams() must be an instance of webu\system\Core\Base\Controller\Controller, string given, called in D:\Xampp\htdocs\src\vendor\webu\system\Environment.php on line 72
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(72): webu\system\Core\Helper\RoutingHelper->addValuesToCustomParams(Object(webu\system\Environment), 'T', 'T')
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#3 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#4 {main}
+[2020-09-19 05:10:30] Argument 2 passed to webu\system\Core\Helper\RoutingHelper::addValuesToCustomParams() must be an instance of webu\system\Core\Base\Controller\Controller, string given, called in D:\Xampp\htdocs\src\vendor\webu\system\Environment.php on line 72
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(72): webu\system\Core\Helper\RoutingHelper->addValuesToCustomParams(Object(webu\system\Environment), 'T', 'T')
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#3 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#4 {main}
+[2020-09-19 05:11:47] Argument 2 passed to webu\system\Core\Helper\RoutingHelper::addValuesToCustomParams() must be an instance of webu\system\Core\Base\Controller\Controller, string given, called in D:\Xampp\htdocs\src\vendor\webu\system\Environment.php on line 72
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(72): webu\system\Core\Helper\RoutingHelper->addValuesToCustomParams(Object(webu\system\Environment), 'T', 'T')
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#3 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#4 {main}
+[2020-09-19 05:13:16] Argument 2 passed to webu\system\Core\Helper\RoutingHelper::addValuesToCustomParams() must be an instance of webu\system\Core\Base\Controller\Controller, string given, called in D:\Xampp\htdocs\src\vendor\webu\system\Environment.php on line 72
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(72): webu\system\Core\Helper\RoutingHelper->addValuesToCustomParams(Object(webu\system\Environment), 'T', 'T')
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#3 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#4 {main}
+[2020-09-19 05:15:39] Class 'webu\system\Core\Helper\Debugger' not found
+#0 D:\Xampp\htdocs\src\vendor\webu\system\Core\Helper\RoutingHelper.php(96): webu\system\Core\Helper\ModuleHelper->getModuleByAlias('index')
+#1 D:\Xampp\htdocs\src\vendor\webu\system\Core\Helper\RoutingHelper.php(44): webu\system\Core\Helper\RoutingHelper->checkModuleRoutes('index', '')
+#2 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(63): webu\system\Core\Helper\RoutingHelper->route('index', '')
+#3 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(48): webu\system\Environment->loadController()
+#4 D:\Xampp\htdocs\src\vendor\webu\system\Environment.php(35): webu\system\Environment->init()
+#5 D:\Xampp\htdocs\www\index.php(19): webu\system\Environment->__construct()
+#6 {main}

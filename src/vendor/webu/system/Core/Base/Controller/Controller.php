@@ -6,7 +6,7 @@ namespace webu\system\Core\Base\Controller;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
-class Controller
+abstract class Controller
 {
 
 
@@ -14,19 +14,21 @@ class Controller
      * Has to be declared in every controller!
      * @return string
      */
-    public static function getControllerAlias(): string
-    {
-        return '';
-    }
+    abstract public static function getControllerAlias() : string;
 
+    /**
+     *  return [
+     *      '' => 'index',
+     *  ];
+     *
+     * @return array
+     */
+    abstract public static function getControllerRoutes() : array;
 
-    public static function getControllerRoutes(): array
-    {
-        return [
-            '' => 'index',
-        ];
-    }
-
+    /**
+     * Optional
+     * @return array
+     */
     public static function getAdditionalFunctionParams(): array {
         return [];
     }

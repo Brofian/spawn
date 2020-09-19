@@ -3,6 +3,8 @@
 
 namespace webu\system\Core\Base\Custom;
 
+use webu\system\Core\Custom\Debugger;
+
 /**
  * Class FileCrawler
  * @package webu\autoloader

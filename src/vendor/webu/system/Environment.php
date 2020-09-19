@@ -26,7 +26,6 @@ class Environment
 
     public function __construct()
     {
-        //Debugger::dump("test");
 
         $this->request = new Request();
         $this->response = new Response();
@@ -64,7 +63,7 @@ class Environment
             $requestActionPath
         );
 
-        /** @var string $controller */
+        /** @var Controller $controller */
         $controller = $erg['controller'];
         /** @var string $action */
         $action = $erg['action'];

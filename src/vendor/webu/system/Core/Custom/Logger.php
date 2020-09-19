@@ -5,7 +5,7 @@ namespace webu\system\Core\Custom;
 class Logger
 {
 
-    const logdir = '../var/log/';
+    const logdir = '../var/.log/';
     const accesslog = 'access-log.txt';
     const errorlog = 'error-log.txt';
 
@@ -26,6 +26,9 @@ class Logger
         $string .= PHP_EOL;
 
         $log = self::logdir . self::accesslog;
+        if(!is_file($log)) {
+            mkdir(self::logdir);
+        }
         file_put_contents($log, $string, FILE_APPEND);
     }
 

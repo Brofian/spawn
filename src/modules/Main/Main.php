@@ -3,10 +3,11 @@
 namespace modules\Main;
 
 use webu\system\Core\Base\Controller\Controller;
+use webu\system\Core\Module\Module;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
-class Main extends Controller
+class Main extends Module
 {
 
     //The Main Controller for the module

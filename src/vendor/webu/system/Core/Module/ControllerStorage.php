@@ -1,12 +1,9 @@
 <?php
 
-namespace webu\system\Core\Base;
+namespace webu\system\Core\Module;
 
-class Module
+class ControllerStorage
 {
-
-    private $path = '';
-    private $basepath = '';
     private $classname = '';
     private $classname_full = '';
     private $namespace = '';
@@ -26,20 +23,10 @@ class Module
      * Returns the controller of this module
      * @return mixed
      */
-    public function getModuleController()
+    public function getInstance()
     {
-        $moduleController = new $this->classname_full();
-        return $moduleController;
-    }
-
-    public function getPath(): string
-    {
-        return $this->path;
-    }
-
-    public function getBasepath(): string
-    {
-        return $this->basepath;
+        $controller = $this->classname_full;
+        return new $controller();
     }
 
     public function getClassname(): string
@@ -63,31 +50,12 @@ class Module
     }
 
 
-    /**
-     * @param string $path
-     * @return Module
-     */
-    public function setPath(string $path): Module
-    {
-        $this->path = $path;
-        return $this;
-    }
-
-    /**
-     * @param string $basepath
-     * @return Module
-     */
-    public function setBasepath(string $basepath): Module
-    {
-        $this->basepath = $basepath;
-        return $this;
-    }
 
     /**
      * @param string $classname
-     * @return Module
+     * @return ControllerStorage
      */
-    public function setClassname(string $classname): Module
+    public function setClassname(string $classname): ControllerStorage
     {
         $this->classname = $classname;
         return $this;
@@ -95,9 +63,9 @@ class Module
 
     /**
      * @param string $classname_full
-     * @return Module
+     * @return ControllerStorage
      */
-    public function setFullClassname(string $classname_full): Module
+    public function setFullClassname(string $classname_full): ControllerStorage
     {
         $this->classname_full = $classname_full;
         return $this;
@@ -105,9 +73,9 @@ class Module
 
     /**
      * @param string $namespace
-     * @return Module
+     * @return ControllerStorage
      */
-    public function setNamespace(string $namespace): Module
+    public function setNamespace(string $namespace): ControllerStorage
     {
         $this->namespace = $namespace;
         return $this;
@@ -115,9 +83,9 @@ class Module
 
     /**
      * @param string $alias
-     * @return Module
+     * @return ControllerStorage
      */
-    public function setAlias(string $alias): Module
+    public function setAlias(string $alias): ControllerStorage
     {
         $this->alias = $alias;
         return $this;

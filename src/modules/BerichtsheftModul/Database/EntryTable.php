@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\Berichtsheft\Database;
+namespace modules\BerichtsheftModul\Database;
 
 use webu\system\Core\Base\Database\DatabaseColumn;
 use webu\system\Core\Base\Database\DatabaseTable;

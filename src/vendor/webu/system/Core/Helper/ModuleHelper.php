@@ -2,31 +2,44 @@
 
 namespace webu\system\Core\Helper;
 
+use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Custom\FileCrawler;
-use webu\system\Core\Base\Module;
+use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Module\ControllerStorage;
+use webu\system\Core\Module\Module;
+use webu\system\Core\Module\ModuleStorage;
 
 class ModuleHelper
 {
 
     /** @var array $modules */
     private $modules = array();
+    /** @var array $modules */
+    private $controllers = array();
 
 
     /**
      * @param $search
      * @return mixed|bool
      */
-    public function getModuleByAlias($search)
+    public function getControllerByAlias($search)
     {
         $search = strtolower(trim($search));
 
-        /** @var Module $module */
-        foreach ($this->modules as $module) {
-            $alias = $module->getAlias();
-            if ($alias === $search) {
-                return $module->getModuleController();
+        /** @var array $controllers */
+        foreach($this->controllers as $module => $controllers) {
+
+            /** @var ControllerStorage $controller */
+            foreach ($controllers as $controller) {
+                $alias = strtolower($controller->getAlias());
+
+                if ($alias === $search) {
+                    return $controller->getInstance();
+                }
             }
+
         }
+
         return false;
     }
 
@@ -40,41 +53,105 @@ class ModuleHelper
         return $this->modules;
     }
 
+    public function getControllers(): array
+    {
+        return $this->controllers;
+    }
+
+
     public function loadModules()
     {
 
         $this->modules = array();
 
-        $moduleClasses = $this->loadModuleClasses();
-        foreach ($moduleClasses as $moduleClass) {
-            $module = new Module();
-            $module->setBasepath($moduleClass['basepath'])
-                ->setPath($moduleClass['path'])
-                ->setClassname($moduleClass['classname'])
-                ->setFullClassname($moduleClass['classname_full'])
-                ->setAlias($moduleClass['alias'])
-                ->setNamespace($moduleClass['namespace']);
+        $moduleStorages = $this->loadModuleClasses();
 
-            $this->modules[] = $module;
+        $idTracker = 0;
+        //get controllers from modules
+        /** @var ModuleStorage $moduleStorage */
+        foreach ($moduleStorages as $moduleStorage) {
+
+            /** @var array $controllerStorages */
+            $controllerStorages = $this->loadControllersFromModule($moduleStorage->getBasePath());
+
+            if(sizeof($controllerStorages) > 0) {
+                $moduleName = $moduleStorage->getName();
+                $this->controllers[$moduleName] = array();
+
+                foreach($controllerStorages as $controllerStorage) {
+                    $this->controllers[$moduleName][] = $controllerStorage;
+                }
+
+            }
+
+            $this->modules[] = $moduleStorage;
         }
 
     }
 
 
+    private function loadControllersFromModule(string $modulePath) {
+
+        $controllerDir = $modulePath . '\\Controllers';
+
+        if(is_dir($controllerDir) == false) {
+            //Module has no controllers
+            return [];
+        }
+
+        $filecrawler = new FileCrawler();
+        $ergs = $filecrawler->searchInfos(
+            $controllerDir,
+            function($fileContent, &$ergs, $filename, $path) {
+
+                $regex = '/class (.*) extends Controller/m';
+                preg_match($regex, $fileContent, $matches);
+                if(sizeof($matches) < 2) {
+                    return;
+                }
+                $class = $matches[1];
+
+                $regex = '/namespace (.*);/m';
+                preg_match($regex, $fileContent, $matches);
+                if(sizeof($matches) < 2) {
+                    return;
+                }
+                $namespace = $matches[1];
+
+                $full_classname = $namespace . "\\" . $class;
+
+                /** @var Controller $full_classname */
+                $alias = $full_classname::getControllerAlias();
+
+                $controllerStorage = new ControllerStorage();
+                $controllerStorage  ->setClassname($class)
+                                    ->setNamespace($namespace)
+                                    ->setAlias($alias)
+                                    ->setFullClassname($full_classname);
+
+                $ergs[] = $controllerStorage;
+
+            },
+            0
+        );
+
+
+        return $ergs;
+    }
+
     private function loadModuleClasses(): array
     {
         $modulesFolder = RELROOT . '\\' . 'src\\modules';
-
 
         $crawler = new FileCrawler();
         $modules = $crawler->searchInfos(
             $modulesFolder,
             function ($fileContent, &$ergs, $filename, $path) {
 
-
-                $regex = '/class (.*) extends Controller/m';
+                $regex = '/class (.*) extends Module/m';
                 $matches = array();
                 preg_match($regex, $fileContent, $matches);
+
 
                 //check if the class extends the controller
                 if (sizeof($matches) < 2) {
@@ -92,23 +169,13 @@ class ModuleHelper
 
                 $namespace = $this->getNamespaceFromFile($fileContent);
                 $fullClassname = $namespace . '\\' . $class;
-                $alias = $fullClassname::getControllerAlias();
-                $alias = strtolower(trim($alias));
 
+                $module = new ModuleStorage();
+                $module->setNamespace($namespace);
+                $module->setName($class);
+                $module->setBasePath(dirname($path));
 
-                if (isset($ergs[$alias])) {
-                    throw new \Exception("Duplicated Module!");
-                }
-
-
-                $ergs[$alias] = [
-                    'path' => $path,
-                    'basepath' => $matches[1],
-                    'classname' => $class,
-                    'classname_full' => $fullClassname,
-                    'namespace' => $namespace,
-                    'alias' => $alias
-                ];
+                $ergs[] = $module;
 
             },
             1

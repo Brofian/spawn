@@ -28,7 +28,6 @@ class RoutingHelper
 
     public function route($controller, $action)
     {
-
         //check special routes, set by a module
         if($this->checkSpecialRoutes($controller . ':' . $action)) {
             return $this->routing;
@@ -39,14 +38,16 @@ class RoutingHelper
             return $this->routing;
         }
 
+        //
+
         //check the routes, set inside of a module
         if($this->checkModuleRoutes($controller, $action)) {
             return $this->routing;
         }
 
 
-        $error = "Path " . $action . '" in Controller "'. $controller .'" not found!';
-        Debugger::dump($error); //ends with die()
+        $error = 'Path "' . $action . '" in Controller "'. $controller .'" not found!';
+        Debugger::ddump($error); //ends with die()
         return 'This return statement cannot be reached anyways';
     }
 
@@ -92,11 +93,11 @@ class RoutingHelper
         $moduleHelper = new ModuleHelper();
         $moduleHelper->loadModules();
 
-        $controller = $moduleHelper->getModuleByAlias($reqController);
+        $controller = $moduleHelper->getControllerByAlias($reqController);
 
         if($controller === false) {
             //fallback
-            $controller = $moduleHelper->getModuleByAlias(DEFAULTCONTROLLER);
+            $controller = $moduleHelper->getControllerByAlias(DEFAULTCONTROLLER);
 
             if ($controller === false) {
                 return false;
@@ -122,7 +123,7 @@ class RoutingHelper
      * If a module requires custom Params, then add them
      *
      * @param Environment $environment
-     * @param string $controller
+     * @param Controller $controller
      * @param string $action
      * @return array
      */

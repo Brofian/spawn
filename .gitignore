@@ -1,7 +1,7 @@
 # Individual contents
 var/cache
 var/images
-var/log
+var/.log
 
 #Config File (but sample is included)
 config.php
@@ -13,3 +13,4 @@ TODO.php
 
 #Tests
 *test.php
+*Test.php

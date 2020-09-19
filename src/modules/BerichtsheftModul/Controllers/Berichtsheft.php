@@ -1,6 +1,6 @@
 <?php
 
-namespace modules\Berichtsheft;
+namespace modules\BerichtsheftModul\Controllers;
 
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\core\Request;
