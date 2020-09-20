@@ -83,14 +83,16 @@ abstract class QueryBase {
     public function formatParam(&$value) {
         if(is_string($value)) {
             //add quotationmarks to string
-            return '\'' . $value . '\'';
+            $value = '\'' . $value . '\'';
+            return true;
         }
         if(is_object($value)) {
             //convert objects to json and add quotationmarks
-            return '\'' . json_encode($value) . '\'';
+            $value = '\'' . json_encode($value) . '\'';
+            return true;
         }
 
-        return $value;
+        return false;
     }
 
 }

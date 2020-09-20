@@ -34,26 +34,13 @@ class QueryInsert extends QueryBase
         $sql .= 'INTO ' . $this->table . ' ';
 
         $sql .= '(';
-            $counter = 0;
-            foreach($this->values as $column => $value) {
-                if($counter != 0) {
-                    $sql .= ',';
-                }
-                $sql .= $column;
-                $counter++;
-            }
+            $keys = array_keys($this->values);
+            $sql .= implode(',', $keys);
         $sql .= ') ';
 
 
         $sql .= 'VALUES (';
-            $counter = 0;
-            foreach($this->values as $column => $value) {
-                if($counter != 0) {
-                    $sql .= ',';
-                }
-                $sql .= $value;
-                $counter++;
-            }
+            $sql .= implode(',', $this->values);
         $sql .= ')';
 
 
@@ -65,18 +52,23 @@ class QueryInsert extends QueryBase
      * @param string $tableName
      * @return QueryInsert
      */
-    public function into(string $tableName)
+    public function into(string $tableName) : QueryInsert
     {
         $this->table = $tableName;
         return $this;
     }
 
-
-    public function setValue(string $column, $value) {
+    /**
+     * @param string $column
+     * @param $value
+     * @return QueryInsert
+     */
+    public function setValue(string $column, $value) : QueryInsert {
 
         $this->formatParam($value);
-
         $this->values[$column] = $value;
+
+        return $this;
     }
 
 }
