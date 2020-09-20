@@ -187,6 +187,7 @@ class ModuleHelper
                 $module->setName($class);
                 $module->setBasePath(dirname($path));
                 $module->setAbsolutePath(str_replace(RELROOT, ROOT, dirname($path)));
+                $module->finishCreation();
 
                 $ergs[] = $module;
 

@@ -14,6 +14,10 @@ class ModuleStorage {
     private $callableName = '';
     private $absolutePath = '';
 
+    public function finishCreation() {
+        //this class is called, as soon as the modulestorage is created
+    }
+
     public function getInstance() {
         $callable = $this->callableName;
         /** @var Module $callable */

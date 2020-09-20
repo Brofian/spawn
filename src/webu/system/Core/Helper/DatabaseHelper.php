@@ -54,4 +54,9 @@ class DatabaseHelper
     }
 
 
+    public function query(string $sql) {
+
+    }
+
+
 }

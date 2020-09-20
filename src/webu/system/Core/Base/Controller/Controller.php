@@ -10,7 +10,6 @@ use webu\system\core\Response;
 abstract class Controller
 {
 
-
     /**
      * Has to be declared in every controller!
      * @return string

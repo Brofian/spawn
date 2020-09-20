@@ -13,11 +13,11 @@ class TwigHelper
 
     private $variables = array();
 
-    private $targetFile = '';
+    private $targetFile = 'index.html.twig';
 
     private $templateDirs = [
         //default template dir
-        ROOT . '\\src\\Template\\Resources'
+        ROOT . '\\src\\Resources\\template'
     ];
 
     private $twig = false;
@@ -45,11 +45,14 @@ class TwigHelper
 
 
     private function startRendering() {
-        //TODO: Start-Date dynamisch laden abhängig von controller
-        echo $this->twig->render('Berichtsheft/index.html.twig', $this->variables);
+        /** Twig $this->twig */
+        echo $this->twig->render($this->targetFile, $this->variables);
     }
 
 
+    public function setRenderFile(string $file) {
+        $this->targetFile = $file;
+    }
 
     public function addTemplateDir(string $path) {
         $this->templateDirs[] = $path;

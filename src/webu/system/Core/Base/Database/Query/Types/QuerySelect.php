@@ -171,9 +171,7 @@ class QuerySelect extends QueryBase
      */
     public function where(string $column, $value)
     {
-        if (is_string($value)) {
-            $value = '\'' . $value . '\'';
-        }
+        $this->formatParam($value);
 
         $this->where[] = $column . '=' . $value;
 

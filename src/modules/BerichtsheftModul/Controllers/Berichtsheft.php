@@ -43,15 +43,15 @@ class Berichtsheft extends Controller
         $twig = $response->getTwigHelper();
 
 
+        //assign variables to the twig template
         $twig->assign('name', 'Angelina');
 
-        //echo "Berichtsheft Index Action";
-        $twig->addTemplateDir($this->getCurrentModulePath($request) . '\\Resources');
+        //set the starting file for the rendering and add the template dir for this module
+        $twig->setRenderFile('Berichtsheft/index.html.twig');
     }
 
     public function test(Request $request, Response $response, int $i)
     {
-        //echo "Berichtsheft Test Action: " . $i;
     }
 
 }
