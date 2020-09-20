@@ -53,10 +53,19 @@ class DatabaseHelper
         }
     }
 
+    public function query($sql, bool $preventFetchAll = false) {
+        try {
+            $result = $this->connection->getConnection()->query($sql);
+        }
+        catch(\Exception $e) {
+            return false;
+        }
 
-    public function query(string $sql) {
+        if(!$preventFetchAll) {
+            $result = $result->fetchAll();
+        }
 
+        return $result;
     }
-
 
 }

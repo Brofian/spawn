@@ -4,7 +4,9 @@ namespace webu\system;
 
 
 use webu\system\Core\Base\Controller\Controller;
+use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Custom\Logger;
+use webu\system\Core\Database\DebugTableTest;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
@@ -38,6 +40,12 @@ class Environment
 
     public function init()
     {
+        $table = new DebugTableTest();
+        $table->init();
+        Debugger::sdump($table->getTableCreationSQL('db1'));
+
+
+
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
 
