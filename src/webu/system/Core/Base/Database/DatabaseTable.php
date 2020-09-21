@@ -15,6 +15,7 @@ abstract class DatabaseTable
     /** @var array  */
     protected $columns = array();
 
+    protected $foreignKey = '';
 
     public function __construct(bool $hasId = true, bool $hasCreatedAt = true, bool $hasUpdatedAt = true)
     {
@@ -57,7 +58,7 @@ abstract class DatabaseTable
         $col = new DatabaseColumn('id', DatabaseType::INT);
         $col->setAutoIncrement(true)
             ->setCanBeNull(true)
-            ->setIndex(DatabaseIndex::INDEX);
+            ->setIndex(DatabaseIndex::PRIMARY);
         return $this->addColumn($col);
     }
 
@@ -119,30 +120,23 @@ abstract class DatabaseTable
 
 
         //Column Declarations
-
-        $isFirst = true;
+        $columnSqls = array();
         /** @var DatabaseColumn $column */
         foreach($this->getColumns() as $column) {
-
-            $sql .= $column->getColumnCreationSQL();
-            $sql .= ", ";
-
+            $columnSqls[] = $column->getColumnCreationSQL();
         }
+        $sql .= implode(',', $columnSqls);
+
+
 
 
         //set keys (indices)
         $keys = $this->getTableKeys();
 
         $isFirstKey = true;
-        /** @var DatabaseColumn $column */
         foreach($keys as $key => $values) {
 
-            if($isFirstKey) {
-                $isFirstKey = false;
-            }
-            else {
-                $sql .= ',';
-            }
+            $sql .= ', ';
             $sql .= $key . '(';
 
             $isFirstValue = true;
@@ -161,6 +155,15 @@ abstract class DatabaseTable
 
         }
 
+
+        if($this->foreignKey != '') {
+
+            $sql .= ',';
+            $sql .= $this->foreignKey;
+
+        }
+
+
         $sql .= ")";
 
         return $sql;
@@ -168,7 +171,7 @@ abstract class DatabaseTable
 
 
     /**
-     * Returns the registered keys in the columns
+     * Returns the registered keys in the columns as a two-dimensional array
      * @return array
      */
     public function getTableKeys() : array {
@@ -177,19 +180,27 @@ abstract class DatabaseTable
 
         /** @var DatabaseColumn $column */
         foreach($this->getColumns() as $column) {
-            $index = $column->getIndex();
-            if($index == '') {
+
+            //get the registered key for the current column
+            $columnkey = $column->getIndex();
+            if($columnkey == '') {
                 continue;
             }
 
-            if(!isset($keys[$index])) {
-                $keys[$index] = [];
+            //if there is no entry for this key now, create it
+            if(!isset($keys[$columnkey])) {
+                $keys[$columnkey] = [];
             }
 
-            $keys[$index][] = $column->getName();
+            //add the column to the key list
+            $keys[$columnkey][] = $column->getName();
         }
 
         return $keys;
+    }
+
+    public function setForeignKey(string $thisColumn, string $foreignTable, string $foreignColumn) {
+        $this->foreignKey = 'FOREIGN KEY ('.$thisColumn.') REFERENCES '.$foreignTable.'('.$foreignColumn.') ON DELETE CASCADE';
     }
 
 }

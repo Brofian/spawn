@@ -53,5 +53,31 @@ class DatabaseHelper
         }
     }
 
+    public function query($sql, bool $preventFetchAll = false) {
+        try {
+            $result = $this->connection->getConnection()->query($sql);
+        }
+        catch(\Exception $e) {
+            return false;
+        }
+
+        if(!$preventFetchAll && $result) {
+            $result = $result->fetchAll();
+        }
+
+        return $result;
+    }
+
+
+    public function getConnection() {
+        return $this->connection;
+    }
+
+
+    public function doesTableExist(string $tablename) {
+        $results = $this->query("SHOW TABLES LIKE '$tablename'");
+
+        return sizeof($results) != 0;
+    }
 
 }

@@ -17,8 +17,10 @@ class QuerySelect extends QueryBase
     private $table = '';
     /** @var array */
     private $where = array();
-    /** @var string */
-    private $orderby = '';
+    /** @var array */
+    private $orderby = array();
+    /** @var array */
+    private $groupBy = array();
     /** @var string */
     private $limit = '';
     /** @var array */
@@ -54,27 +56,18 @@ class QuerySelect extends QueryBase
             }
         }
 
-        if (sizeof($this->where) > 0) {
-
-            $counter = 0;
-
-            foreach ($this->where as $where) {
-
-                if ($counter == 0) {
-                    $sql .= 'WHERE ';
-                } else {
-                    $sql .= 'AND ';
-                }
-
-                $sql .= $where . ' ';
-
-                $counter++;
-            }
-
+        foreach ($this->where as $where) {
+            $sql .= $where . ' ';
         }
 
-        if ($this->orderby != '') {
-            $sql .= 'ORDER BY ' . $this->orderby . ' ';
+        if (sizeof($this->orderby) > 0)
+        {
+            $sql .= 'ORDER BY ' .  implode(',', $this->orderby) . ' ';
+        }
+
+        if (sizeof($this->groupBy) > 0)
+        {
+            $sql .= 'GROUP BY ' .  implode(',', $this->groupBy) . ' ';
         }
 
         if ($this->limit != '') {
@@ -169,13 +162,37 @@ class QuerySelect extends QueryBase
      * @param $value
      * @return QuerySelect
      */
-    public function where(string $column, $value)
+    public function where(string $column, $value, bool $isOr = false, bool $not = false)
     {
-        if (is_string($value)) {
-            $value = '\'' . $value . '\'';
+        $isString = $this->formatParam($value);
+
+        $prefix = '';
+        if($not) {
+            if(sizeof($this->where) == 0) {
+                $prefix = 'WHERE NOT ';
+            }
+            else if($isOr) {
+                $prefix = 'OR NOT ';
+            }
+            else {
+                $prefix = 'AND NOT ';
+            }
+        }
+        else {
+            if(sizeof($this->where) == 0) {
+                $prefix = 'WHERE ';
+            }
+            else if($isOr) {
+                $prefix = 'OR ';
+            }
+            else {
+                $prefix = 'AND ';
+            }
         }
 
-        $this->where[] = $column . '=' . $value;
+        $operator = ($isString) ? 'LIKE' : '=';
+
+        $this->where[] = $prefix . $column . $operator . $value;
 
         return $this;
     }
@@ -210,6 +227,11 @@ class QuerySelect extends QueryBase
         }
 
         return $this;
+    }
+
+
+    public function groupBy(string $column) {
+        $this->groupBy[] = $column;
     }
 
 }

@@ -19,21 +19,27 @@ class Response
     private $html = '';
     /** @var int */
     private $responseCode = 200;
-    /** @var array  */
-    private $templateFolders = array();
     /** @var TwigHelper  */
     private $twigHelper = false;
 
     public function __construct()
     {
         $this->loadTwig();
+
     }
 
 
     public function loadTwig() {
-        $this->twig = new TwigHelper();
+        $this->twigHelper = new TwigHelper();
     }
 
+
+    /**
+     * @return TwigHelper
+     */
+    public function getTwigHelper() {
+        return $this->twigHelper;
+    }
 
     /**
      * @return int

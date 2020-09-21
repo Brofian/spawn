@@ -9,7 +9,7 @@ class Autoloader
 {
 
     public $classpaths = array();
-    public $alwaysReload = true;
+    public $alwaysReload = false;
 
     public function __construct()
     {
@@ -18,7 +18,7 @@ class Autoloader
         }
 
         //load FileEditor
-        require_once(ROOT . '\\src\\webu\\system\\Core\\Custom\\FileEditor.php');
+        require_once(ROOT . '/src/webu/system/Core/Custom/FileEditor.php');
     }
 
     //the autoload function
@@ -51,9 +51,14 @@ class Autoloader
                 if ($pair == '') continue;
                 $values = explode('=', trim($pair));
 
-                if (sizeof($values) == 2) $newClassPaths[$values[0]] = $values[1];
+                if (sizeof($values) == 2) {
+                    $newClassPaths[$values[0]] = $values[1];
+                }
             }
 
+            if(!isset($newClassPaths)) {
+                $newClassPaths = [];
+            }
             $this->classpaths = $newClassPaths;
 
             //check if the classname is now available
@@ -72,11 +77,11 @@ class Autoloader
     private function createPathsFile($fileName)
     {
         //load all classes recursivly
-        require_once("../src/webu/system/Core/Custom/FileCrawler.php");
+        require_once(ROOT . "/src/webu/system/Core/Custom/FileCrawler.php");
 
         $crawler = new FileCrawler();
         $data = $crawler->searchInfos(
-            RELROOT,
+            ROOT,
             function ($fileContent, &$ergs, $content, $path) {
                 $namespaceMatches = array();
                 preg_match('/namespace (.*);/m', $fileContent, $namespaceMatches);
