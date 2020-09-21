@@ -48,6 +48,7 @@ class Berichtsheft extends Controller
 
         //set the starting file for the rendering and add the template dir for this module
         $twig->setRenderFile('Berichtsheft/index.html.twig');
+        $twig->addTemplateDir($this->getCurrentModulePath($request) . '\\Resources\\template');
     }
 
     public function test(Request $request, Response $response, int $i)

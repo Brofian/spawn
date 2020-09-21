@@ -40,12 +40,6 @@ class Environment
 
     public function init()
     {
-        $table = new DebugTableTest();
-        $table->init();
-        Debugger::sdump($table->getTableCreationSQL('db1'));
-
-
-
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
 

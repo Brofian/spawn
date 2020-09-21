@@ -153,7 +153,7 @@ class ModuleHelper
 
     private function loadModuleClasses(): array
     {
-        $modulesFolder = RELROOT . '\\' . 'src\\modules';
+        $modulesFolder = ROOT . '\\' . 'src\\modules';
 
         $crawler = new FileCrawler();
         $modules = $crawler->searchInfos(
@@ -186,7 +186,6 @@ class ModuleHelper
                 $module->setNamespace($namespace);
                 $module->setName($class);
                 $module->setBasePath(dirname($path));
-                $module->setAbsolutePath(str_replace(RELROOT, ROOT, dirname($path)));
                 $module->finishCreation();
 
                 $ergs[] = $module;

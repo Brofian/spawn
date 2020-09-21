@@ -48,8 +48,6 @@ class Debugger
         echo($var);
         echo "</div>";
 
-
-        die();
     }
 
 }

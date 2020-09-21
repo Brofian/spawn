@@ -3,6 +3,7 @@
 namespace webu\system\Core\Base\Controller;
 
 
+use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
@@ -42,7 +43,7 @@ abstract class Controller
         $moduleHelper = $request->getRouting()->getModuleHelper();
         $module = $moduleHelper->getCurrentController()->getModule();
 
-        return $module->getAbsolutePath();
+        return $module->getBasepath();
     }
 
 
