@@ -2,32 +2,42 @@
 
 namespace webu\system\Core\Database;
 
-use webu\system\Core\Base\Database\DatabaseColumn;
 use webu\system\Core\Base\Database\DatabaseTable;
+use webu\system\Core\Base\Database\DatabaseColumn;
+use webu\system\Core\Base\Database\Storage\DatabaseAttributes;
+use webu\system\Core\Base\Database\Storage\DatabaseIndex;
 use webu\system\Core\Base\Database\Storage\DatabaseType;
 
-
-class debugTable extends DatabaseTable
+class DebugTable extends DatabaseTable
 {
 
-    public function __construct(bool $hasId = true, bool $hasCreatedAt = true, bool $hasUpdatedAt = true)
+    public function __construct()
     {
-        parent::__construct($hasId, $hasCreatedAt, $hasUpdatedAt);
+        parent::__construct(true, true, true);
+
         $this->init();
     }
 
+
     public function getTableName(): string
     {
-        return 'debug_test';
+        return "debug_test";
     }
+
 
     public function init(): bool
     {
-        $valueColumn = new DatabaseColumn("value", DatabaseType::INT);
-        $valueColumn->setDefault(42);
-        $this->addColumn($valueColumn);
+
+        $col = new DatabaseColumn('value', DatabaseType::INT);
+        $col->setDefault(42)
+            ->setCanBeNull(true)
+            ->setLength(22);
+
+        $this->addColumn($col);
+
+
+        //$this->setForeignKey('value', 'testcontent', 'id');
 
         return true;
     }
-
 }
