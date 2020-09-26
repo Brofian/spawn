@@ -9,6 +9,7 @@ namespace webu\system\core;
 use http\Cookie;
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Helper\DatabaseHelper;
+use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\RoutingHelper;
@@ -74,19 +75,26 @@ class Request
         foreach ($params as &$param) {
             $param = strtolower(trim($param));
         }
-        $this->requestURIParams = $params;
-
-        if ($params[0] == '') $params = [];
 
         //get the controller
         if (sizeof($params) > 0) {
             $this->requestController = $params[0];
 
             if (sizeof($params) > 1) {
-                array_shift($params);
-                $this->requestActionPath = implode('/', $params);
+                $this->requestActionPath = $params[1];
+
+                if(sizeof($params) > 2) {
+                    //remove first two params
+                    array_shift($params);
+                    array_shift($params);
+                    $this->requestURIParams = $params;
+                }
+
             }
 
+        }
+        else {
+            $params = [];
         }
 
     }

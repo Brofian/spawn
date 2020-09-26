@@ -1,1 +1,15 @@
-echo "Hallo, ich bin ein Script"
+#!/usr/bin/env php
+
+
+<?php
+
+//default -> überarbeiten wenn nötig
+
+set_time_limit(0);
+
+require_once DIR.'/../app/autoload.php';
+
+use Shopware\Components\Console\Application;
+
+$environment = new Environment($kernel);
+$environment->run($input);

@@ -2,6 +2,7 @@
 
 namespace webu\system\Core\Helper;
 
+use webu\system\Core\Base\Controller\ApiController;
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Module\Module;
@@ -18,7 +19,9 @@ class RoutingHelper
 
     //these routes are set in the config.php and must exist
     public $systemRoutes = [
-        '404:index' => NOTFOUNDCONTROLLER
+        '404:index' => NOTFOUNDCONTROLLER,
+        '505:index' => ERRORCONTROLLER,
+        'webu:db-setup' => 'webu\\actions\\DatabaseSetupAction'
     ];
 
     /** @var ModuleHelper  */
@@ -36,7 +39,7 @@ class RoutingHelper
             return $this->routing;
         }
 
-        //check system routes, set in the config.php (404,505, etc.)
+        //check system routes, set in the config.php (404,505, etc.) and default api controllers
         if($this->checkSystemRoutes($controller . ':' . $action)) {
             return $this->routing;
         }
@@ -62,8 +65,11 @@ class RoutingHelper
     {
         if (isset($this->specialRoutes[$identifier])) {
             $item = explode(':', $this->specialRoutes[$identifier]);
-            $this->routing['controller'] = $item[0];
-            $this->routing['action'] = $item[1];
+            /** @var Controller $controller */
+            $controller = new $item[0]();
+
+            $this->routing['controller'] = $controller;
+            $this->routing['action'] = $controller::getControllerAlias();
             return true;
         }
         return false;
@@ -78,8 +84,11 @@ class RoutingHelper
     {
         if (isset($this->systemRoutes[$identifier])) {
             $item = explode(':', $this->systemRoutes[$identifier]);
-            $this->routing['controller'] = $item[0];
-            $this->routing['action'] = $item[1];
+            /** @var Controller $controller */
+            $controller = new $item[0]();
+
+            $this->routing['controller'] = $controller;
+            $this->routing['action'] = $controller::getControllerRoutes()[''];
             return true;
         }
         return false;

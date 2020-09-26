@@ -2,12 +2,7 @@
 
 namespace webu\system;
 
-
-use webu\system\Core\Base\Controller\Controller;
-use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Custom\Logger;
-use webu\system\Core\Database\DebugTableTest;
-use webu\system\Core\Helper\RoutingHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -67,7 +62,7 @@ class Environment
             echo "<ul>";
             foreach ($trace as $step) {
                 echo "<li>";
-                echo "<b>" . $step['file'] . ":" . $step['line'] . "</b>";
+                echo "<b>" . ($step['file'] ?? "unknown") . ":" . ($step['line'] ?? "unknown") . "</b>";
                 echo " in function <b>" . $step['function'] . "</b>";
             }
             echo "</ul>";

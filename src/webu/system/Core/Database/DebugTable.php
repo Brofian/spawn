@@ -4,8 +4,6 @@ namespace webu\system\Core\Database;
 
 use webu\system\Core\Base\Database\DatabaseTable;
 use webu\system\Core\Base\Database\DatabaseColumn;
-use webu\system\Core\Base\Database\Storage\DatabaseAttributes;
-use webu\system\Core\Base\Database\Storage\DatabaseIndex;
 use webu\system\Core\Base\Database\Storage\DatabaseType;
 
 class DebugTable extends DatabaseTable
@@ -38,8 +36,6 @@ class DebugTable extends DatabaseTable
 
         //$this->setForeignKey('value', 'testcontent', 'id');
 
-
-        // TODO: Implement init() method.
         return true;
     }
 }
