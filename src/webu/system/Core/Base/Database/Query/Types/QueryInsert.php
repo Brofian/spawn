@@ -4,6 +4,7 @@ namespace webu\system\Core\Base\Database\Query\Types;
 
 
 use MongoDB\Driver\Query;
+use webu\system\Core\Base\Database\DatabaseConnection;
 
 class QueryInsert extends QueryBase
 {
@@ -12,13 +13,15 @@ class QueryInsert extends QueryBase
     const COMMAND = 'INSERT ';
 
     //INSERT INTO table (col1,col2,col3) VALUES (val1,val2,val3)
-    public $table = '';
-    public $values = array();
+    private $table = '';
+    private $values = array();
 
 
 
-    public function __construct()
+    public function __construct(DatabaseConnection $connection)
     {
+        parent::__construct($connection);
+
         return $this;
     }
 

@@ -3,7 +3,7 @@
 namespace webu\system\Core\Base\Database\Query\Types;
 
 
-use MongoDB\Driver\Query;
+use webu\system\Core\Base\Database\DatabaseConnection;
 
 class QuerySelect extends QueryBase
 {
@@ -31,8 +31,10 @@ class QuerySelect extends QueryBase
      * @param mixed $columns
      * @return QuerySelect
      */
-    public function __construct($columns = null)
+    public function __construct(DatabaseConnection $connection, $columns = null)
     {
+        parent::__construct($connection);
+
         if ($columns != null) {
             $this->setColumns($columns);
         }

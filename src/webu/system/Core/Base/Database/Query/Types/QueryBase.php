@@ -21,6 +21,15 @@ abstract class QueryBase {
     /** @var array  */
     private $boundValues = array();
 
+    /** @var DatabaseConnection  */
+    private $connection = null;
+
+
+    public function __construct(DatabaseConnection $connection)
+    {
+        $this->connection = $connection;
+    }
+
 
     /**
      * Abstract
@@ -35,10 +44,10 @@ abstract class QueryBase {
      * @param bool $preventFetch
      * @return array|PDOStatement
      */
-    public function execute(DatabaseConnection $connection, bool $preventFetching = false) {
+    public function execute(bool $preventFetching = false) {
 
         /** @var PDOStatement $stmt */
-        $stmt = $connection->getConnection()->prepare($this->getSql());
+        $stmt = $this->connection->getConnection()->prepare($this->getSql());
         $stmt->execute($this->boundValues);
 
         if($preventFetching) {
@@ -80,7 +89,7 @@ abstract class QueryBase {
 
 
 
-    public function formatParam(&$value) {
+    protected function formatParam(&$value) {
         if(is_string($value)) {
             //add quotationmarks to string
             $value = '\'' . $value . '\'';

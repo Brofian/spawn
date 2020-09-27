@@ -2,10 +2,14 @@
 
 namespace webu\actions;
 
+use webu\cache\database\table\debug_test;
+use webu\cache\database\table\DebugTest;
+use webu\cache\database\table\DebugTestTable;
 use webu\system\Core\Base\Controller\ApiController;
 use webu\system\Core\Base\Custom\FileCrawler;
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Base\Database\DatabaseTable;
+use webu\system\Core\Base\Database\Query\QueryBuilder;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Custom\Debugger;
 use webu\system\core\Request;
@@ -72,14 +76,54 @@ class DatabaseSetupAction extends ApiController {
         //create Database-Structure-Classes
         $this->createDatabaseStructures($tableClasses);
 
+
+        /**
+         * Start of test
+         */
+        $conn = $request->getDatabase()->getConnection();
+        $query = new QueryBuilder($conn);
+
+        //insert
+        $query  ->insert()
+                ->into(DebugTestTable::TABLENAME)
+                ->setValue(DebugTestTable::COL_VALUE, 123)
+                ->execute();
+
+        //update
+        $query  ->update(DebugTestTable::TABLENAME)
+                ->set(DebugTestTable::COL_VALUE, 10)
+                ->where(DebugTestTable::COL_ID, 7)
+                ->execute();
+
+        //select
+        $erg = $query->select("*")
+                ->from(DebugTestTable::TABLENAME)
+                ->execute();
+
+        //delete
+        $query  ->delete()
+                ->from(DebugTestTable::TABLENAME)
+                ->where(DebugTestTable::COL_ID, 17, false, false, '>=')
+                ->execute();
+
+        Debugger::dump($erg);
+        /**
+         * End of Test
+         */
+
+
         /** @var $response Response */
         $response->getTwigHelper()->setOutput("Created ".$counter." system-tables!"); ;
     }
 
 
+    /**
+     * Creates classes for the given tables
+     * @param array $tables
+     */
     private function createDatabaseStructures(array $tables) {
 
-        $folderName = ROOT . '\\var\\cache\\database\\';
+        $folderName = ROOT . '\\var\\generated\\database\\';
 
         /** @var DatabaseTable $table */
         foreach($tables as $table) {
@@ -90,8 +134,8 @@ class DatabaseSetupAction extends ApiController {
 "<?php
 
 namespace webu\\cache\\database\\table;
-                
-class ".$tablename." {
+
+class ".toClassnameFormat($tablename)." {
     
 \tconst _TABLENAME_RAW = '".$tablename."';
 \tconst TABLENAME = '`".$tablename."`';
@@ -99,13 +143,13 @@ class ".$tablename." {
 ";
 
             foreach($table->getColumnNames() as $columnName) {
-                $filecontent .=  "\tconst _" . strtoupper($columnName) . "_RAW = '" . $columnName . "';" . PHP_EOL;
-                $filecontent .=  "\tconst " . strtoupper($columnName) . " = '`".$tablename."`.`" . $columnName . "`';" . PHP_EOL;
+                $filecontent .=  "\tconst RAW_COL_" . strtoupper($columnName) . " = '" . $columnName . "';"                    . PHP_EOL;
+                $filecontent .=  "\tconst COL_"     . strtoupper($columnName) . " = '`".$tablename."`.`" . $columnName . "`';" . PHP_EOL;
             }
 
             $filecontent .= '}';
 
-            $fileName = $folderName . $tablename . '.php';
+            $fileName = $folderName . toClassnameFormat($tablename) . '.php';
             FileEditor::createFolder(dirname($fileName));
             FileEditor::insert($fileName, $filecontent);
         }

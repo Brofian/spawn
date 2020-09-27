@@ -19,7 +19,7 @@ class DebugTable extends DatabaseTable
 
     public function getTableName(): string
     {
-        return "debug_test";
+        return "debug_test_table";
     }
 
 

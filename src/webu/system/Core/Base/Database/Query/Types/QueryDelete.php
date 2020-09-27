@@ -6,22 +6,27 @@ namespace webu\system\Core\Base\Database\Query\Types;
 use MongoDB\Driver\Query;
 use webu\system\Core\Base\Database\DatabaseConnection;
 
-class QueryUpdate extends QueryBase
+class QueryDelete extends QueryBase
 {
 
     /** @var string */
-    const COMMAND = 'UPDATE ';
+    const COMMAND = 'DELETE ';
 
+    //DELETE FROM table WHERE a = 3
+    /** @var string  */
     private $table = '';
-    private $values = array();
+    /** @var array  */
     private $where = array();
 
 
-    public function __construct(DatabaseConnection $connection, string $table)
+    /**
+     * QueryDelete constructor.
+     * @param DatabaseConnection $connection
+     * @return QueryDelete
+     */
+    public function __construct(DatabaseConnection $connection)
     {
         parent::__construct($connection);
-
-        $this->setTable($table);
         return $this;
     }
 
@@ -32,22 +37,9 @@ class QueryUpdate extends QueryBase
      */
     public function getSql(): string
     {
-        $sql = self::COMMAND;
+        $sql = self::COMMAND . ' ';
+        $sql .= 'FROM ' . $this->table . ' ';
 
-        $sql .= $this->table . ' ';
-
-        $sql .= 'SET ';
-
-            $counter = 0;
-            foreach($this->values as $column => $key) {
-                if($counter != 0) {
-                    $sql .= ',';
-                }
-                $sql .= $column . '=' . $key;
-                $counter++;
-            }
-
-        $sql .= ' ';
         foreach ($this->where as $where) {
             $sql .= $where . ' ';
         }
@@ -58,23 +50,11 @@ class QueryUpdate extends QueryBase
 
     /**
      * @param string $tableName
-     * @return QueryUpdate
+     * @return QueryDelete
      */
-    public function setTable(string $tableName) : QueryUpdate
+    public function from(string $tableName) : QueryDelete
     {
         $this->table = $tableName;
-        return $this;
-    }
-
-
-    /**
-     * @param string $column
-     * @param $value
-     * @return QueryUpdate
-     */
-    public function set(string $column, $value) : QueryUpdate{
-        $this->formatParam($value);
-        $this->values[$column] = $value;
         return $this;
     }
 
@@ -84,9 +64,9 @@ class QueryUpdate extends QueryBase
      *
      * @param string $column
      * @param $value
-     * @return QueryUpdate
+     * @return QueryDelete
      */
-    public function where(string $column, $value, bool $isOr = false, bool $not = false) : QueryUpdate
+    public function where(string $column, $value, bool $isOr = false, bool $not = false, string $operator = null) : QueryDelete
     {
         $isString = $this->formatParam($value);
 
@@ -114,9 +94,15 @@ class QueryUpdate extends QueryBase
             }
         }
 
-        $operator = ($isString) ? 'LIKE' : '=';
 
-        $this->where[] = $prefix . $column . $operator . $value;
+        //if operator is set: operator
+        //if operator is not set: either LIKE or =
+        $op = $operator;
+        if(!$op) {
+            $op = ($isString) ? 'LIKE' : '=';
+        }
+
+        $this->where[] = $prefix . $column . $op . $value;
 
         return $this;
     }

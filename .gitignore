@@ -1,7 +1,5 @@
-# Individual contents
-var/cache
-var/images
-var/.log
+# Individual contents and cache
+var
 vendor
 
 #Config File (but sample is included)
