@@ -26,7 +26,7 @@ class Main extends Controller
 
     public function index(Request $request, Response $response)
     {
-        //echo "Main Index Action";
+        //echo "Main Fabian Action";
     }
 
 }

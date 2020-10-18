@@ -48,6 +48,8 @@ class TwigHelper
      */
     private function loadTwig() {
 
+//        $this->templateDirs = array_reverse($this->templateDirs);
+
         $loader = new FilesystemLoader($this->templateDirs);
         $twig = new Environment($loader); //<- Twig environment
 
@@ -72,7 +74,7 @@ class TwigHelper
 
         /** @var Environment $twig */
         $twig = $this->twig;
-        echo $this->twig->render($this->targetFile, $this->variables);
+        echo $twig->render($this->targetFile, $this->variables);
         return;
     }
 

@@ -34,7 +34,7 @@ class Autoloader
             //if the the classPaths are empty, try load from the file
 
             $folderName = ROOT . '\\var\\generated\\cache\\';
-            $fileName = $folderName . 'classpaths.txt';
+            $fileName = $folderName . 'classpaths.php';
 
 
             //create directory if needed
@@ -45,21 +45,13 @@ class Autoloader
                 $this->createPathsFile($fileName);
             }
 
-            $fileContent = FileEditor::getFileContent($fileName);
-            $pairs = explode(';', trim($fileContent));
-            foreach ($pairs as $pair) {
-                if ($pair == '') continue;
-                $values = explode('=', trim($pair));
+            //include the existing or generated file
+            include($fileName);
 
-                if (sizeof($values) == 2) {
-                    $newClassPaths[$values[0]] = $values[1];
-                }
+            if(!isset($classPathsCache)) {
+                $classPathsCache = [];
             }
-
-            if(!isset($newClassPaths)) {
-                $newClassPaths = [];
-            }
-            $this->classpaths = $newClassPaths;
+            $this->classpaths = $classPathsCache;
 
             //check if the classname is now available
             if (isset($this->classpaths[$className])) {
@@ -100,10 +92,11 @@ class Autoloader
 
 
         //create the file
-        $classPathList = '';
+        $classPathList = "<?php \n \$classPathsCache = [ \n";
         foreach ($data as $index => $string) {
-            $classPathList .= $index . '=' . $string . ";\n";
+            $classPathList .= "'" . $index . "'=>'" . $string . "',\n";
         }
+        $classPathList .= "];\n";
 
         FileEditor::insert($fileName, $classPathList);
     }
