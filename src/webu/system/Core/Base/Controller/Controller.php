@@ -34,17 +34,6 @@ abstract class Controller
         return [];
     }
 
-    /**
-     * @param Request $request
-     * @return string
-     */
-    protected function getCurrentModulePath(Request $request) : string {
-        /** @var RoutingHelper $routing */
-        $moduleHelper = $request->getRouting()->getModuleHelper();
-        $module = $moduleHelper->getCurrentController()->getModule();
-
-        return $module->getBasepath();
-    }
 
 
     public function index(Request $request, Response $response)

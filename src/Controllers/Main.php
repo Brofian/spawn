@@ -1,26 +1,26 @@
 <?php
 
-namespace modules\BerichtsheftModul\Controllers;
+namespace modules\Main\Controllers;
 
 use webu\system\Core\Base\Controller\Controller;
+use webu\system\Core\Module\Module;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
-class Berichtsheft extends Controller
+class Main extends Controller
 {
-
     //The Main Controller for the module
 
     public static function getControllerAlias(): string
     {
-        return 'Berichtsheft';
+        return 'Main';
     }
 
     public static function getControllerRoutes(): array
     {
         return [
-            '' => 'index',
-            'test' => 'test'
+            '' => 'index',      //creates the route "yoururl.com/main" and assigns the method "index" as the executioner
+            'test' => 'test',
         ];
     }
 
@@ -39,17 +39,15 @@ class Berichtsheft extends Controller
     {
         $twig = $response->getTwigHelper();
 
-
-        //assign variables to the twig template
-        $twig->assign('name', 'Angelina');
-
-        //set the starting file for the rendering and add the template dir for this module
-        $twig->setRenderFile('Fabian/index.html.twig');
-        $twig->addTemplateDir($this->getCurrentModulePath($request) . '\\Resources\\template');
+        //assign variable to template
+        $twig->assign('name', 'Fabian in Main');
+        //change the render file
+        $twig->setRenderFile('base.html.twig');
     }
 
-    public function test(Request $request, Response $response, int $i)
+    public function test(Request $request, Response $response)
     {
+        $response->getTwigHelper()->assign('name', 'Fabian in Main test');
     }
 
 }

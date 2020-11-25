@@ -20,9 +20,9 @@ class Environment
 
     public function __construct()
     {
-
         $this->request = new Request();
         $this->response = new Response();
+
 
         try {
             $this->init();
@@ -37,6 +37,7 @@ class Environment
     {
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
+
 
         $this->request->loadController(
             $this->request->getRequestController(),

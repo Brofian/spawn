@@ -2,10 +2,8 @@
 
 namespace webu\system\Core\Helper;
 
-use webu\system\Core\Base\Controller\ApiController;
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Custom\Debugger;
-use webu\system\Core\Module\Module;
 use webu\system\Environment;
 
 class RoutingHelper
@@ -24,8 +22,6 @@ class RoutingHelper
         'webu:db-setup' => 'webu\\actions\\DatabaseSetupAction'
     ];
 
-    /** @var ModuleHelper  */
-    private $moduleHelper = null;
 
     protected $routing = [
         'controller' => '',
@@ -47,7 +43,7 @@ class RoutingHelper
         //
 
         //check the routes, set inside of a module
-        if($this->checkModuleRoutes($controller, $action)) {
+        if($this->checkControllerRoutes($controller, $action)) {
             return $this->routing;
         }
 
@@ -100,30 +96,31 @@ class RoutingHelper
      * @param string $reqAction
      * @return bool
      */
-    private function checkModuleRoutes(string $reqController, string $reqAction) : bool
+    private function checkControllerRoutes(string $reqController, string $reqAction) : bool
     {
-        $moduleHelper = new ModuleHelper();
-        $moduleHelper->loadModules();
 
-        $this->moduleHelper = $moduleHelper;
+        $controllerHelper = new ControllerHelper();
+        $controllers = $controllerHelper->getControllers();
 
-        $controller = $moduleHelper->getControllerByAlias($reqController);
 
-        if($controller === false) {
-            //fallback
-            $controller = $moduleHelper->getControllerByAlias(DEFAULTCONTROLLER);
-
-            if ($controller === false) {
-                return false;
-            }
-        }
-
-        $actions = $controller::getControllerRoutes();
-        if(isset($actions[$reqAction])) {
-            $action = $actions[$reqAction];
+        //get Controller or use the DefaultController
+        /** @var Controller $controller */
+        $controller = null;
+        if(isset($controller[$reqController])) {
+            $controller = new $controllers[$reqController]();
         }
         else {
-            return false;
+            $contr = "modules\\Main\\Controllers\\" . DEFAULTCONTROLLER;
+            $controller = new $contr();
+        }
+
+        //Get Action from controller or use "index"
+
+        $actions = $controller::getControllerRoutes();
+        /** @var string $action */
+        $action = 'index';
+        if(isset($actions[$reqAction])) {
+            $action = $actions[$reqAction];
         }
 
         $this->routing['controller'] = $controller;
@@ -170,12 +167,5 @@ class RoutingHelper
 
     }
 
-
-    /**
-     * @return ModuleHelper
-     */
-    public function getModuleHelper() : ModuleHelper {
-        return $this->moduleHelper;
-    }
 
 }

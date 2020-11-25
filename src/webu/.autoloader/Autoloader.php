@@ -36,7 +36,6 @@ class Autoloader
             $folderName = ROOT . '\\var\\generated\\cache\\';
             $fileName = $folderName . 'classpaths.php';
 
-
             //create directory if needed
             FileEditor::createFolder($folderName);
 
@@ -53,6 +52,7 @@ class Autoloader
             }
             $this->classpaths = $classPathsCache;
 
+
             //check if the classname is now available
             if (isset($this->classpaths[$className])) {
                 //if the class exists, load the file
@@ -61,7 +61,6 @@ class Autoloader
             }
 
         }
-
         return false;
     }
 

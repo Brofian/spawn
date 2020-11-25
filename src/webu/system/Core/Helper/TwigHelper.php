@@ -48,6 +48,7 @@ class TwigHelper
      */
     private function loadTwig() {
 
+
 //        $this->templateDirs = array_reverse($this->templateDirs);
 
         $loader = new FilesystemLoader($this->templateDirs);

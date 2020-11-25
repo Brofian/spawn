@@ -145,6 +145,7 @@ class Request
         /** @var string $action */
         $action = $erg['action'];
 
+
         $params = $this->routingHelper->addValuesToCustomParams($e, $controller,$action);
 
         //call the controller method
