@@ -5,6 +5,7 @@ namespace webu\system\Core\Helper;
 
 
 use Twig\Environment;
+use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 use webu\system\Core\Custom\Debugger;
 
@@ -15,7 +16,7 @@ class TwigHelper
     private $variables = array();
 
     /** @var string  */
-    private $targetFile = 'index.html.twig';
+    private $targetFile = 'base.html.twig';
 
     /** @var array  */
     private $templateDirs = [
@@ -52,7 +53,10 @@ class TwigHelper
 //        $this->templateDirs = array_reverse($this->templateDirs);
 
         $loader = new FilesystemLoader($this->templateDirs);
-        $twig = new Environment($loader); //<- Twig environment
+        $twig = new Environment($loader, [
+            'debug' => (MODE == "dev"),
+        ]); //<- Twig environment
+        $twig->addExtension(new DebugExtension());
 
         if(is_object($twig) == false) {
             Debugger::ddump("Couldn´t load Twig");
@@ -92,9 +96,9 @@ class TwigHelper
     /**
      * Stores the variables for assigning them to the twig template
      * @param string $key
-     * @param string $value
+     * @param mixed $value
      */
-    public function assign(string $key, string $value) {
+    public function assign(string $key, $value) {
         $this->variables[$key] = $value;
     }
 

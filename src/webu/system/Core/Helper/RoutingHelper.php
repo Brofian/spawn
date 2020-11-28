@@ -102,7 +102,6 @@ class RoutingHelper
         $controllerHelper = new ControllerHelper();
         $controllers = $controllerHelper->getControllers();
 
-
         //get Controller or use the DefaultController
         /** @var Controller $controller */
         $controller = null;
@@ -110,8 +109,7 @@ class RoutingHelper
             $controller = new $controllers[$reqController]();
         }
         else {
-            $contr = "modules\\Main\\Controllers\\" . DEFAULTCONTROLLER;
-            $controller = new $contr();
+            $controller = "modules\\Main\\Controllers\\" . DEFAULTCONTROLLER;
         }
 
         //Get Action from controller or use "index"

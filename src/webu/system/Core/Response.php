@@ -66,9 +66,9 @@ class Response
     }
 
     /**
-     * @return string
+     * @param string
      */
-    public function setHtml($html)
+    public function setHtml(string $html)
     {
         $this->html = $html;
     }

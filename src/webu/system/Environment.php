@@ -18,6 +18,7 @@ class Environment
     /** @var Response */
     public $response;
 
+
     public function __construct()
     {
         $this->request = new Request();
@@ -38,13 +39,13 @@ class Environment
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
 
-
         $this->request->loadController(
             $this->request->getRequestController(),
             $this->request->getRequestActionPath(),
             $this
         );
 
+        $this->response->getTwigHelper()->assign('context', $this->request->getContext()->getContext());
         $this->response->getTwigHelper()->finish();
     }
 

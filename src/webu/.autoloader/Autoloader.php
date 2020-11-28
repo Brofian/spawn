@@ -67,6 +67,7 @@ class Autoloader
 
     private function createPathsFile($fileName)
     {
+
         //load all classes recursivly
         require_once(ROOT . "/src/webu/system/Core/Custom/FileCrawler.php");
 

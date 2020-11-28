@@ -8,8 +8,22 @@ use webu\system\Core\Helper\RoutingHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
-abstract class Controller
+abstract class Controller implements ControllerInterface
 {
+
+    protected $twig;
+
+    public function init(Request $request, Response $response) {
+        $this->twig = $response->getTwigHelper();
+        $this->twig->assign('controller', $this->getControllerAlias());
+        $this->onControllerStart();
+    }
+
+    public function end(Request $request, Response $response) {
+        $this->onControllerStop();
+    }
+
+
 
     /**
      * Has to be declared in every controller!

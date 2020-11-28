@@ -6,10 +6,9 @@ namespace webu\system\core;
  *  The default Class to store all Request Informations
  */
 
-use http\Cookie;
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Helper\DatabaseHelper;
-use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Contents\Context;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\RoutingHelper;
@@ -41,6 +40,8 @@ class Request
     private $requestController = 'index';
     /** @var string */
     private $requestActionPath = '';
+    /** @var Context */
+    private $context = null;
 
 
     public function __construct()
@@ -79,22 +80,21 @@ class Request
         //get the controller
         if (sizeof($params) > 0) {
             $this->requestController = $params[0];
+            array_shift($params);
+        }
 
-            if (sizeof($params) > 1) {
-                $this->requestActionPath = $params[1];
+        /* Save the Action */
+        if (sizeof($params) > 0) {
+            $this->requestActionPath = $params[1];
+            array_shift($params);
+        }
 
-                if(sizeof($params) > 2) {
-                    //remove first two params
-                    array_shift($params);
-                    array_shift($params);
-                    $this->requestURIParams = $params;
-                }
-
-            }
-
+        /* Save Params */
+        if(sizeof($params) > 0) {
+            $this->requestURIParams = $params;
         }
         else {
-            $params = [];
+            $this->requestURIParams = [];
         }
 
     }
@@ -126,6 +126,7 @@ class Request
         $this->cookies = new CookieHelper();
         $this->session = new SessionHelper();
         $this->database = new DatabaseHelper();
+        $this->context = new Context();
     }
 
 
@@ -141,20 +142,48 @@ class Request
         );
 
         /** @var Controller $controller */
-        $controller = $erg['controller'];
+        $controller = new $erg['controller']();
         /** @var string $action */
         $action = $erg['action'];
 
 
+        /* Insert gathered Information to Context */
+        $this->fillContext();
+
+
+
+        /* Call Controller */
         $params = $this->routingHelper->addValuesToCustomParams($e, $controller,$action);
+
+        $controller->init($this,$e->response);
 
         //call the controller method
         call_user_func_array(
-            array($controller,$action),
+            [
+                $controller,    $action
+            ],
             $params
         );
 
+        $controller->end($this, $e->response);
+
     }
+
+    private function fillContext() {
+
+        $this->context->multiSet([
+            'Controller' => $this->requestController,
+            'Action' => $this->requestActionPath,
+            'URI' => $this->requestURI,
+            'URIParams' => $this->requestURIParams,
+            'POST' => $this->post,
+            'GET' => $this->get,
+            'COOKIES' => $this->cookies,
+            'SESSION' => $this->session,
+        ]);
+
+    }
+
 
 
     /*
@@ -219,6 +248,13 @@ class Request
     public function getRequestURIParams()
     {
         return $this->requestURIParams;
+    }
+
+    /**
+     * @return Context
+     */
+    public function getContext() {
+        return $this->context;
     }
 
 

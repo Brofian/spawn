@@ -13,7 +13,7 @@ class Main extends Controller
 
     public static function getControllerAlias(): string
     {
-        return 'Main';
+        return 'main';
     }
 
     public static function getControllerRoutes(): array
@@ -34,20 +34,22 @@ class Main extends Controller
         ];
     }
 
+    public function onControllerStart() {}
+
+    public function onControllerStop() {}
+
+
 
     public function index(Request $request, Response $response)
     {
-        $twig = $response->getTwigHelper();
-
-        //assign variable to template
-        $twig->assign('name', 'Fabian in Main');
-        //change the render file
-        $twig->setRenderFile('base.html.twig');
+        $this->twig->assign('name', 'Fabian in Main');
     }
 
     public function test(Request $request, Response $response)
     {
-        $response->getTwigHelper()->assign('name', 'Fabian in Main test');
+        $this->twig->assign('name', 'Fabian in Main test');
     }
+
+
 
 }

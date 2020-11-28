@@ -1,0 +1,32 @@
+{% block master_block %}
+    <!DOCTYPE html>
+    <html>
+
+    {% block head %}
+        <head>
+            {% include controller ~ "/head.html.twig" %}
+        </head>
+    {% endblock %}
+
+    {% block body %}
+        <body>
+
+        {% block content %}
+            <div id="content">
+                {% block page_wrap %}
+                    {{ dump() }}
+                {% endblock %}
+            </div>
+        {% endblock %}
+
+        {% block footer %}
+            <div id="footer">
+                {% include controller ~ "/footer.html.twig" %}
+            </div>
+        {% endblock %}
+
+        </body>
+    {% endblock %}
+
+    </html>
+{% endblock %}

@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html>
 
-    {% block head %}
-    <head>
-        {% include "index/head.html.twig" %}
-    </head>
-    {% endblock %}
+{% if not controller %}
+    {% set controller = "base" %}
+{% endif %}
 
-    {% block body %}
-    <body>
 
-        {% block content %}
-        <div id="content">
-            {% include "index/index.html.twig" %}
-        </div>
-        {% endblock %}
-
-        {% block footer %}
-        <div id="footer">
-            {% include "index/footer.html.twig" %}
-        </div>
-        {% endblock %}
-
-    </body>
-    {% endblock %}
-
-</html>
+{% include controller ~ "/index.html.twig" %}
