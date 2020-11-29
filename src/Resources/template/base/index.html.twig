@@ -11,10 +11,13 @@
     {% block body %}
         <body>
 
+        {% block header %}
+            {% include "base/header.html.twig" %}
+        {% endblock %}
+
         {% block content %}
             <div id="content">
                 {% block page_wrap %}
-                    {{ dump() }}
                 {% endblock %}
             </div>
         {% endblock %}

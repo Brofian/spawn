@@ -1,0 +1,12 @@
+#header {
+  width: 100%;
+  height: unitize(90);
+  background: $color-base;
+  position: sticky;
+
+
+  -webkit-box-shadow: 0 2px 14px 0 $color-base-shadow;
+  -moz-box-shadow: 0 2px 14px 0 $color-base-shadow;
+  box-shadow: 0 2px 14px 0 $color-base-shadow;
+
+}

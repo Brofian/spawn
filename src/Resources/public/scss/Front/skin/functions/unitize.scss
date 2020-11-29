@@ -1,0 +1,11 @@
+/*
+  Example:  width: unitize(100)
+ */
+
+@function unitize($value) {
+
+  $unitizedValue: $value / $base-font-size;
+
+  //remove
+  @return $unitizedValue * 1px * 1rem ;
+}

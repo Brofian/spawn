@@ -13,9 +13,7 @@ class Autoloader
 
     public function __construct()
     {
-        if (MODE == 'dev') {
-            $this->alwaysReload = true;
-        }
+        $this->alwaysReload = (MODE == 'dev');
 
         //load FileEditor
         require_once(ROOT . '/src/webu/system/Core/Custom/FileEditor.php');
@@ -73,7 +71,7 @@ class Autoloader
 
         $crawler = new FileCrawler();
         $data = $crawler->searchInfos(
-            ROOT,
+            ROOT . "/src",
             function ($fileContent, &$ergs, $content, $path) {
                 $namespaceMatches = array();
                 preg_match('/namespace (.*);/m', $fileContent, $namespaceMatches);

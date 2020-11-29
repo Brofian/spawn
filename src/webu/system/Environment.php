@@ -45,8 +45,8 @@ class Environment
             $this
         );
 
-        $this->response->getTwigHelper()->assign('context', $this->request->getContext()->getContext());
-        $this->response->getTwigHelper()->finish();
+
+        $this->response->finish($this->request->getContext()->getContext());
     }
 
 

@@ -7,9 +7,8 @@ namespace webu\system\core;
  *  The Main Class to store all Response informations
  */
 
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
-use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Contents\Context;
+use webu\system\Core\Helper\ScssHelper;
 use webu\system\Core\Helper\TwigHelper;
 
 class Response
@@ -20,18 +19,41 @@ class Response
     /** @var int */
     private $responseCode = 200;
     /** @var TwigHelper  */
-    private $twigHelper = false;
+    private $twigHelper = null;
+    /** @var ScssHelper  */
+    private $scssHelper = null;
 
     public function __construct()
     {
         $this->loadTwig();
-
+        $this->loadScss();
     }
-
 
     public function loadTwig() {
         $this->twigHelper = new TwigHelper();
     }
+
+    public function loadScss() {
+        $this->scssHelper = new ScssHelper();
+    }
+
+
+    public function finish($context) {
+
+        /* Render Scss */
+        $this->scssHelper->createCss();
+
+        /* Render twig */
+        $this->getTwigHelper()->assign('context', $context);
+        $pageHtml = $this->getTwigHelper()->finish();
+
+        echo $pageHtml;
+    }
+
+
+
+
+
 
 
     /**
@@ -39,6 +61,13 @@ class Response
      */
     public function getTwigHelper() {
         return $this->twigHelper;
+    }
+
+    /**
+     * @return ScssHelper
+     */
+    public function getScssHelper() {
+        return $this->scssHelper;
     }
 
     /**

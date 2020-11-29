@@ -5,6 +5,9 @@ namespace webu\system\Core\Helper;
 
 
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 use webu\system\Core\Custom\Debugger;
@@ -30,17 +33,26 @@ class TwigHelper
     /** @var bool  */
     private $twig = false;
 
+    private $cacheFolderPath = ROOT . '/var/cache/twig';
+
     public function __construct()
     {
+        $this->alwaysReload = (MODE == 'dev');
     }
 
     /**
      * This function is called after executing the controllers
-     * @return void
+     * @return string
      */
-    public function finish() {
+    public function finish() : string {
         $this->loadTwig();
-        $this->startRendering();
+        try {
+            return $this->startRendering();
+        } catch (LoaderError $e) {
+        } catch (RuntimeError $e) {
+        } catch (SyntaxError $e) {
+        }
+        return '';
     }
 
     /**
@@ -49,12 +61,12 @@ class TwigHelper
      */
     private function loadTwig() {
 
-
 //        $this->templateDirs = array_reverse($this->templateDirs);
 
         $loader = new FilesystemLoader($this->templateDirs);
         $twig = new Environment($loader, [
             'debug' => (MODE == "dev"),
+            'cache' => $this->cacheFolderPath,
         ]); //<- Twig environment
         $twig->addExtension(new DebugExtension());
 
@@ -67,20 +79,21 @@ class TwigHelper
 
     /**
      * Executes the twig rendering
-     * @return void
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    private function startRendering() {
+    private function startRendering() : string {
 
         //check customoutout
         if($this->customoutput !== null) {
-            echo $this->customoutput;
-            return;
+            return $this->customoutput;
         }
 
         /** @var Environment $twig */
         $twig = $this->twig;
-        echo $twig->render($this->targetFile, $this->variables);
-        return;
+        return $twig->render($this->targetFile, $this->variables);
     }
 
 
