@@ -4,7 +4,7 @@
 
     {% block head %}
         <head>
-            {% include controller ~ "/head.html.twig" %}
+            {% include "base/head.html.twig" %}
         </head>
     {% endblock %}
 
@@ -18,13 +18,14 @@
         {% block content %}
             <div id="content">
                 {% block page_wrap %}
+                    {% include "base/content.html.twig" %}
                 {% endblock %}
             </div>
         {% endblock %}
 
         {% block footer %}
             <div id="footer">
-                {% include controller ~ "/footer.html.twig" %}
+                {% include "base/footer.html.twig" %}
             </div>
         {% endblock %}
 

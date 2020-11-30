@@ -39,7 +39,7 @@ class Request
     /** @var string */
     private $requestController = 'index';
     /** @var string */
-    private $requestActionPath = '';
+    private $requestActionPath = 'index';
     /** @var Context */
     private $context = null;
 
@@ -83,9 +83,10 @@ class Request
             array_shift($params);
         }
 
+
         /* Save the Action */
         if (sizeof($params) > 0) {
-            $this->requestActionPath = $params[1];
+            $this->requestActionPath = $params[0];
             array_shift($params);
         }
 

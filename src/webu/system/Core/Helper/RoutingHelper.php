@@ -30,6 +30,7 @@ class RoutingHelper
 
     public function route($controller, $action)
     {
+
         //check special routes, set by a module
         if($this->checkSpecialRoutes($controller . ':' . $action)) {
             return $this->routing;
@@ -40,7 +41,8 @@ class RoutingHelper
             return $this->routing;
         }
 
-        //
+
+
 
         //check the routes, set inside of a module
         if($this->checkControllerRoutes($controller, $action)) {
@@ -102,15 +104,17 @@ class RoutingHelper
         $controllerHelper = new ControllerHelper();
         $controllers = $controllerHelper->getControllers();
 
+
         //get Controller or use the DefaultController
         /** @var Controller $controller */
         $controller = null;
-        if(isset($controller[$reqController])) {
+        if(isset($controllers[$reqController])) {
             $controller = new $controllers[$reqController]();
         }
         else {
             $controller = "modules\\Main\\Controllers\\" . DEFAULTCONTROLLER;
         }
+
 
         //Get Action from controller or use "index"
 

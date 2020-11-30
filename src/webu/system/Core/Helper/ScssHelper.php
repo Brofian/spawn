@@ -31,8 +31,8 @@ class ScssHelper {
         $outputStyle = $compressed ? \ScssPhp\ScssPhp\OutputStyle::COMPRESSED : \ScssPhp\ScssPhp\OutputStyle::EXPANDED;
         $scss->setOutputStyle($outputStyle);
 
-        //register custom scss functions
-        scss_functions::registerFunctions($scss);
+        $this->registerFunctions($scss);
+
 
         //set base path for files
         $scss->setImportPaths([$this->baseFolderPath]);
@@ -72,5 +72,37 @@ class ScssHelper {
         $fileWriter->createFile($this->cacheFileMiniPath, $cssMinified);
     }
 
+
+    private function registerFunctions(Compiler &$scss) {
+        //register custom scss functions
+        $scss->registerFunction(
+            'degToPadd',
+            function($args) {
+                $deg = $args[0][1];
+                $a = $args[1][1];
+
+
+
+                $magicNumber = tan(deg2rad($deg)/2);
+                $contentWidth = $a;
+
+                $erg =  $magicNumber * $contentWidth;
+                return $erg . "px";
+            }
+        );
+
+
+        $scss->registerFunction(
+            'assetURL',
+            function($args) {
+                $path = $args[0][1];
+                $fullpath = ROOT . 'src/Resources/public/assets/' . $path;
+
+                $url = "url('".$fullpath."')";
+                return $url;
+            }
+        );
+
+    }
 
 }

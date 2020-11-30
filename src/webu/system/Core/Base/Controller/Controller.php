@@ -16,6 +16,7 @@ abstract class Controller implements ControllerInterface
     public function init(Request $request, Response $response) {
         $this->twig = $response->getTwigHelper();
         $this->twig->assign('controller', $this->getControllerAlias());
+        $this->twig->assign('action', $request->getRequestActionPath());
         $this->onControllerStart();
     }
 

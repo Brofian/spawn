@@ -1,12 +1,18 @@
 * {
-  font-size: $base-font-size;
   font-family: $base-font-family;
+  font-weight: $font-weight-normal;
   color: $color-secondary;
+  box-sizing: border-box;
 }
 
 
 html {
   background: $color-base;
+  font-size: $base-font-size;
+}
+
+:root {
+  font-size: $base-font-size;
 }
 
 body {

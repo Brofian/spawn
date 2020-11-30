@@ -7,5 +7,5 @@
   $unitizedValue: $value / $base-font-size;
 
   //remove
-  @return $unitizedValue * 1px * 1rem ;
+  @return $unitizedValue * 1rem ;
 }

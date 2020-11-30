@@ -38,7 +38,7 @@ class SessionHelper
      * @param bool $fallback
      * @return bool|mixed
      */
-    public function get(string $key, $overrideExisting = false)
+    public function get(string $key, $fallback = false)
     {
         if ($this->isSessionActive() == false || isset($this->session[$key]) == false) {
             return $fallback;

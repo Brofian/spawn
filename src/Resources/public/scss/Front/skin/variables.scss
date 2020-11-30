@@ -1,8 +1,11 @@
 
 //font
 $base-font-size: 18px;
-$base-font-family: Calibri, 'sans-serif';
-
+$base-font-family: Calibri, Arial, 'sans-serif';
+$font-weight-light: 300;
+$font-weight-normal: 500;
+$font-weight-bold: 700;
+$font-weight-bolder: 900;
 
 //colors
 $color-base: #E0E2DB;
@@ -10,7 +13,13 @@ $color-base-shadow: #B2B4A8;
 $color-primary: #8B2635;
 $color-secondary: #2E3532;
 
+$white: #ffffff;
+$black: #000000;
 
+
+//contents
+$max-content-width: 1400px;
+$min-content-outer-margin: 20px;
 
 //breakpoints
 $bp-min: 300px;

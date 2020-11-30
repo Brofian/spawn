@@ -91,6 +91,7 @@ class TwigHelper
             return $this->customoutput;
         }
 
+
         /** @var Environment $twig */
         $twig = $this->twig;
         return $twig->render($this->targetFile, $this->variables);

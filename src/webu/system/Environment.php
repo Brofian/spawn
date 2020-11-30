@@ -39,6 +39,7 @@ class Environment
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
 
+
         $this->request->loadController(
             $this->request->getRequestController(),
             $this->request->getRequestActionPath(),
