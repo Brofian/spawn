@@ -6,14 +6,14 @@ use webu\system\Core\Base\Controller\Controller;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
-class Index extends Controller {
+class Api extends Controller {
 
     /**
      * @inheritDoc
      */
     public static function getControllerAlias(): string
     {
-        return 'index';
+        return 'api';
     }
 
     /**

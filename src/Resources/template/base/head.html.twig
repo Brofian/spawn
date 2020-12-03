@@ -3,10 +3,18 @@
     {% block head_other %}
         <link rel="icon" type="image/png" href="favicon.png">
         <title>{% block title %}Webu Creator{% endblock %}</title>
+
+        <meta charset="utf-8"/>
+        <meta name="description" content="Diese Meta-Tags sollten Sie kennen! Mit HTML-Meta-Tags werden Informationen für Browser und Suchmaschinen codiert. Doch welche Angaben sind wirklich wichtig?"/>
+
+        <meta name="author" content="Fabian Holzwarth" />
+        <meta name="copyright" content="Fabian Holzwarth" />
+
+        <meta name="theme-color" content="#ff0000" />
     {% endblock %}
 
     {% block head_css %}
-        <link rel="stylesheet" href="/var/cache/css/all.min.css" />
+        <link rel="stylesheet" href="{{ link("/var/cache/css/all.min.css") }}" />
     {% endblock %}
 
     {% block head_javascript %}

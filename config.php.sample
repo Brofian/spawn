@@ -24,3 +24,11 @@ define('DB_PORT', 		'3306');
 define('DEFAULTCONTROLLER', 'Main');
 define('NOTFOUNDCONTROLLER', '404');
 define('ERRORCONTROLLER', '505');
+
+//Global Brand Colors
+define('BRAND_COLORS', [
+    'color-base' => '#E0E2DB',
+    'color-base-shadow' => '#B2B4A8',
+    'color-primary' => '#8B2635',
+    'color-secondary' => '#2E3532',
+]);

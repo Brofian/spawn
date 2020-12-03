@@ -46,8 +46,7 @@ class Environment
             $this
         );
 
-
-        $this->response->finish($this->request->getContext()->getContext());
+        $this->response->finish($this->request->getContext());
     }
 
 
@@ -77,4 +76,7 @@ class Environment
     }
 
 
+    public function finish() {
+        return $this->response->getHtml();
+    }
 }

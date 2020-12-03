@@ -25,29 +25,26 @@ class Response
 
     public function __construct()
     {
-        $this->loadTwig();
-        $this->loadScss();
-    }
-
-    public function loadTwig() {
         $this->twigHelper = new TwigHelper();
-    }
-
-    public function loadScss() {
         $this->scssHelper = new ScssHelper();
     }
 
 
-    public function finish($context) {
+
+    /**
+     * @param Context $context
+     * @return void
+     */
+    public function finish(Context $context) {
 
         /* Render Scss */
-        $this->scssHelper->createCss();
+        $this->scssHelper->createCss($context->getBackendContext());
 
         /* Render twig */
-        $this->getTwigHelper()->assign('context', $context);
+        $this->getTwigHelper()->assign('context', $context->getContext());
         $pageHtml = $this->getTwigHelper()->finish();
 
-        echo $pageHtml;
+        $this->html = $pageHtml;
     }
 
 

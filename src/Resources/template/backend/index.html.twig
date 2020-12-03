@@ -1,1 +1,50 @@
-Hallo wlet
+{% block master_block %}
+    <!DOCTYPE html>
+    <html lang="de">
+
+    {% block head %}
+        <head>
+            {% block head_content %}
+                <title>Webu Backend</title>
+                <link rel="icon" type="image/png" href="favicon.png">
+
+                <meta name="robots" content="noindex,nofollow" />
+                <meta charset="utf-8"/>
+
+                <meta name="author" content="Fabian Holzwarth" />
+                <meta name="copyright" content="Fabian Holzwarth" />
+
+
+                {% block head_content_css %}
+                    <link rel="stylesheet" href="{{ link("/var/cache/css/backend/all.min.css") }}" />
+                {% endblock %}
+            {% endblock %}
+        </head>
+    {% endblock %}
+
+    {% block body %}
+        <body class="is--ctr-{{ controller }} is--act-{{ action }}">
+
+        {% if action == 'login' %}
+            {% include "backend/login/login.html.twig" %}
+        {% else %}
+            Hallö Wölt
+        {% endif %}
+
+
+
+
+
+
+
+
+
+
+        </body>
+    {% endblock %}
+
+    </html>
+{% endblock %}
+
+
+

@@ -11,6 +11,7 @@ use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Extensions\LinkExtension;
 
 class TwigHelper
 {
@@ -61,13 +62,15 @@ class TwigHelper
      */
     private function loadTwig() {
 
-//        $this->templateDirs = array_reverse($this->templateDirs);
 
         $loader = new FilesystemLoader($this->templateDirs);
         $twig = new Environment($loader, [
             'debug' => (MODE == "dev"),
             'cache' => $this->cacheFolderPath,
         ]); //<- Twig environment
+
+        //Adding Extension
+        $twig->addExtension(new LinkExtension(MAIN_ADDRESS_FULL));
         $twig->addExtension(new DebugExtension());
 
         if(is_object($twig) == false) {

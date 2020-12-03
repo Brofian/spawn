@@ -17,11 +17,11 @@ abstract class Controller implements ControllerInterface
         $this->twig = $response->getTwigHelper();
         $this->twig->assign('controller', $this->getControllerAlias());
         $this->twig->assign('action', $request->getRequestActionPath());
-        $this->onControllerStart();
+        $this->onControllerStart($request, $response);
     }
 
     public function end(Request $request, Response $response) {
-        $this->onControllerStop();
+        $this->onControllerStop($request, $response);
     }
 
 

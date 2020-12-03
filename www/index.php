@@ -6,6 +6,8 @@
     //load system environment
     $environment = new \webu\system\Environment();
 
+    echo $environment->finish();
+
 
 ?>
 

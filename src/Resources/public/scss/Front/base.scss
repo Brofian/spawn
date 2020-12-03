@@ -1,0 +1,11 @@
+//has to be first
+@import "../Back/skin/variables";
+@import "skin/functions";
+@import "skin/mixins";
+
+//free classes
+
+@import "index/index";
+@import "index/header";
+@import "index/text";
+@import "index/content";

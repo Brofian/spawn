@@ -1,0 +1,20 @@
+* {
+  font-family: $base-font-family;
+  font-weight: $font-weight-normal;
+  color: $secondary;
+  box-sizing: border-box;
+}
+
+html {
+  background: $white;
+  font-size: $base-font-size;
+}
+
+:root {
+  font-size: $base-font-size;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}

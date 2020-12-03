@@ -1,0 +1,16 @@
+input.webu-input-text {
+  font-size: inherit;
+  padding: 5px;
+  margin-top: 1em; //space for the label
+  position: relative;
+
+  &:before {
+    content: attr(data-label);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+  }
+
+
+}

@@ -1,6 +1,6 @@
 {% block master_block %}
     <!DOCTYPE html>
-    <html>
+    <html lang="de">
 
     {% block head %}
         <head>
@@ -9,7 +9,7 @@
     {% endblock %}
 
     {% block body %}
-        <body>
+        <body class="is--ctr-{{ controller }} is--act-{{ action }}">
 
         {% block header %}
             {% include "base/header.html.twig" %}
@@ -18,7 +18,7 @@
         {% block content %}
             <div id="content">
                 {% block page_wrap %}
-                    {% include "base/content.html.twig" %}
+                    {{ controller }}
                 {% endblock %}
             </div>
         {% endblock %}

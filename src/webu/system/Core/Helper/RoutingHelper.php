@@ -41,9 +41,6 @@ class RoutingHelper
             return $this->routing;
         }
 
-
-
-
         //check the routes, set inside of a module
         if($this->checkControllerRoutes($controller, $action)) {
             return $this->routing;
