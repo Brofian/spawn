@@ -8,9 +8,9 @@ class FileEditor
 
     public static function createFolder($path)
     {
-        if (!is_dir(dirname($path))) {
+        if (!is_dir($path)) {
             try {
-                mkdir(dirname($path));
+                mkdir($path);
                 return true;
             } catch (\Exception $e) {
                 return false;
@@ -48,13 +48,26 @@ class FileEditor
     public static function insert($path, $data)
     {
         self::createFolder(dirname($path));
-        file_put_contents($path, $data);
+        try {
+            file_put_contents($path, $data);
+            return true;
+        }
+        catch(\Exception $e) {
+            return false;
+        }
     }
 
     public static function append($path, $data)
     {
         self::createFolder(dirname($path));
-        file_put_contents($path, $data);
+        try {
+            file_put_contents($path, $data, FILE_APPEND);
+            return true;
+        }
+        catch(\Exception $e) {
+            return false;
+        }
+
     }
 
 

@@ -5,6 +5,7 @@ namespace webu\system\Core\Database;
 use webu\system\Core\Base\Database\DatabaseTable;
 use webu\system\Core\Base\Database\DatabaseColumn;
 use webu\system\Core\Base\Database\Storage\DatabaseType;
+use webu\system\Core\Base\Helper\DatabaseHelper;
 
 class DebugTable extends DatabaseTable
 {
@@ -37,5 +38,10 @@ class DebugTable extends DatabaseTable
         //$this->setForeignKey('value', 'testcontent', 'id');
 
         return true;
+    }
+
+    public function afterCreation(DatabaseHelper $dbhelper)
+    {
+        // TODO: Implement afterCreation() method.
     }
 }

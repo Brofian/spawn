@@ -3,6 +3,7 @@
     "twig/twig" : "^3.0",
     "ext-json": "*",
     "ext-pdo": "*",
-    "scssphp/scssphp": "*"
+    "scssphp/scssphp": "^1.4.0",
+    "components/jquery" : "*"
   }
 }

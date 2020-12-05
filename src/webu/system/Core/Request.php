@@ -8,6 +8,7 @@ namespace webu\system\core;
 
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Helper\DatabaseHelper;
+use webu\system\Core\Contents\ContentLoader;
 use webu\system\Core\Contents\Context;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
@@ -172,16 +173,8 @@ class Request
 
     private function fillContext() {
 
-        $this->context->multiSet([
-            'Controller' => $this->requestController,
-            'Action' => $this->requestActionPath,
-            'URI' => $this->requestURI,
-            'URIParams' => $this->requestURIParams,
-            'POST' => $this->post,
-            'GET' => $this->get,
-            'COOKIES' => $this->cookies,
-            'SESSION' => $this->session,
-        ]);
+        $contentLoader = new ContentLoader($this);
+        $contentLoader->init($this->getContext());
 
     }
 
@@ -221,31 +214,41 @@ class Request
         return $this->database;
     }
 
-    /** @return RoutingHelper */
+    /**
+     * @return RoutingHelper
+     */
     public function getRouting() : RoutingHelper
     {
         return $this->routingHelper;
     }
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getRequestController()
     {
         return $this->requestController;
     }
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getRequestActionPath()
     {
         return $this->requestActionPath;
     }
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getRequestURI()
     {
         return $this->requestURI;
     }
 
-    /** @return array */
+    /**
+     * @return array
+     */
     public function getRequestURIParams()
     {
         return $this->requestURIParams;
@@ -256,6 +259,20 @@ class Request
      */
     public function getContext() {
         return $this->context;
+    }
+
+    /**
+     * @param string $name
+     * @param bool $fallback
+     * @return bool|mixed
+     */
+    public function getContextVar(string $name, $fallback = false) {
+        if($name == '' || isset($this->context->getContext()[$name])) {
+            return $this->context->getContext()[$name];
+        }
+        else {
+            return $fallback;
+        }
     }
 
 

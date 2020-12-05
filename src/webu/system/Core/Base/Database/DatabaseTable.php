@@ -8,6 +8,7 @@ use webu\system\Core\Base\Database\Storage\DatabaseAttributes;
 use webu\system\Core\Base\Database\Storage\DatabaseDefaults;
 use webu\system\Core\Base\Database\Storage\DatabaseIndex;
 use webu\system\Core\Base\Database\Storage\DatabaseType;
+use webu\system\Core\Base\Helper\DatabaseHelper;
 
 abstract class DatabaseTable
 {
@@ -46,6 +47,7 @@ abstract class DatabaseTable
         if(in_array($column->getName(), $this->getColumnNames())) {
             return false;
         }
+
         $this->columns[] = $column;
         return true;
     }
@@ -202,5 +204,7 @@ abstract class DatabaseTable
     public function setForeignKey(string $thisColumn, string $foreignTable, string $foreignColumn) {
         $this->foreignKey = 'FOREIGN KEY ('.$thisColumn.') REFERENCES '.$foreignTable.'('.$foreignColumn.') ON DELETE CASCADE';
     }
+
+    public abstract function afterCreation(DatabaseHelper $dbhelper);
 
 }

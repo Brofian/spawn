@@ -89,7 +89,7 @@ class ScssHelper {
 
         /** @var FileEditor $fileWriter */
         $fileWriter = new FileEditor();
-        $fileWriter->createFolder($this->cacheFilePath);
+        $fileWriter->createFolder(dirname($this->cacheFilePath));
         $fileWriter->createFile($this->cacheFilePath, $css);
         $fileWriter->createFile($this->cacheFileMiniPath, $cssMinified);
     }

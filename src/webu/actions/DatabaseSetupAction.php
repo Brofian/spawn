@@ -2,20 +2,17 @@
 
 namespace webu\actions;
 
-use webu\cache\database\table\debug_test;
-use webu\cache\database\table\DebugTest;
-use webu\cache\database\table\DebugTestTable;
 use webu\system\Core\Base\Controller\ApiController;
 use webu\system\Core\Base\Custom\FileCrawler;
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Base\Database\DatabaseTable;
-use webu\system\Core\Base\Database\Query\QueryBuilder;
 use webu\system\Core\Base\Helper\DatabaseHelper;
-use webu\system\Core\Custom\Debugger;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
 class DatabaseSetupAction extends ApiController {
+
+    const structureFileNamespace = "webu\\cache\\database\\table";
 
     public function run(Request $request, Response $response)
     {
@@ -69,6 +66,8 @@ class DatabaseSetupAction extends ApiController {
             $sql = $c->getTableCreationSQL(DB_DATABASE);
             $dbhelper->query($sql);
 
+            $c->afterCreation($dbhelper);
+
             $counter++;
         }
 
@@ -80,6 +79,7 @@ class DatabaseSetupAction extends ApiController {
         /**
          * Start of test
          */
+        /*
         $conn = $request->getDatabase()->getConnection();
         $query = new QueryBuilder($conn);
 
@@ -107,6 +107,7 @@ class DatabaseSetupAction extends ApiController {
                 ->execute();
 
         Debugger::dump($erg);
+        */
         /**
          * End of Test
          */
@@ -133,7 +134,7 @@ class DatabaseSetupAction extends ApiController {
             $filecontent =
 "<?php
 
-namespace webu\\cache\\database\\table;
+namespace ".self::structureFileNamespace.";
 
 class ".toClassnameFormat($tablename)." {
     
@@ -157,4 +158,13 @@ class ".toClassnameFormat($tablename)." {
     }
 
 
+    public function onControllerStart(Request $request, Response $response)
+    {
+        // TODO: Implement onControllerStart() method.
+    }
+
+    public function onControllerStop(Request $request, Response $response)
+    {
+        // TODO: Implement onControllerStop() method.
+    }
 }

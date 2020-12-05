@@ -2,6 +2,9 @@
 
 namespace webu\system\Core\Base\Controller;
 
+use webu\system\core\Request;
+use webu\system\core\Response;
+
 class ApiController extends Controller {
 
 
@@ -23,5 +26,15 @@ class ApiController extends Controller {
         return [
             '' => 'run'
         ];
+    }
+
+    public function onControllerStart(Request $request, Response $response)
+    {
+        // TODO: Implement onControllerStart() method.
+    }
+
+    public function onControllerStop(Request $request, Response $response)
+    {
+        // TODO: Implement onControllerStop() method.
     }
 }

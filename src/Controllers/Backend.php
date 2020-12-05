@@ -38,7 +38,7 @@ class Backend extends Controller {
 
     public function index(Request $request, Response $response) {
         //if user is not logged in, redirect to the loading page
-        if($request->getParamSession()->get('isUserLoggedIn', 'false')) {
+        if($request->getParamSession()->get('webu_user_logged_in', false) == false) {
             $this->login($request, $response);
         }
 
@@ -48,11 +48,16 @@ class Backend extends Controller {
     public function login(Request $request, Response $response) {
         //this page can be called from other functions, so reset the action to login
         $response->getTwigHelper()->assign('action', 'login');
-    }
 
 
-    public function debug(Request $request, Response $response) {
 
     }
+
+
+
+
+
+
+
 
 }
