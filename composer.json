@@ -4,6 +4,6 @@
     "ext-json": "*",
     "ext-pdo": "*",
     "scssphp/scssphp": "^1.4.0",
-    "components/jquery" : "*"
+    "components/jquery" : "^3.5.1"
   }
 }

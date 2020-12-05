@@ -38,7 +38,7 @@ class FileEditor
 
     public static function getFileContent($path)
     {
-        if(!is_file($path)) {
+        if(!file_exists($path) || !is_file($path)) {
             return false;
         }
 

@@ -15,6 +15,8 @@ use webu\system\Core\Custom\Debugger;
  * - &array (the current array of results)
  * - string (the name of the currently selected file)
  * - string (the relative path the currently selected file from the root)
+ *
+ * In this Function, you can save infos with the $array, which is returned afterwards
  */
 class FileCrawler
 {
