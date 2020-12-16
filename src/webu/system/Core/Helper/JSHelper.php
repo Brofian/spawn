@@ -14,7 +14,9 @@ class JSHelper
     /** @var array */
     private $staticScript = [];
     /** @var string */
-    private $cacheFile = ROOT . '/var/cache/js/all.js';
+    private $cacheDir = ROOT . '/var/cache/js';
+    /** @var string */
+    private $cacheFile = '/all.js';
     /** @var bool */
     private $alwaysReload = false;
 
@@ -62,8 +64,12 @@ class JSHelper
 
         foreach ($this->scriptFolders as $folder) {
             $contents = $this->gatherFilesFromFolder($folder);
-            foreach ($contents as $content) {
+            foreach ($contents['contents'] as $content) {
                 $js .= $content;
+            }
+
+            foreach($contents['files'] as $relPath => $fileContent) {
+                FileEditor::createFile($this->cacheDir . $relPath, $fileContent);
             }
         }
 
@@ -78,15 +84,18 @@ class JSHelper
     {
         $fileCrawler = new FileCrawler();
         $infos = $fileCrawler->searchInfos($folder,
-            function ($content, &$currentResults, $filename, $currentFilePath) {
+            function ($content, &$currentResults, $filename, $currentFilePath, $relativeFilepath) {
                 $pathinfo = pathinfo($filename);
-                if ($pathinfo['extension'] == 'js' || $pathinfo['extension'] == 'plugin.js') {
+                if ($pathinfo['basename'] == 'main.js') {
                     $text = $content . PHP_EOL;
                     if(MODE == 'dev') {
                         $text = '//From File: ' . $filename . PHP_EOL . $text;
                     }
 
-                    $currentResults[] = $text;
+                    $currentResults['contents'][] = $text;
+                }
+                else {
+                    $currentResults['files'][$relativeFilepath . $filename] = $content;
                 }
             }
         );
@@ -100,7 +109,7 @@ class JSHelper
      */
     private function createCacheFile(string $content)
     {
-        FileEditor::insert($this->cacheFile, $content);
+        FileEditor::insert($this->cacheDir . $this->cacheFile, $content);
     }
 
     /**
@@ -108,8 +117,9 @@ class JSHelper
      */
     private function cacheExists(): bool
     {
-        return file_exists($this->cacheFile);
+        return file_exists($this->cacheDir . $this->cacheFile);
     }
+
 
 
 }

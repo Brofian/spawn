@@ -14,7 +14,8 @@ use webu\system\Core\Custom\Debugger;
  * - string (the content of the file)
  * - &array (the current array of results)
  * - string (the name of the currently selected file)
- * - string (the relative path the currently selected file from the root)
+ * - string (the relative path of the currently selected file from the root)
+ * - string (the relative path of the current file from the starting directory)
  *
  * In this Function, you can save infos with the $array, which is returned afterwards
  */
@@ -54,7 +55,7 @@ class FileCrawler
      * @param array $classes
      * @return array
      */
-    private function scanDirs(string $current, array &$ergs, int $depth = 0): array
+    private function scanDirs(string $current, array &$ergs, int $depth = 0, string $relativePath = '/'): array
     {
         $currentContents = scandir($current);
 
@@ -75,11 +76,11 @@ class FileCrawler
                 $fileContent = file_get_contents($path);
 
                 $function = $this->checkFunction;
-                $function($fileContent, $ergs, $content, $path);
+                $function($fileContent, $ergs, $content, $path, $relativePath);
 
             } else if (is_dir($path) && $depth < $this->maxDepth) {
                 //if class is another dir, scan it
-                $this->scanDirs($path, $ergs, $depth + 1);
+                $this->scanDirs($path, $ergs, $depth + 1, $relativePath . $content . '/');
 
             }
 

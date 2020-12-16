@@ -72,7 +72,7 @@ class Autoloader
         $crawler = new FileCrawler();
         $data = $crawler->searchInfos(
             ROOT . "/src",
-            function ($fileContent, &$ergs, $content, $path) {
+            function ($fileContent, &$ergs, $content, $path, $relativePath) {
                 $namespaceMatches = array();
                 preg_match('/namespace (.*);/m', $fileContent, $namespaceMatches);
 

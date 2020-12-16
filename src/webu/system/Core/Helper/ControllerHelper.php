@@ -54,7 +54,7 @@ class ControllerHelper
         $filecrawler = new FileCrawler();
         $ergs = $filecrawler->searchInfos(
             $controllerDir,
-            function($fileContent, &$ergs, $filename, $path) {
+            function($fileContent, &$ergs, $filename, $path, $relativePath) {
 
                 $regex = '/class (.*) extends Controller/m';
                 preg_match($regex, $fileContent, $matches);

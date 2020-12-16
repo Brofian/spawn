@@ -16,7 +16,7 @@ class DatabaseSetupAction extends ApiController {
 
     public function run(Request $request, Response $response)
     {
-        $systemDBDir = ROOT . "\\src\\webu\\system\\Core\\Database";
+        $systemDBDir = ROOT . "\\src\\webu\\_system\\Core\\Database";
 
         $dbhelper = new DatabaseHelper();
         $filecrawler = new FileCrawler();
@@ -25,7 +25,7 @@ class DatabaseSetupAction extends ApiController {
         // Search all databaseTable classes in the core/Database Directory
         $ergs = $filecrawler->searchInfos(
             $systemDBDir,
-            function($fileContent, &$ergs, $filename, $path) {
+            function($fileContent, &$ergs, $filename, $path, $relativePath) {
 
                 $regex = '/class (.*) extends DatabaseTable/m';
                 preg_match($regex, $fileContent, $matches);
@@ -114,7 +114,7 @@ class DatabaseSetupAction extends ApiController {
 
 
         /** @var $response Response */
-        $response->getTwigHelper()->setOutput("Created ".$counter." system-tables!"); ;
+        $response->getTwigHelper()->setOutput("Created ".$counter." _system-tables!"); ;
     }
 
 
