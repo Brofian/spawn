@@ -1,15 +1,10 @@
-import Plugin from 'src/plugin-system/plugin.class';
+class TestPlugin extends PluginBase {
 
-export default class AddToCartPlugin extends Plugin {
-
-    static options = {
-        test: 'test',
-    };
 
     init() {
-
+        console.log("Test Plugin Init");
     }
 
-}
 
-console.log("Test Plugin");
+}
+Pluginmanager.registerPlugin("webu/testplugin", TestPlugin, "[data-backend]");

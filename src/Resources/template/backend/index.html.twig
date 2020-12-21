@@ -1,6 +1,6 @@
 {% block master_block %}
     <!DOCTYPE html>
-    <html lang="de">
+    <html lang="de" data-backend>
 
     {% block head %}
         <head>
@@ -18,6 +18,11 @@
                 {% block head_content_css %}
                     <link rel="stylesheet" href="{{ link("/var/cache/css/backend/all.min.css") }}" />
                 {% endblock %}
+
+                {% block head_javascript %}
+                    <script type="text/javascript" src="{{ link("/var/cache/js/all.js") }}"></script>
+                {% endblock %}
+
             {% endblock %}
         </head>
     {% endblock %}

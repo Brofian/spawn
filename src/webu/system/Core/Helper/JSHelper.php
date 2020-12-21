@@ -60,20 +60,26 @@ class JSHelper
     private function unify(): string
     {
 
-        $js = join(PHP_EOL, $this->staticScript);
+        $system_js = "";
+        $custom_js = join(PHP_EOL, $this->staticScript);
 
         foreach ($this->scriptFolders as $folder) {
             $contents = $this->gatherFilesFromFolder($folder);
-            foreach ($contents['contents'] as $content) {
-                $js .= $content;
+
+            if(isset($contents["system"])) {
+                foreach ($contents['system'] as $content) {
+                    $system_js .= $content;
+                }
             }
 
-            foreach($contents['files'] as $relPath => $fileContent) {
-                FileEditor::createFile($this->cacheDir . $relPath, $fileContent);
+            if(isset($contents["contents"])) {
+                foreach ($contents['contents'] as $content) {
+                    $custom_js .= $content;
+                }
             }
         }
 
-        return $js;
+        return $system_js . $custom_js;
     }
 
     /**
@@ -86,16 +92,18 @@ class JSHelper
         $infos = $fileCrawler->searchInfos($folder,
             function ($content, &$currentResults, $filename, $currentFilePath, $relativeFilepath) {
                 $pathinfo = pathinfo($filename);
-                if ($pathinfo['basename'] == 'main.js') {
+                if ($pathinfo['extension'] == 'js') {
                     $text = $content . PHP_EOL;
                     if(MODE == 'dev') {
                         $text = '//From File: ' . $filename . PHP_EOL . $text;
                     }
 
-                    $currentResults['contents'][] = $text;
-                }
-                else {
-                    $currentResults['files'][$relativeFilepath . $filename] = $content;
+                    if(strpos($relativeFilepath, "/system/") === 0) {
+                        $currentResults['system'][] = $text;
+                    }
+                    else {
+                        $currentResults['contents'][] = $text;
+                    }
                 }
             }
         );
