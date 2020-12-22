@@ -10,6 +10,7 @@ use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Contents\ContentLoader;
 use webu\system\Core\Contents\Context;
+use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\RoutingHelper;
@@ -105,8 +106,14 @@ class Request
     {
         $requestURI = $_SERVER['REQUEST_URI'];
         $getSeperator = strrpos($requestURI, '?');
-        if ($getSeperator == false) $this->requestURI = trim($requestURI, "/");
-        else                        $this->requestURI = trim(substr($requestURI, 0, $getSeperator - 1), "/");
+
+        if ($getSeperator === false) {
+            $this->requestURI = trim($requestURI, "/");
+        }
+        else {
+            $this->requestURI = trim(substr($requestURI, 0, $getSeperator), "/");
+        }
+
     }
 
     private function setBaseURI()

@@ -1,16 +1,22 @@
 class PluginBase extends BaseClass {
 
+    /** @var {HTMLElement} _element*/
+    _element = null;
+    $_element = null;
+    _namespace = "";
+    _pluginName = "";
 
     /**
      * @param {HTMLElement} element
+     * @param  $element
      * @param {string} namespace
-     * @param {string} pluginName
      * @private
      */
-    constructor(element, namespace) {
+    constructor(element, $element, namespace) {
         super();
 
         this._element = element;
+        this.$_element = $element;
         this._namespace = namespace;
         this._pluginName = this.constructor.name;
     }

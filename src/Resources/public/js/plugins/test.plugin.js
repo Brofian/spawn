@@ -2,9 +2,13 @@ class TestPlugin extends PluginBase {
 
 
     init() {
-        console.log("Test Plugin Init");
+        Eventmanager.subscribeEvent("webu/system/scroll", "/webu/testplugin", this.onscroll.bind(this));
+    }
+
+    onscroll() {
+        //console.log("hello world");
     }
 
 
 }
-Pluginmanager.registerPlugin("webu/testplugin", TestPlugin, "[data-backend]");
+Pluginmanager.registerPlugin("webu/testplugin", TestPlugin);

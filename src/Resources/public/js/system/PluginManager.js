@@ -8,7 +8,6 @@ class PluginManager extends BaseClass {
     init() {
         var me = this;
 
-
         document.addEventListener(
             "DOMContentLoaded",
             me.linkPlugins.bind(me),
@@ -71,20 +70,15 @@ class PluginManager extends BaseClass {
         var me = this;
 
         var elements = [];
-
-        if(binding === "") {
-            elements = document.querySelectorAll("html");
-        }
-        else {
-            elements = document.querySelectorAll(binding);
-        }
-
+        if(binding === "")  elements = document.querySelectorAll("html");
+        else                elements = document.querySelectorAll(binding);
 
 
         for(var element of elements) {
 
             var cls = new pluginClass(
                 element,
+                jQuery(element),
                 namespace
             );
             cls.init();

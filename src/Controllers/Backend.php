@@ -3,6 +3,7 @@
 namespace modules\Main\Controllers;
 
 use webu\system\Core\Base\Controller\Controller;
+use webu\system\Core\Custom\Debugger;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -24,6 +25,7 @@ class Backend extends Controller {
         return [
             '' => 'index',
             'login' => 'login',
+            'loginapi' => 'loginApi',
             'debug' => 'debug'
         ];
     }
@@ -50,11 +52,19 @@ class Backend extends Controller {
         $response->getTwigHelper()->assign('action', 'login');
 
 
-
     }
 
 
 
+    public function loginApi(Request $request, Response $response) {
+
+        $parameter = $request->getParamGet();
+
+        //TODO: check login information with db and return true or false
+        $output = $parameter["username"] . " logged in with " . $parameter["password"];
+
+        $response->getTwigHelper()->setOutput(json_encode($output));
+    }
 
 
 
