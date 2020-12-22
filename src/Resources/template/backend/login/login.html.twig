@@ -3,19 +3,21 @@
     {% block login_container %}
         <div class="login-container">
 
-            <form data-backend-login-form>
+            <form class="login-container-form" data-backend-login-form>
 
                 <input type="text"
                        name="username"
                        id="login-username"
                        data-label="Benutzername"
-                       class="webu-input-text">
+                       class="webu-input-text"
+                       required >
 
                 <input type="text"
                        name="password"
                        id="login-password"
                        data-label="Passwort"
-                       class="webu-input-text">
+                       class="webu-input-text"
+                       required >
 
                 <input type="submit" class="webu-input-submit">
             </form>

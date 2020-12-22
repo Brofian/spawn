@@ -59,9 +59,20 @@ class Backend extends Controller {
     public function loginApi(Request $request, Response $response) {
 
         $parameter = $request->getParamGet();
+        //$parameter["username"]
+        //$parameter["password"]
+
 
         //TODO: check login information with db and return true or false
-        $output = $parameter["username"] . " logged in with " . $parameter["password"];
+        $output = false;
+
+
+
+
+
+        if($output) {
+            $request->getParamSession()->set("webu_user_logged_in", true);
+        }
 
         $response->getTwigHelper()->setOutput(json_encode($output));
     }
