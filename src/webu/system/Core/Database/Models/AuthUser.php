@@ -4,6 +4,7 @@ namespace webu\system\Core\Database\Models;
 
 use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Database\DatabaseModel;
+use webu\system\Core\Custom\Debugger;
 
 
 class AuthUser extends DatabaseModel {
@@ -15,6 +16,7 @@ class AuthUser extends DatabaseModel {
      * @return bool|mixed
      */
     public function tryLogin(string $username, string $password) {
+
         $dbEntry = $this->findByUsername($username);
 
         if($dbEntry) {
@@ -53,7 +55,7 @@ class AuthUser extends DatabaseModel {
 
     /**
      * @param string $username
-     * @return array
+     * @return bool|array
      */
     public function findByUsername(string $username) {
         $stmt = $this->queryBuilder->select("*");
@@ -62,7 +64,13 @@ class AuthUser extends DatabaseModel {
             ->where(WebuAuth::COL_USERNAME, $username)
             ->limit(1);
 
-        return $stmt->execute();;
+        $result = $stmt->execute();
+
+        if(sizeof($result) <= 0) {
+            return false;
+        }
+
+        return $result[0];
     }
 
 

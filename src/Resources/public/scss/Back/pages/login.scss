@@ -1,4 +1,4 @@
-.is--ctr-backend.is--act-login {
+body.is--ctr-backend.is--act-login {
     height: 100%;
     width: 100%;
 
@@ -6,7 +6,7 @@
     justify-content: center;
     align-items: center;
 
-    background: linear-gradient(lighten($primary, 30%),lighten($primary, 20%));
+    background: $secondary;
     z-index: -2;
     position: relative;
 }
@@ -16,7 +16,12 @@
 
     width: 400px;
     height: 75%;
-    background: $primary;
+
+    background: linear-gradient(
+        lighten($primary, 5%),
+        lighten($primary, 0%)
+    );
+
     border-radius: 25px;
     padding: 25px;
     position: relative;
@@ -32,7 +37,13 @@
         position: absolute;
         top: 10px;
         left: 10px;
-        background: darken($primary, 10%);
+
+        $tempBasePrimary: darken($primary, 10%);
+        background: linear-gradient(
+                        lighten($tempBasePrimary, 5%),
+                        lighten($tempBasePrimary, 0%)
+        );
+
         border-radius: 25px;
         z-index: -1;
     }

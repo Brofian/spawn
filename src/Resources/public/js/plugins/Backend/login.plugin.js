@@ -33,6 +33,16 @@ class BackendLoginPlugin extends PluginBase {
 
 
     onAjaxResult(result) {
+        if(result) {
+            var reloadElement = document.createElement("meta");
+            reloadElement.httpEquiv = "refresh";
+            reloadElement.content = "0";
+            document.querySelector("head").appendChild(reloadElement);
+        }
+        else {
+
+        }
+
         //let res = JSON.parse(result);
         console.log("Execute on Ajax Request: " + result);
     }

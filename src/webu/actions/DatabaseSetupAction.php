@@ -13,10 +13,13 @@ use webu\system\core\Response;
 class DatabaseSetupAction extends ApiController {
 
     const structureFileNamespace = "webu\\cache\\database\\table";
+    private $cacheDirectory = ROOT . '\\src\\webu\\system\\Core\\Database\\generated\\';
+
+
 
     public function run(Request $request, Response $response)
     {
-        $systemDBDir = ROOT . "\\src\\webu\\_system\\Core\\Database";
+        $systemDBDir = ROOT . "\\src\\webu\\system\\Core\\Database";
 
         $dbhelper = new DatabaseHelper();
         $filecrawler = new FileCrawler();
@@ -114,7 +117,7 @@ class DatabaseSetupAction extends ApiController {
 
 
         /** @var $response Response */
-        $response->getTwigHelper()->setOutput("Created ".$counter." _system-tables!"); ;
+        $response->getTwigHelper()->setOutput("Created ".$counter." system-tables!"); ;
     }
 
 
@@ -124,7 +127,7 @@ class DatabaseSetupAction extends ApiController {
      */
     private function createDatabaseStructures(array $tables) {
 
-        $folderName = ROOT . '\\var\\generated\\database\\';
+        $folderName = $this->cacheDirectory;
 
         /** @var DatabaseTable $table */
         foreach($tables as $table) {

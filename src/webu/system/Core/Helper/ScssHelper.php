@@ -5,6 +5,7 @@ namespace webu\system\Core\Helper;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\CompilerException;
 use webu\system\Core\Base\Custom\FileEditor;
+use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Extensions\Scss\scss_functions;
 
 
@@ -53,7 +54,12 @@ class ScssHelper {
             ');
         } catch (CompilerException $e) {
             $css = "";
+
+            if(MODE == 'dev') {
+                Debugger::ddump($e);
+            }
         }
+
 
         return $css;
     }

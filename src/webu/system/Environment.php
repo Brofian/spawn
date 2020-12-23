@@ -7,7 +7,7 @@ use webu\system\core\Request;
 use webu\system\core\Response;
 
 /*
- * The Main Environment to handle the _system
+ * The Main Environment to handle the system
  */
 
 class Environment

@@ -36,7 +36,7 @@ class RoutingHelper
             return $this->routing;
         }
 
-        //check _system routes, set in the config.php (404,505, etc.) and default api controllers
+        //check system routes, set in the config.php (404,505, etc.) and default api controllers
         if($this->checkSystemRoutes($controller . ':' . $action)) {
             return $this->routing;
         }

@@ -2,8 +2,11 @@
 
 namespace modules\Main\Controllers;
 
+use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Controller\Controller;
+use webu\system\Core\Base\Database\Query\QueryBuilder;
 use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Database\Models\AuthUser;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -26,6 +29,7 @@ class Backend extends Controller {
             '' => 'index',
             'login' => 'login',
             'loginapi' => 'loginApi',
+            'logout' => 'logout',
             'debug' => 'debug'
         ];
     }
@@ -59,24 +63,34 @@ class Backend extends Controller {
     public function loginApi(Request $request, Response $response) {
 
         $parameter = $request->getParamGet();
-        //$parameter["username"]
-        //$parameter["password"]
-
-
-        //TODO: check login information with db and return true or false
         $output = false;
 
 
-
+        $authUserModel = new AuthUser($request->getDatabase()->getConnection());
+        $userInfo = $authUserModel->tryLogin($parameter["username"], $parameter["password"]);
+        $output = !!$userInfo;
 
 
         if($output) {
+            //set session values
             $request->getParamSession()->set("webu_user_logged_in", true);
         }
+
+
 
         $response->getTwigHelper()->setOutput(json_encode($output));
     }
 
+    public function logout(Request $request, Response $response) {
+        $request->getParamSession()->set("webu_user_logged_in", false);
+        $response->getTwigHelper()->setOutput("
+            <html>
+                <head>
+                    <script>window.location.replace('/backend/login')</script> 
+                </head>
+            </html>
+        ");
+    }
 
 
 

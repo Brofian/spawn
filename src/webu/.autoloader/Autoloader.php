@@ -72,7 +72,12 @@ class Autoloader
         $crawler = new FileCrawler();
         $data = $crawler->searchInfos(
             ROOT . "/src",
-            function ($fileContent, &$ergs, $content, $path, $relativePath) {
+            function ($fileContent, &$ergs, $filename, $path, $relativePath) {
+                $pathInfo = pathinfo($filename);
+                if (isset($pathInfo['extension']) && $pathInfo['extension'] != 'php') {
+                    return;
+                }
+
                 $namespaceMatches = array();
                 preg_match('/namespace (.*);/m', $fileContent, $namespaceMatches);
 
@@ -80,7 +85,7 @@ class Autoloader
                     //get the namespace
                     $namespace = $namespaceMatches[1];
                     //append the classname to the namespace
-                    $namespace .= "\\" . substr($content, 0, strrpos($content, '.'));
+                    $namespace .= "\\" . substr($filename, 0, strrpos($filename, '.'));
 
                     //save in the classes array
                     $ergs[$namespace] = $path;

@@ -22,7 +22,7 @@ class Debugger
     }
 
 
-    //dumps the variable and continue _system execution
+    //dumps the variable and continue execution
     public static function dump($var)
     {
         echo self::writeBacktrace($var, debug_backtrace());

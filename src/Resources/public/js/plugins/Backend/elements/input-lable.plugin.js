@@ -13,6 +13,7 @@ class InputLabelPlugin extends PluginBase {
         var element = this._element;
 
         element.style.paddingTop = "1em";
+        element.style.paddingBottom = "1em";
         var parent = element.parentNode;
 
         var wrapper = document.createElement('div');
