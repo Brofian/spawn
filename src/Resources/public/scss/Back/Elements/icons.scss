@@ -1,0 +1,46 @@
+.icon {
+	width: 1em;
+	height: 1em;
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-size: contain;
+	align-self: center;
+
+	&-simple-arrow {
+		&-down {
+			background-image: url("#{$base-asset-path}/Backend/icons/simple-arrow-down.svg");
+		}
+		&-left {
+			background-image: url("#{$base-asset-path}/Backend/icons/simple-arrow-down.svg");
+			transform: rotate(90deg);
+		}
+		&-up {
+			background-image: url("#{$base-asset-path}/Backend/icons/simple-arrow-down.svg");
+			transform: rotate(180deg);
+		}
+		&-right {
+			background-image: url("#{$base-asset-path}/Backend/icons/simple-arrow-down.svg");
+			transform: rotate(270deg);
+		}
+
+
+	}
+
+	&-home {
+		background-image: url("#{$base-asset-path}/Backend/icons/home.svg");
+	}
+
+
+
+
+
+
+
+	&.light {
+		filter: brightness(10);
+	}
+	&.dark {
+		filter: brightness(0);
+	}
+
+}

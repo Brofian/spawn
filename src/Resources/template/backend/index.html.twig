@@ -33,16 +33,20 @@
         {% if action == 'login' %}
             {% include "backend/login/login.html.twig" %}
         {% else %}
-            Hallö Wölt
+
+            <div class="sidebar-container" data-sidebar>
+                {% include "backend/index/sidebar.html.twig" %}
+            </div>
+
+            <div class="content-container">
+
+                {% if action == 'index' %}
+                    {% include "backend/index/content.html.twig" %}
+                {% endif %}
+
+            </div>
+
         {% endif %}
-
-
-
-
-
-
-
-
 
 
         </body>

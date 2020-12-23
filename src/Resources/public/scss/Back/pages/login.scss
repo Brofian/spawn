@@ -55,5 +55,19 @@ body.is--ctr-backend.is--act-login {
         justify-content: space-evenly;
         height: 60%;
         width: 100%;
+
+        &:not(.error) {
+            input[type="text"],
+            input[type="password"] {
+                border: 1px solid transparent;
+            }
+        }
+
+        &.error {
+            input[type="text"],
+            input[type="password"] {
+                border: 1px solid $error;
+            }
+        }
     }
 }

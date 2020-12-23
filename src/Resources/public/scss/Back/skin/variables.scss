@@ -14,8 +14,17 @@ $white: #ffffff;
 $black: #000000;
 
 
+$success: #008c00;
+$warning: #c3c000;
+$error: #bc0000;
+
 //contents
 $base-content-margin: 20px;
+
+
+//paths
+$base-asset-path: "/src/Resources/public/assets";
+
 
 //breakpoints
 $bp-min: 300px;

@@ -2,23 +2,30 @@ class BackendLoginPlugin extends PluginBase {
 
 
     init() {
-        Eventmanager.subscribeEvent("webu/backend/loginSubmitResult", "webu/backend/login", this.onAjaxResult.bind(this));
-        this.addElementEvents();
+        var me = this;
+
+        Eventmanager.subscribeEvent("webu/backend/loginSubmitResult", "webu/backend/login", me.onAjaxResult.bind(me));
+        me.addElementEvents();
     }
 
     addElementEvents() {
-        this.$_element.on("submit", this.submit.bind(this));
+        var me = this;
+
+        me.$_element.on("submit", me.submit.bind(this));
     }
 
 
     submit(event) {
+        var me = this;
 
-        let username = this._element.querySelector("#login-username").value;
-        let password = this._element.querySelector("#login-password").value;
+        event.preventDefault();
+
+        let username = me._element.querySelector("#login-username").value;
+        let password = me._element.querySelector("#login-password").value;
 
 
         jQuery.ajax({
-            url: "backend/loginapi/",
+            url: "/backend/loginapi/",
             data: {
                 username: username,
                 password: password
@@ -28,42 +35,25 @@ class BackendLoginPlugin extends PluginBase {
             }
         });
 
-        event.preventDefault();
     }
 
 
     onAjaxResult(result) {
-        if(result) {
-            var reloadElement = document.createElement("meta");
-            reloadElement.httpEquiv = "refresh";
-            reloadElement.content = "0";
-            document.querySelector("head").appendChild(reloadElement);
+        var me = this;
+
+        result = JSON.parse(result)["success"];
+
+
+        if(result === 1) {
+            window.location.replace("/backend");
         }
         else {
-
+            me._element.classList.add("error");
         }
 
         //let res = JSON.parse(result);
-        console.log("Execute on Ajax Request: " + result);
+        //console.log("Execute on Ajax Request: " + result);
     }
-
-
-    /*
-        <form data-backend-login-form>
-            <input type="text"
-                   name="username"
-                   data-label="Benutzername"
-                   class="webu-input-text">
-
-            <input type="text"
-                   name="password"
-                   data-label="Passwort"
-                   class="webu-input-text">
-
-            <input type="submit" class="webu-input-submit">
-        </form>
-     */
-
 
 }
 Pluginmanager.registerPlugin("webu/backend/login", BackendLoginPlugin, "[data-backend-login-form]");

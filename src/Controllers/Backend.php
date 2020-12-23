@@ -63,12 +63,13 @@ class Backend extends Controller {
     public function loginApi(Request $request, Response $response) {
 
         $parameter = $request->getParamGet();
-        $output = false;
 
 
         $authUserModel = new AuthUser($request->getDatabase()->getConnection());
         $userInfo = $authUserModel->tryLogin($parameter["username"], $parameter["password"]);
-        $output = !!$userInfo;
+        $output = [
+            "success" => ($userInfo === false) ? 0 : 1
+        ];
 
 
         if($output) {
@@ -86,8 +87,14 @@ class Backend extends Controller {
         $response->getTwigHelper()->setOutput("
             <html>
                 <head>
+                    <meta http-equiv='refresh' content='3' url='/backend/login' />
                     <script>window.location.replace('/backend/login')</script> 
+                    <meta name='robots' content='noindex,nofollow'>
                 </head>
+                <body>
+                    <div><b>Sie werden nun weiter geleitet...</b></div>
+                    Wenn sie nach 5 Sekunden nicht automatisch weiter geleitet wurden, <a href='/backend/login'>hier</a> klicken
+                </body>
             </html>
         ");
     }

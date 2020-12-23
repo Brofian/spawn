@@ -1,0 +1,30 @@
+.btn {
+	width: 100%;
+	padding: 15px 5px;
+	outline: none;
+	border: none;
+	cursor: pointer;
+
+	&-primary {
+		background: $primary;
+		color: $black;
+
+		&:hover {
+			background: darken($primary, 5%);
+		}
+	}
+
+
+
+	&-secondary {
+		background: $secondary;
+		color: $white;
+
+		&:hover {
+			background: darken($secondary, 5%);
+		}
+	}
+
+
+
+}
