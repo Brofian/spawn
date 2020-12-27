@@ -21,7 +21,7 @@
        id="linearGradient842"
        osb:paint="solid">
       <stop
-         style="stop-color:#000000;stop-opacity:1;"
+         style="stop-color:#ffffff;stop-opacity:1;"
          offset="0"
          id="stop840" />
     </linearGradient>
@@ -64,12 +64,12 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke:#000000;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round"
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke:#ffffff;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round"
        d="M 0.94766789,3.3076911 3.5975652,0.89923252 6.1697246,3.3208029"
        id="path1612"
        sodipodi:nodetypes="ccc" />
     <path
-       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke:#000000;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round"
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke:#ffffff;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round"
        d="m 1.388599,3.8329022 -5e-7,2.2748976 1.4841635,-0.00656 -4.01e-5,-1.2708777 h 1.1887447 l 7e-7,1.277434 1.6147151,-3e-7 0.00687,-2.2748976"
        id="path1616"
        sodipodi:nodetypes="cccccccc" />
