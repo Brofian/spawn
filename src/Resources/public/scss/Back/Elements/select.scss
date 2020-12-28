@@ -1,0 +1,48 @@
+select.webu-custom-select {
+	padding: 0.2em 1.5em 0.2em 0.2em;
+
+
+	option {
+
+	}
+
+}
+
+
+.webu-custom-select-container {
+	position: relative;
+
+	.webu-custom-select-selection {
+		position: relative;
+		border: 1px solid black;
+		padding: 0.4em 1.5em 0.4em 0.4em;
+	}
+
+	&:hover {
+		.webu-custom-select-option-container {
+			height: auto;
+			border: 1px solid black;
+		}
+	}
+
+	.webu-custom-select-option-container {
+		position: absolute;
+		overflow: hidden;
+		height: 0;
+		width: 100%;
+		background: $white;
+		border: none;
+
+		.webu-custom-select-option {
+			position: relative;
+			cursor: pointer;
+			padding: 0.4em 0.4em 0.4em 0.4em;
+
+			&:hover {
+				background: rgba($secondary, 0.1);
+			}
+		}
+	}
+}
+
+
