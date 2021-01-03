@@ -38,6 +38,8 @@ class Request
     private $requestURI = '';
     /** @var array */
     private $requestURIParams = array();
+    /** @var array */
+    private $compiledURIParams = array();
     /** @var string */
     private $requestController = 'index';
     /** @var string */
@@ -57,6 +59,7 @@ class Request
         $this->setBaseURI();
         $this->setRequestURI();
         $this->setRequestURIParams();
+        $this->compileURIParams();
     }
 
     public function addToAccessLog()
@@ -100,6 +103,30 @@ class Request
             $this->requestURIParams = [];
         }
 
+    }
+
+    private function compileURIParams() {
+        $compiledParams = [];
+
+        for($index = 0; $index < sizeof($this->requestURIParams); $index++) {
+            $param = $this->requestURIParams[$index];
+
+
+            if($index%2 == 1) {
+                //jedes zweite element
+                $prev = $this->requestURIParams[$index-1];
+                $compiledParams[$prev] = $param;
+            }
+            else if($index == sizeof($this->requestURIParams)-1) {
+                //letztes element, falls ungerade parameter anzahl
+                $compiledParams[0] = $param;
+            }
+
+
+        }
+
+
+        $this->compiledURIParams = $compiledParams;
     }
 
     private function setRequestURI()
@@ -259,6 +286,14 @@ class Request
     public function getRequestURIParams()
     {
         return $this->requestURIParams;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCompiledURIParams()
+    {
+        return $this->compiledURIParams;
     }
 
     /**

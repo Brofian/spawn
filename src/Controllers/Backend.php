@@ -30,7 +30,7 @@ class Backend extends Controller {
             'login' => 'login',
             'loginapi' => 'loginApi',
             'logout' => 'logout',
-            'debug' => 'debug'
+            'variables' => 'variables'
         ];
     }
 
@@ -84,22 +84,34 @@ class Backend extends Controller {
 
     public function logout(Request $request, Response $response) {
         $request->getParamSession()->set("webu_user_logged_in", false);
-        $response->getTwigHelper()->setOutput("
-            <html>
-                <head>
-                    <meta http-equiv='refresh' content='3' url='/backend/login' />
-                    <script>window.location.replace('/backend/login')</script> 
-                    <meta name='robots' content='noindex,nofollow'>
-                </head>
-                <body>
-                    <div><b>Sie werden nun weiter geleitet...</b></div>
-                    Wenn sie nach 5 Sekunden nicht automatisch weiter geleitet wurden, <a href='/backend/login'>hier</a> klicken
-                </body>
-            </html>
-        ");
+        $response->getTwigHelper()->setRenderFile("backend/login/logout.html.twig");
     }
 
 
+
+    public function variables(Request $request, Response $response) {
+        $availableSubpages = [
+            "edit",
+            "new",
+            "index"
+        ];
+
+        if(sizeof($request->getRequestURIParams()) > 0) {
+            $uriSubPage = $request->getRequestURIParams()[0];
+
+            if(in_array($uriSubPage, $availableSubpages)) {
+                $response->getTwigHelper()->assign("subpage", $uriSubPage);
+            }
+            else {
+                $response->getTwigHelper()->assign("subpage", "index");
+            }
+
+        }
+        else {
+            $response->getTwigHelper()->assign("subpage", "index");
+        }
+
+    }
 
 
 }

@@ -6,9 +6,10 @@ $font-weight-light: 300;
 $font-weight-normal: 500;
 $font-weight-bold: 700;
 $font-weight-bolder: 900;
+$font-heading-factor: 1.5;
 
 //colors
-$primary: #00368b;
+$primary: #00b9ff;
 $secondary: #212022;;
 $white: #ffffff;
 $black: #000000;
@@ -20,7 +21,7 @@ $error: #bc0000;
 
 //contents
 $base-content-margin: 20px;
-
+$base-border-radius: 10px;
 
 //paths
 $base-asset-path: "/src/Resources/public/assets";

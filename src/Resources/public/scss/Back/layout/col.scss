@@ -1,0 +1,70 @@
+.col {
+
+	&-1,
+	&-2,
+	&-3,
+	&-4,
+	&-5,
+	&-6,
+	&-7,
+	&-8,
+	&-9,
+	&-10 {
+		&:not(:last-of-type) {
+			padding-right: $base-content-margin/2;
+		}
+	}
+
+
+
+	&-1 {
+		flex: 1 1 100%;
+		max-width: 100%;
+	}
+
+	&-2 {
+		flex: 1 1 50%;
+		max-width: 50%;
+	}
+
+	&-3 {
+		flex: 1 1 33.33333%;
+		max-width: 33.33333%;
+	}
+
+	&-4 {
+		flex: 1 1 25%;
+		max-width: 25%;
+	}
+
+	&-5 {
+		flex: 1 1 20%;
+		max-width: 20%;
+	}
+
+	&-6 {
+		flex: 1 1 16.66666%;
+		max-width: 16.66666%;
+	}
+
+	&-7 {
+		flex: 1 1 14.28571%;
+		max-width: 14.28571%;
+	}
+
+	&-8 {
+		flex: 1 1 12.5%;
+		max-width: 12.5%;
+	}
+
+	&-9 {
+		flex: 1 1 11.11111%;
+		max-width: 11.11111%;
+	}
+
+	&-10 {
+		flex: 1 1 10%;
+		max-width: 10%;
+	}
+
+}

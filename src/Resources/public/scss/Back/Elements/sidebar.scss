@@ -61,6 +61,10 @@ $sidebar-transition: .2s ease-in-out;
 			flex-wrap: nowrap;
 			cursor: pointer;
 
+			&.active {
+				background: rgba($black, .3);
+			}
+
 			&:hover {
 				background: rgba($black, .2);
 			}
@@ -81,6 +85,7 @@ $sidebar-transition: .2s ease-in-out;
 		#sidebar-toggle-button {
 			padding: $base-content-margin;
 			margin-top: auto;
+			cursor: pointer;
 
 			&:hover {
 				background: rgba($black, .2);

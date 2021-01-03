@@ -1,0 +1,14 @@
+<div class="webu-content-frame">
+    bestehende variable bearbeiten
+
+
+    <form>
+
+        {% include "backend/variables/elements/form-inputs.html.twig" with {
+            "environment" : "edit"
+            "variable" : variable
+        } %}
+
+    </form>
+
+</div>

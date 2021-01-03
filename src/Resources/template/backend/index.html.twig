@@ -6,7 +6,7 @@
         <head>
             {% block head_content %}
                 <title>Webu Backend</title>
-                <link rel="icon" type="image/png" href="favicon.png">
+                <link rel="icon" type="image/png" href="/favicon.png">
 
                 <meta name="robots" content="noindex,nofollow" />
                 <meta charset="utf-8"/>
@@ -40,9 +40,7 @@
 
             <div class="content-container">
 
-                {% if action == 'index' %}
-                    {% include "backend/index/content.html.twig" %}
-                {% endif %}
+                {% include "backend/" ~ action ~ "/content.html.twig" %}
 
             </div>
 

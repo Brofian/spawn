@@ -2,16 +2,32 @@
 
         <div class="sidebar-container-content">
 
-            <a href="/backend/test">
-                <div class="sidebar-button">
+
+            {# Home Button #}
+            <a href="/backend">
+                <div class="sidebar-button {% if action == "index" %}active{% endif %}">
                 <span class="sidebar-button-icon">
                     <span class="icon icon-home light"></span>
                 </span>
-                    <span class="sidebar-button-title">Hello world</span>
+                    <span class="sidebar-button-title">Startseite</span>
+                </div>
+            </a>
+
+            {# Variables #}
+            <a href="/backend/variables">
+                <div class="sidebar-button {% if action == "variables" %}active{% endif %}">
+                <span class="sidebar-button-icon">
+                    <span class="icon icon-variables light"></span>
+                </span>
+                    <span class="sidebar-button-title">Variablen</span>
                 </div>
             </a>
 
 
+
+
+
+            {# Sidebar Toggle Button #}
             <div id="sidebar-toggle-button">
                 <span class="sidebar-toggle-button-icon">
                     <span class="icon icon-simple-arrow-left light"></span>

@@ -1,9 +1,9 @@
 .btn {
-	width: 100%;
-	padding: 15px 5px;
+	padding: 10px 15px;
 	outline: none;
 	border: none;
 	cursor: pointer;
+	display: inline-block;
 
 	&-primary {
 		background: $primary;

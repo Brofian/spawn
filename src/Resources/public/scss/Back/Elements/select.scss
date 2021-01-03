@@ -11,14 +11,38 @@ select.webu-custom-select {
 
 .webu-custom-select-container {
 	position: relative;
+	display: inline-block;
+
+	&:after {
+		content: "";
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		width: 0.9em;
+		margin: 0 0.3em;
+		background: red;
+		transition: transform 0.2s ease-in-out;
+
+		background: url("#{$base-asset-path}/Backend/icons/simple_arrow_down.svg") no-repeat;
+		background-size: contain;
+		background-position-y: center;
+	}
+
 
 	.webu-custom-select-selection {
 		position: relative;
+		display: inline-block;
 		border: 1px solid black;
-		padding: 0.4em 1.5em 0.4em 0.4em;
+		padding: 0.4em 2em 0.4em 0.4em;
 	}
 
 	&:hover {
+
+		&:after {
+			transform: rotate(-180deg);
+		}
+
 		.webu-custom-select-option-container {
 			height: auto;
 			border: 1px solid black;
@@ -32,6 +56,7 @@ select.webu-custom-select {
 		width: 100%;
 		background: $white;
 		border: none;
+		margin-top: -1px;
 
 		.webu-custom-select-option {
 			position: relative;

@@ -1,0 +1,26 @@
+.content-container {
+	padding: $base-content-margin / 2;
+	flex: 1 0 auto;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+
+.webu-content-frame {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	flex: 0 1 auto;
+	width: 100%;
+
+	&:not(:last-of-type) {
+		margin-bottom: $base-content-margin / 2;
+	}
+
+	border: 1px solid $secondary;
+	border-radius: $base-border-radius;
+	padding: $base-content-margin;
+
+
+}

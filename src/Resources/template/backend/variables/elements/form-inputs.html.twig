@@ -1,0 +1,46 @@
+
+<input type="text"
+       name="variable-name"
+       class="webu-input-text col-2"
+       data-label="Name"
+       data-label-position="top"
+       value="{% if variable.name %}{{ variable.name }}{% endif %}"
+       required
+/>
+
+
+<input type="text"
+       name="variable-namespace"
+       class="webu-input-text col-2"
+       data-label="Namespace"
+       data-label-position="top"
+       value="{% if variable.namespace %}{{ variable.namespace }}{% endif %}"
+       required
+/>
+
+
+<div class="spacer-m"></div>
+
+
+{% set variableTypes = {
+    "text" : "Text",
+    "color" : "Farbe",
+    "number" : "Zahl"
+} %}
+
+
+{% set typeSelectRandomId = random() %}
+<label for="{{ typeSelectRandomId }}" style="width:100%">Variablen Typ:</label>
+
+
+<select class="webu-custom-select col-2" name="variable-type" id="{{ typeSelectRandomId }}">
+
+    {% for key, type in variableTypes %}
+        <option value="{{ key }}"
+            {% if variable and variable.type == key %}selected{% endif %}
+        >
+            {{ type }}
+        </option>
+    {% endfor %}
+
+</select>

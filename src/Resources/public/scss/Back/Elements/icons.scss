@@ -1,3 +1,6 @@
+$base-icon-asset-path: $base-asset-path + "/Backend/icons";
+
+
 .icon {
 	width: 1em;
 	height: 1em;
@@ -11,10 +14,10 @@
 		&-left,
 		&-up,
 		&-right {
-			background-image: url("#{$base-asset-path}/Backend/icons/arrow-right.svg");
+			background-image: url("#{$base-icon-asset-path}/arrow-right.svg");
 
 			&.light {
-				background-image: url("#{$base-asset-path}/Backend/icons/white/arrow-right.svg");
+				background-image: url("#{$base-icon-asset-path}/white/arrow-right.svg");
 			}
 		}
 
@@ -32,10 +35,18 @@
 	}
 
 	&-home {
-		background-image: url("#{$base-asset-path}/Backend/icons/home.svg");
+		background-image: url("#{$base-icon-asset-path}/home.svg");
 
 		&.light {
-			background-image: url("#{$base-asset-path}/Backend/icons/white/home.svg");
+			background-image: url("#{$base-icon-asset-path}/white/home.svg");
+		}
+	}
+
+	&-variables {
+		background-image: url("#{$base-icon-asset-path}/variable.svg");
+
+		&.light {
+			background-image: url("#{$base-icon-asset-path}/white/variable.svg");
 		}
 	}
 

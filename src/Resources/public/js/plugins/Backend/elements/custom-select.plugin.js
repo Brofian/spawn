@@ -1,3 +1,11 @@
+/*
+<select class="webu-custom-select" name="test" id="example">
+    <option value="A">Option A</option>
+    <option value="B">Option B</option>
+    <option value="C" selected>Option C</option>
+</select>
+ */
+
 class CustomSelectPlugin extends PluginBase {
 
     customSelectClass = "webu-custom-select-container";
@@ -28,8 +36,7 @@ class CustomSelectPlugin extends PluginBase {
 
     optionClickedEvent(param) {
         var me = this;
-        console.log("test");
-        console.log(param.target);
+
 
         let target = param.target;
 
@@ -86,12 +93,12 @@ class CustomSelectPlugin extends PluginBase {
             newEl.classList.add(me.customSelectOptionClass);
             newEl.id = option.id;
             newEl.dataset.value = option.value;
-            newEl.innerText = option.innerText;
+            newEl.innerText = option.innerText.trim();
             newEl.dataset.optionId = counter + "";
 
             if(counter === 0 || option.selected) {
                 activeElement.dataset.currentOption = counter;
-                activeElement.innerText = option.innerText;
+                activeElement.innerText = option.innerText.trim();
             }
 
             counter++;
