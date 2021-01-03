@@ -12,6 +12,7 @@ select.webu-custom-select {
 .webu-custom-select-container {
 	position: relative;
 	display: inline-block;
+	width: fit-content;
 
 	&:after {
 		content: "";
