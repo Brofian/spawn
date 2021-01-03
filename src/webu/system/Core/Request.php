@@ -193,10 +193,12 @@ class Request
 
         $controller->init($this,$e->response);
 
+
         //call the controller method
         call_user_func_array(
             [
-                $controller,    $action
+                $controller,
+                $action
             ],
             $params
         );

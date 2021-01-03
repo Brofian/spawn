@@ -56,10 +56,18 @@ class ControllerHelper
             $controllerDir,
             function($fileContent, &$ergs, $filename, $path, $relativePath) {
 
+                //test normal controller
                 $regex = '/class (.*) extends Controller/m';
                 preg_match($regex, $fileContent, $matches);
                 if(sizeof($matches) < 2) {
-                    return;
+
+                    //test api controller
+                    $apiRegex = '/class (.*) extends ApiController/m';
+                    preg_match($apiRegex, $fileContent, $matches);
+
+                    if(sizeof($matches) < 2) {
+                        return;
+                    }
                 }
                 $class = $matches[1];
 

@@ -9,7 +9,61 @@
 
 <div class="webu-content-frame content-header">
 
-    Liste
+    <div class="" data-backend-variables-list>
+
+        <div class="webu-variables-listing-actions">
+
+            <span>
+                Zeige
+                <input
+                    type="number"
+                    name="itemsPerPage"
+                    class="webu-input-text"
+                    id="webu-items-per-page"
+                    min="10"
+                    max="200"
+                    value="{{ itemsPerPage }}"
+                />
+                von {{ availableEntries }} Variablen ({{ pages }})
+            </span>
+
+
+
+            <div class="webu-variables-listing-pagination pagination">
+
+                <div class="pagination-first">&lt;&lt;</div>
+                <div class="pagination-prev">&lt;</div>
+
+                {% for page in 1..pages %}
+                    <div class="pagination-page" data-page="{{ page }}">{{ page }}</div>
+                {% endfor %}
+
+                <div class="pagination-next">&gt;</div>
+                <div class="pagination-last">&gt;&gt;</div>
+            </div>
+
+
+        </div>
+
+        <div class="spacer-s"></div>
+
+        <table class="webu-variables-listing">
+
+            <thead>
+                <td>Namespace</td>
+                <td>Name</td>
+                <td>Typ</td>
+                <td>Wert</td>
+                <td>Aktion</td>
+            </thead>
+
+            <tbody class="webu-variables-listing-tbody">
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 

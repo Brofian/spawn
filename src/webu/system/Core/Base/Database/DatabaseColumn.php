@@ -98,7 +98,7 @@ class DatabaseColumn
         return $this;
     }
 
-    public function setDefault(string $default)
+    public function setDefault($default)
     {
         $this->default = $default;
         return $this;

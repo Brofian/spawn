@@ -27,4 +27,25 @@
 
 
 
+	&-warning {
+		background: $warning;
+		color: $black;
+
+		&:hover {
+			background: darken($warning, 5%);
+		}
+	}
+
+
+	&-danger {
+		background: $error;
+		color: $white;
+
+		&:hover {
+			background: darken($error, 5%);
+		}
+	}
+
+
+
 }

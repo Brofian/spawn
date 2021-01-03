@@ -25,6 +25,9 @@ abstract class Controller implements ControllerInterface
     }
 
 
+    function isApi() {
+        return false;
+    }
 
     /**
      * Has to be declared in every controller!

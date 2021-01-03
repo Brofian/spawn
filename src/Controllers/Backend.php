@@ -7,6 +7,7 @@ use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Database\Query\QueryBuilder;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Database\Models\AuthUser;
+use webu\system\Core\Database\Models\Variable;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -28,7 +29,6 @@ class Backend extends Controller {
         return [
             '' => 'index',
             'login' => 'login',
-            'loginapi' => 'loginApi',
             'logout' => 'logout',
             'variables' => 'variables'
         ];
@@ -54,33 +54,9 @@ class Backend extends Controller {
     public function login(Request $request, Response $response) {
         //this page can be called from other functions, so reset the action to login
         $response->getTwigHelper()->assign('action', 'login');
-
-
     }
 
 
-
-    public function loginApi(Request $request, Response $response) {
-
-        $parameter = $request->getParamGet();
-
-
-        $authUserModel = new AuthUser($request->getDatabase()->getConnection());
-        $userInfo = $authUserModel->tryLogin($parameter["username"], $parameter["password"]);
-        $output = [
-            "success" => ($userInfo === false) ? 0 : 1
-        ];
-
-
-        if($output) {
-            //set session values
-            $request->getParamSession()->set("webu_user_logged_in", true);
-        }
-
-
-
-        $response->getTwigHelper()->setOutput(json_encode($output));
-    }
 
     public function logout(Request $request, Response $response) {
         $request->getParamSession()->set("webu_user_logged_in", false);
@@ -90,28 +66,47 @@ class Backend extends Controller {
 
 
     public function variables(Request $request, Response $response) {
+        //if user is not logged in, redirect to the loading page
+        if($request->getParamSession()->get('webu_user_logged_in', false) == false) {
+            $this->login($request, $response);
+        }
+
+
+        //Assign Subpage from uri
         $availableSubpages = [
             "edit",
             "new",
             "index"
         ];
+        $uriSubPage = "index";
 
         if(sizeof($request->getRequestURIParams()) > 0) {
-            $uriSubPage = $request->getRequestURIParams()[0];
-
-            if(in_array($uriSubPage, $availableSubpages)) {
-                $response->getTwigHelper()->assign("subpage", $uriSubPage);
+            if(in_array($request->getRequestURIParams()[0], $availableSubpages)) {
+                $uriSubPage = $request->getRequestURIParams()[0];
             }
-            else {
-                $response->getTwigHelper()->assign("subpage", "index");
-            }
-
         }
-        else {
-            $response->getTwigHelper()->assign("subpage", "index");
+        $response->getTwigHelper()->assign("subpage", $uriSubPage);
+
+
+        if($uriSubPage === "index") {
+            //load number of available variables for pagination
+            $variableModel = new Variable($request->getDatabase()->getConnection());
+            $number = $variableModel->getTotalNumberOfEntries();
+
+            $request->getParamCookies()->set("variables-list-length", 10, false, "/backend/variables");
+            $itemsPerPage = $request->getParamCookies()->get("variables-list-length", 10);
+            $itemsPerPage = min($itemsPerPage, 200);
+            $itemsPerPage = max($itemsPerPage, 10);
+
+            $pages = ceil($number / $itemsPerPage);
+
+            $response->getTwigHelper()->assign("pages", $pages);
+            $response->getTwigHelper()->assign("itemsPerPage", $itemsPerPage);
+            $response->getTwigHelper()->assign("availableEntries", $number);
         }
 
     }
+
 
 
 }

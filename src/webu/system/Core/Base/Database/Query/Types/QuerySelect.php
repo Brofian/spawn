@@ -209,7 +209,7 @@ class QuerySelect extends QueryBase
     public function orderby(string $column, bool $reverse = false)
     {
         $direction = ($reverse) ? 'DESC' : 'ASC';
-        $this->orderby = $column . ' ' . $direction;
+        $this->orderby[] = $column . ' ' . $direction;
 
         return $this;
     }
@@ -225,7 +225,7 @@ class QuerySelect extends QueryBase
     {
         $this->limit = $val1;
         if ($val2 != null) {
-            $this->limit .= '' . $val2;
+            $this->limit .= ', ' . $val2;
         }
 
         return $this;

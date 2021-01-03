@@ -25,7 +25,7 @@ class BackendLoginPlugin extends PluginBase {
 
 
         jQuery.ajax({
-            url: "/backend/loginapi/",
+            url: "/backendapi/loginapi/",
             data: {
                 username: username,
                 password: password
