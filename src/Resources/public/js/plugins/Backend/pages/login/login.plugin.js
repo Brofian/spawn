@@ -4,13 +4,13 @@ class BackendLoginPlugin extends PluginBase {
     init() {
         var me = this;
 
-        Eventmanager.subscribeEvent("webu/backend/loginSubmitResult", "webu/backend/login", me.onAjaxResult.bind(me));
         me.addElementEvents();
     }
 
     addElementEvents() {
         var me = this;
 
+        Eventmanager.subscribeEvent("webu/backend/loginSubmitResult", "webu/backend/login", me.onAjaxResult.bind(me));
         me.$_element.on("submit", me.submit.bind(this));
     }
 
@@ -30,7 +30,7 @@ class BackendLoginPlugin extends PluginBase {
                 username: username,
                 password: password
             },
-            success: function( result ) {
+            success: function (result) {
                 Eventmanager.triggerEvent("webu/backend/loginSubmitResult", result);
             }
         });
@@ -44,10 +44,9 @@ class BackendLoginPlugin extends PluginBase {
         result = JSON.parse(result)["success"];
 
 
-        if(result === 1) {
+        if (result === 1) {
             window.location.replace("/backend");
-        }
-        else {
+        } else {
             me._element.classList.add("error");
         }
 
@@ -56,4 +55,5 @@ class BackendLoginPlugin extends PluginBase {
     }
 
 }
+
 Pluginmanager.registerPlugin("webu/backend/login", BackendLoginPlugin, "[data-backend-login-form]");

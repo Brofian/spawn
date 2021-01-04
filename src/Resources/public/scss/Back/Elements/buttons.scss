@@ -7,7 +7,7 @@
 
 	&-primary {
 		background: $primary;
-		color: $black;
+		color: $secondary;
 
 		&:hover {
 			background: darken($primary, 5%);
@@ -29,7 +29,7 @@
 
 	&-warning {
 		background: $warning;
-		color: $black;
+		color: $secondary;
 
 		&:hover {
 			background: darken($warning, 5%);

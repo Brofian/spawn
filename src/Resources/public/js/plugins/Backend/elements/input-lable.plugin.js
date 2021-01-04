@@ -12,7 +12,7 @@ class InputLabelPlugin extends PluginBase {
 
 
     init() {
-        var me  = this;
+        var me = this;
 
         me.createStructure()
     }
@@ -23,16 +23,15 @@ class InputLabelPlugin extends PluginBase {
         var element = this._element;
 
         let labelPosition = "inner";
-        if(element.dataset.labelPosition) {
+        if (element.dataset.labelPosition) {
             labelPosition = element.dataset.labelPosition;
         }
 
 
-        if(labelPosition === "inner") {
+        if (labelPosition === "inner") {
             element.style.paddingTop = "1em";
             element.style.paddingBottom = "1em";
-        }
-        else if(labelPosition === "top") {
+        } else if (labelPosition === "top") {
             element.style.marginTop = "1.5em";
         }
 
@@ -42,8 +41,8 @@ class InputLabelPlugin extends PluginBase {
         var wrapper = document.createElement('div');
         wrapper.classList.add("webu-input-wrapper");
         //move layout classes to wrapper
-        for(let elClass of element.classList) {
-            if(elClass.startsWith("col-")) {
+        for (let elClass of element.classList) {
+            if (elClass.startsWith("col-")) {
                 element.classList.remove(elClass);
                 wrapper.classList.add(elClass);
             }
@@ -52,7 +51,7 @@ class InputLabelPlugin extends PluginBase {
 
         var label = document.createElement('span');
         label.classList.add("webu-input-label");
-        if(labelPosition === "top") {
+        if (labelPosition === "top") {
             label.classList.add("top");
         }
         label.innerText = element.dataset.label;
@@ -64,4 +63,5 @@ class InputLabelPlugin extends PluginBase {
     }
 
 }
+
 Pluginmanager.registerPlugin("webu/backend/inputLabel", InputLabelPlugin, "input[data-label]");

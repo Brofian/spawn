@@ -68,7 +68,7 @@ class QueryDelete extends QueryBase
      */
     public function where(string $column, $value, bool $isOr = false, bool $not = false, string $operator = null) : QueryDelete
     {
-        $isString = $this->formatParam($value);
+        $isString = is_string($value);
 
         $prefix = '';
         if($not) {

@@ -26,6 +26,63 @@ class Variable extends DatabaseModel {
 
 
     /**
+     * @param int $id
+     * @param array $values
+     * @return array
+     */
+    public function updateById(int $id, array $values = []) {
+        $stmt = $this->queryBuilder->update(WebuVariables::TABLENAME);
+        $stmt->where(WebuVariables::COL_ID, $id);
+
+        if(isset($values["name"])) {
+            $stmt->set(WebuVariables::COL_NAME, $values["name"]);
+        }
+        if(isset($values["namespace"])) {
+            $stmt->set(WebuVariables::COL_NAMESPACE, $values["namespace"]);
+        }
+        if(isset($values["type"])) {
+            $stmt->set(WebuVariables::COL_TYPE, $values["type"]);
+        }
+        if(isset($values["value"])) {
+            $stmt->set(WebuVariables::COL_VALUE, $values["value"]);
+        }
+
+        return $stmt->execute();
+    }
+
+
+    /**
+     * @param int $id
+     * @param array $values
+     * @return array
+     */
+    public function create(array $values = []) : bool {
+        $stmt = $this->queryBuilder->insert();
+        $stmt->into(WebuVariables::TABLENAME);
+
+        if(isset(
+                $values["name"],
+                $values["namespace"],
+                $values["type"],
+                $values["value"]
+            ) == false) {
+
+            return false;
+        }
+
+        $stmt->setValue(WebuVariables::COL_NAME, $values["name"]);
+        $stmt->setValue(WebuVariables::COL_NAMESPACE, $values["namespace"]);
+        $stmt->setValue(WebuVariables::COL_TYPE, $values["type"]);
+        $stmt->setValue(WebuVariables::COL_VALUE, $values["value"]);
+
+        $stmt->execute();
+
+        return true;
+    }
+
+
+
+    /**
      * @param int $from
      * @param int $amount
      * @return array|\PDOStatement
@@ -36,6 +93,22 @@ class Variable extends DatabaseModel {
         $stmt->from(WebuVariables::TABLENAME)
             ->limit($from, $amount)
             ->orderby($orderby);
+
+        return $stmt->execute();
+    }
+
+    /**
+     * @param array $idList
+     * @return array|\PDOStatement
+     */
+    public function removeEntriesByIds(array $idList) {
+        $stmt = $this->queryBuilder->delete();
+
+        $stmt->from(WebuVariables::TABLENAME);
+
+        foreach($idList as $id) {
+            $stmt->where(WebuVariables::COL_ID, $id, true);
+        }
 
         return $stmt->execute();
     }

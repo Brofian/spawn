@@ -6,7 +6,7 @@
 	.pagination-page,
 	.pagination-next,
 	.pagination-last {
-		border: 1px solid black;
+		border: 1px solid $secondary;
 		margin-left: -1px;
 		padding: 5px;
 		width: 30px;
@@ -17,7 +17,7 @@
 	}
 
 	.pagination-last {
-		border-right: 1px solid black;
+		border-right: 1px solid $secondary;
 	}
 
 

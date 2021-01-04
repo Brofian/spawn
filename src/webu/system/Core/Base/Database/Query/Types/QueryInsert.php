@@ -64,12 +64,16 @@ class QueryInsert extends QueryBase
     /**
      * @param string $column
      * @param $value
+     * @param string $placeholder
      * @return QueryInsert
      */
-    public function setValue(string $column, $value) : QueryInsert {
+    public function setValue(string $column, $value, string $placeholder = "?") : QueryInsert {
+        if($placeholder == "?" || $placeholder == "") $placeholder = ":val" . $this->boundValuesLength;
 
-        $this->formatParam($value);
-        $this->values[$column] = $value;
+
+        $this->values[$column] = $placeholder;
+        $this->bindValue($placeholder, $value);
+
 
         return $this;
     }

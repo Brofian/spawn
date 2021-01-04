@@ -14,9 +14,8 @@ class CustomSelectPlugin extends PluginBase {
     customSelectSelectionClass = "webu-custom-select-selection";
 
 
-
     init() {
-        var me  = this;
+        var me = this;
 
         me.createStructure();
 
@@ -28,7 +27,7 @@ class CustomSelectPlugin extends PluginBase {
         var me = this;
         let options = me.customOptionContainer.childNodes;
 
-        for(let option of options) {
+        for (let option of options) {
             jQuery(option).on("click", me.optionClickedEvent.bind(this));
         }
 
@@ -41,11 +40,12 @@ class CustomSelectPlugin extends PluginBase {
         let target = param.target;
 
         me.hiddenValueElement.value = target.dataset.value;
+        jQuery(me.hiddenValueElement).trigger("change");
         me.activeElement.innerText = target.innerText;
         me.activeElement.dataset.currentOption = target.dataset.optionId;
 
         me.customOptionContainer.style.display = "none";
-        window.setTimeout(function(container) {
+        window.setTimeout(function (container) {
             container.style.display = "block";
         }, 10, me.customOptionContainer);
 
@@ -60,8 +60,6 @@ class CustomSelectPlugin extends PluginBase {
         let selectOptions = element.querySelectorAll("option");
 
 
-
-
         let hiddenValueElement = document.createElement("input");
         hiddenValueElement.setAttribute("name", element.getAttribute("name"));
         hiddenValueElement.classList = element.classList;
@@ -73,12 +71,10 @@ class CustomSelectPlugin extends PluginBase {
         customSelect.classList.add(me.customSelectClass);
 
 
-
         hiddenValueElement.value = element.value;
 
         let activeElement = document.createElement("div");
         activeElement.classList.add(me.customSelectSelectionClass);
-
 
 
         var customOptionContainer = document.createElement("div");
@@ -87,7 +83,7 @@ class CustomSelectPlugin extends PluginBase {
         var counter = 0;
 
 
-        for(let option of selectOptions) {
+        for (let option of selectOptions) {
 
             let newEl = document.createElement("div");
             newEl.classList.add(me.customSelectOptionClass);
@@ -96,7 +92,7 @@ class CustomSelectPlugin extends PluginBase {
             newEl.innerText = option.innerText.trim();
             newEl.dataset.optionId = counter + "";
 
-            if(counter === 0 || option.selected) {
+            if (counter === 0 || option.selected) {
                 activeElement.dataset.currentOption = counter;
                 activeElement.innerText = option.innerText.trim();
             }
@@ -105,7 +101,6 @@ class CustomSelectPlugin extends PluginBase {
 
             customOptionContainer.appendChild(newEl);
         }
-
 
 
         me.hiddenValueElement = hiddenValueElement;
@@ -122,4 +117,5 @@ class CustomSelectPlugin extends PluginBase {
     }
 
 }
+
 Pluginmanager.registerPlugin("webu/backend/customSelect", CustomSelectPlugin, "select.webu-custom-select");

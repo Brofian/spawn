@@ -12,7 +12,6 @@ class CustomHref extends PluginBase {
         var me  = this;
 
         me.createStructure();
-
     }
 
 

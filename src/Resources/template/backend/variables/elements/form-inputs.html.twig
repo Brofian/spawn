@@ -4,6 +4,7 @@
         <input type="text"
                name="variable-name"
                class="webu-input-text col-2"
+               id="variable-name-input"
                data-label="Name"
                data-label-position="top"
                value="{% if variable.name %}{{ variable.name }}{% endif %}"
@@ -15,6 +16,7 @@
         <input type="text"
                name="variable-namespace"
                class="webu-input-text col-2"
+               id="variable-namespace-input"
                data-label="Namespace"
                data-label-position="top"
                value="{% if variable.namespace %}{{ variable.namespace }}{% endif %}"
@@ -34,13 +36,9 @@
             "number" : "Zahl"
         } %}
 
+        <label for="variable-type-input" style="width:100%">Variablen Typ:</label>
 
-        {% set typeSelectRandomId = random() %}
-        <label for="{{ typeSelectRandomId }}" style="width:100%">Variablen Typ:</label>
-
-
-        <select class="webu-custom-select col-2" name="variable-type" id="{{ typeSelectRandomId }}">
-
+        <select class="webu-custom-select col-2" name="variable-type" id="variable-type-input">
             {% for key, type in variableTypes %}
                 <option value="{{ key }}"
                     {% if variable and variable.type == key %}selected{% endif %}
@@ -48,9 +46,85 @@
                     {{ type }}
                 </option>
             {% endfor %}
-
         </select>
+    {% endblock %}
+
+
+
+    {% block backend_variables_form_id_hidden %}
+        <input
+            type="hidden"
+            name="variable-id"
+            id="variable-id-input"
+            value="{% if variable %}{{ variable.id }}{% endif %}"
+        />
+    {% endblock %}
+
+
+    <div class="spacer-l"></div>
+
+
+    {% block backend_variables_form_value %}
+        <div data-toggle-page-toggle-id="variable-type-input"
+             data-toggle-page-case="text"
+             data-toggle-page>
+
+            <input type="text"
+                   name="variable-name"
+                   class="webu-input-text col-2"
+                   id="variable-value-input"
+                   data-label="Name"
+                   data-label-position="top"
+                   value="{% if variable %}{{ variable.value }}{% endif %}"
+                   required
+            />
+
+        </div>
+
+
+        <div data-toggle-page-toggle-id="variable-type-input"
+             data-toggle-page-case="color"
+             data-toggle-page>
+
+            <input type="color"
+                   name="variable-name"
+                   class="col-2"
+                   id="variable-value-input"
+                   value="{% if variable and variable.type=="color" %}{{ variable.value }}{% else %}#000000{% endif %}"
+                   required
+            />
+
+        </div>
+
+
+
+        <div data-toggle-page-toggle-id="variable-type-input"
+             data-toggle-page-case="number"
+             data-toggle-page>
+
+            <input type="number"
+                   name="variable-name"
+                   class="col-2"
+                   id="variable-value-input"
+                   value="{% if variable and variable.type=="number" %}{{ variable.value }}{% else %}0{% endif %}"
+                   required
+            />
+
+        </div>
 
     {% endblock %}
+
+
+
+
+    <div class="spacer-l"></div>
+
+
+    {% block backend_variables_form_type_submit %}
+        <button class="btn btn-primary" type="submit" name="button">
+            Speichern
+        </button>
+    {% endblock %}
+
 
 {% endblock %}

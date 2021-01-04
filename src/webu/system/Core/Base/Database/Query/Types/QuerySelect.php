@@ -162,11 +162,15 @@ class QuerySelect extends QueryBase
      *
      * @param string $column
      * @param $value
+     * @param bool $isOr
+     * @param bool $not
+     * @param string $placeholder
      * @return QuerySelect
      */
-    public function where(string $column, $value, bool $isOr = false, bool $not = false)
+    public function where(string $column, $value, bool $isOr = false, bool $not = false, string $placeholder = "?")
     {
-        $isString = $this->formatParam($value);
+        $isString = is_string($value);
+        if($placeholder == "?" || $placeholder == "") $placeholder = ":val" . $this->boundValuesLength;
 
         $prefix = '';
         if($not) {
@@ -194,7 +198,9 @@ class QuerySelect extends QueryBase
 
         $operator = ($isString) ? 'LIKE' : '=';
 
-        $this->where[] = $prefix . $column . $operator . $value;
+        $this->where[] = $prefix . $column . " " . $operator . " " . $placeholder;
+        $this->bindValue($placeholder, $value);
+
 
         return $this;
     }

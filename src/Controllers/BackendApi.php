@@ -4,6 +4,7 @@ namespace modules\Main\Controllers;
 
 
 use webu\system\Core\Base\Controller\ApiController;
+use webu\system\Core\Base\Database\Query\QueryBuilder;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Database\Models\AuthUser;
 use webu\system\Core\Database\Models\Variable;
@@ -91,8 +92,66 @@ class BackendApi extends ApiController {
         switch($targetAction) {
             case "list":
                 $this->getVariablesList($request, $response);
+                break;
+            case "remove":
+                $this->removeVariables($request, $response);
+                break;
+            case "edit":
+                $this->editVariable($request, $response);
+                break;
         }
 
+    }
+
+    private function editVariable(Request $request, Response $response) {
+        $getParams = $request->getParamGet();
+        $variableAlreadyExists = ($getParams["id"] != "");
+
+        $variableModel = new Variable($request->getDatabase()->getConnection());
+
+        if($variableAlreadyExists) {
+            $id = (int)$getParams["id"];
+            $selectedVariable = $variableModel->findById($id);
+
+            if(sizeof($selectedVariable) > 0) {
+                //variable really exists -> update it
+                $values = [
+                    "name" => $getParams["name"],
+                    "namespace" => $getParams["namespace"],
+                    "type" => $getParams["type"],
+                    "value" => $getParams["value"]
+                ];
+                $variableModel->updateById($id, $values);
+                $response->getTwigHelper()->setOutput(json_encode(["success" => true]));
+            }
+            else {
+                $variableAlreadyExists = false;
+            }
+        }
+
+        if($variableAlreadyExists == false) {
+            //variable does not exist yet -> create it
+            $values = [
+                "name" => $getParams["name"],
+                "namespace" => $getParams["namespace"],
+                "type" => $getParams["type"],
+                "value" => $getParams["value"]
+            ];
+            $success = $variableModel->create($values);
+            $response->getTwigHelper()->setOutput(json_encode(["success" => $success]));
+        }
+
+    }
+
+
+    private function removeVariables(Request $request, Response $response) {
+        $getParams = $request->getParamGet();
+        $ids = $getParams["idlist"] ?? [];
+
+        $variableModel = new Variable($request->getDatabase()->getConnection());
+        $variableModel->removeEntriesByIds($ids);
+
+        $response->getTwigHelper()->setOutput(1);
     }
 
 

@@ -70,6 +70,7 @@ class AuthUser extends DatabaseModel {
             return false;
         }
 
+
         return $result[0];
     }
 

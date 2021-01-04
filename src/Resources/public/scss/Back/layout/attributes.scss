@@ -1,0 +1,44 @@
+.active {
+	display: block;
+}
+.inactive {
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+.d-none 	{	display: none;		}
+.d-block 	{	display: block;		}
+.d-inline 	{	display: inline;	}
+.d-flex 	{	display: flex;		}
+
+
+@media screen and (min-width: $bp-sm)  {
+	.d-sm-none 		{	display: none;		}
+	.d-sm-block 	{	display: block;		}
+	.d-sm-inline 	{	display: inline;	}
+	.d-sm-flex 		{	display: flex;		}
+}
+
+
+@media screen and (min-width: $bp-md)  {
+	.d-md-none 		{	display: none;		}
+	.d-md-block 	{	display: block;		}
+	.d-md-inline 	{	display: inline;	}
+	.d-md-flex 		{	display: flex;		}
+}
+
+
+@media screen and (min-width: $bp-lg)  {
+	.d-lg-none 		{	display: none;		}
+	.d-lg-block 	{	display: block;		}
+	.d-lg-inline 	{	display: inline;	}
+	.d-lg-flex 		{	display: flex;		}
+}

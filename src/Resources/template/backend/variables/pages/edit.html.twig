@@ -1,13 +1,17 @@
 <div class="webu-content-frame">
-    bestehende variable bearbeiten
 
+    <div class="h4">Neue Variable anlegen</div>
 
-    <form>
+    <div class="spacer-l"></div>
+
+    <form class="flex" data-backend-variables-form>
+
 
         {% include "backend/variables/elements/form-inputs.html.twig" with {
             "environment" : "edit"
-            "variable" : variable
+
         } %}
+
 
     </form>
 

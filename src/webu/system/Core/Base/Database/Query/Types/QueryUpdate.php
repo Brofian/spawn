@@ -72,9 +72,13 @@ class QueryUpdate extends QueryBase
      * @param $value
      * @return QueryUpdate
      */
-    public function set(string $column, $value) : QueryUpdate{
-        $this->formatParam($value);
-        $this->values[$column] = $value;
+    public function set(string $column, $value, $placeholder = "?") : QueryUpdate{
+        if($placeholder == "?" || $placeholder == "") $placeholder = ":val" . $this->boundValuesLength;
+
+
+        $this->values[$column] = $placeholder;
+        $this->bindValue($placeholder, $value);
+
         return $this;
     }
 
@@ -88,7 +92,7 @@ class QueryUpdate extends QueryBase
      */
     public function where(string $column, $value, bool $isOr = false, bool $not = false) : QueryUpdate
     {
-        $isString = $this->formatParam($value);
+        $isString = is_string($value);
 
         $prefix = '';
         if($not) {

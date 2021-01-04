@@ -19,7 +19,8 @@ abstract class QueryBase {
     const OUTER_JOIN = 4;
 
     /** @var array  */
-    private $boundValues = array();
+    public $boundValues = array();
+    protected $boundValuesLength = 0;
 
     /** @var DatabaseConnection  */
     private $connection = null;
@@ -40,15 +41,20 @@ abstract class QueryBase {
     /**
      * Executes the query and returns the result
      *
-     * @param DatabaseConnection $connection
-     * @param bool $preventFetch
+     * @param bool $preventFetching
      * @return array|PDOStatement
      */
     public function execute(bool $preventFetching = false) {
 
         /** @var PDOStatement $stmt */
         $stmt = $this->connection->getConnection()->prepare($this->getSql());
-        $stmt->execute($this->boundValues);
+
+        foreach($this->boundValues as $key => $boundValue) {
+            $stmt->bindValue($key, $boundValue);
+        }
+
+
+        $stmt->execute();
 
         if($preventFetching) {
             $return = $stmt;
@@ -61,42 +67,29 @@ abstract class QueryBase {
     }
 
 
-
-
     /**
      * Binds param to placeholders in the query
-     * Use "addParam()" for "?" placehoders
+     * @param $placeholder
      * @param $param
      * @return $this
      */
-    public function bindValue($param) {
-        $boundValues[] = $param;
+    public function bindValue($placeholder, $param) {
+        $this->boundValues[$placeholder] = $param;
+        $this->boundValuesLength = sizeof($this->boundValues);
         return $this;
     }
 
-    /**
-     * Binds param to placeholders in the query
-     * Use "bindParam()" for ":key" placehoders
-     *
-     * @param string $key
-     * @param string $value
-     * @return $this
-     */
-    public function bindParam(string $key, string $value) {
-        $this->boundValues[$key] = $value;
-        return $this;
-    }
 
 
 
     protected function formatParam(&$value) {
         if(is_string($value)) {
-            //add quotationmarks to string
+            //add quotation-marks to string
             $value = '\'' . $value . '\'';
             return true;
         }
-        if(is_object($value)) {
-            //convert objects to json and add quotationmarks
+        else if(is_object($value)) {
+            //convert objects to json and add quotation-marks
             $value = '\'' . json_encode($value) . '\'';
             return true;
         }

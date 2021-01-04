@@ -11,10 +11,9 @@ $select =  $queryBuilder->select('*')
                         ->join('andereTabelle', 'Spalte1', 'Spalte2', QuerySelect::LEFT_JOIN)
                         ->join('dritteTabelle', 'Spalte1', 'Spalte3')
                         ->where('Spalte', 'Wert')
-                        ->where('Spalte2', ':key1') //you can use ":key" or "?"
+                        ->where('Spalte2', '24')
                         ->orderby('Spalte', false)
                         ->limit(5,10);
 
-$return =   $select     ->bindParam(':key1', 34) //you can use ->bindValue('value') for "?"
-                        ->execute($dbconnection);
+$return =   $select     ->execute($dbconnection);
                         

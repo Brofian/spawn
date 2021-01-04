@@ -80,9 +80,9 @@ class Backend extends Controller {
         ];
         $uriSubPage = "index";
 
-        if(sizeof($request->getRequestURIParams()) > 0) {
-            if(in_array($request->getRequestURIParams()[0], $availableSubpages)) {
-                $uriSubPage = $request->getRequestURIParams()[0];
+        if(isset($request->getCompiledURIParams()[0])) {
+            if(in_array($request->getCompiledURIParams()[0], $availableSubpages)) {
+                $uriSubPage = $request->getCompiledURIParams()[0];
             }
         }
         $response->getTwigHelper()->assign("subpage", $uriSubPage);
@@ -103,6 +103,21 @@ class Backend extends Controller {
             $response->getTwigHelper()->assign("pages", $pages);
             $response->getTwigHelper()->assign("itemsPerPage", $itemsPerPage);
             $response->getTwigHelper()->assign("availableEntries", $number);
+        }
+        else if($uriSubPage === "edit") {
+
+
+            $variableModel = new Variable($request->getDatabase()->getConnection());
+            $id = $request->getCompiledURIParams()["id"];
+
+            $variable = $variableModel->findById($id);
+
+            if(sizeof($variable) > 0) {
+                $variable = $variable[0];
+
+                $response->getTwigHelper()->assign("variable", $variable);
+            }
+
         }
 
     }

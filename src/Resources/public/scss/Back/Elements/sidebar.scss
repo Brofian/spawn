@@ -1,8 +1,12 @@
 $sidebar-transition: .2s ease-in-out;
+$sidebar-width: 200px;
+$sidebar-width-small: 60px;
+
 
 .sidebar-container {
 	background: $secondary;
-	width: 200px;
+	width: $sidebar-width;
+	min-width: $sidebar-width;
 	overflow-x: hidden;
 	transition: width $sidebar-transition;
 
@@ -12,10 +16,10 @@ $sidebar-transition: .2s ease-in-out;
 	}
 
 	&.small {
-		width: 60px;
+		width: $sidebar-width-small;
 
 		.sidebar-container-content {
-			width: 60px;
+			width: $sidebar-width-small;
 
 
 			.sidebar-button {
@@ -48,7 +52,7 @@ $sidebar-transition: .2s ease-in-out;
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		width: 200px;
+		width: $sidebar-width;
 		transition: width $sidebar-transition;
 		position: fixed;
 
@@ -99,11 +103,5 @@ $sidebar-transition: .2s ease-in-out;
 				}
 			}
 		}
-
 	}
-
-
-
-
-
 }

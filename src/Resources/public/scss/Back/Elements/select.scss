@@ -34,7 +34,7 @@ select.webu-custom-select {
 	.webu-custom-select-selection {
 		position: relative;
 		display: inline-block;
-		border: 1px solid black;
+		border: 1px solid $secondary;
 		padding: 0.4em 2em 0.4em 0.4em;
 	}
 
@@ -46,7 +46,7 @@ select.webu-custom-select {
 
 		.webu-custom-select-option-container {
 			height: auto;
-			border: 1px solid black;
+			border: 1px solid $secondary;
 		}
 	}
 
@@ -54,10 +54,11 @@ select.webu-custom-select {
 		position: absolute;
 		overflow: hidden;
 		height: 0;
-		width: 100%;
+		min-width: 100%;
 		background: $white;
 		border: none;
 		margin-top: -1px;
+		z-index: 999;
 
 		.webu-custom-select-option {
 			position: relative;

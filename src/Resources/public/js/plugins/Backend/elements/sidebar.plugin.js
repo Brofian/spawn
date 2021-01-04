@@ -5,7 +5,7 @@ class SidebarPlugin extends PluginBase {
 
 
     init() {
-        var me  = this;
+        var me = this;
 
         this.setGivenState();
         this.registerEvents();
@@ -20,7 +20,7 @@ class SidebarPlugin extends PluginBase {
         if (parts.length === 2) {
             let cookieValue = parts.pop().split(';').shift();
 
-            if(cookieValue === this.toggleIndicatorClass) {
+            if (cookieValue === this.toggleIndicatorClass) {
                 me._element.classList.add(this.toggleIndicatorClass);
             }
         }
@@ -37,17 +37,16 @@ class SidebarPlugin extends PluginBase {
     toggleSidebar() {
         var me = this;
 
-        if(me._element.classList.contains(me.toggleIndicatorClass)) {
+        if (me._element.classList.contains(me.toggleIndicatorClass)) {
             me._element.classList.remove(me.toggleIndicatorClass);
-            document.cookie=`${this.toggleCookieName}=;path=/`;
-        }
-        else {
+            document.cookie = `${this.toggleCookieName}=;path=/`;
+        } else {
             me._element.classList.add(me.toggleIndicatorClass);
-            document.cookie=`${this.toggleCookieName}=${this.toggleIndicatorClass};path=/`;
+            document.cookie = `${this.toggleCookieName}=${this.toggleIndicatorClass};path=/`;
         }
     }
 
 
-
 }
+
 Pluginmanager.registerPlugin("webu/backend/sidebar", SidebarPlugin, "[data-sidebar]");

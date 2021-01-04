@@ -50,6 +50,15 @@ $base-icon-asset-path: $base-asset-path + "/Backend/icons";
 		}
 	}
 
+	&-delete {
+		background-image: url("#{$base-icon-asset-path}/delete.svg");
+	}
+
+	&-edit {
+		background-image: url("#{$base-icon-asset-path}/edit.svg");
+	}
+
+
 
 
 
