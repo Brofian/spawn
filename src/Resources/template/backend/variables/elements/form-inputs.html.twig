@@ -70,7 +70,7 @@
              data-toggle-page>
 
             <input type="text"
-                   name="variable-name"
+                   name="variable-value-text"
                    class="webu-input-text col-2"
                    id="variable-value-input"
                    data-label="Name"
@@ -86,13 +86,15 @@
              data-toggle-page-case="color"
              data-toggle-page>
 
-            <input type="color"
-                   name="variable-name"
-                   class="col-2"
-                   id="variable-value-input"
-                   value="{% if variable and variable.type=="color" %}{{ variable.value }}{% else %}#000000{% endif %}"
-                   required
-            />
+            {% set default = '#000000ff' %}
+            {% if variable.value %}
+                {% set default = variable.value %}
+            {% endif %}
+
+            {% include "backend/_custom/color-picker.html.twig" with {
+                'name' : 'variable-value-color',
+                'default' : default
+            } %}
 
         </div>
 
@@ -103,7 +105,7 @@
              data-toggle-page>
 
             <input type="number"
-                   name="variable-name"
+                   name="variable-value-number"
                    class="col-2"
                    id="variable-value-input"
                    value="{% if variable and variable.type=="number" %}{{ variable.value }}{% else %}0{% endif %}"

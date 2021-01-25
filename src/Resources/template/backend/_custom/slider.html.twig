@@ -1,0 +1,19 @@
+{% block custom_slider %}
+
+    {% set customSliderId = "custom-slider" ~ random() %}
+
+
+    <input type="hidden" name="{{ name }}" id="{{ customSliderId }}">
+    <div
+        class="custom-slider {{ classes }}"
+        data-min="{{ min }}"
+        data-max="{{ max }}"
+        data-value="{{ value }}"
+        data-target="#{{ customSliderId }}"
+        data-event="{{ event }}"
+        data-custom-slider>
+
+        <span class="custom-slider-cursor"></span>
+    </div>
+
+{% endblock %}

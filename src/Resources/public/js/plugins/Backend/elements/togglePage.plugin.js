@@ -38,14 +38,10 @@ class TogglePagePlugin extends PluginBase {
         if(newValue === me.toggleCase) {
             me._element.classList.add("active");
             me._element.classList.remove("inactive");
-            me._element.innerHTML = me._element.innerHTML.replace("id-inactive=", "id=");
-            me._element.innerHTML = me._element.innerHTML.replace("name-inactive=", "name=");
         }
         else {
             me._element.classList.add("inactive");
             me._element.classList.remove("active");
-            me._element.innerHTML = me._element.innerHTML.replace("id=", "id-inactive=");
-            me._element.innerHTML = me._element.innerHTML.replace("name=", "name-inactive=");
         }
     }
 

@@ -1,0 +1,42 @@
+{% block color_picker %}
+
+    <div class="color-picker" data-default="{{ default }}" data-color-picker>
+
+        <input type="hidden" name="{{ name }}" value="{{ default }}">
+
+        <div class="color-picker-preview" ></div>
+
+
+        <div class="color-picker-configuration">
+
+            {% include "backend/_custom/slider.html.twig" with {
+                'classes' : "hue",
+                'min' : 0,
+                'max' : 360,
+                'value' : 180,
+                'event' : "webu/backendvariables/changeHue"
+            }%}
+
+            {% include "backend/_custom/slider.html.twig" with {
+                'classes' : "saturation",
+                'min' : 0,
+                'max' : 100,
+                'value' : 70,
+                'event' : "webu/backendvariables/changeSaturation"
+            }%}
+
+            {% include "backend/_custom/slider.html.twig" with {
+                'classes' : "lightness",
+                'min' : 0,
+                'max' : 100,
+                'value' : 50,
+                'event' : "webu/backendvariables/changeLightness"
+            }%}
+
+        </div>
+
+
+
+    </div>
+
+{% endblock %}
