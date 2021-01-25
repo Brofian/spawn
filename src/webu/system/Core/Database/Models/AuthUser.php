@@ -10,29 +10,6 @@ use webu\system\Core\Custom\Debugger;
 class AuthUser extends DatabaseModel {
 
 
-    /**
-     * @param string $username
-     * @param string $password
-     * @return bool|mixed
-     */
-    public function tryLogin(string $username, string $password) {
-
-        $dbEntry = $this->findByUsername($username);
-
-        if($dbEntry) {
-            $isValid = password_verify($password, $dbEntry[WebuAuth::RAW_COL_PASSWORD]);
-
-            if($isValid) {
-                return $dbEntry;
-            }
-
-        }
-
-        return false;
-    }
-
-
-
     public function getUserAuth(int $id) {
         return $this->findById($id);
     }

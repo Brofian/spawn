@@ -83,7 +83,7 @@ class DatabaseSetupAction extends ApiController {
          * Start of test
          */
         /*
-        $conn = $request->getDatabase()->getConnection();
+        $conn = $request->getDatabaseHelper()->getConnection();
         $query = new QueryBuilder($conn);
 
         //insert

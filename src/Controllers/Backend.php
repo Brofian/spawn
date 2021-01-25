@@ -2,12 +2,15 @@
 
 namespace modules\Main\Controllers;
 
+use http\Client\Curl\User;
 use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Database\Query\QueryBuilder;
+use webu\system\Core\Contents\Context;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Database\Models\AuthUser;
 use webu\system\Core\Database\Models\Variable;
+use webu\system\Core\Helper\UserHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -40,18 +43,35 @@ class Backend extends Controller {
 
     public function onControllerStop(Request $request, Response $response) {}
 
-
+    /**
+     * checks if the user is logged in
+     */
+    private function loginRestriction(Request $request, Response $response) {
+        //check if the login Restriction is
+        /** @var UserHelper $userHelper */
+        $userHelper = $request->getContext()->get(Context::INDEX_USER);
+        return !!$userHelper->isLoggedIn();
+    }
 
     public function index(Request $request, Response $response) {
-        //if user is not logged in, redirect to the loading page
-        if($request->getParamSession()->get('webu_user_logged_in', false) == false) {
+
+        if($this->loginRestriction($request, $response) == false) {
             $this->login($request, $response);
+            return;
         }
 
+
+        //this page can be called from other functions, so reset the action to index
+        $response->getTwigHelper()->assign('action', 'index');
     }
 
 
     public function login(Request $request, Response $response) {
+        if($this->loginRestriction($request, $response) == true) {
+            $this->index($request, $response);
+            return;
+        }
+
         //this page can be called from other functions, so reset the action to login
         $response->getTwigHelper()->assign('action', 'login');
     }
@@ -59,16 +79,23 @@ class Backend extends Controller {
 
 
     public function logout(Request $request, Response $response) {
-        $request->getParamSession()->set("webu_user_logged_in", false);
+        if($this->loginRestriction($request, $response) == false) {
+            $this->login($request, $response);
+            return;
+        }
+
+        /** @var $userHelper $userHelper */
+        $userHelper = $request->getContext()->get(Context::INDEX_USER);
+        $userHelper->logout();
         $response->getTwigHelper()->setRenderFile("backend/login/logout.html.twig");
     }
 
 
 
     public function variables(Request $request, Response $response) {
-        //if user is not logged in, redirect to the loading page
-        if($request->getParamSession()->get('webu_user_logged_in', false) == false) {
+        if($this->loginRestriction($request, $response) == false) {
             $this->login($request, $response);
+            return;
         }
 
 
@@ -90,11 +117,11 @@ class Backend extends Controller {
 
         if($uriSubPage === "index") {
             //load number of available variables for pagination
-            $variableModel = new Variable($request->getDatabase()->getConnection());
+            $variableModel = new Variable($request->getDatabaseHelper()->getConnection());
             $number = $variableModel->getTotalNumberOfEntries();
 
-            $request->getParamCookies()->set("variables-list-length", 10, false, "/backend/variables");
-            $itemsPerPage = $request->getParamCookies()->get("variables-list-length", 10);
+            $request->getCookieHelper()->set("variables-list-length", 10, false, "/backend/variables");
+            $itemsPerPage = $request->getCookieHelper()->get("variables-list-length", 10);
             $itemsPerPage = min($itemsPerPage, 200);
             $itemsPerPage = max($itemsPerPage, 10);
 
@@ -107,7 +134,7 @@ class Backend extends Controller {
         else if($uriSubPage === "edit") {
 
 
-            $variableModel = new Variable($request->getDatabase()->getConnection());
+            $variableModel = new Variable($request->getDatabaseHelper()->getConnection());
             $id = $request->getCompiledURIParams()["id"];
 
             $variable = $variableModel->findById($id);

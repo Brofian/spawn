@@ -10,6 +10,7 @@ namespace webu\system\Core\Contents;
 use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Database\Models\AuthUser;
+use webu\system\Core\Helper\UserHelper;
 use webu\system\core\Request;
 
 class ContentLoader {
@@ -23,7 +24,7 @@ class ContentLoader {
     public function __construct(Request $request)
     {
         $this->request = $request;
-        $this->connection = $request->getDatabase()->getConnection();
+        $this->connection = $request->getDatabaseHelper()->getConnection();
     }
 
     public function init(Context $context) {
@@ -42,26 +43,17 @@ class ContentLoader {
                 'URIParams' => $this->request->getRequestURIParams(),
                 'POST' => $this->request->getParamPost(),
                 'GET' => $this->request->getParamGet(),
-                'COOKIES' => $this->request->getParamCookies(),
-                'SESSION' => $this->request->getParamSession(),
+                'COOKIES' => $this->request->getCookieHelper(),
+                'SESSION' => $this->request->getSessionHelper(),
             ]
         ]);
     }
 
     private function loadUser(Context $context) {
-        $webuUser = new AuthUser($this->connection);
-
-        $sessionUserInfo = $this->request->getParamSession()->get("webu_user", false);
-
-        if($sessionUserInfo && isset($sessionUserInfo[WebuAuth::RAW_COL_ID])) {
-            $context->set('webu_user_logged_in', true);
-            $userInfo = $webuUser->findById($sessionUserInfo[WebuAuth::RAW_COL_ID]);
-            $context->set('webu_user', $userInfo);
-        }
-        else {
-            $context->set('webu_user_logged_in', false);
-        }
-
+        $context->set("user", new UserHelper(
+            $this->request->getSessionHelper(),
+            $this->request->getDatabaseHelper()
+        ));
     }
 
 }

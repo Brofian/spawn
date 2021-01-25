@@ -43,8 +43,7 @@ class BackendLoginPlugin extends PluginBase {
 
         result = JSON.parse(result)["success"];
 
-
-        if (result === 1) {
+        if (result === 1 || result === true) {
             window.location.replace("/backend");
         } else {
             me._element.classList.add("error");

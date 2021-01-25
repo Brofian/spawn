@@ -5,9 +5,11 @@ namespace modules\Main\Controllers;
 
 use webu\system\Core\Base\Controller\ApiController;
 use webu\system\Core\Base\Database\Query\QueryBuilder;
+use webu\system\Core\Contents\Context;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Database\Models\AuthUser;
 use webu\system\Core\Database\Models\Variable;
+use webu\system\Core\Helper\UserHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -38,7 +40,7 @@ class BackendApi extends ApiController {
 
     public function onControllerStart(Request $request, Response $response) {
         $request->getContext()->setBackendContext();
-        if($request->getParamSession()->get('webu_user_logged_in', false) == false) {
+        if($request->getSessionHelper()->get('webu_user_logged_in', false) == false) {
             //response code
             $response->setResponseCode(403);
             $response->getTwigHelper()->setOutput("You have no permission to use this resource! Please log in to verify");
@@ -61,16 +63,18 @@ class BackendApi extends ApiController {
 
         $parameter = $request->getParamGet();
 
-        $authUserModel = new AuthUser($request->getDatabase()->getConnection());
-        $userInfo = $authUserModel->tryLogin($parameter["username"], $parameter["password"]);
+        /** @var UserHelper $userHelper */
+        $userHelper = $request->getContext()->get(Context::INDEX_USER);
+        $userHelper->login($parameter["username"], $parameter["password"]);
+
         $output = [
-            "success" => ($userInfo === false) ? 0 : 1
+            "success" => $userHelper->isLoggedIn()
         ];
 
 
         if($output) {
             //set session values
-            $request->getParamSession()->set("webu_user_logged_in", true);
+            $request->getSessionHelper()->set("webu_user_logged_in", true);
         }
 
 
@@ -107,7 +111,7 @@ class BackendApi extends ApiController {
         $getParams = $request->getParamGet();
         $variableAlreadyExists = ($getParams["id"] != "");
 
-        $variableModel = new Variable($request->getDatabase()->getConnection());
+        $variableModel = new Variable($request->getDatabaseHelper()->getConnection());
 
         if($variableAlreadyExists) {
             $id = (int)$getParams["id"];
@@ -148,7 +152,7 @@ class BackendApi extends ApiController {
         $getParams = $request->getParamGet();
         $ids = $getParams["idlist"] ?? [];
 
-        $variableModel = new Variable($request->getDatabase()->getConnection());
+        $variableModel = new Variable($request->getDatabaseHelper()->getConnection());
         $variableModel->removeEntriesByIds($ids);
 
         $response->getTwigHelper()->setOutput(1);
@@ -156,7 +160,7 @@ class BackendApi extends ApiController {
 
 
     private function getVariablesList(Request $request, Response $response) {
-        $variableModel = new Variable($request->getDatabase()->getConnection());
+        $variableModel = new Variable($request->getDatabaseHelper()->getConnection());
 
         $getParams = $request->getParamGet();
 

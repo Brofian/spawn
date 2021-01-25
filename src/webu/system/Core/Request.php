@@ -233,19 +233,19 @@ class Request
     }
 
     /** @return CookieHelper */
-    public function getParamCookies(): CookieHelper
+    public function getCookieHelper(): CookieHelper
     {
         return $this->cookies;
     }
 
     /** @return SessionHelper */
-    public function getParamSession(): SessionHelper
+    public function getSessionHelper(): SessionHelper
     {
         return $this->session;
     }
 
     /** @return DatabaseHelper */
-    public function getDatabase() : DatabaseHelper
+    public function getDatabaseHelper() : DatabaseHelper
     {
         return $this->database;
     }
@@ -253,7 +253,7 @@ class Request
     /**
      * @return RoutingHelper
      */
-    public function getRouting() : RoutingHelper
+    public function getRoutingHelper() : RoutingHelper
     {
         return $this->routingHelper;
     }
@@ -303,20 +303,6 @@ class Request
      */
     public function getContext() {
         return $this->context;
-    }
-
-    /**
-     * @param string $name
-     * @param bool $fallback
-     * @return bool|mixed
-     */
-    public function getContextVar(string $name, $fallback = false) {
-        if($name == '' || isset($this->context->getContext()[$name])) {
-            return $this->context->getContext()[$name];
-        }
-        else {
-            return $fallback;
-        }
     }
 
 

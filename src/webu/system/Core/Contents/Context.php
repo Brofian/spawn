@@ -9,6 +9,9 @@ class Context {
     /** @var bool $isBackendContext */
     private $isBackendContext = false;
 
+    //Fix array index that are always accessible
+    const INDEX_USER = 'user';
+
 
     public function set(string $name, $variable) {
         $this->context[$name] = $variable;
@@ -24,12 +27,30 @@ class Context {
         return $this->context;
     }
 
-    public function setBackendContext() {
-        $this->isBackendContext = true;
+
+    public function setBackendContext($isBackendContext = true) {
+        $this->isBackendContext = $isBackendContext;
     }
 
+    /**
+     * @return bool
+     */
     public function getBackendContext() {
         return $this->isBackendContext;
+    }
+
+    /**
+     * @param string $identifier
+     * @param bool $fallback
+     * @return bool|mixed
+     */
+    public function get(string $identifier, $fallback = false) {
+        if($identifier == '' || isset($this->context[$identifier])) {
+            return $this->context[$identifier];
+        }
+        else {
+            return $fallback;
+        }
     }
 
 }

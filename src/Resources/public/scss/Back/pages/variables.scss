@@ -21,7 +21,7 @@ table.webu-variables-listing {
 	border: 1px solid $table-border-color;
 
 	thead {
-		background: rgba($primary);
+		border-bottom: 5px solid rgba($primary);
 		font-weight: $font-weight-bold;
 	}
 
@@ -43,7 +43,6 @@ table.webu-variables-listing {
 
 			td {
 				padding: 5px;
-				border-right: 1px solid $table-border-color;
 				width: auto;
 
 
