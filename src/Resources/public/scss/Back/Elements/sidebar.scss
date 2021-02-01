@@ -1,6 +1,7 @@
 $sidebar-transition: .2s ease-in-out;
 $sidebar-width: 200px;
-$sidebar-width-small: 60px;
+$sidebar-width-small: 70px;
+$sidebar-border-width: 10px;
 
 
 .sidebar-container {
@@ -8,7 +9,13 @@ $sidebar-width-small: 60px;
 	width: $sidebar-width;
 	min-width: $sidebar-width;
 	overflow-x: hidden;
-	transition: width $sidebar-transition;
+
+	z-index: $zSidebar;
+
+	.ready & {
+		transition: width $sidebar-transition,
+					min-width $sidebar-transition;
+	}
 
 	& a:link,
 	& a:visited {
@@ -17,17 +24,25 @@ $sidebar-width-small: 60px;
 
 	&.small {
 		width: $sidebar-width-small;
+		min-width: $sidebar-width-small;
 
 		.sidebar-container-content {
+			min-width: $sidebar-width-small;
 			width: $sidebar-width-small;
 
+			.sidebar-element.layer-0 {
+				width: $sidebar-width-small;
 
-			.sidebar-button {
+				& > a > .sidebar-button {
+					min-width: $sidebar-width-small - $sidebar-border-width;
+					width: $sidebar-width-small - $sidebar-border-width;
 
-				.sidebar-button-title {
-					opacity: 0;
+					& > .sidebar-button-title {
+						opacity: 0 !important;
+					}
 				}
 			}
+
 
 			#sidebar-toggle-button {
 
@@ -52,36 +67,79 @@ $sidebar-width-small: 60px;
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		width: $sidebar-width;
-		transition: width $sidebar-transition;
+		min-width: $sidebar-width;
 		position: fixed;
 
+		.ready & {
+			transition: width $sidebar-transition,
+			min-width $sidebar-transition;
+		}
+
+		.sidebar-element {
+			position: relative;
+			border-left: $sidebar-border-width solid $sb_default_color;
 
 
-		.sidebar-button {
-			padding: $base-content-margin;
-			display: flex;
-			flex-direction: row;
-			flex-wrap: nowrap;
-			cursor: pointer;
+			&.layer-0 {
 
-			&.active {
-				background: rgba($black, .3);
+				.ready & > a > .sidebar-button {
+					transition: width $sidebar-transition,
+								min-width $sidebar-transition;
+				}
+
 			}
 
-			&:hover {
-				background: rgba($black, .2);
-			}
-
-			.sidebar-button-icon {
+			.sidebar-button {
+				padding: $base-content-margin;
 				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				cursor: pointer;
+
+				width: $sidebar-width - $sidebar-border-width;
+				min-width: $sidebar-width - $sidebar-border-width;
+
+				&.active {
+					background: rgba($black, .3);
+				}
+
+				&:hover {
+					background: rgba($black, .2);
+				}
+
+				.sidebar-button-icon {
+					display: flex;
+				}
+
+				.sidebar-button-title {
+					white-space: nowrap;
+					opacity: 1;
+					padding-left: 10px;
+
+					.ready & {
+						transition: opacity $sidebar-transition;
+					}
+				}
 			}
 
-			.sidebar-button-title {
-				white-space: nowrap;
-				opacity: 1;
-				transition: opacity $sidebar-transition;
-				padding-left: 10px;
+
+			&:hover > {
+				.sidebar-subpages {
+					display: block;
+				}
+			}
+
+			.sidebar-subpages {
+				min-height: 100%;
+				min-width: $sidebar-width;
+
+				position: absolute;
+				right: 0;
+				top: 0;
+				transform: translateX(100%);
+
+				background: $secondary;
+				display: none;
 			}
 		}
 
@@ -97,6 +155,7 @@ $sidebar-width-small: 60px;
 
 			.sidebar-toggle-button-icon {
 				display: flex;
+				padding-left: $sidebar-border-width / 2;
 
 				.icon {
 					transition: transform $sidebar-transition;

@@ -60,7 +60,7 @@ select.webu-custom-select {
 		height: 0;
 		min-width: 100%;
 		margin-top: -1px;
-		z-index: 999;
+		z-index: $zElement;
 
 		background: $white;
 		border: none;

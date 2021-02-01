@@ -1,0 +1,14 @@
+{% block backend_sidebar_button %}
+
+    <a href="{{ url }}">
+        <div class="sidebar-button {% if action == actionref %}active{% endif %}">
+                {% if iconClass %}
+                    <span class="sidebar-button-icon">
+                        <span class="icon {{ iconClass }} light"></span>
+                    </span>
+                {% endif %}
+            <span class="sidebar-button-title">{{ title }}</span>
+        </div>
+    </a>
+
+{% endblock %}

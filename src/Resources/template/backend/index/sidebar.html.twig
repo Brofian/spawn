@@ -3,36 +3,27 @@
         <div class="sidebar-container-content">
 
 
-            {# Home Button #}
-            <a href="/backend">
-                <div class="sidebar-button {% if action == "index" %}active{% endif %}">
-                <span class="sidebar-button-icon">
-                    <span class="icon icon-home light"></span>
-                </span>
-                    <span class="sidebar-button-title">Startseite</span>
+            {% block backend_index_sidebar_elements %}
+
+                {% for element in context.sidebar %}
+                        {% include "backend/index/sidebar/sidebar_element.html.twig" with {
+                            nestingLevel: 0
+                        } %}
+                {% endfor %}
+
+            {% endblock %}
+
+
+            {% block backend_index_sidebar_toggle %}
+
+                {# Sidebar Toggle Button #}
+                <div id="sidebar-toggle-button">
+                    <span class="sidebar-toggle-button-icon">
+                        <span class="icon icon-simple-arrow-left light"></span>
+                    </span>
                 </div>
-            </a>
 
-            {# Variables #}
-            <a href="/backend/variables">
-                <div class="sidebar-button {% if action == "variables" %}active{% endif %}">
-                <span class="sidebar-button-icon">
-                    <span class="icon icon-variables light"></span>
-                </span>
-                    <span class="sidebar-button-title">Variablen</span>
-                </div>
-            </a>
-
-
-
-
-
-            {# Sidebar Toggle Button #}
-            <div id="sidebar-toggle-button">
-                <span class="sidebar-toggle-button-icon">
-                    <span class="icon icon-simple-arrow-left light"></span>
-                </span>
-            </div>
+            {% endblock %}
 
         </div>
 

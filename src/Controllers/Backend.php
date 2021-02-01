@@ -3,6 +3,7 @@
 namespace modules\Main\Controllers;
 
 use http\Client\Curl\User;
+use src\Models\SidebarElement;
 use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Database\Query\QueryBuilder;
@@ -39,6 +40,24 @@ class Backend extends Controller {
 
     public function onControllerStart(Request $request, Response $response) {
         $request->getContext()->setBackendContext();
+
+        $request->getContext()->set("sidebar", $this->createSidebar());
+
+    }
+
+    private function createSidebar() {
+        $sidebar = [];
+
+        //Home
+        $homeElement = new SidebarElement("Startseite", "/backend", "icon-home", "index");
+        $sidebar[] = $homeElement;
+
+        //Variables
+        $variablesElement = new SidebarElement("Variablen", "/backend/variables", "icon-variables", "variables", "#00ff00");
+        $variablesElement->addChild( new SidebarElement("Erstellen", "/backend/variables/new"));
+        $sidebar[] = $variablesElement;
+
+        return $sidebar;
     }
 
     public function onControllerStop(Request $request, Response $response) {}
@@ -59,7 +78,6 @@ class Backend extends Controller {
             $this->login($request, $response);
             return;
         }
-
 
         //this page can be called from other functions, so reset the action to index
         $response->getTwigHelper()->assign('action', 'index');
