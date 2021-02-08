@@ -53,6 +53,15 @@ class CustomSliderPlugin extends PluginBase {
         me._element.addEventListener('mousedown', me.onUserMouseDown.bind(me), true);
         me._element.addEventListener('mousemove', me.onUserMouseMove.bind(me), true);
         document.addEventListener('mouseup', me.onUserMouseUp.bind(me), true);
+
+        me.$_element.on("value_set", me.onValueSet.bind(me));
+    }
+
+    onValueSet() {
+        var me = this;
+
+        console.log(me._element.dataset.value);
+        //me.value = me._element.dataset.value;
     }
 
 

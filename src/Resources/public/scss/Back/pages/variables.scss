@@ -45,6 +45,15 @@ table.webu-variables-listing {
 				padding: 5px;
 				width: auto;
 
+				.variable_preview_box_small {
+					width: 1em;
+					height: 1em;
+					display: inline-block;
+					top: 4px;
+					position: relative;
+					margin-right: 5px;
+					border: 1px solid black;
+				}
 
 				&:last-of-type {
 					max-width: 53px;

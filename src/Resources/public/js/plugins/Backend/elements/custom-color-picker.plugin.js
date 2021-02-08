@@ -6,7 +6,7 @@ class CustomColorPickerPlugin extends PluginBase {
     onChangeSaturationEvent = 'webu/backendvariables/changeSaturation';
     onChangeLightnessEvent = 'webu/backendvariables/changeLightness';
 
-    default = "#000000ff";
+    default = "#000000";
 
     rgba = [
         0,
@@ -22,16 +22,25 @@ class CustomColorPickerPlugin extends PluginBase {
         1
     ];
 
+    sliders = [
+        null,
+        null,
+        null
+    ];
+
+    valueTarget = null;
+
+
 
     init() {
         var me = this;
 
         me.applyDataAttributes();
+        me.findElements();
 
         me.registerEvents();
 
-
-        me.setPreviewColor(me.default);
+        me.setPreviewColor(me.default, true);
         me.rgba = me.hexToRgba(me.default);
     }
 
@@ -40,7 +49,22 @@ class CustomColorPickerPlugin extends PluginBase {
 
         if (me._element.dataset.default) {
             me.default = me._element.dataset.default;
+            if(me.default.charAt(0) !== "#") {
+                me.default = "#ff0000";
+            }
         }
+    }
+
+
+    findElements() {
+        var me = this;
+
+        me.sliders[0] = me._element.querySelector(".hue");
+        me.sliders[1] = me._element.querySelector(".saturation");
+        me.sliders[2] = me._element.querySelector(".lightness");
+
+        me.valueTarget = me._element.querySelector(".color-picker-value-holder");
+
     }
 
 
@@ -94,11 +118,26 @@ class CustomColorPickerPlugin extends PluginBase {
     }
 
 
-    setPreviewColor(hexColor) {
+    setPreviewColor(hexColor, setSliders = false) {
         var me = this;
 
         me._element.querySelector(me.previewItemSelector).style.background = hexColor;
 
+        me.valueTarget.value = hexColor;
+
+
+        var rgb = this.hexToRgba(hexColor);
+
+        if(setSliders) {
+            var hsl = this.rgbToHsl(rgb[0], rgb[1], rgb[2]);
+
+
+            for(let i = 0; i < 3; i++) {
+                console.log(hsl[i]);
+                me.sliders[i].dataset.value=hsl[i];
+                $(me.sliders[i]).trigger("value_set");
+            }
+        }
     }
 
 
@@ -148,8 +187,11 @@ class CustomColorPickerPlugin extends PluginBase {
 
         let result = [];
         result["r"] = r;
+        result[0] = r;
         result["g"] = g;
+        result[1] = g;
         result["b"] = b;
+        result[2] = b;
 
         return result;
 
@@ -200,12 +242,15 @@ class CustomColorPickerPlugin extends PluginBase {
 
         l = Math.round(l * 100);
         s = Math.round(s * 100);
-
+        h = h / (Math.PI / 180);
 
         let result = [];
         result["h"] = h;
+        result[0] = h;
         result["s"] = s;
+        result[1] = s;
         result["l"] = l;
+        result[2] = l;
 
         return result;
     }
@@ -214,7 +259,7 @@ class CustomColorPickerPlugin extends PluginBase {
     hexToRgba(hex) {
         hex = hex.replace('#', '');
 
-        hex = parseInt(hex);
+        //hex = parseInt(hex);
 
         let rgba = [
             0,

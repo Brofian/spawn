@@ -72,11 +72,10 @@
             <input type="text"
                    name="variable-value-text"
                    class="webu-input-text col-2"
-                   id="variable-value-input"
+                   id="variable-value-input-text"
                    data-label="Name"
                    data-label-position="top"
                    value="{% if variable %}{{ variable.value }}{% endif %}"
-                   required
             />
 
         </div>
@@ -93,7 +92,8 @@
 
             {% include "backend/_custom/color-picker.html.twig" with {
                 'name' : 'variable-value-color',
-                'default' : default
+                'default' : default,
+                'id': 'variable-value-input-color'
             } %}
 
         </div>
@@ -107,9 +107,8 @@
             <input type="number"
                    name="variable-value-number"
                    class="col-2"
-                   id="variable-value-input"
+                   id="variable-value-input-number"
                    value="{% if variable and variable.type=="number" %}{{ variable.value }}{% else %}0{% endif %}"
-                   required
             />
 
         </div>

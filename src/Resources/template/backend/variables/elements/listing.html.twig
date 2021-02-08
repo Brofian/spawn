@@ -4,7 +4,7 @@
         <td>{{ variable.namespace }}</td>
         <td>{{ variable.name }}</td>
         <td>{{ variable.type }}</td>
-        <td>{{ variable.value }}</td>
+        <td>{% if variable.type=="color" %}<span class="variable_preview_box_small" style="background-color:{{ variable.value }}"></span>{% endif %}{{ variable.value }}</td>
         <td>
             <span class="variable-action-container">
                 {% if variable.editable %}
