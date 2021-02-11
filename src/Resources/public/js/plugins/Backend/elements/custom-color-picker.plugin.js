@@ -42,6 +42,7 @@ class CustomColorPickerPlugin extends PluginBase {
 
         me.setPreviewColor(me.default, true);
         me.rgba = me.hexToRgba(me.default);
+        me.hsl = me.rgbToHsl(me.rgba[0],me.rgba[1],me.rgba[2]);
     }
 
     applyDataAttributes() {
@@ -113,7 +114,7 @@ class CustomColorPickerPlugin extends PluginBase {
         let rgb = me.hslToRgb(hue, saturation, lightness);
         let hex = me.rgbaToHex(rgb["r"], rgb["g"], rgb["b"], 255);
 
-        me.setPreviewColor(hex)
+        me.setPreviewColor(hex);
 
     }
 
@@ -130,7 +131,6 @@ class CustomColorPickerPlugin extends PluginBase {
 
         if(setSliders) {
             var hsl = this.rgbToHsl(rgb[0], rgb[1], rgb[2]);
-
 
             for(let i = 0; i < 3; i++) {
                 console.log(hsl[i]);
@@ -232,7 +232,6 @@ class CustomColorPickerPlugin extends PluginBase {
 
 
         //Saturation
-
         if (delta === 0) {
             s = 0;
         } else {
@@ -242,7 +241,6 @@ class CustomColorPickerPlugin extends PluginBase {
 
         l = Math.round(l * 100);
         s = Math.round(s * 100);
-        h = h / (Math.PI / 180);
 
         let result = [];
         result["h"] = h;

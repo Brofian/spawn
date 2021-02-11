@@ -1,9 +1,12 @@
 {
   "require": {
-    "twig/twig" : "^3.0",
+    "twig/twig": "^3.0",
     "ext-json": "*",
     "ext-pdo": "*",
     "scssphp/scssphp": "^1.4.0",
-    "components/jquery" : "^3.5.1"
+    "components/jquery": "^3.5.1",
+    "symfony/debug": "^4.4",
+    "symfony/debug-bundle": "^5.2",
+    "symfony/var-dumper": "^5.2"
   }
 }

@@ -1,15 +1,8 @@
 #!/usr/bin/env php
 
-
 <?php
 
-//default -> überarbeiten wenn nötig
+include(__DIR__ . "\..\src\webu\init.php");
 
-set_time_limit(0);
 
-require_once DIR.'/../app/autoload.php';
-
-use Shopware\Components\Console\Application;
-
-$environment = new Environment($kernel);
-$environment->run($input);
+$console = new webu\bin\console\ConsoleIO($argv);

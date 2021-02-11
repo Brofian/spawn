@@ -47,7 +47,7 @@ class FileEditor
 
     public static function insert($path, $data)
     {
-        self::createFolder(dirname($path));
+        self::createFile($path);
         try {
             file_put_contents($path, $data);
             return true;

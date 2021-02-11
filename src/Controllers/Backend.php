@@ -57,8 +57,8 @@ class Backend extends Controller {
         $variablesElement->addChild( new SidebarElement("Erstellen", "/backend/variables/new"));
         $sidebar[] = $variablesElement;
 
-        //Variables
-        $variablesElement = new SidebarElement("Creator", "/backend/creator", "icon-variables", "variables", "#006ba2");
+        //Creator
+        $variablesElement = new SidebarElement("Creator", "/backend/creator", "icon-variables", "creator", "#006ba2");
         $variablesElement->addChild( new SidebarElement("Seiten", "/backend/pages") );
         $variablesElement->addChild( new SidebarElement("Elemente", "/backend/elements") );
         $sidebar[] = $variablesElement;
@@ -84,6 +84,7 @@ class Backend extends Controller {
             $this->login($request, $response);
             return;
         }
+
 
         //this page can be called from other functions, so reset the action to index
         $response->getTwigHelper()->assign('action', 'index');

@@ -25,6 +25,9 @@ define('DEFAULTCONTROLLER', 'Main');
 define('NOTFOUNDCONTROLLER', '404');
 define('ERRORCONTROLLER', '505');
 
+//default Cache Directory
+define('CACHE_DIR', '/var/cache');
+
 //Global Brand Colors
 define('BRAND_COLORS', [
     'color-base' => '#E0E2DB',

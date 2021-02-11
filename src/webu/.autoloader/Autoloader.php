@@ -65,33 +65,44 @@ class Autoloader
 
     private function createPathsFile($fileName)
     {
-
         //load all classes recursivly
         require_once(ROOT . "/src/webu/system/Core/Custom/FileCrawler.php");
 
-        $crawler = new FileCrawler();
-        $data = $crawler->searchInfos(
-            ROOT . "/src",
-            function ($fileContent, &$ergs, $filename, $path, $relativePath) {
-                $pathInfo = pathinfo($filename);
-                if (isset($pathInfo['extension']) && $pathInfo['extension'] != 'php') {
-                    return;
+
+        $crawl = function($root) {
+            $crawler = new FileCrawler();
+            $data = $crawler->searchInfos(
+                $root,
+                function ($fileContent, &$ergs, $filename, $path, $relativePath) {
+                    $pathInfo = pathinfo($filename);
+                    if (isset($pathInfo['extension']) && $pathInfo['extension'] != 'php') {
+                        return;
+                    }
+
+                    $namespaceMatches = array();
+                    preg_match('/namespace (.*);/m', $fileContent, $namespaceMatches);
+
+                    if (sizeof($namespaceMatches) >= 2) {
+                        //get the namespace
+                        $namespace = $namespaceMatches[1];
+                        //append the classname to the namespace
+                        $namespace .= "\\" . substr($filename, 0, strrpos($filename, '.'));
+
+                        //save in the classes array
+                        $ergs[$namespace] = $path;
+                    }
                 }
+            );
 
-                $namespaceMatches = array();
-                preg_match('/namespace (.*);/m', $fileContent, $namespaceMatches);
+            return $data;
+        };
 
-                if (sizeof($namespaceMatches) >= 2) {
-                    //get the namespace
-                    $namespace = $namespaceMatches[1];
-                    //append the classname to the namespace
-                    $namespace .= "\\" . substr($filename, 0, strrpos($filename, '.'));
 
-                    //save in the classes array
-                    $ergs[$namespace] = $path;
-                }
-            }
-        );
+        $dataSrc = $crawl(ROOT . "\\src");
+        $dataBin = $crawl(ROOT . "\\bin");
+
+
+        $data = array_merge($dataSrc, $dataBin);
 
 
         //create the file
