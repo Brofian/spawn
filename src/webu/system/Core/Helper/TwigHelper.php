@@ -46,6 +46,7 @@ class TwigHelper
      * @return string
      */
     public function finish() : string {
+
         $this->loadTwig();
         try {
             return $this->startRendering();

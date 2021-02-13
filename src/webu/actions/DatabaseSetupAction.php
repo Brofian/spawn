@@ -12,9 +12,16 @@ use webu\system\core\Response;
 
 class DatabaseSetupAction extends ApiController {
 
+    /** @var string  */
     const structureFileNamespace = "webu\\cache\\database\\table";
+    /** @var string  */
     private $cacheDirectory = ROOT . '\\src\\webu\\system\\Core\\Database\\generated\\';
 
+
+    public static function getControllerAlias(): string { return "database_setup_action"; }
+    public static function getControllerRoutes(): array { return ["index"=>"run"]; }
+    public function onControllerStart(Request $request, Response $response) {}
+    public function onControllerStop(Request $request, Response $response) {}
 
 
     public function run(Request $request, Response $response)
@@ -53,6 +60,8 @@ class DatabaseSetupAction extends ApiController {
 
         //Create all non existing tables
         $counter = 0;
+
+
         foreach($ergs as $dbclass) {
 
             /** @var DatabaseTable $c */
@@ -67,13 +76,14 @@ class DatabaseSetupAction extends ApiController {
 
 
             $sql = $c->getTableCreationSQL(DB_DATABASE);
-            $dbhelper->query($sql);
+            $result = $dbhelper->query($sql);
 
-            $c->afterCreation($dbhelper);
 
             $counter++;
+
         }
 
+        die();
 
         //create Database-Structure-Classes
         $this->createDatabaseStructures($tableClasses);
@@ -161,13 +171,7 @@ class ".toClassnameFormat($tablename)." {
     }
 
 
-    public function onControllerStart(Request $request, Response $response)
-    {
-        // TODO: Implement onControllerStart() method.
-    }
 
-    public function onControllerStop(Request $request, Response $response)
-    {
-        // TODO: Implement onControllerStop() method.
-    }
+
+
 }

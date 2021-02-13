@@ -47,6 +47,7 @@ class BackendLoginPlugin extends PluginBase {
             window.location.replace("/backend");
         } else {
             me._element.classList.add("error");
+            PopupHintManager.addPopup("Login failed! Please try again!", "error", 10);
         }
 
         //let res = JSON.parse(result);

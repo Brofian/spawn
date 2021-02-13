@@ -137,6 +137,3 @@ PopupHintManager = new PopupHintManager();
 PopupHintManager.init();
 window.PopupHintManager = PopupHintManager;
 
-
-PopupHintManager.addPopup("Hello world1", "default", 10);
-

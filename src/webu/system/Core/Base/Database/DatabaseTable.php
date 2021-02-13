@@ -201,7 +201,7 @@ abstract class DatabaseTable
         return $keys;
     }
 
-    public function setForeignKey(string $thisColumn, string $foreignTable, string $foreignColumn) {
+    public function setOnDeleteCascade(string $thisColumn, string $foreignTable, string $foreignColumn) {
         $this->foreignKey = 'FOREIGN KEY ('.$thisColumn.') REFERENCES '.$foreignTable.'('.$foreignColumn.') ON DELETE CASCADE';
     }
 

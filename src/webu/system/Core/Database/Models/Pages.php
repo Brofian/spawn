@@ -2,13 +2,13 @@
 
 namespace webu\system\Core\Database\Models;
 
-use webu\cache\database\table\WebuAuth;
-use webu\cache\database\table\WebuVariables;
+
+use webu\cache\database\table\WebuPages;
 use webu\system\Core\Base\Database\DatabaseModel;
-use webu\system\Core\Custom\Debugger;
 
 
-class Variable extends DatabaseModel {
+
+class Pages extends DatabaseModel {
 
     /**
      * @param int $id
@@ -17,8 +17,8 @@ class Variable extends DatabaseModel {
     public function findById(int $id) {
         $stmt = $this->queryBuilder->select("*");
 
-        $stmt->from(WebuVariables::TABLENAME)
-            ->where(WebuVariables::COL_ID, $id)
+        $stmt->from(WebuPages::TABLENAME)
+            ->where(WebuPages::COL_ID, $id)
             ->limit(1);
 
         return $stmt->execute();
@@ -31,14 +31,12 @@ class Variable extends DatabaseModel {
      * @return array
      */
     public function updateById(int $id, array $values = []) {
-        $stmt = $this->queryBuilder->update(WebuVariables::TABLENAME);
-        $stmt->where(WebuVariables::COL_ID, $id);
+        $stmt = $this->queryBuilder->update(WebuPages::TABLENAME);
+        $stmt->where(WebuPages::COL_ID, $id);
 
         $values = [
-            "name" => WebuVariables::COL_NAME,
-            "namespace" => WebuVariables::COL_NAMESPACE,
-            "type" => WebuVariables::COL_TYPE,
-            "value" => WebuVariables::COL_VALUE,
+            "name" => WebuPages::COL_NAME,
+            "active" => WebuPages::COL_ACTIVE
         ];
 
         foreach($values as $key => $value) {
@@ -58,22 +56,17 @@ class Variable extends DatabaseModel {
      */
     public function create(array $values = []) : bool {
         $stmt = $this->queryBuilder->insert();
-        $stmt->into(WebuVariables::TABLENAME);
+        $stmt->into(WebuPages::TABLENAME);
 
         if(isset(
                 $values["name"],
-                $values["namespace"],
-                $values["type"],
-                $values["value"]
+                $values["active"]
             ) == false) {
-
             return false;
         }
 
-        $stmt->setValue(WebuVariables::COL_NAME, $values["name"]);
-        $stmt->setValue(WebuVariables::COL_NAMESPACE, $values["namespace"]);
-        $stmt->setValue(WebuVariables::COL_TYPE, $values["type"]);
-        $stmt->setValue(WebuVariables::COL_VALUE, $values["value"]);
+        $stmt->setValue(WebuPages::COL_NAME, $values["name"]);
+        $stmt->setValue(WebuPages::COL_ACTIVE, $values["active"]);
 
         $stmt->execute();
 
@@ -87,10 +80,10 @@ class Variable extends DatabaseModel {
      * @param int $amount
      * @return array|\PDOStatement
      */
-    public function findEntries(int $from, int $amount, string $orderby = "id") {
+    public function find(int $from, int $amount, string $orderby = "id") {
         $stmt = $this->queryBuilder->select("*");
 
-        $stmt->from(WebuVariables::TABLENAME)
+        $stmt->from(WebuPages::TABLENAME)
             ->limit($from, $amount)
             ->orderby($orderby);
 
@@ -104,10 +97,10 @@ class Variable extends DatabaseModel {
     public function removeEntriesByIds(array $idList) {
         $stmt = $this->queryBuilder->delete();
 
-        $stmt->from(WebuVariables::TABLENAME);
+        $stmt->from(WebuPages::TABLENAME);
 
         foreach($idList as $id) {
-            $stmt->where(WebuVariables::COL_ID, $id, true);
+            $stmt->where(WebuPages::COL_ID, $id, true);
         }
 
         return $stmt->execute();
@@ -115,12 +108,12 @@ class Variable extends DatabaseModel {
 
 
     /**
-     * Returns the total number of saved variables
+     * Returns the total number of saved pages
      * @return int
      */
     public function getTotalNumberOfEntries() : int {
         $stmt = $this->queryBuilder->select("COUNT(*) as count");
-        $stmt->from(WebuVariables::TABLENAME);
+        $stmt->from(WebuPages::TABLENAME);
 
         return (int)$stmt->execute()[0]["count"];
     }

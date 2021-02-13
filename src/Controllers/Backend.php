@@ -2,14 +2,17 @@
 
 namespace modules\Main\Controllers;
 
-use http\Client\Curl\User;
+use modules\Main\Controllers\Backend\BackendIndex;
+use modules\Main\Controllers\Backend\CreatorElements;
+use modules\Main\Controllers\Backend\CreatorIndex;
+use modules\Main\Controllers\Backend\CreatorPages;
+use modules\Main\Controllers\Backend\PagesEdit;
+use modules\Main\Controllers\Backend\PagesIndex;
+use modules\Main\Controllers\Backend\VariablesEdit;
+use modules\Main\Controllers\Backend\VariablesIndex;
 use src\Models\SidebarElement;
-use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Controller\Controller;
-use webu\system\Core\Base\Database\Query\QueryBuilder;
 use webu\system\Core\Contents\Context;
-use webu\system\Core\Custom\Debugger;
-use webu\system\Core\Database\Models\AuthUser;
 use webu\system\Core\Database\Models\Variable;
 use webu\system\Core\Helper\UserHelper;
 use webu\system\core\Request;
@@ -34,7 +37,8 @@ class Backend extends Controller {
             '' => 'index',
             'login' => 'login',
             'logout' => 'logout',
-            'variables' => 'variables'
+            'variables' => 'variables',
+            'pages' => 'pages'
         ];
     }
 
@@ -58,7 +62,7 @@ class Backend extends Controller {
         $sidebar[] = $variablesElement;
 
         //Creator
-        $variablesElement = new SidebarElement("Creator", "/backend/creator", "icon-variables", "creator", "#006ba2");
+        $variablesElement = new SidebarElement("Creator", "/backend/pages", "icon-variables", "pages", "#006ba2");
         $variablesElement->addChild( new SidebarElement("Seiten", "/backend/pages") );
         $variablesElement->addChild( new SidebarElement("Elemente", "/backend/elements") );
         $sidebar[] = $variablesElement;
@@ -124,56 +128,96 @@ class Backend extends Controller {
         }
 
 
-        //Assign Subpage from uri
-        $availableSubpages = [
-            "edit",
-            "new",
-            "index"
-        ];
-        $uriSubPage = "index";
-
-        if(isset($request->getCompiledURIParams()[0])) {
-            if(in_array($request->getCompiledURIParams()[0], $availableSubpages)) {
-                $uriSubPage = $request->getCompiledURIParams()[0];
-            }
-        }
-        $response->getTwigHelper()->assign("subpage", $uriSubPage);
-
-
-        if($uriSubPage === "index") {
-            //load number of available variables for pagination
-            $variableModel = new Variable($request->getDatabaseHelper()->getConnection());
-            $number = $variableModel->getTotalNumberOfEntries();
-
-            $request->getCookieHelper()->set("variables-list-length", 10, false, "/backend/variables");
-            $itemsPerPage = $request->getCookieHelper()->get("variables-list-length", 10);
-            $itemsPerPage = min($itemsPerPage, 200);
-            $itemsPerPage = max($itemsPerPage, 10);
-
-            $pages = ceil($number / $itemsPerPage);
-
-            $response->getTwigHelper()->assign("pages", $pages);
-            $response->getTwigHelper()->assign("itemsPerPage", $itemsPerPage);
-            $response->getTwigHelper()->assign("availableEntries", $number);
-        }
-        else if($uriSubPage === "edit") {
-
-
-            $variableModel = new Variable($request->getDatabaseHelper()->getConnection());
-            $id = $request->getCompiledURIParams()["id"];
-
-            $variable = $variableModel->findById($id);
-
-            if(sizeof($variable) > 0) {
-                $variable = $variable[0];
-
-                $response->getTwigHelper()->assign("variable", $variable);
-            }
-
-        }
+        $this->callSubController($request, $response, 0, [
+            "edit" => new VariablesEdit($this),
+            "new" => false,
+            "index" => new VariablesIndex($this)
+        ], "index");
 
     }
 
+
+
+
+    public function creator(Request $request, Response $response)
+    {
+        if($this->loginRestriction($request, $response) == false) {
+            $this->login($request, $response);
+            return;
+        }
+    }
+
+
+    public function pages(Request $request, Response $response)
+    {
+        if($this->loginRestriction($request, $response) == false) {
+            $this->login($request, $response);
+            return;
+        }
+
+
+        $this->callSubController($request, $response, 0, [
+            "index" => new PagesIndex($this),
+            "edit" => new PagesEdit($this),
+            "new" => false,
+        ], "index");
+
+    }
+
+    /*public function elements(Request $request, Response $response)
+    {
+        if($this->loginRestriction($request, $response) == false) {
+            $this->login($request, $response);
+            return;
+        }
+
+        $subController = new CreatorElements($this);
+        $subController->init($request, $response);
+    }
+    */
+
+    /**
+     * Reads and returns the uri param at the given position or else false
+     *
+     * @param Request $request
+     * @param int $pos
+     * @param array $availablePages
+     * @return bool|string
+     */
+    protected function getUriParamAtPos(Request $request, int $pos, array $availablePages = []) {
+
+        if(count($request->getCompiledURIParams()) < ($pos+1)) {
+            return false;
+        }
+
+        $uriParam = $request->getCompiledURIParams()[$pos];
+
+        if(count($availablePages) > 0 && !isset($availablePages[$uriParam])) {
+            return false;
+        }
+
+        return $uriParam;
+    }
+
+
+
+    protected function callSubController(Request $request, Response $response, int $urlParamPos = 0, array $availableSubPages = [], string $defaultSubPage = "") {
+        $subPage = $this->getUriParamAtPos($request, $urlParamPos, $availableSubPages);
+        if($subPage === false) {
+            $subPage = $defaultSubPage;
+        }
+
+        $response->getTwigHelper()->assign("subpage", $subPage);
+
+        if($availableSubPages[$subPage] == false) {
+            return;
+        }
+
+
+        $subController = $availableSubPages[$subPage];
+        $subController->init($request, $response);
+
+    }
 
 
 }

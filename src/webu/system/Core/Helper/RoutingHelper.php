@@ -32,11 +32,6 @@ class RoutingHelper
     public function route($controller, $action)
     {
 
-        //check special routes, set by a module
-        if($this->checkSpecialRoutes($controller . ':' . $action)) {
-            return $this->routing;
-        }
-
         //check system routes, set in the config.php (404,505, etc.) and default api controllers
         if($this->checkSystemRoutes($controller . ':' . $action)) {
             return $this->routing;
@@ -79,12 +74,11 @@ class RoutingHelper
     private function checkSystemRoutes(string $identifier) : bool
     {
         if (isset($this->systemRoutes[$identifier])) {
-            $item = explode(':', $this->systemRoutes[$identifier]);
             /** @var Controller $controller */
-            $controller = new $item[0]();
+            $controller = new $this->systemRoutes[$identifier]();
 
             $this->routing['controller'] = $controller;
-            $this->routing['action'] = $controller::getControllerRoutes()[''];
+            $this->routing['action'] = $controller::getControllerRoutes()['index'];
             return true;
         }
         return false;
