@@ -13,7 +13,7 @@
    version="1.1"
    id="svg1035"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="warning.svg">
+   sodipodi:docname="basis.svg">
   <defs
      id="defs1029" />
   <sodipodi:namedview
@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="8"
-     inkscape:cx="-7.0865357"
-     inkscape:cy="30.998228"
+     inkscape:zoom="22.4"
+     inkscape:cx="19.142949"
+     inkscape:cy="14.227985"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -51,23 +51,5 @@
   <g
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
-     id="layer1">
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 0.75339252,6.2466082 3.5,0.75339321 6.2466075,6.2466082 Z"
-       id="path5861"
-       sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 3.5,2.3265803 V 4.478435 4.6154197"
-       id="path5865"
-       sodipodi:nodetypes="ccc" />
-    <ellipse
-       style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       id="path6436"
-       cx="3.5286229"
-       cy="5.3756995"
-       rx="0.12862346"
-       ry="0.12570021" />
-  </g>
+     id="layer1" />
 </svg>

@@ -6,12 +6,13 @@ namespace webu\system\Core\Base\Extensions\Twig;
 use Twig\Environment;
 use Twig\TwigFilter;
 
-abstract class FilterExtensionInterface {
+abstract class FilterExtension {
 
     public function __construct(Environment &$twig) {
         $filter = new TwigFilter(
             $this->getFilterName(),
-            $this->getFilterFunction()
+            $this->getFilterFunction(),
+            $this->getFilteroptions()
         );
 
         $twig->addFilter($filter);
@@ -21,5 +22,9 @@ abstract class FilterExtensionInterface {
     abstract protected function getFilterName() : string;
 
     abstract protected function getFilterFunction() : callable;
+
+    abstract protected function getFilterOptions() : array;
+
+
 
 }

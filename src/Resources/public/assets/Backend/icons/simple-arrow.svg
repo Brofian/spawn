@@ -13,7 +13,7 @@
    version="1.1"
    id="svg1035"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="heart.svg">
+   sodipodi:docname="simple_arrow_down.svg">
   <defs
      id="defs1029" />
   <sodipodi:namedview
@@ -23,9 +23,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="15.839192"
-     inkscape:cx="-16.796269"
-     inkscape:cy="21.007704"
+     inkscape:zoom="2.8"
+     inkscape:cx="-11.191017"
+     inkscape:cy="67.806731"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -53,9 +53,9 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 6.4051539,3.3141421 c -0.5253245,1.1363696 -2.861029,3.1198763 -2.861029,3.1198763 0,0 -2.3370127,-2.0240467 -2.8610291,-3.1739464 -0.22795356,-0.5002205 -0.21825218,-0.9154709 0,-1.4199998 C 0.9532574,1.2155454 1.4908813,0.75934256 2.170831,0.78559995 2.8496857,0.81181509 3.5441249,1.8337043 3.5441249,1.8337043 c 0,0 0.6943782,-1.02351999 1.373294,-1.04810435 0.6831019,-0.0247365 1.217853,0.43997395 1.487735,1.06798975 0.2223767,0.517471 0.23634,0.9493078 0,1.4605524 z"
-       id="path7023"
-       sodipodi:nodetypes="scssscsss" />
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 0.5,2.6 3.5,5.0554315 6.5,2.6"
+       id="path4086"
+       sodipodi:nodetypes="ccc" />
   </g>
 </svg>

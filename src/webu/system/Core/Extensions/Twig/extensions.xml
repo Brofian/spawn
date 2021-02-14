@@ -5,13 +5,17 @@
 
     <filters>
 
-        <filter name="icon" class="webu\system\Core\Extensions\IconFilterExtension" id="twig.icon_filter_extension">
+        <filter name="icon" class="webu\system\Core\Extensions\Twig\IconFilterExtension" id="twig.filter.icon">
         </filter>
 
     </filters>
 
 
     <functions>
+
+        <function name="link" class="webu\system\Core\Extensions\Twig\LinkFunctionExtension" id="twig.function.link">
+        </function>
+
     </functions>
 
 

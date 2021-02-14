@@ -53,39 +53,39 @@
      inkscape:groupmode="layer"
      id="layer1">
     <circle
-       style="fill:#070000;fill-opacity:0;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#070000;fill-opacity:0;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        id="path847"
        cx="1.0925874"
        cy="2.2324219"
        r="0.69999999" />
     <circle
-       style="fill:#070000;fill-opacity:0;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#070000;fill-opacity:0;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        id="path847-8"
        cx="2.5159039"
        cy="5.6578312"
        r="0.69999999" />
     <circle
-       style="fill:#070000;fill-opacity:0;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#070000;fill-opacity:0;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        id="path847-1"
        cx="4.3939734"
        cy="1.1339285"
        r="0.69999999" />
     <circle
-       style="fill:#070000;fill-opacity:0;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#070000;fill-opacity:0;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        id="path847-9"
        cx="5.8113842"
        cy="3.4608445"
        r="0.69999999" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 1.3347284,2.8938802 0.8976934,2.1379277 v 0 0 0"
        id="path876" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        d="M 2.7757625,5.0554315 4.0986792,1.7953869"
        id="path878" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 4.7365142,1.7127046 0.720517,1.1811756"
        id="path880" />
   </g>

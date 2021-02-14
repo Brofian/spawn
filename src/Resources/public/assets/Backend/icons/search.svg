@@ -24,7 +24,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.6"
-     inkscape:cx="-74.535354"
+     inkscape:cx="-73.820682"
      inkscape:cy="17.147387"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -53,14 +53,14 @@
      inkscape:groupmode="layer"
      id="layer1">
     <ellipse
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        id="path7596"
        cx="3.0287743"
        cy="2.7123475"
        rx="1.9446472"
        ry="1.8644556" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        d="M 4.2324117,4.1210608 5.9968654,6.3059507"
        id="path7600" />
   </g>

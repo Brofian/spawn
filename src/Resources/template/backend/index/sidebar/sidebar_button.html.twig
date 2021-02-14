@@ -4,7 +4,9 @@
         <div class="sidebar-button {% if action == actionref %}active{% endif %}">
                 {% if iconClass %}
                     <span class="sidebar-button-icon">
-                        <span class="icon {{ iconClass }} light"></span>
+
+                        {{ iconClass|icon("white") }}
+
                     </span>
                 {% endif %}
             <span class="sidebar-button-title">{{ title }}</span>

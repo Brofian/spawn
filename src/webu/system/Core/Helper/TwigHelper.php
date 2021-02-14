@@ -14,7 +14,6 @@ use Twig\Node\Expression\FunctionExpression;
 use Twig\TwigFunction;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Extensions\ExtensionLoader;
-use webu\system\Core\Extensions\Twig\LinkExtension;
 
 class TwigHelper
 {
@@ -74,7 +73,7 @@ class TwigHelper
 
         ExtensionLoader::loadTwigExtensions($twig);
         $twig->addExtension(new DebugExtension());
-        $twig->addExtension(new LinkExtension(MAIN_ADDRESS_FULL));
+
 
         if(is_object($twig) == false) {
             Debugger::ddump("Couldn´t load Twig");

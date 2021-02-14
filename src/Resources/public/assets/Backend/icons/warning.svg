@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -53,17 +53,17 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 0.75339252,6.2466082 3.5,0.75339321 6.2466075,6.2466082 Z"
        id="path5861"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="cccc"
+       style="stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 3.5,2.3265803 V 4.478435 4.6154197"
        id="path5865"
-       sodipodi:nodetypes="ccc" />
+       sodipodi:nodetypes="ccc"
+       style="stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none" />
     <ellipse
-       style="fill:#000002;fill-opacity:1;stroke:#000000;stroke-width:0.499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       style="fill-opacity:1;paint-order:normal;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
        id="path6436"
        cx="3.5286229"
        cy="5.3756995"
