@@ -10,8 +10,11 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\Node\Expression\FunctionExpression;
+use Twig\TwigFunction;
 use webu\system\Core\Custom\Debugger;
-use webu\system\Core\Extensions\LinkExtension;
+use webu\system\Core\Extensions\ExtensionLoader;
+use webu\system\Core\Extensions\Twig\LinkExtension;
 
 class TwigHelper
 {
@@ -50,11 +53,9 @@ class TwigHelper
         $this->loadTwig();
         try {
             return $this->startRendering();
-        } catch (LoaderError $e) {
-        } catch (RuntimeError $e) {
-        } catch (SyntaxError $e) {
+        } catch (\Exception $e) {
+            return $e;
         }
-        return '';
     }
 
     /**
@@ -70,9 +71,10 @@ class TwigHelper
             'cache' => $this->cacheFolderPath,
         ]); //<- Twig environment
 
-        //Adding Extension
-        $twig->addExtension(new LinkExtension(MAIN_ADDRESS_FULL));
+
+        ExtensionLoader::loadTwigExtensions($twig);
         $twig->addExtension(new DebugExtension());
+        $twig->addExtension(new LinkExtension(MAIN_ADDRESS_FULL));
 
         if(is_object($twig) == false) {
             Debugger::ddump("Couldn´t load Twig");
@@ -94,7 +96,6 @@ class TwigHelper
         if($this->customoutput !== null) {
             return $this->customoutput;
         }
-
 
         /** @var Environment $twig */
         $twig = $this->twig;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<services>
+
+    <filters>
+
+        <filter name="icon" class="webu\system\Core\Extensions\IconFilterExtension" id="twig.icon_filter_extension">
+        </filter>
+
+    </filters>
+
+
+    <functions>
+    </functions>
+
+
+    <tags>
+    </tags>
+
+</services>
+
+

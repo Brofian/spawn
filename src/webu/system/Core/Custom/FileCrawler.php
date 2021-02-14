@@ -78,7 +78,7 @@ class FileCrawler
                 $function = $this->checkFunction;
                 $function($fileContent, $ergs, $content, $path, $relativePath);
 
-            } else if (is_dir($path) && $depth < $this->maxDepth) {
+            } else if (is_dir($path) && ($depth < $this->maxDepth || $this->maxDepth == -1)) {
                 //if class is another dir, scan it
                 $this->scanDirs($path, $ergs, $depth + 1, $relativePath . $content . '/');
 
