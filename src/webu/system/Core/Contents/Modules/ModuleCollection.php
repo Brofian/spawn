@@ -35,25 +35,4 @@ class ModuleCollection {
     }
 
 
-    /**
-     * @return array
-     */
-    public function getURIList() {
-
-        $uris = array();
-
-        /** @var Module $module */
-        foreach($this->modules as $module) {
-            /** @var ModuleController $controller */
-            foreach($module->getModuleControllers() as $controller) {
-                /** @var string $action */
-                foreach($controller->getActions() as $action) {
-                    $uris[$action] = $controller;
-                }
-            }
-        }
-
-        return $uris;
-    }
-
 }

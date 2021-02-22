@@ -1,4 +1,13 @@
 RewriteEngine On
 RewriteBase /
+
+
+#If the request starts with "var/cache/public", then pass it through
+RewriteCond %{REQUEST_URI} ^var/cache/public
+RewriteRule ^ - [L,QSA]
+
+
+#Redirect everything to www/index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ www/index.php/$1 [L]
+

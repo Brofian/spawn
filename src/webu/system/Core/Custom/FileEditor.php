@@ -8,6 +8,11 @@ class FileEditor
 
     public static function createFolder($path)
     {
+        //check parent dir recursively
+        if(!is_dir(dirname($path))) {
+            self::createFolder(dirname($path));
+        }
+
         if (!is_dir($path)) {
             try {
                 mkdir($path);

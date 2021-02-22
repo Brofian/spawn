@@ -5,13 +5,8 @@ namespace webu\system\Core\Helper;
 
 
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
-use Twig\Node\Expression\FunctionExpression;
-use Twig\TwigFunction;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Extensions\ExtensionLoader;
 
@@ -22,12 +17,11 @@ class TwigHelper
     private $variables = array();
 
     /** @var string  */
-    private $targetFile = 'base.html.twig';
+    private $targetFile = 'Base.html.twig';
 
     /** @var array  */
     private $templateDirs = [
         //default template dir
-        ROOT . '\\src\\Resources\\template'
     ];
 
     /** @var string|null  */
@@ -36,7 +30,8 @@ class TwigHelper
     /** @var bool  */
     private $twig = false;
 
-    private $cacheFolderPath = ROOT . '/var/cache/twig';
+    /** @var string  */
+    private $cacheFolderPath = ROOT . '/var/cache/private/twig';
 
     public function __construct()
     {
@@ -62,6 +57,7 @@ class TwigHelper
      * @return void
      */
     private function loadTwig() {
+
 
 
         $loader = new FilesystemLoader($this->templateDirs);
@@ -91,7 +87,7 @@ class TwigHelper
      */
     private function startRendering() : string {
 
-        //check customoutout
+        //check customoutput
         if($this->customoutput !== null) {
             return $this->customoutput;
         }
@@ -103,6 +99,7 @@ class TwigHelper
 
 
     public function setRenderFile(string $file) {
+
         $this->targetFile = $file;
     }
 

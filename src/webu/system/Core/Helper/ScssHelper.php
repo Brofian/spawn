@@ -11,10 +11,10 @@ use webu\system\Core\Extensions\Scss\scss_functions;
 
 class ScssHelper {
 
-    private $cacheFilePath      = ROOT . '/var/cache/css/all.css';
-    private $cacheFileMiniPath  = ROOT . '/var/cache/css/all.min.css';
+    private $cacheFilePath      = ROOT . '/var/cache/public/css/all.css';
+    private $cacheFileMiniPath  = ROOT . '/var/cache/public/css/all.min.css';
     private $baseFolderPath     = ROOT . '/src/Resources/public/scss/Front/';
-    private $baseFileName       =        'base.scss';
+    private $baseFileName       =        'Base.scss';
     private $scssFilesPath      = ROOT . '/vendor/scssphp/scssphp/scss.inc.php';
     private $alwaysReload       = false;
 
@@ -27,8 +27,8 @@ class ScssHelper {
 
     public function setBackendFilePaths() {
         $this->baseFolderPath     = ROOT . '/src/Resources/public/scss/Back/';
-        $this->cacheFilePath      = ROOT . '/var/cache/css/backend/all.css';
-        $this->cacheFileMiniPath  = ROOT . '/var/cache/css/backend/all.min.css';
+        $this->cacheFilePath      = ROOT . '/var/cache/public/css/backend/all.css';
+        $this->cacheFileMiniPath  = ROOT . '/var/cache/public/css/backend/all.min.css';
     }
 
     private function compile(bool $compressed = false) {
@@ -42,7 +42,7 @@ class ScssHelper {
 
         $baseVariables = $this->compileBaseVariables();
 
-        //set base path for files
+        //set Base path for files
         $scss->setImportPaths([$this->baseFolderPath]);
 
 

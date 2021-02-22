@@ -64,7 +64,6 @@ class ModuleLoader {
         /*
          * Load Controllers
          */
-
         if(isset($pluginXML->controllerlist)) {
             foreach($pluginXML->controllerlist->children() as $controller) {
 
@@ -80,12 +79,18 @@ class ModuleLoader {
                     $controllerActions
                 );
                 $module->addModuleController($moduleController);
-
             }
-
-
         }
 
+
+        /*
+         * Load Controllers
+         */
+        if(isset($pluginXML->resources)) {
+            $module->setResourceWeight((string)$pluginXML->resources->attributes()->weight);
+
+            $module->setResourcePath((string)$pluginXML->resources);
+        }
 
         $this->moduleCollection->addModule($module);
     }

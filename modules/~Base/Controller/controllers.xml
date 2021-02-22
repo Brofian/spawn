@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<controllerlist>
+
+    <controller class="webu\modules\base\Controller\Index" id="module.base.controller.index">
+        <actions>
+
+            <action>
+                <method>index</method>
+                <url>/index</url>
+            </action>
+
+        </actions>
+    </controller>
+
+</controllerlist>

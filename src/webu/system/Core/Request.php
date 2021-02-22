@@ -6,9 +6,11 @@ namespace webu\system\core;
  *  The default Class to store all Request Informations
  */
 
+use webu\system\Core\Base\Controller\BaseController;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Contents\ContentLoader;
 use webu\system\Core\Contents\Context;
+use webu\system\Core\Contents\Modules\Module;
 use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Custom\Logger;
@@ -166,41 +168,74 @@ class Request
     }
 
 
-
-    public function loadController($requestController, $requestActionPath, Environment $e)
+    /**
+     * @param Environment $e
+     */
+    public function loadController(Environment $e)
     {
         $moduleLoader = new ModuleLoader();
         $moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
-        $moduleCollection->getURIList();
+
+
+        //sort modules by resource Weight
+        $moduleList = $moduleCollection->getModuleList();
+        usort($moduleList, function($a, $b) {
+            /** @var $a Module */
+            /** @var $b Module */
+
+            if($a->getResourceWeight() < $b->getResourceWeight()) return -1;
+            else if($a->getResourceWeight() > $b->getResourceWeight()) return 1;
+            else return 0;
+        });
+
+        /** @var Module $module */
+        foreach($moduleList as $module) {
+            $e->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
+        }
 
         $routingHelper = new RoutingHelper($moduleCollection);
         $result = $routingHelper->route($this->requestURI);
 
         if($result === false) {
             //TODO: Fallback für 404 einbinden
+            echo "Fallback für 404 einbinden <br>";
             die(__METHOD__);
         }
 
+
+
+
+        /** @var Module $module */
+        $module = $result["module"];
         /** @var ModuleController $controller */
         $controller = $result["controller"];
         /** @var string $method */
         $method = $result["method"];
 
-
-
-        /* Insert gathered Information to Context */
-        $this->fillContext();
-
-
+        //prepare the params for the method
         $params = [
             $this,
             $e->response
         ];
 
-        //$controller->init($this,$e->response);
+
+
+
+
+        /* Insert gathered Information to Context */
+        $this->fillContext();
+        $this->getContext()->set("Module", $module->getName());
+        $this->getContext()->set("Controller", $controller->getId());
+        $this->getContext()->set("Action", $method);
+
+
+
 
         $cls = $controller->getClass();
+        /** @var BaseController $ctrl */
         $ctrl = new $cls();
+
+        $ctrl->init($this, $e->response);
 
         //call the controller method
         call_user_func_array(
@@ -211,7 +246,7 @@ class Request
             $params
         );
 
-        //$controller->end($this, $e->response);
+        $ctrl->end($this, $e->response);
 
     }
 

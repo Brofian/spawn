@@ -1,10 +1,10 @@
 <?php
 
-namespace webu\modules\Manual;
+namespace webu\modules\base;
 
 use webu\system\Core\Base\Module\BaseModule;
 
-class Manual extends BaseModule {
+class Base extends BaseModule {
 
 
     public function install()

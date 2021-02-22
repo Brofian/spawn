@@ -13,7 +13,7 @@ class ExtensionLoader {
     public static function loadTwigExtensions(Environment &$twig) {
 
         $xmlHelper = new XMLHelper();
-        $xml = $xmlHelper->readFile(__DIR__ . "\\Twig\\extensions.xml");
+        $xml = $xmlHelper->readFile(__DIR__ . "\\Twig\\_extensions.xml");
 
         foreach($xml->filters->filter as $filter) {
             /** @var FilterExtension $extensionClass */

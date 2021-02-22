@@ -2,7 +2,8 @@
 
 namespace webu\system\Core\Contents;
 
-class Context {
+class Context
+{
 
     /** @var array $context */
     private $context = array();
@@ -12,30 +13,48 @@ class Context {
     //Fix array index that are always accessible
     const INDEX_USER = 'user';
 
-
-    public function set(string $name, $variable) {
+    /**
+     * @param string $name
+     * @param mixed $variable
+     */
+    public function set(string $name, $variable)
+    {
         $this->context[$name] = $variable;
     }
 
-    public function multiSet(array $entries) {
-        foreach($entries as $name => $variable) {
+
+    /**
+     * @param array $entries
+     */
+    public function multiSet(array $entries)
+    {
+        foreach ($entries as $name => $variable) {
             $this->context[$name] = $variable;
         }
     }
 
-    public function getContext() {
+    /**
+     * @return array
+     */
+    public function getContext()
+    {
         return $this->context;
     }
 
 
-    public function setBackendContext($isBackendContext = true) {
+    /**
+     * @param bool $isBackendContext
+     */
+    public function setBackendContext($isBackendContext = true)
+    {
         $this->isBackendContext = $isBackendContext;
     }
 
     /**
      * @return bool
      */
-    public function getBackendContext() {
+    public function getBackendContext()
+    {
         return $this->isBackendContext;
     }
 
@@ -44,11 +63,11 @@ class Context {
      * @param bool $fallback
      * @return bool|mixed
      */
-    public function get(string $identifier, $fallback = false) {
-        if($identifier == '' || isset($this->context[$identifier])) {
+    public function get(string $identifier, $fallback = false)
+    {
+        if ($identifier == '' || isset($this->context[$identifier])) {
             return $this->context[$identifier];
-        }
-        else {
+        } else {
             return $fallback;
         }
     }

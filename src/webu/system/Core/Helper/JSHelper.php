@@ -14,7 +14,7 @@ class JSHelper
     /** @var array */
     private $staticScript = [];
     /** @var string */
-    private $cacheDir = ROOT . '/var/cache/js';
+    private $cacheDir = ROOT . '/var/cache/public/js';
     /** @var string */
     private $cacheFile = '/all.js';
     /** @var bool */

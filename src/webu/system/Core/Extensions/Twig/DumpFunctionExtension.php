@@ -8,7 +8,7 @@ class DumpFunctionExtension extends FunctionExtension
 {
     protected function getFunctionName(): string
     {
-        return "dump";
+        return "d";
     }
 
     protected function getFunctionFunction(): callable

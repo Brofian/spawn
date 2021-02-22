@@ -1,0 +1,14 @@
+{% block document %}
+    <!DOCTYPE html>
+
+    {% block document_html %}
+        <html lang="de">
+
+        {% include [context.Module~"/head.html.twig", "Base/head.html.twig"] %}
+
+
+        {% include [context.Module~"/body.html.twig", "Base/body.html.twig"] %}
+
+    {% endblock %}
+
+{% endblock %}

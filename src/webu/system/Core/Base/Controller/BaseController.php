@@ -5,12 +5,14 @@ namespace webu\system\Core\Base\Controller;
 
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Helper\RoutingHelper;
+use webu\system\Core\Helper\TwigHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
 abstract class BaseController
 {
 
+    /** @var TwigHelper  */
     protected $twig;
 
 

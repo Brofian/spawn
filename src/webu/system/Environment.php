@@ -47,8 +47,6 @@ class Environment
 
 
         $this->request->loadController(
-            $this->request->getRequestController(),
-            $this->request->getRequestActionPath(),
             $this
         );
 
