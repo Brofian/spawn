@@ -6,11 +6,11 @@ namespace webu\system\core;
  *  The default Class to store all Request Informations
  */
 
-use webu\system\Core\Base\Controller\Controller;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Contents\ContentLoader;
 use webu\system\Core\Contents\Context;
-use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Contents\Modules\ModuleController;
+use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\RoutingHelper;
@@ -169,41 +169,49 @@ class Request
 
     public function loadController($requestController, $requestActionPath, Environment $e)
     {
+        $moduleLoader = new ModuleLoader();
+        $moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
+        $moduleCollection->getURIList();
 
-        $routingHelper = new RoutingHelper();
-        $this->routingHelper = $routingHelper;
-        $erg = $this->routingHelper->route(
-            $requestController,
-            $requestActionPath
-        );
+        $routingHelper = new RoutingHelper($moduleCollection);
+        $result = $routingHelper->route($this->requestURI);
 
-        /** @var Controller $controller */
-        $controller = new $erg['controller']();
-        /** @var string $action */
-        $action = $erg['action'];
+        if($result === false) {
+            //TODO: Fallback für 404 einbinden
+            die(__METHOD__);
+        }
+
+        /** @var ModuleController $controller */
+        $controller = $result["controller"];
+        /** @var string $method */
+        $method = $result["method"];
+
 
 
         /* Insert gathered Information to Context */
         $this->fillContext();
 
 
+        $params = [
+            $this,
+            $e->response
+        ];
 
-        /* Call Controller */
-        $params = $this->routingHelper->addValuesToCustomParams($e, $controller,$action);
+        //$controller->init($this,$e->response);
 
-        $controller->init($this,$e->response);
-
+        $cls = $controller->getClass();
+        $ctrl = new $cls();
 
         //call the controller method
         call_user_func_array(
             [
-                $controller,
-                $action
+                $ctrl,
+                $method
             ],
             $params
         );
 
-        $controller->end($this, $e->response);
+        //$controller->end($this, $e->response);
 
     }
 

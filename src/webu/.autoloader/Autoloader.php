@@ -100,6 +100,7 @@ class Autoloader
 
         $dataSrc = $crawl(ROOT . "\\src");
         $dataBin = $crawl(ROOT . "\\bin");
+        $dataBin = $crawl(ROOT . "\\modules");
 
 
         $data = array_merge($dataSrc, $dataBin);

@@ -2,7 +2,9 @@
 
 namespace webu\system;
 
+use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Custom\Logger;
+use webu\system\Core\Helper\RoutingHelper2;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -38,6 +40,10 @@ class Environment
     {
         $this->request->gatherInformations();
         $this->request->addToAccessLog();
+
+
+
+
 
 
         $this->request->loadController(

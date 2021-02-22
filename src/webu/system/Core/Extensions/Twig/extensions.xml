@@ -16,6 +16,9 @@
         <function name="link" class="webu\system\Core\Extensions\Twig\LinkFunctionExtension" id="twig.function.link">
         </function>
 
+        <function name="dump" class="webu\system\Core\Extensions\Twig\DumpFunctionExtension" id="twig.function.dump">
+        </function>
+
     </functions>
 
 

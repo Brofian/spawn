@@ -1,0 +1,16 @@
+{
+  "name": "webu",
+  "version": "1.0.0",
+  "description": "A basic php framework",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/F-H00/webuCreator.git"
+  },
+  "author": "Fabian Holzwarth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/F-H00/webuCreator/issues"
+  },
+  "homepage": "https://github.com/F-H00/webuCreator#readme"
+}

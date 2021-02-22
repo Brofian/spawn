@@ -62,7 +62,7 @@ class Backend extends Controller {
         $sidebar[] = $variablesElement;
 
         //Creator
-        $variablesElement = new SidebarElement("Creator", "/backend/pages", "variable", "pages", "#006ba2");
+        $variablesElement = new SidebarElement("Creator", "/backend/pages", "page", "pages", "#006ba2");
         $variablesElement->addChild( new SidebarElement("Seiten", "/backend/pages") );
         $variablesElement->addChild( new SidebarElement("Elemente", "/backend/elements") );
         $sidebar[] = $variablesElement;

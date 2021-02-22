@@ -1,6 +1,3 @@
 <?php
 
-exec("bin/console project:init");
-
-exec("npm install abcde --save --prefix ./vendor");
-
+include(__DIR__ . "\\..\\npm\\install.php");
