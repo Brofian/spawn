@@ -1,8 +1,8 @@
-#!/usr/bin/env php
-
-<?php
-
-include(__DIR__ . "\..\src\webu\init.php");
+#!/usr/bin/env bash
 
 
-$console = new webu\bin\console\ConsoleIO($argv);
+./npm/install.sh
+
+#<?php
+#include(__DIR__ . "\..\src\webu\init.php");
+#$console = new webu\bin\console\ConsoleIO($argv);
