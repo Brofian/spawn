@@ -11,7 +11,7 @@ class CUriConverter {
         preg_match_all($pattern, $uri, $matches);
 
 
-        $uri = trim($uri, "/ \n");
+        $uri = "^/" . trim($uri, "/ \n");
 
         foreach($matches[0] as $variable) {
             $uri = str_replace($variable, "([^/]*)", $uri);

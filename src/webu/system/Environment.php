@@ -42,13 +42,12 @@ class Environment
         $this->request->addToAccessLog();
 
 
-
-
-
-
         $this->request->loadController(
             $this
         );
+
+        $this->response->prepare($this);
+
 
         $this->response->finish($this->request->getContext());
     }

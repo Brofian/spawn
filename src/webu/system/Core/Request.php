@@ -11,6 +11,7 @@ use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Contents\ContentLoader;
 use webu\system\Core\Contents\Context;
 use webu\system\Core\Contents\Modules\Module;
+use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Custom\Logger;
@@ -48,7 +49,8 @@ class Request
     private $requestActionPath = 'index';
     /** @var Context */
     private $context = null;
-
+    /** @var ModuleCollection  */
+    private $moduleCollection = null;
 
     public function __construct()
     {
@@ -174,11 +176,11 @@ class Request
     public function loadController(Environment $e)
     {
         $moduleLoader = new ModuleLoader();
-        $moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
+        $this->moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
 
 
         //sort modules by resource Weight
-        $moduleList = $moduleCollection->getModuleList();
+        $moduleList = $this->moduleCollection->getModuleList();
         usort($moduleList, function($a, $b) {
             /** @var $a Module */
             /** @var $b Module */
@@ -193,7 +195,7 @@ class Request
             $e->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
         }
 
-        $routingHelper = new RoutingHelper($moduleCollection);
+        $routingHelper = new RoutingHelper($this->moduleCollection);
         $result = $routingHelper->route($this->requestURI);
 
         if($result === false) {
@@ -346,6 +348,13 @@ class Request
      */
     public function getContext() {
         return $this->context;
+    }
+
+    /**
+     * @return ModuleCollection
+     */
+    public function getModuleCollection() {
+        return $this->moduleCollection;
     }
 
 

@@ -128,6 +128,13 @@ class Module {
     /**
      * @return string
      */
+    public function getRelativeResourcePath() : string {
+        return $this->resourcePath;
+    }
+
+    /**
+     * @return string
+     */
     public function getResourceWeight() : string {
         return $this->resourceWeight;
     }

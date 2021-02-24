@@ -21,6 +21,9 @@ class ModuleLoader {
 
     public function loadModules(string $rootPath) {
 
+        $cachedModuleCollection = ModuleCacher::readModuleCache();
+        if($cachedModuleCollection && MODE != 'dev') return $cachedModuleCollection;
+
         if(!is_dir($rootPath)) return false;
 
         $moduleFolders = scandir($rootPath);
@@ -33,6 +36,8 @@ class ModuleLoader {
 
             $this->loadModule($moduleFolder, $basePath);
         }
+
+        ModuleCacher::createModuleCache($this->moduleCollection);
 
         return $this->moduleCollection;
     }

@@ -6,22 +6,28 @@ use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\CompilerException;
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Custom\Debugger;
-use webu\system\Core\Extensions\Scss\scss_functions;
 
 
 class ScssHelper {
 
-    private $cacheFilePath      = ROOT . '/var/cache/public/css/all.css';
-    private $cacheFileMiniPath  = ROOT . '/var/cache/public/css/all.min.css';
-    private $baseFolderPath     = ROOT . '/src/Resources/public/scss/Front/';
-    private $baseFileName       =        'Base.scss';
-    private $scssFilesPath      = ROOT . '/vendor/scssphp/scssphp/scss.inc.php';
+    const SCSS_FILES_PATH         = ROOT . '/vendor/scssphp/scssphp/scss.inc.php';
+
     private $alwaysReload       = false;
+
+
+
+    public  $cacheFilePath      = ROOT . CACHE_DIR . '/public/css/all.css';
+    public  $cacheFileMiniPath  = ROOT . CACHE_DIR . '/public/css/all.min.css';
+    public  $baseFolder         = ROOT . CACHE_DIR . '/private/resources/scss/';
+    public  $baseFileName       = 'index.scss';
+
+
+
 
     public function __construct()
     {
         $this->alwaysReload = (MODE == 'dev');
-        require_once $this->scssFilesPath;
+        require_once self::SCSS_FILES_PATH;
     }
 
 
@@ -43,7 +49,7 @@ class ScssHelper {
         $baseVariables = $this->compileBaseVariables();
 
         //set Base path for files
-        $scss->setImportPaths([$this->baseFolderPath]);
+        $scss->setImportPaths([$this->baseFolder]);
 
 
 
@@ -86,8 +92,6 @@ class ScssHelper {
             //File already exists and no force-reload
             return;
         }
-
-
 
         $css = $this->compile();
         $cssMinified = $this->compile(true);

@@ -3,9 +3,11 @@
 namespace webu\system\Core\Helper;
 
 
-use webu\system\Core\Base\Controller\ModuleController;
+
+use webu\system\Core\Base\Controller\BaseController;
 use webu\system\Core\Contents\Modules\Module;
 use webu\system\Core\Contents\Modules\ModuleCollection;
+use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 
 class RoutingHelper
@@ -17,6 +19,12 @@ class RoutingHelper
     public function __construct(ModuleCollection $moduleCollection)
     {
         $this->routeList = $this->initURIRegex($moduleCollection);
+    }
+
+
+    private function checkCachedControllerList() {
+
+        return false;
     }
 
     /**
@@ -52,7 +60,10 @@ class RoutingHelper
      * @param string $path
      * @return bool|mixed
      */
-    public function route(string $path = "") {
+    public function route(string $path = "/") {
+
+        if($path == "") $path = "/";
+
 
         foreach($this->routeList as $routePattern => $item) {
             if(preg_match($routePattern, $path)) {

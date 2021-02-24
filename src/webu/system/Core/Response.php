@@ -9,9 +9,12 @@ namespace webu\system\core;
 
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Contents\Context;
+use webu\system\Core\Contents\Modules\ModuleCollection;
+use webu\system\Core\Helper\FrameworkHelper\ResourceCollector;
 use webu\system\Core\Helper\JSHelper;
 use webu\system\Core\Helper\ScssHelper;
 use webu\system\Core\Helper\TwigHelper;
+use webu\system\Environment;
 
 class Response
 {
@@ -34,6 +37,20 @@ class Response
         $this->jsHelper   = new JSHelper();
     }
 
+
+    /**
+     * @param Environment $environment
+     */
+    public function prepare(Environment $environment) {
+
+        //gather resources from the modules
+        if(ResourceCollector::isGatheringNeeded() || MODE == 'dev') {
+            $resourceCollector = new ResourceCollector();
+            $resourceCollector->gatherModuleData($environment->request->getModuleCollection());
+        }
+
+
+    }
 
 
     /**

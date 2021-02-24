@@ -31,7 +31,7 @@ class Autoloader
         } else if (sizeof($this->classpaths) == 0) {
             //if the the classPaths are empty, try load from the file
 
-            $folderName = ROOT . '\\var\\generated\\cache\\';
+            $folderName = ROOT . CACHE_DIR . '\\private\\generated\\autoloader\\';
             $fileName = $folderName . 'classpaths.php';
 
             //create directory if needed
