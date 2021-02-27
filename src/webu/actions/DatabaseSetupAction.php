@@ -30,6 +30,8 @@ class DatabaseSetupAction extends ApiController {
 
         $dbhelper = new DatabaseHelper();
         $filecrawler = new FileCrawler();
+        $filecrawler->addIgnoredDirName('cache');
+        $filecrawler->addIgnoredDirName('vendor');
 
 
         // Search all databaseTable classes in the core/Database Directory

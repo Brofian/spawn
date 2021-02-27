@@ -22,11 +22,6 @@ class RoutingHelper
     }
 
 
-    private function checkCachedControllerList() {
-
-        return false;
-    }
-
     /**
      * @param ModuleCollection $moduleCollection
      * @return array
@@ -63,7 +58,6 @@ class RoutingHelper
     public function route(string $path = "/") {
 
         if($path == "") $path = "/";
-
 
         foreach($this->routeList as $routePattern => $item) {
             if(preg_match($routePattern, $path)) {

@@ -4,11 +4,11 @@ module.exports = {
     mode: "production", // "production" | "development" | "none"
 
     //entrypoint for compiling
-    entry: '../../../var/cache/private/resources/js/index.js',
+    entry: '../../var/cache/private/resources/js/index.js',
     //output folder and file
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, '../../../var/cache/public/js/'),
+        path: path.resolve(__dirname, '../../var/cache/public/js/'),
     },
     //folder to search for imported files
     resolve: {

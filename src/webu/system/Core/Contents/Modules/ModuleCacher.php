@@ -47,7 +47,6 @@ class ModuleCacher {
 
 
     public static function readModuleCache() {
-
         if(!file_exists(self::MODULE_CACHE_FILE)) return false;
 
         $moduleCollectionArray = json_decode(FileEditor::getFileContent(self::MODULE_CACHE_FILE));

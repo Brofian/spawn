@@ -24,15 +24,16 @@ class ModuleLoader {
         $cachedModuleCollection = ModuleCacher::readModuleCache();
         if($cachedModuleCollection && MODE != 'dev') return $cachedModuleCollection;
 
+
         if(!is_dir($rootPath)) return false;
 
         $moduleFolders = scandir($rootPath);
+
         foreach($moduleFolders as $moduleFolder) {
             if($moduleFolder == "." || $moduleFolder == "..") continue;
 
-
             $basePath = $rootPath . "/" . $moduleFolder ;
-            URIHelper::pathifie($basePath, "\\");
+            URIHelper::pathifie($basePath);
 
             $this->loadModule($moduleFolder, $basePath);
         }
@@ -43,11 +44,13 @@ class ModuleLoader {
     }
 
     private function loadModule($moduleName, $basePath) {
+
         if( !file_exists(URIHelper::joinPaths($basePath, self::REL_XML_PATH)) ||
-            !file_exists(URIHelper::joinPaths($basePath ,"/".$moduleName.".php")))
+            !file_exists(URIHelper::joinPaths($basePath ,DIRECTORY_SEPARATOR.$moduleName.".php")))
         {
             return;
         }
+
 
 
         $module = new Module($moduleName);

@@ -4,6 +4,7 @@
 namespace webu\system\Core\Base\Custom;
 
 use webu\system\Core\Custom\Debugger;
+use webu\system\Core\Helper\URIHelper;
 
 /**
  * Class FileCrawler
@@ -30,6 +31,19 @@ class FileCrawler
     private $maxDepth = 999;
 
 
+    private $ignored_dirs = [
+        '.',
+        '..'
+    ];
+
+
+
+
+    public function addIgnoredDirName(string $dirname) {
+        $this->ignored_dirs[] = $dirname;
+    }
+
+
     /**
      * Searches in all files in the given path and its sub directories
      * @param string $rootPath
@@ -38,6 +52,7 @@ class FileCrawler
      */
     public function searchInfos(string $rootPath, callable $checkFunction, int $maxDepth = 999): array
     {
+        require_once(__DIR__ . "/../Helper/URIHelper.php");
 
         if (is_callable($checkFunction) == false) return [];
         $this->checkFunction = $checkFunction;
@@ -58,17 +73,19 @@ class FileCrawler
      */
     private function scanDirs(string $current, array &$ergs, int $depth = 0, string $relativePath = '/'): array
     {
+
         $currentContents = scandir($current);
 
         foreach ($currentContents as $content) {
             //skip relative folders and cache
-            if ($content == '..' || $content == '.' || $content == 'cache') continue;
+            if (in_array($content, $this->ignored_dirs)) continue;
             //skip invisible folders
             if (substr($content, 0, 1) == '.') continue;
 
-
             //extend path with current content element
             $path = $current . '\\' . $content;
+            URIHelper::pathifie($path);
+
 
             //check if content is file or directory
             if (is_file($path)) {
@@ -82,7 +99,6 @@ class FileCrawler
             } else if (is_dir($path) && ($depth < $this->maxDepth || $this->maxDepth == -1)) {
                 //if class is another dir, scan it
                 $this->scanDirs($path, $ergs, $depth + 1, $relativePath . $content . '/');
-
             }
 
         }

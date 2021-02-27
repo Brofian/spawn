@@ -7,7 +7,7 @@ namespace webu\system\Core\Helper;
 class URIHelper
 {
 
-    const DEFAULT_SEPERATOR = "\\";
+    const DEFAULT_SEPERATOR = DIRECTORY_SEPARATOR;
 
     const SEPERATORS = [
         "/",
@@ -20,13 +20,17 @@ class URIHelper
     /**
      * @param string $string
      * @param string $seperator
+     * @param string $trim
      * @return string
      */
-    public static function pathifie(string &$string, string $seperator = self::DEFAULT_SEPERATOR): string
+    public static function pathifie(string &$string, string $seperator = self::DEFAULT_SEPERATOR, bool $trim = false): string
     {
         $string = str_replace(self::SEPERATORS, $seperator, $string);
 
-        $string = trim($string, implode("", self::SEPERATORS));
+        if($trim) {
+            $string = trim($string, implode("", self::SEPERATORS));
+        }
+
 
         return $string;
     }
@@ -37,14 +41,18 @@ class URIHelper
      * @param string $seperator
      * @return string
      */
-    public static function joinPaths(string $p1, string $p2, $seperator = self::DEFAULT_SEPERATOR)
+    public static function joinPaths(string $p1, string $p2, $seperator = self::DEFAULT_SEPERATOR, bool $trim = false)
     {
-        $p1 = trim($p1, implode("", self::SEPERATORS));
+        if($trim) {
+            $p1 = trim($p1, implode("", self::SEPERATORS));
+        }
         $p2 = trim($p2, implode("", self::SEPERATORS));
+
+
 
         $joined = $p1 . "/" . $p2;
 
-        self::pathifie($joined, $seperator);
+        self::pathifie($joined, $seperator, $trim);
 
         return $joined;
     }

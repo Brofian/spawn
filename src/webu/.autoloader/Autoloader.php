@@ -2,11 +2,16 @@
 
 namespace webu\autoloader;
 
+use Symfony\Component\ErrorHandler\Error\ClassNotFoundError;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use webu\system\Core\Base\Custom\FileCrawler;
 use webu\system\Core\Base\Custom\FileEditor;
+use webu\system\Core\Helper\URIHelper;
+use webu\system\Throwables\ClassNotFoundException;
 
 class Autoloader
 {
+    const FILENAME =  ROOT . CACHE_DIR . '/private/generated/autoloader/classpaths.php';
 
     public $classpaths = array();
     public $alwaysReload = false;
@@ -17,6 +22,7 @@ class Autoloader
 
         //load FileEditor
         require_once(ROOT . '/src/webu/system/Core/Custom/FileEditor.php');
+        require_once(ROOT . '/src/webu/system/Core/Helper/URIHelper.php');
     }
 
     //the autoload function
@@ -24,42 +30,65 @@ class Autoloader
     {
         if (!$className) return false;
 
-        if (isset($this->classpaths[$className])) {
+        $filename = self::FILENAME;
+        $filename = URIHelper::pathifie($filename, "/");
+
+        $wasFileReloaded = false;
+
+        //include classpaths. generate them if necessary
+        if(sizeof($this->classpaths) == 0 && (file_exists($filename) && !$this->alwaysReload)) {
+            $this->classpaths = include($filename);
+        }
+        else if(sizeof($this->classpaths) == 0 && (!file_exists($filename) || $this->alwaysReload)) {
+            $this->createPathsFile($filename);
+            $wasFileReloaded = true;
+            $this->classpaths = include($filename);
+        }
+
+        //check if the file is listed and existing, or else recreate the file, if not already donw
+        if (isset($this->classpaths[$className]) && is_file(ROOT . $this->classpaths[$className])) {
+
+            $path = ROOT . $this->classpaths[$className];
+
             //if the class exists, load the file
-            require_once($this->classpaths[$className]);
+            require_once($path);
             return true;
-        } else if (sizeof($this->classpaths) == 0) {
+        } else {
             //if the the classPaths are empty, try load from the file
 
-            $folderName = ROOT . CACHE_DIR . '\\private\\generated\\autoloader\\';
-            $fileName = $folderName . 'classpaths.php';
-
-            //create directory if needed
-            FileEditor::createFolder($folderName);
-
-            //create file if needed
-            if (!file_exists($fileName) || $this->alwaysReload) {
-                $this->createPathsFile($fileName);
+            if(!$wasFileReloaded) {
+                $this->createPathsFile($filename);
             }
 
             //include the existing or generated file
-            include($fileName);
+            $this->classpaths = include($filename);
 
-            if(!isset($classPathsCache)) {
-                $classPathsCache = [];
+            if(!$this->classpaths || !is_array($this->classpaths)) {
+                $this->classpaths = [];
             }
-            $this->classpaths = $classPathsCache;
 
 
             //check if the classname is now available
-            if (isset($this->classpaths[$className])) {
+            if (isset($this->classpaths[$className]) && is_file(ROOT . $this->classpaths[$className])) {
+
+                $path = ROOT . $this->classpaths[$className];
+
                 //if the class exists, load the file
-                require_once($this->classpaths[$className]);
+                require_once($path);
                 return true;
             }
 
         }
-        return false;
+
+
+        /*
+         * Throw Error
+         */
+        $message = "\"$className\" could´nt be loaded by the autoloader! Check if the file exists!";
+        if(defined('STDIN')) {
+            $message = "\n\e[91m" . $message . "\e[39m\n";
+        }
+        throw new ClassNotFoundException($className);
     }
 
 
@@ -71,9 +100,13 @@ class Autoloader
 
         $crawl = function($root) {
             $crawler = new FileCrawler();
+            $crawler->addIgnoredDirName('cache');
+            $crawler->addIgnoredDirName('vendor');
+
             $data = $crawler->searchInfos(
                 $root,
                 function ($fileContent, &$ergs, $filename, $path, $relativePath) {
+
                     $pathInfo = pathinfo($filename);
                     if (isset($pathInfo['extension']) && $pathInfo['extension'] != 'php') {
                         return;
@@ -88,8 +121,9 @@ class Autoloader
                         //append the classname to the namespace
                         $namespace .= "\\" . substr($filename, 0, strrpos($filename, '.'));
 
+
                         //save in the classes array
-                        $ergs[$namespace] = $path;
+                        $ergs[$namespace] = $relativePath . $filename;
                     }
                 }
             );
@@ -98,12 +132,8 @@ class Autoloader
         };
 
 
-        $dataSrc = $crawl(ROOT . "\\src");
-        $dataBin = $crawl(ROOT . "\\bin");
-        $dataBin = $crawl(ROOT . "\\modules");
+        $data = $crawl(ROOT);
 
-
-        $data = array_merge($dataSrc, $dataBin);
 
 
         //create the file
@@ -112,14 +142,10 @@ class Autoloader
             $classPathList .= "'" . $index . "'=>'" . $string . "',\n";
         }
         $classPathList .= "];\n";
+        $classPathList .= "\n return \$classPathsCache;";
 
         FileEditor::insert($fileName, $classPathList);
     }
 
 
 }
-
-
-
-
-

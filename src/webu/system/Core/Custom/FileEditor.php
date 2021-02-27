@@ -2,6 +2,8 @@
 
 namespace webu\system\Core\Base\Custom;
 
+use webu\system\Core\Helper\URIHelper;
+
 class FileEditor
 {
 
@@ -31,7 +33,7 @@ class FileEditor
      */
     public static function createFile($path, $content = ''): bool
     {
-        self::createFolder(dirname($path));
+        self::createFolder(dirname(URIHelper::pathifie($path,"/", false)));
 
         try {
             file_put_contents($path, $content);

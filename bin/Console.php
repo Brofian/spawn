@@ -1,31 +1,19 @@
 <?php
 
 
-namespace webu\bin\console;
+namespace webu\bin;
 
-use webu\system\Core\Base\Custom\FileEditor;
+use bin\webu\IO;
 
-class ConsoleIO {
+use webu\system\Core\Helper\URIHelper;
 
-    const COMMAND_ROOT = ROOT . "\\bin\\dev-ops";
+class Console {
+
+    const COMMAND_ROOT = ROOT . "\\dev\\console";
     const IGNORED_DIRS = [
         '.',
         '..'
     ];
-
-    const BLACK_TEXT = "\e[30m";
-    const RED_TEXT = "\e[31m";
-    const CYAN_TEXT = "\e[36m";
-    const WHITE_TEXT = "\e[39m";
-
-    const BLACK_BG = "\e[40m";
-    const RED_BG = "\e[41m";
-    const CYAN_BG = "\e[46m";
-    const WHITE_BG = "\e[49m";
-
-    const TAB = "   ";
-
-
 
 
 
@@ -39,6 +27,7 @@ class ConsoleIO {
 
     public function __construct($arguments)
     {
+
         $this->command = array_shift($arguments);
         $this->params = $arguments;
 
@@ -88,8 +77,8 @@ class ConsoleIO {
         }
 
 
-        $this->writeLine("\"{$cmd}\" is not a valid command! Did you mean on of these? ", self::RED_TEXT);
-        $this->write("", self::WHITE_TEXT);
+        IO::printLine("\"{$cmd}\" is not a valid command! Did you mean on of these? ", IO::RED_TEXT);
+        IO::endLine(IO::WHITE_TEXT);
         $this->printAvailableCommands($availableCommands, $parsedCmd);
 
 
@@ -97,13 +86,13 @@ class ConsoleIO {
 
 
     private function printAvailableCommands(array $availableCommands, $prefix = "") {
-        $this->writeLine("", self::RED_BG);
+        IO::endLine(IO::RED_BG);
 
         $printCommand = function($array, $printFunction, $cmd = "", $nestingLevel = 0) {
             foreach($array as $key => $item) {
 
                 if($nestingLevel == 0) {
-                    $this->writeLine("");
+                    IO::endLine();
                 }
 
                 if($cmd == "")  {
@@ -122,7 +111,7 @@ class ConsoleIO {
                     $printFunction($item, $printFunction, $command, $nestingLevel+1);
                 }
                 else {
-                    $this->writeLine(self::TAB . $command);
+                    IO::printLine(IO::TAB . $command);
                 }
 
             }
@@ -130,12 +119,14 @@ class ConsoleIO {
 
         $printCommand($availableCommands, $printCommand, $prefix);
 
-        $this->writeLine("", self::BLACK_BG);
+        IO::endLine(IO::BLACK_BG);
     }
 
     private function findCommandFiles($dir) {
 
-        $filesInDir = scandir($dir);
+        URIHelper::pathifie($dir, "/");
+
+        $filesInDir = scandir($dir );
 
         $commands = [];
 
@@ -145,7 +136,7 @@ class ConsoleIO {
                 continue;
             }
 
-            $path = $dir."\\".$fileInDir;
+            $path = $dir."/".$fileInDir;
 
             if(is_dir($path)) {
                 $commands[$fileInDir] = $this->findCommandFiles($path);
@@ -161,14 +152,6 @@ class ConsoleIO {
     }
 
 
-
-    public function write($text, $option = "") {
-        echo $option . $text;
-    }
-
-    public function writeLine($text, $option = "") {
-        $this->write($text . PHP_EOL, $option);
-    }
 
 
 }

@@ -45,6 +45,7 @@ class ControllerHelper
 
     private function loadControllers() {
         $controllerDir = ROOT .  "\\src\\Controllers";
+        URIHelper::pathifie($controllerDir);
 
         if(is_dir($controllerDir) == false) {
             //Directory does not exist
@@ -52,6 +53,8 @@ class ControllerHelper
         }
 
         $filecrawler = new FileCrawler();
+        $filecrawler->addIgnoredDirName('cache');
+        $filecrawler->addIgnoredDirName('vendor');
         $ergs = $filecrawler->searchInfos(
             $controllerDir,
             function($fileContent, &$ergs, $filename, $path, $relativePath) {
@@ -80,6 +83,7 @@ class ControllerHelper
 
                 /** @var String $full_classname */
                 $full_classname = $namespace . "\\" . $class;
+                URIHelper::pathifie($full_classname);
 
                 $alias = $full_classname::getControllerAlias();
                 $ergs[$alias] = $full_classname;

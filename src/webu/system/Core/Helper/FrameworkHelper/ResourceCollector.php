@@ -7,23 +7,21 @@ use webu\system\Core\Base\Custom\FileCrawler;
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Contents\Modules\Module;
 use webu\system\Core\Contents\Modules\ModuleCollection;
-
+use webu\system\Core\Helper\URIHelper;
 
 
 class ResourceCollector {
 
-    const RESOURCE_CACHE_FOLDER = ROOT . CACHE_DIR . "\\private\\resources";
+    const RESOURCE_CACHE_FOLDER = ROOT . CACHE_DIR . "/private/resources";
 
-    const SCSS_ENTRY_POINT = self::RESOURCE_CACHE_FOLDER . "\\scss\\index.scss";
-    const JS_ENTRY_POINT   = self::RESOURCE_CACHE_FOLDER . "\\js\\index.js";
+    const SCSS_ENTRY_POINT = self::RESOURCE_CACHE_FOLDER . "/scss/index.scss";
+    const JS_ENTRY_POINT   = self::RESOURCE_CACHE_FOLDER . "/js/index.js";
 
     public static function isGatheringNeeded() : bool {
         return file_exists(self::RESOURCE_CACHE_FOLDER);
     }
 
     public function gatherModuleData(ModuleCollection $moduleCollection) {
-        dump($moduleCollection);
-
 
         //scss
         $scssIndexFile = "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL;
@@ -35,21 +33,21 @@ class ResourceCollector {
             /*
              * SCSS
              */
-            $scssFolder = $module->getResourcePath() . "\\public\\scss";
-            if(file_exists($scssFolder . "\\base.scss")) {
+            $scssFolder = $module->getResourcePath() . "/public/scss";
+            if(file_exists($scssFolder . "/base.scss")) {
                 $scssIndexFile .= "@import \"{$module->getName()}/base\";\n";
             }
-            self::copyFolderRecursive($scssFolder, dirname(self::SCSS_ENTRY_POINT) . "\\" . $module->getName());
+            self::copyFolderRecursive($scssFolder, dirname(self::SCSS_ENTRY_POINT) . "/" . $module->getName());
 
 
             /*
              * Javascript
              */
-            $jsFolder = $module->getResourcePath() . "\\public\\js";
-            if(file_exists($jsFolder . "\\main.js")) {
-                $jsIndexFile .= "//@import \"{$module->getName()}/main.js\";\n";
+            $jsFolder = $module->getResourcePath() . "/public/js";
+            if(file_exists($jsFolder . "/main.js")) {
+                $jsIndexFile .= "import \"./{$module->getName()}/main.js\";\n";
             }
-            self::copyFolderRecursive($jsFolder, dirname(self::JS_ENTRY_POINT) . "\\" . $module->getName());
+            self::copyFolderRecursive($jsFolder, dirname(self::JS_ENTRY_POINT) . "/" . $module->getName());
         }
 
         FileEditor::createFile(self::SCSS_ENTRY_POINT, $scssIndexFile);
@@ -65,10 +63,15 @@ class ResourceCollector {
 
 
     public static function copyFolderRecursive(string $source, string $dest) {
+        URIHelper::pathifie($source, DIRECTORY_SEPARATOR, false);
+        URIHelper::pathifie($dest, DIRECTORY_SEPARATOR, false);
+
 
         if(!file_exists($dest)) {
             FileEditor::createFolder($dest);
         }
+
+
 
 
         foreach (

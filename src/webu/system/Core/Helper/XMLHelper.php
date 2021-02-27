@@ -19,10 +19,9 @@ class XMLHelper
 
 
 
-        $pathSplit = explode("\\", URIHelper::pathifie($path, "\\"));
+        $pathSplit = explode(DIRECTORY_SEPARATOR, URIHelper::pathifie($path, DIRECTORY_SEPARATOR, false));
         if(count($pathSplit) > 1) array_pop($pathSplit);
-        $this->folderPath = implode("\\", $pathSplit);
-
+        $this->folderPath = implode(DIRECTORY_SEPARATOR, $pathSplit);
 
 
         $xmlObject = $this->loadFile($this->filePath);
@@ -35,7 +34,7 @@ class XMLHelper
 
 
     private function loadFile($path) {
-        $xmlObject = simplexml_load_file($path);
+        $xmlObject = \simplexml_load_file($path);
 
         return $xmlObject;
     }
@@ -53,7 +52,6 @@ class XMLHelper
             if(isset($child->link)) {
 
                 $linkXML = $this->loadFile(URIHelper::joinPaths($this->folderPath, (string)$child->link));
-
 
                 //replace
                 /** @var \DOMElement $to */
