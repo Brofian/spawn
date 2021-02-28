@@ -15,7 +15,7 @@ class FileEditor
             self::createFolder(dirname($path));
         }
 
-        if (!is_dir($path)) {
+        if (!file_exists($path)) {
             try {
                 mkdir($path);
                 return true;

@@ -34,5 +34,23 @@ class ModuleCollection {
         return $this->modules;
     }
 
+    /**
+     * @return array
+     */
+    public function getNamespaceList() : array {
+        $namespaces = array();
+
+        /** @var Module $module */
+        foreach($this->getModuleList() as $module) {
+            $namespace = ($module->getResourceNamespace() == "") ? "default" : $module->getResourceNamespace();
+
+            if(!in_array($namespace, $namespaces)) {
+                $namespaces[] = $namespace;
+            }
+        }
+
+        return $namespaces;
+    }
+
 
 }

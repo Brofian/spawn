@@ -25,6 +25,10 @@ class Module {
     /** @var string */
     private $resourceWeight;
 
+    /** @var string */
+    private $resourceNamespace;
+
+
     public function __construct(string $moduleName)
     {
         $this->moduleName = $moduleName;
@@ -74,6 +78,15 @@ class Module {
     public function setResourceWeight(string $resourceWeight) {
         $this->resourceWeight = $resourceWeight;
     }
+
+    /**
+     * @param string $basePath
+     */
+    public function setResourceNamespace(string $resourceNamespace) {
+        $this->resourceNamespace = $resourceNamespace;
+    }
+
+
 
 
     /*
@@ -137,6 +150,13 @@ class Module {
      */
     public function getResourceWeight() : string {
         return $this->resourceWeight;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceNamespace() : string {
+        return $this->resourceNamespace;
     }
 
 }

@@ -14,8 +14,7 @@ class ResourceCollector {
 
     const RESOURCE_CACHE_FOLDER = ROOT . CACHE_DIR . "/private/resources";
 
-    const SCSS_ENTRY_POINT = self::RESOURCE_CACHE_FOLDER . "/scss/index.scss";
-    const JS_ENTRY_POINT   = self::RESOURCE_CACHE_FOLDER . "/js/index.js";
+
 
     public static function isGatheringNeeded() : bool {
         return file_exists(self::RESOURCE_CACHE_FOLDER);
@@ -23,39 +22,71 @@ class ResourceCollector {
 
     public function gatherModuleData(ModuleCollection $moduleCollection) {
 
-        //scss
-        $scssIndexFile = "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL;
-        $jsIndexFile = "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL;
+        $sortedModules = $this->sortModuleCollectionByNamespace($moduleCollection);
+
+        foreach($sortedModules as $namespace => $modules) {
+            $namespace = ($namespace=="") ? "default" : $namespace;
+
+            $entryPointCss = self::RESOURCE_CACHE_FOLDER . DIRECTORY_SEPARATOR . ($namespace=="" ? "" : $namespace . DIRECTORY_SEPARATOR) . "scss" . DIRECTORY_SEPARATOR . "index.scss";
+            $entryPointJs = self::RESOURCE_CACHE_FOLDER . DIRECTORY_SEPARATOR . ($namespace=="" ? "" : $namespace . DIRECTORY_SEPARATOR) . "js" . DIRECTORY_SEPARATOR . "index.js";
+
+
+
+            //scss
+            $scssIndexFile = "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL;
+            $jsIndexFile = "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL;
+
+            /** @var Module $module */
+            foreach($modules as $module) {
+
+                /*
+                 * SCSS
+                 */
+                $scssFolder = $module->getResourcePath() . "/public/scss";
+                if(file_exists($scssFolder . "/base.scss")) {
+                    $scssIndexFile .= "@import \"{$module->getName()}/base\";\n";
+                }
+                self::copyFolderRecursive($scssFolder, dirname($entryPointCss) . DIRECTORY_SEPARATOR . $module->getName());
+
+
+                /*
+                 * Javascript
+                 */
+                $jsFolder = $module->getResourcePath() . "/public/js";
+                if(file_exists($jsFolder . "/main.js")) {
+                    $jsIndexFile .= "import \"./{$module->getName()}/main.js\";\n";
+                }
+                self::copyFolderRecursive($jsFolder, dirname($entryPointJs) . DIRECTORY_SEPARATOR . $module->getName());
+            }
+
+            FileEditor::createFile($entryPointCss, $scssIndexFile);
+            FileEditor::createFile($entryPointJs, $jsIndexFile);
+
+        }
+
+    }
+
+
+
+
+
+
+
+    public function sortModuleCollectionByNamespace(ModuleCollection $moduleCollection) {
+        $sortedModuleCollection = array();
 
         /** @var Module $module */
         foreach($moduleCollection->getModuleList() as $module) {
 
-            /*
-             * SCSS
-             */
-            $scssFolder = $module->getResourcePath() . "/public/scss";
-            if(file_exists($scssFolder . "/base.scss")) {
-                $scssIndexFile .= "@import \"{$module->getName()}/base\";\n";
+            if(!isset($sortedModuleCollection[$module->getResourceNamespace()])) {
+                $sortedModuleCollection[$module->getResourceNamespace()] = array();
             }
-            self::copyFolderRecursive($scssFolder, dirname(self::SCSS_ENTRY_POINT) . "/" . $module->getName());
 
-
-            /*
-             * Javascript
-             */
-            $jsFolder = $module->getResourcePath() . "/public/js";
-            if(file_exists($jsFolder . "/main.js")) {
-                $jsIndexFile .= "import \"./{$module->getName()}/main.js\";\n";
-            }
-            self::copyFolderRecursive($jsFolder, dirname(self::JS_ENTRY_POINT) . "/" . $module->getName());
+            $sortedModuleCollection[$module->getResourceNamespace()][] = $module;
         }
 
-        FileEditor::createFile(self::SCSS_ENTRY_POINT, $scssIndexFile);
-        FileEditor::createFile(self::JS_ENTRY_POINT, $jsIndexFile);
 
-
-
-
+        return $sortedModuleCollection;
     }
 
 

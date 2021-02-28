@@ -55,12 +55,13 @@ class Response
 
     /**
      * @param Context $context
+     * @param ModuleCollection $moduleCollection
      * @return void
      */
-    public function finish(Context $context) {
+    public function finish(ModuleCollection $moduleCollection, Context $context) {
 
         /* Render Scss */
-        $this->scssHelper->createCss($context->getBackendContext());
+        $this->scssHelper->createCss($moduleCollection);
 
         /* Render JS */
         $jqueryFile = ROOT . '/vendor/components/jquery/jquery.min.js';

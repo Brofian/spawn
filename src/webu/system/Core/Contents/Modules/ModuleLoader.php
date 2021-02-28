@@ -92,12 +92,14 @@ class ModuleLoader {
 
 
         /*
-         * Load Controllers
+         * Load Resources
          */
         if(isset($pluginXML->resources)) {
             $module->setResourceWeight((string)$pluginXML->resources->attributes()->weight);
 
             $module->setResourcePath((string)$pluginXML->resources);
+
+            $module->setResourceNamespace((string)$pluginXML->resources->attributes()->namespace);
         }
 
         $this->moduleCollection->addModule($module);

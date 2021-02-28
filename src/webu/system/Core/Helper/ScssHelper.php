@@ -5,6 +5,7 @@ namespace webu\system\Core\Helper;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\CompilerException;
 use webu\system\Core\Base\Custom\FileEditor;
+use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Custom\Debugger;
 
 
@@ -16,10 +17,9 @@ class ScssHelper {
 
 
 
-    public  $cacheFilePath      = ROOT . CACHE_DIR . '/public/css/all.css';
-    public  $cacheFileMiniPath  = ROOT . CACHE_DIR . '/public/css/all.min.css';
-    public  $baseFolder         = ROOT . CACHE_DIR . '/private/resources/scss/';
-    public  $baseFileName       = 'index.scss';
+    public  $cacheFilePath      = ROOT . CACHE_DIR . '/public/css';
+    public  $baseFolder         = ROOT . CACHE_DIR . '/private/resources';
+    public  $baseFileName       = 'scss/index.scss';
 
 
 
@@ -32,12 +32,9 @@ class ScssHelper {
 
 
     public function setBackendFilePaths() {
-        $this->baseFolderPath     = ROOT . '/src/Resources/public/scss/Back/';
-        $this->cacheFilePath      = ROOT . '/var/cache/public/css/backend/all.css';
-        $this->cacheFileMiniPath  = ROOT . '/var/cache/public/css/backend/all.min.css';
     }
 
-    private function compile(bool $compressed = false) {
+    private function compile(string $baseFile, bool $compressed = false) {
         $scss = new Compiler();
 
         //set the output style
@@ -49,14 +46,14 @@ class ScssHelper {
         $baseVariables = $this->compileBaseVariables();
 
         //set Base path for files
-        $scss->setImportPaths([$this->baseFolder]);
+        $scss->setImportPaths([dirname($baseFile)]);
 
 
 
         try {
             $css = $scss->compile('
               '.$baseVariables.'
-              @import "'.$this->baseFileName.'";
+              @import "'.basename($baseFile).'";
             ');
         } catch (CompilerException $e) {
             $css = "";
@@ -83,25 +80,30 @@ class ScssHelper {
     }
 
 
-    public function createCss(bool $isBackendContext = false) {
-        if($isBackendContext) {
-            $this->setBackendFilePaths();
-        }
-
+    public function createCss(ModuleCollection $moduleCollection) {
         if($this->cacheExists() && !$this->alwaysReload) {
             //File already exists and no force-reload
             return;
         }
 
-        $css = $this->compile();
-        $cssMinified = $this->compile(true);
+        foreach($moduleCollection->getNamespaceList() as $namespace) {
+            $baseFile = $this->baseFolder . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $this->baseFileName;
+
+            $css = $this->compile($baseFile);
+            $cssMinified = $this->compile($baseFile, true);
+
+            $targetFolder = $this->cacheFilePath . DIRECTORY_SEPARATOR . $namespace;
+
+            /** @var FileEditor $fileWriter */
+            $fileWriter = new FileEditor();
+            $fileWriter->createFolder($targetFolder);
+            $fileWriter->createFile($targetFolder . DIRECTORY_SEPARATOR . "all.css", $css);
+            $fileWriter->createFile($targetFolder . DIRECTORY_SEPARATOR . "all.min.css", $cssMinified);
+        }
 
 
-        /** @var FileEditor $fileWriter */
-        $fileWriter = new FileEditor();
-        $fileWriter->createFolder(dirname($this->cacheFilePath));
-        $fileWriter->createFile($this->cacheFilePath, $css);
-        $fileWriter->createFile($this->cacheFileMiniPath, $cssMinified);
+
+
     }
 
 

@@ -49,7 +49,7 @@ class Environment
         $this->response->prepare($this);
 
 
-        $this->response->finish($this->request->getContext());
+        $this->response->finish($this->request->getModuleCollection(), $this->request->getContext());
     }
 
 

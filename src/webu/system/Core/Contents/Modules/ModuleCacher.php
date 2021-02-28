@@ -32,7 +32,8 @@ class ModuleCacher {
                 "moduleControllers" => $moduleControllerArray,
                 "basePath" => $module->getBasePath(),
                 "resourcePath" => $module->getRelativeResourcePath(),
-                "resourceWeight" => $module->getResourceWeight()
+                "resourceWeight" => $module->getResourceWeight(),
+                "resourceNamespace" => $module->getResourceNamespace()
             ];
 
 
@@ -62,6 +63,7 @@ class ModuleCacher {
             $module->setBasePath($moduleArray->basePath);
             $module->setResourcePath($moduleArray->resourcePath);
             $module->setResourceWeight($moduleArray->resourceWeight);
+            $module->setResourceNamespace($moduleArray->resourceNamespace);
 
             foreach($moduleArray->moduleControllers as $id => $moduleControllerArray) {
                 $moduleController = new ModuleController($id, $moduleControllerArray->class, (array)$moduleControllerArray->actions);
