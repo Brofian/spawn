@@ -13,6 +13,6 @@
     </controllerlist>
 
 
-    <resources weight="99" namespace="modules">/Resources</resources>
+    <resources weight="99" namespace="manual">/Resources</resources>
 
 </plugin>

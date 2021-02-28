@@ -23,6 +23,8 @@ use webu\system\Environment;
 class Request
 {
 
+    /** @var Environment */
+    private $environment = null;
     /** @var array */
     private $get = array();
     /** @var array */
@@ -52,8 +54,9 @@ class Request
     /** @var ModuleCollection  */
     private $moduleCollection = null;
 
-    public function __construct()
+    public function __construct(Environment $environment)
     {
+        $this->environment = $environment;
     }
 
     public function gatherInformations()
@@ -170,10 +173,8 @@ class Request
     }
 
 
-    /**
-     * @param Environment $e
-     */
-    public function loadController(Environment $e)
+
+    public function loadController()
     {
         $moduleLoader = new ModuleLoader();
         $this->moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
@@ -192,7 +193,7 @@ class Request
 
         /** @var Module $module */
         foreach($moduleList as $module) {
-            $e->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
+            $this->environment->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
         }
 
         $routingHelper = new RoutingHelper($this->moduleCollection);
@@ -202,9 +203,8 @@ class Request
             //TODO: Fallback für 404 einbinden
             echo "Fallback für 404 einbinden <br>";
             die(__METHOD__);
+            //$result = $routingHelper->route("404");
         }
-
-
 
 
         /** @var Module $module */
@@ -214,10 +214,13 @@ class Request
         /** @var string $method */
         $method = $result["method"];
 
+        $this->environment->response->getTwigHelper()->assign("namespace", $module->getResourceNamespace());
+
+
         //prepare the params for the method
         $params = [
             $this,
-            $e->response
+            $this->environment->response
         ];
 
 
@@ -237,7 +240,7 @@ class Request
         /** @var BaseController $ctrl */
         $ctrl = new $cls();
 
-        $ctrl->init($this, $e->response);
+        $ctrl->init($this, $this->environment->response);
 
         //call the controller method
         call_user_func_array(
@@ -248,7 +251,7 @@ class Request
             $params
         );
 
-        $ctrl->end($this, $e->response);
+        $ctrl->end($this, $this->environment->response);
 
     }
 

@@ -17,7 +17,7 @@ class ScssHelper {
 
 
 
-    public  $cacheFilePath      = ROOT . CACHE_DIR . '/public/css';
+    public  $cacheFilePath      = ROOT . CACHE_DIR . '/public/{namespace}/css';
     public  $baseFolder         = ROOT . CACHE_DIR . '/private/resources';
     public  $baseFileName       = 'scss/index.scss';
 
@@ -92,7 +92,7 @@ class ScssHelper {
             $css = $this->compile($baseFile);
             $cssMinified = $this->compile($baseFile, true);
 
-            $targetFolder = $this->cacheFilePath . DIRECTORY_SEPARATOR . $namespace;
+            $targetFolder = str_replace("{namespace}", $namespace, $this->cacheFilePath);
 
             /** @var FileEditor $fileWriter */
             $fileWriter = new FileEditor();

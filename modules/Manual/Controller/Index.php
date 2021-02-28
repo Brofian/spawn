@@ -19,6 +19,6 @@ class Index extends BaseController {
     }
 
     public function page(Request $request, Response $response) {
-
+        echo "test";
     }
 }

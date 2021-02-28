@@ -58,6 +58,19 @@ class URIHelper
     }
 
 
+    public static function createPath(array $segments, string $seperator = self::DEFAULT_SEPERATOR) {
+        $path = "";
+
+        foreach($segments as $segment) {
+            if($path != "") {
+                $path .= $seperator;
+            }
+            $path .= $segment;
+        }
+
+        return $path;
+    }
+
 
     public static function urifie(string &$string) {
         self::pathifie($string, "/");

@@ -55,9 +55,9 @@ class RoutingHelper
      * @param string $path
      * @return bool|mixed
      */
-    public function route(string $path = "/") {
+    public function route(string $path = "") {
 
-        if($path == "") $path = "/";
+        $path = "/" . $path;
 
         foreach($this->routeList as $routePattern => $item) {
             if(preg_match($routePattern, $path)) {

@@ -3,6 +3,8 @@
 
 //set some default values
 define('ROOT', dirname(dirname(__DIR__)) );
+define('CACHE_DIR', '/var/cache');
+
 
 //load config
 require(ROOT . "/config.php");

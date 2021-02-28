@@ -19,6 +19,9 @@
         <function name="dump" class="webu\system\Core\Extensions\Twig\DumpFunctionExtension" id="twig.function.dump">
         </function>
 
+        <function name="assetPath" class="webu\system\Core\Extensions\Twig\AssetFunctionExtension" id="twig.function.assetpath">
+        </function>
+
     </functions>
 
 
