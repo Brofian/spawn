@@ -15,6 +15,7 @@ class ScssHelper {
 
     private $alwaysReload       = false;
 
+    private $baseVariables = array();
 
 
     public  $cacheFilePath      = ROOT . CACHE_DIR . '/public/{namespace}/css';
@@ -72,6 +73,11 @@ class ScssHelper {
         foreach(BRAND_COLORS as $name => $color) {
             $result .= '$' . $name . ' : ' . $color  . ';' . PHP_EOL;
         }
+
+        foreach($this->baseVariables as $name => $value) {
+            $result .= '$' . $name . ' : "' . $value  . '";' . PHP_EOL;
+        }
+
         return $result;
     }
 
@@ -139,4 +145,8 @@ class ScssHelper {
 
     }
 
+
+    public function setBaseVariable(string $name, string $value) {
+        $this->baseVariables[$name] = $value;
+    }
 }

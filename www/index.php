@@ -1,5 +1,6 @@
 <?php
 
+
     require_once("../src/webu/init.php");
 
     //load environment

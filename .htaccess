@@ -2,7 +2,8 @@ RewriteEngine On
 
 
 
-#Allow Requests to var/cache/public folder and stop rewriting
+#Allow Requests to var/cache/public files and stop rewriting
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(var/cache/public)($|/) - [L]
 
 #Rewrite everything to www/index.php and stop rewriting

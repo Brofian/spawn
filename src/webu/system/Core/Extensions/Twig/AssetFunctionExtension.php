@@ -14,7 +14,12 @@ class AssetFunctionExtension extends FunctionExtension
 
     protected function getFunctionFunction(): callable
     {
-        return function ($namespace) {
+        return function ($namespace, $doHash = false) {
+
+            if($doHash) {
+                $namespace = hash('md5', $namespace);
+            }
+
             return URIHelper::createPath([
                 MAIN_ADDRESS_FULL,
                 "var",

@@ -18,6 +18,7 @@ use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Helper\SessionHelper;
+use webu\system\Core\Helper\URIHelper;
 use webu\system\Environment;
 
 class Request
@@ -215,6 +216,22 @@ class Request
         $method = $result["method"];
 
         $this->environment->response->getTwigHelper()->assign("namespace", $module->getResourceNamespace());
+        $this->environment->response->getScssHelper()->setBaseVariable("assetsPath", URIHelper::createPath([
+            MAIN_ADDRESS_FULL,
+            "var",
+            "cache",
+            "public",
+            $module->getResourceNamespace(),
+            "assets"
+        ], "/"));
+        $this->environment->response->getScssHelper()->setBaseVariable("defaultAssetsPath", URIHelper::createPath([
+            MAIN_ADDRESS_FULL,
+            "var",
+            "cache",
+            "public",
+            hash('md5', "default"),
+            "assets"
+        ], "/"));
 
 
         //prepare the params for the method

@@ -1,0 +1,15 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: $default-font-size;
+	font-family: $default-font-family;
+	font-weight: $font-weight-regular;
+	color: $default-font-color;
+}
+
+html,body {
+	margin: 0;
+	padding: 0;
+}

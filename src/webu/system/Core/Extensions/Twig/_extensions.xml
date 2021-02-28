@@ -8,6 +8,9 @@
         <filter name="icon" class="webu\system\Core\Extensions\Twig\IconFilterExtension" id="twig.filter.icon">
         </filter>
 
+        <filter name="hash" class="webu\system\Core\Extensions\Twig\HashFilterExtension" id="twig.filter.hash">
+        </filter>
+
     </filters>
 
 

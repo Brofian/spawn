@@ -13,10 +13,23 @@
             <script src="{{ assetPath(namespace) }}/js/index.js" async></script>
         {% endblock %}
 
+        {% block document_default_javascript %}
+            {% set defaultNamespace = 'default'|hash %}
+            {% if namespace != defaultNamespace %}
+                <script src="{{ assetPath(defaultNamespace) }}/js/index.js" async></script>
+            {% endif %}
+        {% endblock %}
+
         {% block document_css %}
             <link rel="stylesheet" href="{{ assetPath(namespace) }}/css/all.min.css">
         {% endblock %}
 
+        {% block document_default_css %}
+            {% set defaultNamespace = 'default'|hash %}
+            {% if namespace != defaultNamespace %}
+                <link rel="stylesheet" href="{{ assetPath(defaultNamespace) }}/css/all.min.css">
+            {% endif %}
+        {% endblock %}
 
 
     </head>

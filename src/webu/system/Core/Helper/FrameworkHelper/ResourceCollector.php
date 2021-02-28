@@ -13,6 +13,7 @@ use webu\system\Core\Helper\URIHelper;
 class ResourceCollector {
 
     const RESOURCE_CACHE_FOLDER = ROOT . CACHE_DIR . "/private/resources";
+    const RESOURCE_CACHE_FOLDER_PUBLIC = ROOT . CACHE_DIR . "/public";
 
 
 
@@ -25,10 +26,9 @@ class ResourceCollector {
         $sortedModules = $this->sortModuleCollectionByNamespace($moduleCollection);
 
         foreach($sortedModules as $namespace => $modules) {
-            $namespace = ($namespace=="") ? "default" : $namespace;
-
-            $entryPointCss = self::RESOURCE_CACHE_FOLDER . DIRECTORY_SEPARATOR . ($namespace=="" ? "" : $namespace . DIRECTORY_SEPARATOR) . "scss" . DIRECTORY_SEPARATOR . "index.scss";
-            $entryPointJs = self::RESOURCE_CACHE_FOLDER . DIRECTORY_SEPARATOR . ($namespace=="" ? "" : $namespace . DIRECTORY_SEPARATOR) . "js" . DIRECTORY_SEPARATOR . "index.js";
+            $entryPointCss = self::RESOURCE_CACHE_FOLDER . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . "scss" . DIRECTORY_SEPARATOR . "index.scss";
+            $entryPointJs = self::RESOURCE_CACHE_FOLDER . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "index.js";
+            $entryPointAssets = self::RESOURCE_CACHE_FOLDER_PUBLIC . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . "assets";
 
 
 
@@ -57,6 +57,15 @@ class ResourceCollector {
                     $jsIndexFile .= "import \"./{$module->getName()}/main.js\";\n";
                 }
                 self::copyFolderRecursive($jsFolder, dirname($entryPointJs) . DIRECTORY_SEPARATOR . $module->getName());
+
+                /*
+                 * Assets
+                 */
+                $assetsFolder = $module->getResourcePath() . "/public/assets";
+                self::copyFolderRecursive($assetsFolder, $entryPointAssets);
+
+
+
             }
 
             FileEditor::createFile($entryPointCss, $scssIndexFile);
@@ -113,7 +122,7 @@ class ResourceCollector {
         ) {
             if ($item->isDir()) {
                 if(!file_exists($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName())) {
-                    mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                    FileEditor::createFolder($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
                 }
             } else {
                 copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());

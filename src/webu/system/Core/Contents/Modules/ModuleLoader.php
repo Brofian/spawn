@@ -99,8 +99,10 @@ class ModuleLoader {
 
             $module->setResourcePath((string)$pluginXML->resources);
 
-            $namespace = hash('md5', (string)$pluginXML->resources->attributes()->namespace );
-            $module->setResourceNamespace($namespace);
+            $namespace = (string)$pluginXML->resources->attributes()->namespace;
+            $namespace = ($namespace == "") ? "default" : $namespace;
+            $namespaceHash = hash('md5', $namespace );
+            $module->setResourceNamespace($namespaceHash);
         }
 
         $this->moduleCollection->addModule($module);
