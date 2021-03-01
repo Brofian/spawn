@@ -14,6 +14,7 @@ use webu\system\Core\Contents\Modules\Module;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Contents\Modules\ModuleLoader;
+use webu\system\Core\Contents\Modules\ModuleNamespacer;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\RoutingHelper;
@@ -230,7 +231,7 @@ class Request
             "var",
             "cache",
             "public",
-            hash('md5', "default"),
+            ModuleNamespacer::getGlobalNamespace(),
             "assets"
         ], "/"));
 

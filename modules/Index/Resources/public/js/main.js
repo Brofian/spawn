@@ -1,4 +1,5 @@
-const PluginManager = window.PluginManager;
+import PluginManager from "../~Base/System/PluginManager";
+
 
 import ScrollPlugin from "./Plugins/scroll.plugin";
 

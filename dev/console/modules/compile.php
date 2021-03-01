@@ -40,6 +40,9 @@ foreach($moduleCollection->getNamespaceList() as $namespace) {
     $result = IO::execInDir("npx webpack --config webpack.config.js --progress", $webpackDir, false, $code);
     $errorCodeSum += $code;
     IO::printLine(IO::TAB . "Compiled " . $namespace);
+
+
+    break;
 }
 
 

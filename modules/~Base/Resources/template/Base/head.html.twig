@@ -13,19 +13,12 @@
             <script src="{{ assetPath(namespace) }}/js/index.js{% if environment == "dev" %}?i={{ random() }}{% endif %}" async></script>
         {% endblock %}
 
-        {% block document_default_javascript %}
-            {% set defaultNamespace = 'default'|hash %}
-            {% if namespace != defaultNamespace %}
-                <script src="{{ assetPath(defaultNamespace) }}/js/index.js{% if environment == "dev" %}?i={{ random() }}{% endif %}" async></script>
-            {% endif %}
-        {% endblock %}
-
         {% block document_css %}
             <link rel="stylesheet" href="{{ assetPath(namespace) }}/css/all.min.css">
         {% endblock %}
 
         {% block document_default_css %}
-            {% set defaultNamespace = 'default'|hash %}
+            {% set defaultNamespace = 'global'|hash %}
             {% if namespace != defaultNamespace %}
                 <link rel="stylesheet" href="{{ assetPath(defaultNamespace) }}/css/all.min.css">
             {% endif %}
