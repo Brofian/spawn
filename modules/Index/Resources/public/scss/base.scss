@@ -5,9 +5,35 @@
 
 
 /*
+ * Mixins
+ * ------ */
+@import "mixins/breakpoint";
+
+
+/*
+ * Skin
+ * -------- */
+@import "skin/scrollbar";
+
+
+
+
+/*
  * Components
  * ---------- */
 @import "components/header";
 @import "components/content";
+@import "components/footer";
 @import "components/spacer";
-@import "components/h";
+
+
+/*
+ * Elements
+ * -------- */
+@import "element/h";
+@import "element/link";
+@import "element/listing";
+@import "element/input";
+@import "element/button";
+
+

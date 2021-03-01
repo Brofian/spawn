@@ -8,7 +8,7 @@ use Twig\TwigFunction;
 
 abstract class FunctionExtension {
 
-    public function __construct(Environment &$twig) {
+    public function addToTwig(Environment &$twig) {
         $function = new TwigFunction(
             $this->getFunctionName(),
             $this->getFunctionFunction(),

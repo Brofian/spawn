@@ -8,7 +8,8 @@ use Twig\TwigFilter;
 
 abstract class FilterExtension {
 
-    public function __construct(Environment &$twig) {
+
+    public function addToTwig(Environment &$twig) {
         $filter = new TwigFilter(
             $this->getFilterName(),
             $this->getFilterFunction(),

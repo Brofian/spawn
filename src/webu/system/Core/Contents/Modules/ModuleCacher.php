@@ -18,11 +18,11 @@ class ModuleCacher {
 
             $moduleControllerArray = array();
             /** @var ModuleController $moduleController */
-            foreach($module->getModuleControllers() as $id => $moduleController) {
-                $moduleControllerArray[$id] = [
+            foreach($module->getModuleControllers() as $moduleController) {
+                $moduleControllerArray[] = [
+                    "name" => $moduleController->getName(),
                     "class" => $moduleController->getClass(),
-                    "actions" => $moduleController->getActions(),
-                    "id" => $moduleController->getId()
+                    "actions" => $moduleController->getActionsAsArray()
                 ];
             }
 
@@ -66,7 +66,20 @@ class ModuleCacher {
             $module->setResourceNamespace($moduleArray->resourceNamespace);
 
             foreach($moduleArray->moduleControllers as $id => $moduleControllerArray) {
-                $moduleController = new ModuleController($id, $moduleControllerArray->class, (array)$moduleControllerArray->actions);
+
+                $moduleControllerActions = [];
+                foreach((array)$moduleControllerArray->actions as $action) {
+                    $moduleControllerActions[] = new ModuleAction(
+                        $action->id,
+                        $action->c_url,
+                        $action->action
+                    );
+                }
+
+                $moduleController = new ModuleController(
+                    $moduleControllerArray->class,
+                    $moduleControllerArray->name,
+                    $moduleControllerActions);
                 $module->addModuleController($moduleController);
             }
 

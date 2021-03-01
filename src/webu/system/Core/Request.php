@@ -248,8 +248,9 @@ class Request
 
         /* Insert gathered Information to Context */
         $this->fillContext();
+        $this->getContext()->set("ModuleCollection", $this->moduleCollection);
         $this->getContext()->set("Module", $module->getName());
-        $this->getContext()->set("Controller", $controller->getId());
+        $this->getContext()->set("Controller", $controller->getName());
         $this->getContext()->set("Action", $method);
 
 

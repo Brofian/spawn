@@ -45,7 +45,7 @@ class Module {
      * @param ModuleController $moduleController
      */
     public function addModuleController(ModuleController $moduleController) {
-        $this->moduleControllers[$moduleController->getId()] = $moduleController;
+        $this->moduleControllers[] = $moduleController;
     }
 
     /**

@@ -1,7 +1,7 @@
 import PluginManager from "../~Base/System/PluginManager";
 
 
-import ScrollPlugin from "./Plugins/scroll.plugin";
+import ScrollupHeaderPlugin from "./Plugins/scrollup-header.plugin";
 
 
-PluginManager.register("webu.scrollPlugin", ScrollPlugin);
+PluginManager.register("webu.scrollupHeaderPlugin", ScrollupHeaderPlugin, "#header");

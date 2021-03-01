@@ -6,6 +6,7 @@ namespace webu\system\Core\Helper;
 
 use webu\system\Core\Base\Controller\BaseController;
 use webu\system\Core\Contents\Modules\Module;
+use webu\system\Core\Contents\Modules\ModuleAction;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
@@ -36,12 +37,14 @@ class RoutingHelper
             /** @var ModuleController $controller */
             foreach($module->getModuleControllers() as $controller) {
 
-                foreach($controller->getActions() as $uri => $method) {
-                    $newUri = CUriConverter::cUriToRegex($uri);
-                    $routeList[$newUri] = [
+                /** @var ModuleAction $action */
+                foreach($controller->getActions() as $action) {
+                    $newUri = CUriConverter::cUriToRegex($action->getCustomUrl());
+                    $routeList[$action->getId()] = [
+                        "uri" => $newUri,
                         "module" => $module,
                         "controller" => $controller,
-                        "method" => $method
+                        "method" => $action->getAction()
                     ];
                 }
             }
@@ -59,9 +62,10 @@ class RoutingHelper
 
         $path = "/" . $path;
 
-        foreach($this->routeList as $routePattern => $item) {
-            if(preg_match($routePattern, $path)) {
-                return $item;
+
+        foreach($this->routeList as $routeItem) {
+            if(preg_match($routeItem["uri"], $path)) {
+                return $routeItem;
             }
         }
 

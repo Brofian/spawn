@@ -77,13 +77,18 @@ class ModuleLoader {
 
                 $controllerActions = array();
                 foreach($controller->actions->action as $action) {
-                    $controllerActions[(string)$action->url] = (string)$action->method;
+                    $controllerActions[] = new ModuleAction(
+                        (string)$action->attributes()->id,
+                        (string)$action->url,
+                        (string)$action->method
+                    );
+
                 }
 
 
                 $moduleController = new ModuleController(
-                    (string)$controller["id"],
                     (string)$controller["class"],
+                    (string)$controller["name"],
                     $controllerActions
                 );
                 $module->addModuleController($moduleController);

@@ -1,9 +1,27 @@
 {% block header %}
 
-    <div id="header">
+    <div id="header" class="is-top">
 
-        <div class="header-inner">
-            HEADER
+        <div class="header-inner container">
+            <div class="header-title">
+                <span class="h1 ">Fabian Holzwarth</span>
+            </div>
+
+            <nav class="header-navigation">
+
+                <ul class="horizontal-listing">
+
+                    {% for id,title in context.main_navigation %}
+                        <li>
+                            <a href="{{ id|link }}" class="navigation-entry special bottom-roof-line">
+                                <span class="navigation-entry">{{ title }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+
+            </nav>
         </div>
 
     </div>

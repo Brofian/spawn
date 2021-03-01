@@ -41,8 +41,6 @@ foreach($moduleCollection->getNamespaceList() as $namespace) {
     $errorCodeSum += $code;
     IO::printLine(IO::TAB . "Compiled " . $namespace);
 
-
-    break;
 }
 
 

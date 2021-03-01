@@ -5,6 +5,16 @@ namespace webu\system\Core\Helper\FrameworkHelper;
 
 class CUriConverter {
 
+
+    public static function cUriToUri(string $cUri, array $parameters) {
+
+        foreach($parameters as $key => $value) {
+            $cUri = str_replace("{".$key."}", $value, $cUri);
+        }
+
+        return $cUri;
+    }
+
     public static function cUriToRegex(string $uri) {
 
         $pattern = "/{[^}]*}/m";

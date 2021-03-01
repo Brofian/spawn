@@ -3,16 +3,18 @@
 	flex-direction: row;
 	justify-content: center;
 
-	margin-top: $header-height;
+	margin: $header-height auto 0 auto;
 	padding: $base-space;
 
+	min-height: calc(100vh - #{$header-height} - #{$footer-height});
 
 
+	max-width: $max-width;
 
 
 	.content-inner {
 		flex: 1 0 100%;
-		max-width: $max-width;
+		max-width: 100%;
 	}
 
 }

@@ -2,15 +2,15 @@
 
 <controllerlist>
 
-    <controller class="webu\modules\manual\Controller\Index" id="module.manual.controller.index">
+    <controller class="webu\modules\manual\Controller\Index" name="manual.index">
         <actions>
 
-            <action>
+            <action id="module.manual.index">
                 <method>index</method>
                 <url>/manual</url>
             </action>
 
-            <action>
+            <action id="module.manual.page">
                 <method>page</method><!-- corresponds to an actual public method in the class-->
                 <url>/manual/page/{id}</url>
             </action>

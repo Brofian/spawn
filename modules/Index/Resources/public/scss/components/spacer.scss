@@ -1,19 +1,23 @@
-.spacer-s {
+.spacer-s,
+.spacer-m,
+.spacer-l,
+.spacer-xl {
 	display: inline-block;
-	height: $base-space / 2;
+	width: 100%;
 }
 
-.spacer-m {
-	display: inline-block;
+.spacer-s {
 	height: $base-space;
 }
 
-.spacer-l {
-	display: inline-block;
+.spacer-m {
 	height: $base-space * 2;
 }
 
-.spacer-xl {
-	display: inline-block;
+.spacer-l {
 	height: $base-space * 4;
+}
+
+.spacer-xl {
+	height: $base-space * 8;
 }

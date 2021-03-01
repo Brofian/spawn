@@ -2,13 +2,19 @@
 
 <controllerlist>
 
-    <controller class="webu\modules\index\Controller\Index" id="module.index.controller.index">
+    <controller class="webu\modules\index\Controller\Index" name="index.index">
         <actions>
 
-            <action>
+            <action id="module.index.index">
                 <method>index</method>
                 <url>/</url>
             </action>
+
+            <action id="module.index.contact">
+                <method>contact</method>
+                <url>/contact</url>
+            </action>
+
 
         </actions>
     </controller>
