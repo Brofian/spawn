@@ -100,8 +100,13 @@ class ModuleLoader {
             $module->setResourcePath((string)$pluginXML->resources);
 
             $namespace = (string)$pluginXML->resources->attributes()->namespace;
-            $namespace = ($namespace == "") ? "default" : $namespace;
-            $namespaceHash = hash('md5', $namespace );
+
+            if($namespace == "") {
+                $namespaceHash = ModuleNamespacer::getGlobalNamespace();
+            }
+            else {
+                $namespaceHash = ModuleNamespacer::hashRawNamespace($namespace);
+            }
             $module->setResourceNamespace($namespaceHash);
         }
 

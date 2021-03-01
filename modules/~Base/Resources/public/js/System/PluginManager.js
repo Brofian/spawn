@@ -1,6 +1,6 @@
 import PluginManagerSubject from "./PluginManagerSubject";
 
-export const PluginManagerInstance = Object.freeze(new PluginManagerSubject());
+export const PluginManagerInstance = new PluginManagerSubject();
 
 
 export default class PluginManager {

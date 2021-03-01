@@ -4,7 +4,7 @@ use \webu\system\Core\Contents\Modules\ModuleLoader;
 use \webu\system\Core\Helper\FrameworkHelper\ResourceCollector;
 use \webu\system\Core\Contents\Modules\Module;
 use \bin\webu\IO;
-use \webu\system\Core\Base\Custom\FileEditor;
+use \src\npm\WebpackConfigGenerator;
 
 
 
@@ -31,26 +31,15 @@ IO::printLine("> compiling javascript...");
 $webpackDir = ROOT . "/src/npm";
 
 
-$layout = FileEditor::getFileContent($webpackDir . "/webpack.config.js.layout");
-
 
 foreach($moduleCollection->getNamespaceList() as $namespace) {
 
-    //create config file
-    $configFileContent = $layout;
-    $configFileContent = str_replace("{{namespace}}", $namespace, $configFileContent);
-    $configCreated = FileEditor::createFile($webpackDir . "/webpack.config.js", $configFileContent);
 
+    WebpackConfigGenerator::rewriteConf($namespace, $moduleCollection->getNamespaceList());
 
-    if($configCreated) {
-        $result = IO::execInDir("npx webpack --config webpack.config.js --progress", $webpackDir, false, $code);
-        $errorCodeSum += $code;
-        IO::printLine(IO::TAB . "Compiled " . $namespace);
-    }
-    else {
-        IO::printLine(IO::TAB . "Could not create config for " . $namespace . "! Skipping...", IO::YELLOW_TEXT);
-    }
-
+    $result = IO::execInDir("npx webpack --config webpack.config.js --progress", $webpackDir, false, $code);
+    $errorCodeSum += $code;
+    IO::printLine(IO::TAB . "Compiled " . $namespace);
 }
 
 

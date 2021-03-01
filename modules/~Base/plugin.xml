@@ -13,6 +13,6 @@
     </controllerlist>
 
 
-    <resources weight="9999">/Resources</resources>
+    <resources weight="9999" namespace="global">/Resources</resources>
 
 </plugin>

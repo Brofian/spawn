@@ -23,7 +23,6 @@ export default class PluginManagerSubject {
 
         var plugin = {
             class: pluginClass,
-            instance: new pluginClass(),
             binding: binding.toString(),
             name: pluginName.toString()
         };
@@ -60,35 +59,37 @@ export default class PluginManagerSubject {
         var me = this;
 
         for(let plugin of me.registeredPluginList) {
-            me.initializePlugin(plugin);
+            me.initializePlugin(plugin.class, plugin.binding, plugin.name);
         }
 
         me.pluginsInitialized = true;
     }
 
 
-    initializePlugin(plugin) {
+    initializePlugin(pluginClass, pluginBinding, pluginName) {
         var me = this;
 
-        var boundElements = document.querySelectorAll(plugin.binding);
-
-        //TODO: Find a way to create a new instance of the class
+        var boundElements = document.querySelectorAll(pluginBinding);
 
         for(let boundElement of boundElements ) {
+
+            if (typeof pluginClass !== 'function') {
+                throw new Error('The passed plugin is not a function or a class.');
+            }
+
             var element = {
-                plugin: plugin,
-                instance: new plugin.instance.constructor(
+                plugin: pluginClass,
+                instance: new pluginClass(
                     boundElement,
                     jQuery(boundElement),
-                    plugin.name
+                    pluginName
                 )
             };
-
-            element.instance.init();
 
             me.initializedPluginList.push(element);
 
         }
+
     }
 
 

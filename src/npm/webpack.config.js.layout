@@ -10,11 +10,14 @@ module.exports = {
     //output folder and file
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, '../../var/cache/public/{{namespace}}/js/'),
+        path: path.resolve(__dirname, '../../var/cache/public/{{namespace_current}}/js/'),
     },
     //folder to search for imported files
     resolve: {
-        modules: [path.resolve(__dirname, '../../../var/cache/private/resources/{{namespace}}/js/'), 'node_modules']
+	modules: [
+	    {{namespace_module_list}}
+	    'node_modules'
+	]
     },
 
     module: {

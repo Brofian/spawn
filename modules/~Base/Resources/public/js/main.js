@@ -1,8 +1,5 @@
 import PluginManager from "./System/PluginManager";
-import Plugin from "./System/Plugin.js";
 
-
-PluginManager.register("system/plugin", Plugin);
 
 
 

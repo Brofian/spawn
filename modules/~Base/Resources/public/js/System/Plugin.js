@@ -2,8 +2,10 @@ export default class Plugin {
 
     /** @var {HTMLElement} _element*/
     _element = null;
-    $_element = null;
+    _$element = null;
     _pluginName = "";
+
+    _initialized = false;
 
     /**
      * @param {HTMLElement} element
@@ -13,8 +15,13 @@ export default class Plugin {
      */
     constructor(element, $element, pluginName) {
         this._element = element;
-        this.$_element = $element;
+        this._$element = $element;
         this._pluginName = pluginName;
+
+        if(!this._initialized) {
+            this.init();
+            this._initialized = true;
+        }
     }
 
 
