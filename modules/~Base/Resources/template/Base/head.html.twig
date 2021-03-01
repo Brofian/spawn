@@ -10,13 +10,13 @@
         {% endblock %}
 
         {% block document_javascript %}
-            <script src="{{ assetPath(namespace) }}/js/index.js" async></script>
+            <script src="{{ assetPath(namespace) }}/js/index.js{% if environment == "dev" %}?i={{ random() }}{% endif %}" async></script>
         {% endblock %}
 
         {% block document_default_javascript %}
             {% set defaultNamespace = 'default'|hash %}
             {% if namespace != defaultNamespace %}
-                <script src="{{ assetPath(defaultNamespace) }}/js/index.js" async></script>
+                <script src="{{ assetPath(defaultNamespace) }}/js/index.js{% if environment == "dev" %}?i={{ random() }}{% endif %}" async></script>
             {% endif %}
         {% endblock %}
 

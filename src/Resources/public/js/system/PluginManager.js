@@ -1,4 +1,4 @@
-class PluginManager extends BaseClass {
+class PluginManager {
 
     registeredPluginList = [];
     pluginsLinked = false;
@@ -54,7 +54,7 @@ class PluginManager extends BaseClass {
     linkPlugins() {
         var me = this;
 
-        for(let pluginEntry in me.registeredPluginList) {
+        for(let pluginEntry of me.registeredPluginList) {
 
             var entry = me.registeredPluginList[pluginEntry];
             if(entry.length !== 3) continue;

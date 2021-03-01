@@ -64,8 +64,6 @@ class ResourceCollector {
                 $assetsFolder = $module->getResourcePath() . "/public/assets";
                 self::copyFolderRecursive($assetsFolder, $entryPointAssets);
 
-
-
             }
 
             FileEditor::createFile($entryPointCss, $scssIndexFile);

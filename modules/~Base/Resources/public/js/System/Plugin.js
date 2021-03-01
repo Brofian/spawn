@@ -1,31 +1,26 @@
-class PluginBase {
+export default class Plugin {
 
     /** @var {HTMLElement} _element*/
     _element = null;
     $_element = null;
-    _namespace = "";
     _pluginName = "";
 
     /**
      * @param {HTMLElement} element
      * @param  $element
-     * @param {string} namespace
+     * @param {string} pluginName
      * @private
      */
-    constructor(element, $element, namespace) {
-
+    constructor(element, $element, pluginName) {
         this._element = element;
         this.$_element = $element;
-        this._namespace = namespace;
-        this._pluginName = this.constructor.name;
+        this._pluginName = pluginName;
     }
+
 
 
     init() {
         throw new Error(`The "init" method for the plugin "${this._pluginName}" is not defined.`);
     }
 
-
-
 }
-

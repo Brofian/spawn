@@ -1,0 +1,19 @@
+.spacer-s {
+	display: inline-block;
+	height: $base-space / 2;
+}
+
+.spacer-m {
+	display: inline-block;
+	height: $base-space;
+}
+
+.spacer-l {
+	display: inline-block;
+	height: $base-space * 2;
+}
+
+.spacer-xl {
+	display: inline-block;
+	height: $base-space * 4;
+}

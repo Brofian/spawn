@@ -216,6 +216,7 @@ class Request
         $method = $result["method"];
 
         $this->environment->response->getTwigHelper()->assign("namespace", $module->getResourceNamespace());
+        $this->environment->response->getTwigHelper()->assign("environment", MODE);
         $this->environment->response->getScssHelper()->setBaseVariable("assetsPath", URIHelper::createPath([
             MAIN_ADDRESS_FULL,
             "var",

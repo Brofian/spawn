@@ -1,4 +1,6 @@
 const path = require('path');
+const babelrc = require('./.babelrc');
+var webpack = require('webpack');
 
 module.exports = {
     mode: "production", // "production" | "development" | "none"
@@ -13,8 +15,32 @@ module.exports = {
     //folder to search for imported files
     resolve: {
         modules: [path.resolve(__dirname, '../../../var/cache/private/resources/{{namespace}}/js/'), 'node_modules']
-    }
+    },
 
+    module: {
+       rules: [
+           {
+               test: /\.m?js$/,
+               exclude: /node_modules/,
+               use: [
+                  {
+                      loader: 'babel-loader',
+                      options: {
+                           ...babelrc,
+                           cacheDirectory: true,
+                      }
+                  }
+               ]
+           }
+       ]
+    },
+
+    plugins: [
+        new webpack.ProvidePlugin({
+            $: require.resolve('jquery'),
+            jQuery: require.resolve('jquery')
+        }),
+    ],
 };
 
 //

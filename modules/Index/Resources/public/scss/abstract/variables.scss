@@ -1,4 +1,30 @@
+/* This is content from base module! Do not edit */
+
+$assetPath: "#{$assetsPath}";
+$defaultAssetsPath: "#{$defaultAssetsPath}";
+
+$default-font-size: 16px;
+$default-font-family: "Poppins", "Roboto condensed", "sans-serif";
+$default-font-color: #2e2e2e;
+
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+$sm: 500px;
+$md: 750px;
+$lg: 1000px;
+$xl: 1400px;
+
+/* END */
+
+
 $black: #000000;
 $white: #FFFFFF;
+$border-gray: #343434;
 
 $header-height: 6rem;
+
+$max-width: 1000px;
+
+$base-space: 20px;
