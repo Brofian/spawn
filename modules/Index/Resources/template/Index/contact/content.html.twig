@@ -7,23 +7,22 @@
 <div class="spacer-s"></div>
 
 
-<form action="{{ "form-target"|link }}">
-
+<form action="{{ "module.index.api.contactform"|link }}" method="post" data-ajax-form>
 
     <label>
-        <input type="email" placeholder="E-Mail Adresse"/>
+        <input type="email" name="email" placeholder="E-Mail Adresse"/>
     </label>
 
     <div class="spacer-s"></div>
 
     <label>
-        <input type="text" placeholder="Betreff"/>
+        <input type="text" name="subject" placeholder="Betreff"/>
     </label>
 
     <div class="spacer-s"></div>
 
     <label>
-        <textarea placeholder="Nachricht..."></textarea>
+        <textarea placeholder="Nachricht..." name="message"></textarea>
     </label>
 
 
@@ -33,7 +32,6 @@
 
 
 </form>
-
 
 
 

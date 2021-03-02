@@ -184,14 +184,7 @@ class Request
 
         //sort modules by resource Weight
         $moduleList = $this->moduleCollection->getModuleList();
-        usort($moduleList, function($a, $b) {
-            /** @var $a Module */
-            /** @var $b Module */
-
-            if($a->getResourceWeight() < $b->getResourceWeight()) return -1;
-            else if($a->getResourceWeight() > $b->getResourceWeight()) return 1;
-            else return 0;
-        });
+        ModuleCollection::sortModulesByWeight($moduleList);
 
         /** @var Module $module */
         foreach($moduleList as $module) {
@@ -207,6 +200,7 @@ class Request
             die(__METHOD__);
             //$result = $routingHelper->route("404");
         }
+
 
 
         /** @var Module $module */

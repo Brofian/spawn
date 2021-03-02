@@ -1,6 +1,12 @@
+var webpack = require('webpack');
 const path = require('path');
 const babelrc = require('./.babelrc');
-var webpack = require('webpack');
+
+//
+// To start the compiling of the javascript, run the following command in THIS directory:
+// npx webpack --config webpack.config.js
+//
+
 
 module.exports = {
     mode: "production", // "production" | "development" | "none"
@@ -16,8 +22,12 @@ module.exports = {
     resolve: {
 	modules: [
 	    {{namespace_module_list}}
-	    'node_modules'
-	]
+	    'node_modules',
+	],
+	alias: {
+	     PluginManager: path.resolve(__dirname, './plugin-system/PluginManager'),
+	     Plugin: path.resolve(__dirname, './plugin-system/Plugin')
+	}
     },
 
     module: {
@@ -39,14 +49,11 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.ProvidePlugin({
-            $: require.resolve('jquery'),
-            jQuery: require.resolve('jquery')
-        }),
-    ],
+	new webpack.ProvidePlugin({
+	     $: require.resolve('jquery'),
+	     jQuery: require.resolve('jquery')
+	}),
+     ],
 };
 
-//
-// To start the compiling of the javascript, run the following command in THIS directory:
-// npx webpack --config webpack.config.js
-//
+

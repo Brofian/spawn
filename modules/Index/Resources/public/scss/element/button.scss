@@ -16,6 +16,9 @@ input[type=submit],
 		background: darken($secondary, 10%);
 	}
 
+	&:disabled {
+		background: lighten($border-gray, 30%);
+	}
 
 	&.wide {
 		width: 100%;

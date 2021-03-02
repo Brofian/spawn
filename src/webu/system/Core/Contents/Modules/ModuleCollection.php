@@ -53,4 +53,18 @@ class ModuleCollection {
     }
 
 
+    /**
+     * @param array $moduleList
+     */
+    public static function sortModulesByWeight(array &$moduleList) {
+        usort($moduleList, function($a, $b) {
+            /** @var $a Module */
+            /** @var $b Module */
+
+            if($a->getResourceWeight() < $b->getResourceWeight()) return -1;
+            else if($a->getResourceWeight() > $b->getResourceWeight()) return 1;
+            else return 0;
+        });
+    }
+
 }

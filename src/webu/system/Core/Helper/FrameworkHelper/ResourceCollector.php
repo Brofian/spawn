@@ -33,14 +33,15 @@ class ResourceCollector {
             $entryPointJs = self::RESOURCE_CACHE_FOLDER . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . "js" . DIRECTORY_SEPARATOR . "index.js";
             $entryPointAssets = self::RESOURCE_CACHE_FOLDER_PUBLIC . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . "assets";
 
-            $scssIndexFile = "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL;
-            $jsIndexFile = "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL;
+            $scssIndexFile = "";
+            $jsIndexFile = "";
 
             //move the modules from this namespace
+            ModuleCollection::sortModulesByWeight($modules);
             $this->moveModuleData($namespace, $modules, $scssIndexFile, $jsIndexFile, $entryPointCss, $entryPointJs, $entryPointAssets);
 
-            FileEditor::createFile($entryPointCss, $scssIndexFile);
-            FileEditor::createFile($entryPointJs, $jsIndexFile);
+            FileEditor::createFile($entryPointCss, "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL . $scssIndexFile);
+            FileEditor::createFile($entryPointJs,  "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL . $jsIndexFile);
         }
 
     }
@@ -57,6 +58,9 @@ class ResourceCollector {
             if(file_exists($scssFolder . "/base.scss")) {
                 $scssIndexFile .= "@import \"{$module->getName()}/base\";\n";
             }
+            if(file_exists($scssFolder . "/_global/base.scss")) {
+                $scssIndexFile = "@import \"{$module->getName()}/_global/base\";\n" . $scssIndexFile;
+            }
             self::copyFolderRecursive($scssFolder, dirname($entryPointCss) . DIRECTORY_SEPARATOR . $module->getName());
 
 
@@ -66,6 +70,9 @@ class ResourceCollector {
             $jsFolder = $module->getResourcePath() . "/public/js";
             if(file_exists($jsFolder . "/main.js")) {
                 $jsIndexFile .= "import \"./{$module->getName()}/main.js\";\n";
+            }
+            if(file_exists($jsFolder . "/_global/main.js")) {
+                $jsIndexFile = "import \"./{$module->getName()}/_global/main.js\";\n" . $jsIndexFile;
             }
             self::copyFolderRecursive($jsFolder, dirname($entryPointJs) . DIRECTORY_SEPARATOR . $module->getName());
 

@@ -39,8 +39,8 @@ class Index extends BaseController {
      */
     private function createMainNavigation() {
         return [
-            'module.index.index' => "Home",
-            'module.index.contact' => "Kontakt"
+            'module.index.index.index' => "Home",
+            'module.index.index.contact' => "Kontakt"
         ];
     }
 }

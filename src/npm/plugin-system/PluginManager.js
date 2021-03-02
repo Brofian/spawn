@@ -6,7 +6,6 @@ export const PluginManagerInstance = new PluginManagerSubject();
 export default class PluginManager {
 
     constructor() {
-        window.PluginManager = this;
     }
 
 
@@ -29,4 +28,10 @@ export default class PluginManager {
     }
 
 }
-new PluginManager();
+window.PluginManager = new PluginManager();
+
+document.addEventListener('readystatechange', (event) => {
+    if (event.target.readyState === 'complete') {
+        PluginManager.initializePlugins();
+    }
+}, false);

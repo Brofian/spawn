@@ -1,4 +1,4 @@
-import Plugin from "../../~Base/System/Plugin";
+import Plugin from "Plugin";
 
 export default class ScrollupHeaderPlugin extends Plugin {
 
