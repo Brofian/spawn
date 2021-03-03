@@ -12,7 +12,7 @@
 
             <action id="module.manual.page">
                 <method>page</method><!-- corresponds to an actual public method in the class-->
-                <url>/manual/page/{id}</url>
+                <url>/manual/page/{id}/test/{foo}</url>
             </action>
 
         </actions>

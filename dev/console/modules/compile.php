@@ -27,13 +27,13 @@ $resourceCollector->gatherModuleData($moduleCollection);
 
 IO::printLine("> compiling javascript...");
 
+
+
 //javascript kompilieren
 $webpackDir = ROOT . "/src/npm";
 
 
-
 foreach($moduleCollection->getNamespaceList() as $namespace) {
-
 
     WebpackConfigGenerator::rewriteConf($namespace, $moduleCollection->getNamespaceList());
 

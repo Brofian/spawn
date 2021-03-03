@@ -18,7 +18,8 @@ class Index extends BaseController {
         //$response->getTwigHelper()->setRenderFile("test.html.twig");
     }
 
-    public function page(Request $request, Response $response) {
+    public function page(Request $request, Response $response, $id, $foo) {
+
         echo "test";
     }
 }

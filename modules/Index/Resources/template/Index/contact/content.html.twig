@@ -1,37 +1,48 @@
-<div class="spacer-s"></div>
-
-
 <div class="h3">Kontakt</div>
 
-
 <div class="spacer-s"></div>
 
+<div class="contact-form-container">
+    <form id="contact-form" class="{% if context.Parameters.COOKIES.cookies["hasSendContactForm"] %}already-submitted{% endif %}" action="{{ "module.index.api.contactform"|link }}" method="post" data-ajax-form>
 
-<form action="{{ "module.index.api.contactform"|link }}" method="post" data-ajax-form>
+        <div class="contact-form-message">
+            <div class="message-content">
 
-    <label>
-        <input type="email" name="email" placeholder="E-Mail Adresse"/>
-    </label>
-
-    <div class="spacer-s"></div>
-
-    <label>
-        <input type="text" name="subject" placeholder="Betreff"/>
-    </label>
-
-    <div class="spacer-s"></div>
-
-    <label>
-        <textarea placeholder="Nachricht..." name="message"></textarea>
-    </label>
+            </div>
+            <div class="spacer-s"></div>
+        </div>
 
 
-    <div class="spacer-m"></div>
 
-    <button>Absenden</button>
+        <label>
+            <input type="email" name="email" placeholder="E-Mail Adresse"  required/>
+        </label>
+
+        <div class="spacer-s"></div>
+
+        <label>
+            <input type="text" name="subject" placeholder="Betreff"  required/>
+        </label>
+
+        <div class="spacer-s"></div>
+
+        <label>
+        <textarea placeholder="Nachricht..." name="message" maxlength="5000" minlength="50" required>
+            {% for i in 0..50 %}{{ i }}{% endfor %}
+        </textarea>
+        </label>
 
 
-</form>
+        <div class="spacer-m"></div>
+
+        <button>Absenden</button>
+
+    </form>
+
+    <div id="contact-form-success-message">
+        Vielen Dank für deine Anfrage! Sie wird so bald wie möglich beantwortet!
+    </div>
+</div>
 
 
 

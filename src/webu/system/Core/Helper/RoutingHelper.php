@@ -39,9 +39,11 @@ class RoutingHelper
 
                 /** @var ModuleAction $action */
                 foreach($controller->getActions() as $action) {
-                    $newUri = CUriConverter::cUriToRegex($action->getCustomUrl());
+                    $uriVars = [];
+                    $newUri = CUriConverter::cUriToRegex($action->getCustomUrl(), $uriVars);
                     $routeList[$action->getId()] = [
                         "uri" => $newUri,
+                        "uri_vars" => $uriVars,
                         "module" => $module,
                         "controller" => $controller,
                         "method" => $action->getAction()
@@ -61,7 +63,6 @@ class RoutingHelper
     public function route(string $path = "") {
 
         $path = "/" . $path;
-
 
         foreach($this->routeList as $routeItem) {
             if(preg_match($routeItem["uri"], $path)) {

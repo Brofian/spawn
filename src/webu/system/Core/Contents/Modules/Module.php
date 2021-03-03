@@ -28,6 +28,9 @@ class Module {
     /** @var string */
     private $resourceNamespace;
 
+    /** @var array */
+    private $databaseTableClasses = array();
+
 
     public function __construct(string $moduleName)
     {
@@ -40,6 +43,14 @@ class Module {
      * SETTER
      *
      */
+
+
+    /**
+     * @param string $tableClass
+     */
+    public function addDatabaseTableClass(string $tableClass) {
+        $this->databaseTableClasses[] = $tableClass;
+    }
 
     /**
      * @param ModuleController $moduleController
@@ -159,4 +170,8 @@ class Module {
         return $this->resourceNamespace;
     }
 
+
+    public function getDatabaseTableClasses() : array {
+        return $this->databaseTableClasses;
+    }
 }

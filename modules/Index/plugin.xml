@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 
-<plugin>
+<plugin active="true">
 
     <info>
         <author>Fabian Holzwarth</author>
@@ -9,10 +9,15 @@
     </info>
 
     <controllerlist>
-        <link>Controller/controllers.xml</link>
+        <link>Controller/_controllers.xml</link>
     </controllerlist>
 
-
     <resources weight="99">/Resources</resources>
+
+    <tablelist>
+        <table class="webu\modules\Index\Database\ContactTable">
+        </table>
+    </tablelist>
+
 
 </plugin>

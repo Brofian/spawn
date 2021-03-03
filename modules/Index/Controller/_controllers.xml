@@ -2,7 +2,7 @@
 
 <controllerlist>
 
-    <controller class="webu\modules\index\Controller\Index" name="index.index">
+    <controller class="webu\modules\Index\Controller\Index" name="index.index">
         <actions>
 
             <action id="module.index.index.index">
@@ -20,7 +20,7 @@
 
 
 
-    <controller class="webu\modules\index\Controller\Api" name="index.api">
+    <controller class="webu\modules\Index\Controller\Api" name="index.api">
         <actions>
 
             <action id="module.index.api.contactform">

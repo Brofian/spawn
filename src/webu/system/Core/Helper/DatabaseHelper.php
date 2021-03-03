@@ -49,6 +49,7 @@ class DatabaseHelper
             $this->connection = new DatabaseConnection($this->host, $this->database, $this->port, $this->username, $this->password);
         } catch (PDOException $pdoException) {
             $this->connection = false;
+
             Debugger::ddump('Cant connect to the database! Please check the credentials in the config.php file');
         }
     }

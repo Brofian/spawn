@@ -1,6 +1,6 @@
 <?php
 
-namespace webu\modules\index\Controller;
+namespace webu\modules\Index\Controller;
 
 use webu\system\Core\Base\Controller\BaseController;
 use webu\system\core\Request;

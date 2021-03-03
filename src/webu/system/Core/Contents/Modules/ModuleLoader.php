@@ -38,6 +38,8 @@ class ModuleLoader {
             $this->loadModule($moduleFolder, $basePath);
         }
 
+
+
         ModuleCacher::createModuleCache($this->moduleCollection);
 
         return $this->moduleCollection;
@@ -58,6 +60,12 @@ class ModuleLoader {
 
         /** @var $pluginXML SimpleXMLElement */
         $pluginXML = (new XMLHelper())->readFile($basePath . self::REL_XML_PATH);
+
+
+        if((string)$pluginXML->attributes()->active != "true") {
+            return;
+        }
+
 
         /*
          * Set Plugin Informations
@@ -114,6 +122,18 @@ class ModuleLoader {
             }
             $module->setResourceNamespace($namespaceHash);
         }
+
+
+        /*
+         * Database tables
+         */
+        if(isset($pluginXML->tablelist)) {
+            foreach($pluginXML->tablelist->children() as $child) {
+                $module->addDatabaseTableClass((string)$child->attributes()->class);
+            }
+        }
+
+
 
         $this->moduleCollection->addModule($module);
     }

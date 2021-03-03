@@ -7,7 +7,7 @@ define('CACHE_DIR', '/var/cache');
 
 
 //load config
-require(ROOT . "/config.php");
+require(ROOT . DIRECTORY_SEPARATOR . "config.php");
 if(!defined('MODE')) {
     echo "Please create the config.php file with the sample pattern";
     die();

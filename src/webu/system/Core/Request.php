@@ -17,6 +17,7 @@ use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Contents\Modules\ModuleNamespacer;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
+use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Helper\SessionHelper;
 use webu\system\Core\Helper\URIHelper;
@@ -186,6 +187,7 @@ class Request
         $moduleList = $this->moduleCollection->getModuleList();
         ModuleCollection::sortModulesByWeight($moduleList);
 
+
         /** @var Module $module */
         foreach($moduleList as $module) {
             $this->environment->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
@@ -201,7 +203,7 @@ class Request
             //$result = $routingHelper->route("404");
         }
 
-
+        $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $result["uri"]);
 
         /** @var Module $module */
         $module = $result["module"];
@@ -236,6 +238,7 @@ class Request
             $this->environment->response
         ];
 
+        $params = array_merge($params, $uriParameters);
 
 
 

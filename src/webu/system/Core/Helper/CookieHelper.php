@@ -56,4 +56,8 @@ class CookieHelper
         return $fallback;
     }
 
+
+    public function getCookies() : array {
+        return $this->cookies;
+    }
 }

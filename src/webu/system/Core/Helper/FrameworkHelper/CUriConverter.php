@@ -15,16 +15,18 @@ class CUriConverter {
         return $cUri;
     }
 
-    public static function cUriToRegex(string $uri) {
+    public static function cUriToRegex(string $uri, array &$vars = []) {
 
-        $pattern = "/{[^}]*}/m";
+        $pattern = "/{([^}]*)}/m";
         preg_match_all($pattern, $uri, $matches);
-
 
         $uri = "^/" . trim($uri, "/ \n");
 
         foreach($matches[0] as $variable) {
             $uri = str_replace($variable, "([^/]*)", $uri);
+        }
+        foreach($matches[1] as $variable_raw) {
+            $vars[] = $variable_raw;
         }
 
         $uri = str_replace("/", "\/", $uri);
@@ -32,6 +34,23 @@ class CUriConverter {
         $uri = "/" . $uri . "$/m";
 
         return $uri;
+    }
+
+
+
+    public static function getParametersFromUri(string $uri, string $curi, array $uriVars = []) : array {
+        $uri = "/" . $uri;
+
+        $matches = [];
+        preg_match_all($curi, $uri, $matches);
+
+
+        $parameters = [];
+        for($i = 1; $i < sizeof($matches); $i++) {
+            $parameters[] = $matches[$i][0];
+        }
+
+        return $parameters;
     }
 
 }

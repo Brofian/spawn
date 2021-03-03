@@ -17,14 +17,13 @@ class XMLHelper
     {
         $this->filePath = $path;
 
-
-
         $pathSplit = explode(DIRECTORY_SEPARATOR, URIHelper::pathifie($path, DIRECTORY_SEPARATOR, false));
         if(count($pathSplit) > 1) array_pop($pathSplit);
         $this->folderPath = implode(DIRECTORY_SEPARATOR, $pathSplit);
 
 
         $xmlObject = $this->loadFile($this->filePath);
+
 
         $this->searchLinks($xmlObject);
 
@@ -46,11 +45,9 @@ class XMLHelper
     private function searchLinks($xmlObject) {
 
 
-
         foreach($xmlObject->children() as $key => $child) {
 
             if(isset($child->link)) {
-
                 $linkXML = $this->loadFile(URIHelper::joinPaths($this->folderPath, (string)$child->link));
 
                 //replace
