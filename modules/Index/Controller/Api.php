@@ -66,7 +66,7 @@ class Api extends BaseController
             ->setValue(WebuContactMessages::COL_EMAIL, $post["email"], ":email")
             ->setValue(WebuContactMessages::COL_SUBJECT, $post["subject"], ":subject")
             ->setValue(WebuContactMessages::COL_MESSAGE, $post["message"], ":message");
-        //$query->execute();
+        $query->execute();
 
 
         $response->getTwigHelper()->setOutput(json_encode([

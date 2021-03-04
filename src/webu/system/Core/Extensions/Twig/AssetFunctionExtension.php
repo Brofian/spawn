@@ -3,6 +3,7 @@
 namespace webu\system\Core\Extensions\Twig;
 
 use webu\system\Core\Base\Extensions\Twig\FunctionExtension;
+use webu\system\Core\Contents\Modules\ModuleNamespacer;
 use webu\system\Core\Helper\URIHelper;
 
 class AssetFunctionExtension extends FunctionExtension
@@ -17,7 +18,7 @@ class AssetFunctionExtension extends FunctionExtension
         return function ($namespace, $doHash = false) {
 
             if($doHash) {
-                $namespace = hash('md5', $namespace);
+                $namespace = ModuleNamespacer::hashRawNamespace($namespace);
             }
 
             return URIHelper::createPath([
@@ -25,7 +26,7 @@ class AssetFunctionExtension extends FunctionExtension
                 "var",
                 "cache",
                 "public",
-                $namespace
+                $namespace,
             ], "/");
         };
     }

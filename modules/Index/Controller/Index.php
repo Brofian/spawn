@@ -29,6 +29,9 @@ class Index extends BaseController {
         $response->getTwigHelper()->assign("form-target", "");
     }
 
+    public function error404(Request $request, Response $response) {
+
+    }
 
 
 

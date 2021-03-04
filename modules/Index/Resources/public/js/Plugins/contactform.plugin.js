@@ -2,20 +2,22 @@ import Plugin from "Plugin";
 
 export default class ConactFormPlugin extends Plugin {
 
-    outputElementSelector = ".contact-form-message";
-    messageContainerSelector = ".message-content";
 
-    sendingProblemMessage = "Es ist ein Fehler bei der Übermittlung aufgetreten. Bitte prüfe deine Internetverbindnug und versuche es später nochmal";
-    serverErrorMessage = "Deine Anfrage konnte gerade leider nicht verarbeitet werden. Bitte versuche es später nochmal oder sende eine Email an <a href='mail:holzwarth.fabian@freenet.de'>holzwarth.fabian@freenet.de</a>";
-    missingValueMessage = "Die Anfrage war leider unvollständig. Bitte fülle alle Felder aus und versuche es nochmal";
-    invalidEmailMessage = "Deine Email-Adresse ist leider ungültig! Bitte prüfe die Eingabe und versuche es nochmal";
-
-
-
-    activeClass = "visible";
 
     init() {
         var me = this;
+
+
+        me.outputElementSelector = ".contact-form-message";
+        me.messageContainerSelector = ".message-content";
+        me.successMessageContainerId = "contact-form-success-message";
+        me.sendingProblemMessage = "Es ist ein Fehler bei der Übermittlung aufgetreten. Bitte prüfe deine Internetverbindnug und versuche es später nochmal";
+        me.serverErrorMessage = "Deine Anfrage konnte gerade leider nicht verarbeitet werden. Bitte versuche es später nochmal oder sende eine Email an <a href='mail:holzwarth.fabian@freenet.de'>holzwarth.fabian@freenet.de</a>";
+        me.missingValueMessage = "Die Anfrage war leider unvollständig. Bitte fülle alle Felder aus und versuche es nochmal";
+        me.invalidEmailMessage = "Deine Email-Adresse ist leider ungültig! Bitte prüfe die Eingabe und versuche es nochmal";
+        me.successMessage = "Vielen Dank für deine Anfrage! Sie wird so bald wie möglich beantwortet!";
+        me.activeClass = "visible";
+
 
         me.registerEventListeners();
     }
@@ -40,6 +42,7 @@ export default class ConactFormPlugin extends Plugin {
             d.setTime(d.getTime() + (60*60*1000));
             document.cookie = "hasSendContactForm=true; expires="+d.toUTCString();
 
+            document.getElementById(me.successMessageContainerId).innerText = me.successMessage;
             me._element.classList.add("successfully-submitted");
 
         }

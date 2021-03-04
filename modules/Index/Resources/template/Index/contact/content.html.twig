@@ -49,7 +49,7 @@
     </form>
 
     <div id="contact-form-success-message" {% if contactFormSubmitted %}style="transition: none !important;"{% endif %}>
-        Vielen Dank für deine Anfrage! Sie wird so bald wie möglich beantwortet!
+        {% if contactFormSubmitted %}Vielen Dank für deine Anfrage! Sie wird so bald wie möglich beantwortet!{% endif %}
     </div>
 </div>
 

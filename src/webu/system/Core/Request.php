@@ -197,10 +197,7 @@ class Request
         $result = $routingHelper->route($this->requestURI);
 
         if($result === false) {
-            //TODO: Fallback für 404 einbinden
-            echo "Fallback für 404 einbinden <br>";
-            die(__METHOD__);
-            //$result = $routingHelper->route("404");
+            $result = $routingHelper->route("404");
         }
 
         $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $result["uri"]);

@@ -25,6 +25,7 @@
 @import "components/footer";
 @import "components/spacer";
 @import "components/offcanvas";
+@import "components/cookie-consent";
 
 
 /*
@@ -35,12 +36,14 @@
 @import "element/listing";
 @import "element/input";
 @import "element/button";
+@import "element/offcanvas-main-menu";
 
 
 /*
  * Properties
  * ------ */
 @import "properties/display";
+@import "properties/text-align";
 
 
 

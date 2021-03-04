@@ -15,6 +15,11 @@
                 <url>/contact</url>
             </action>
 
+            <action id="module.index.index.error">
+                <method>error404</method>
+                <url>/404</url>
+            </action>
+
         </actions>
     </controller>
 

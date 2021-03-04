@@ -42,6 +42,8 @@ $animation-time: 0.5s;
 
 		padding: $base-space/2 $base-space;
 
+		cursor: pointer;
+
 		color: $white;
 		background: $border-gray;
 	}
@@ -52,7 +54,7 @@ $animation-time: 0.5s;
 
 }
 
-body .is-offcanvas-open {
+body.has-offcanvas-open {
 	overflow: hidden;
 }
 

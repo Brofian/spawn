@@ -9,7 +9,7 @@
     </info>
 
     <controllerlist>
-        <link>Controller/controllers.xml</link>
+        <link>Controller/_controllers.xml</link>
     </controllerlist>
 
 

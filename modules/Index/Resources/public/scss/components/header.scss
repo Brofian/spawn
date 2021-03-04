@@ -1,3 +1,5 @@
+$offcanvas-trigger-width: 50px;
+
 #header {
 	position: sticky;
 	top: 0;
@@ -56,6 +58,8 @@
 			align-items: center;
 			text-align: left;
 
+			margin-right: $offcanvas-trigger-width;
+
 			& * {
 				text-decoration: none;
 				color: $default-font-color;
@@ -63,8 +67,9 @@
 		}
 
 		.main-menu-offcanvas-trigger {
-			height: 50px;
-			width: 50px;
+			cursor: pointer;
+			height: $offcanvas-trigger-width;
+			width: $offcanvas-trigger-width;
 			padding: 5px;
 
 			.icon {
@@ -81,6 +86,11 @@
 @include media-up($md) {
 	#header {
 		.header-inner {
+
+			.header-title {
+				margin-right: 0;
+			}
+
 			.header-navigation {
 				display: flex;
 				flex-direction: row;

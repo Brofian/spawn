@@ -1,0 +1,18 @@
+.offcanvas-main-menu-entries {
+
+	.navigation-entry {
+		position: relative;
+		width: 100%;
+		padding: $base-space;
+
+		.navigation-entry-content {
+
+			.navigation-entry-arrow {
+				position: absolute;
+				top: 50%;
+				right: $base-space;
+				transform: translateY(-50%);
+			}
+		}
+	}
+}

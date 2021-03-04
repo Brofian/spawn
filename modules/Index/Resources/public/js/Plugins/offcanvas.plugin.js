@@ -15,6 +15,8 @@ export default class OffcanvasPlugin extends Plugin {
         me.offcanvasSelector = ".offcanvas";
         me.isOpenClass = "is-open";
 
+        me.bodyOffcanvasHint = "has-offcanvas-open";
+
         me.registerEventListeners();
     }
 
@@ -55,6 +57,8 @@ export default class OffcanvasPlugin extends Plugin {
                 offCanvas.classList.remove(me.isOpenClass);
             }
         }
+
+        document.querySelector("body").classList.remove(me.bodyOffcanvasHint);
     }
 
     closeOffcanvas(id) {
@@ -64,6 +68,11 @@ export default class OffcanvasPlugin extends Plugin {
 
         if(offCanvas) {
             offCanvas.classList.remove(me.isOpenClass);
+        }
+
+        //when all offcanvas are closed, unmark the body
+        if(document.querySelectorAll(me.offcanvasSelector + "." + me.isOpenClass).length <= 0) {
+            document.querySelector("body").classList.remove(me.bodyOffcanvasHint);
         }
     }
 
@@ -76,6 +85,8 @@ export default class OffcanvasPlugin extends Plugin {
         if(offCanvas) {
             offCanvas.classList.add(me.isOpenClass);
         }
+
+        document.querySelector("body").classList.add(me.bodyOffcanvasHint);
     }
 
 }

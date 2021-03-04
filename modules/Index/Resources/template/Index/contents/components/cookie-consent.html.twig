@@ -1,0 +1,15 @@
+{% set acceptedCookies = context.Parameters.COOKIES.cookies["acceptedCookies"] %}
+
+{% if not acceptedCookies %}
+<div id="cookie-consent">
+
+    <div class="cookie-consent-message">
+        WIR HABEN KEKSE! Diese Website benutzt möglichst wenig und ausschließlich eigene Cookies, die zur korrekten Funktionalität der Seite beitragen!
+    </div>
+
+    <button class="cookie-consent-button">
+        Habe verstanden!
+    </button>
+
+</div>
+{% endif %}

@@ -3,11 +3,12 @@
 	height: 1em;
 	display: inline-block;
 	align-self: center;
+	vertical-align: middle;
 	position: relative;
 
 	svg {
-		fill: $secondary;
-		stroke: $secondary;
+		fill: $default-font-color;
+		stroke: $default-font-color;
 
 		height: 100%;
 		width: 100%;
@@ -18,36 +19,6 @@
 		stroke: $white;
 	}
 }
-
-
-.icon-preview {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-
-	.icon-preview-container {
-		flex: 1 0 33.3333%;
-		display: flex;
-		padding: 20px;
-
-		&:nth-of-type(2n) {
-			background: lighten($secondary, 80%)
-		}
-
-
-		&:hover, &:hover * {
-			color: red;
-			fill: red;
-			stroke: red;
-		}
-
-		.icon {
-			margin: 0 5px;
-			transition: all 0.2s ease-in-out;
-		}
-	}
-}
-
 
 .rotate {
 	&deg-45 {
