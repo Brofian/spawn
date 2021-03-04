@@ -4,6 +4,8 @@ namespace webu\system\Core\Extensions\Twig;
 
 
 use webu\system\Core\Base\Extensions\Twig\FilterExtension;
+use webu\system\Core\Contents\Modules\ModuleNamespacer;
+use webu\system\Core\Helper\URIHelper;
 
 class IconFilterExtension extends FilterExtension
 {
@@ -15,16 +17,26 @@ class IconFilterExtension extends FilterExtension
 
     protected function getFilterFunction(): callable
     {
-        return function($icon, $additionalClasses = "") {
-            $iconPath = ROOT . "\\src\\Resources\\public\\assets\\Backend\\icons\\" . $icon . ".svg";
+        return function($icon, $namespace = ModuleNamespacer::GLOBAL_NAMESPACE_RAW, $additionalClasses = "") {
+
+            $iconPath = URIHelper::createPath([
+                ROOT . CACHE_DIR,
+                "public",
+                ModuleNamespacer::hashRawNamespace($namespace),
+                "assets",
+                "icons",
+                $icon.".svg"
+            ]);
+
 
             if(!file_exists($iconPath)) {
-                return $iconPath;
+                if(MODE == 'dev')   return "Icon \"" . $iconPath . "\" not found!";
+                else                return "Missing icon";
             }
 
             $svgFile = file_get_contents($iconPath);
             $svgFile = "<span class='icon ".$additionalClasses."'>" . $svgFile . "</span>";
-            return $svgFile ?? "Icon not found!";
+            return $svgFile;
         };
     }
 

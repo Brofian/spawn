@@ -1,0 +1,49 @@
+.icon {
+	width: 1em;
+	height: 1em;
+	display: inline-block;
+	align-self: center;
+	position: relative;
+
+	svg {
+		fill: $secondary;
+		stroke: $secondary;
+
+		height: 100%;
+		width: 100%;
+	}
+
+	&.white svg {
+		fill: $white;
+		stroke: $white;
+	}
+}
+
+
+.icon-preview {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+
+	.icon-preview-container {
+		flex: 1 0 33.3333%;
+		display: flex;
+		padding: 20px;
+
+		&:nth-of-type(2n) {
+			background: lighten($secondary, 80%)
+		}
+
+
+		&:hover, &:hover * {
+			color: red;
+			fill: red;
+			stroke: red;
+		}
+
+		.icon {
+			margin: 0 5px;
+			transition: all 0.2s ease-in-out;
+		}
+	}
+}

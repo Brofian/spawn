@@ -5,7 +5,6 @@ input {
 	&[type="email"] {
 
 		display: inline-block;
-		min-width: 30rem;
 
 		padding: 0.5rem 1rem;
 
@@ -42,4 +41,11 @@ textarea {
 	resize: vertical;
 
 	outline: none;
+}
+
+
+@include media-up($md) {
+	input {
+		min-width: 20rem;
+	}
 }

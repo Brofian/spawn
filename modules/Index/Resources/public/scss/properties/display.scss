@@ -1,0 +1,112 @@
+.d- {
+	&none {
+		display: none !important;
+	}
+	&block {
+		display: block !important;
+	}
+	&inline {
+		display: inline !important;
+	}
+	&inline-block {
+		display: inline-block !important;
+	}
+	&flex {
+		display: flex !important;
+	}
+	&inline-flex {
+		display: inline-flex !important;
+	}
+}
+
+@include media-up($sm) {
+	.d-sm- {
+		&none {
+			display: none !important;
+		}
+		&block {
+			display: block !important;
+		}
+		&inline {
+			display: inline !important;
+		}
+		&inline-block {
+			display: inline-block !important;
+		}
+		&flex {
+			display: flex !important;
+		}
+		&inline-flex {
+			display: inline-flex !important;
+		}
+	}
+}
+
+@include media-up($md) {
+	.d-md- {
+		&none {
+			display: none !important;
+		}
+		&block {
+			display: block !important;
+		}
+		&inline {
+			display: inline !important;
+		}
+		&inline-block {
+			display: inline-block !important;
+		}
+		&flex {
+			display: flex !important;
+		}
+		&inline-flex {
+			display: inline-flex !important;
+		}
+	}
+}
+
+@include media-up($md) {
+	.d-md- {
+		&none {
+			display: none !important;
+		}
+		&block {
+			display: block !important;
+		}
+		&inline {
+			display: inline !important;
+		}
+		&inline-block {
+			display: inline-block !important;
+		}
+		&flex {
+			display: flex !important;
+		}
+		&inline-flex {
+			display: inline-flex !important;
+		}
+	}
+}
+
+@include media-up($lg) {
+	.d-lg- {
+		&none {
+			display: none !important;
+		}
+		&block {
+			display: block !important;
+		}
+		&inline {
+			display: inline !important;
+		}
+		&inline-block {
+			display: inline-block !important;
+		}
+		&flex {
+			display: flex !important;
+		}
+		&inline-flex {
+			display: inline-flex !important;
+		}
+	}
+}

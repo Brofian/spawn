@@ -8,6 +8,15 @@
         </div>
     </div>
 
+
+    <div id="offcanvas-container">
+        {% include "Index/index/offcanvas-menu.html.twig" with {
+            offcanvasId : "main-menu-offcanvas"
+        } %}
+
+        <div id="offcanvas-background" class="d-md-none" data-can-close-offcanvas></div>
+    </div>
+
     {% include "Index/contents/footer.html.twig" %}
 
 {% endblock %}

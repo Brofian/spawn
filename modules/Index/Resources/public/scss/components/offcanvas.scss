@@ -1,0 +1,90 @@
+$animation-time: 0.5s;
+
+.offcanvas {
+
+	position: fixed;
+
+	display: block;
+	max-width: 18rem;
+
+	height: 100%;
+	width: 100%;
+	top: 0;
+
+
+	background: $white;
+
+	z-index: $z-offcanvas+1;
+
+
+	&.is-right {
+		transition: right 0.5s ease-in-out;
+		right: -100%;
+	}
+	&:not(.is-right) {
+		transition: left 0.5s ease-in-out;
+		left: -100%;
+	}
+
+
+	&.is-open {
+		&.is-right {
+			right: 0;
+		}
+		&:not(.is-right) {
+			left: 0;
+		}
+	}
+
+
+	.offcanvas-close-button {
+		width: 100%;
+
+		padding: $base-space;
+
+		color: $white;
+		background: $border-gray;
+	}
+
+	.offcanvas-content {
+		padding: $base-space;
+	}
+
+}
+
+body .is-offcanvas-open {
+	overflow: hidden;
+}
+
+#offcanvas-background {
+	display: none;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	background: $gray-500;
+	z-index: $z-offcanvas;
+
+	.offcanvas.is-open ~ & {
+		display: block;
+	}
+}
+
+
+
+@include media-up($sm) {
+	.offcanvas {
+		max-width: 20rem;
+	}
+}
+
+
+@include media-up($md) {
+	.offcanvas,
+	.offcanvas * {
+		display: none;
+	}
+}

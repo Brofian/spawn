@@ -1,4 +1,4 @@
-a[href] {
+a[href]:not(.ignore-link) {
 
 	&,
 	&:link,

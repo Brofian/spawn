@@ -1,0 +1,15 @@
+{% block offcanvas %}
+
+    <div class="offcanvas" id="{{ offcanvasId }}">
+
+        <div class="offcanvas-close-button" data-offcanvas-id="{{ offcanvasId }}" data-can-close-offcanvas>
+            {% block close_button %}Zurück{% endblock %}
+        </div>
+
+        <div class="offcanvas-content">
+            {% block content %}{% endblock %}
+        </div>
+
+    </div>
+
+{% endblock %}
