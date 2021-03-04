@@ -17,7 +17,7 @@ class IconFilterExtension extends FilterExtension
 
     protected function getFilterFunction(): callable
     {
-        return function($icon, $namespace = ModuleNamespacer::GLOBAL_NAMESPACE_RAW, $additionalClasses = "") {
+        return function($icon, $additionalClasses = "", $namespace = ModuleNamespacer::GLOBAL_NAMESPACE_RAW) {
 
             $iconPath = URIHelper::createPath([
                 ROOT . CACHE_DIR,

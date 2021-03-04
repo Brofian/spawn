@@ -40,14 +40,14 @@ $animation-time: 0.5s;
 	.offcanvas-close-button {
 		width: 100%;
 
-		padding: $base-space;
+		padding: $base-space/2 $base-space;
 
 		color: $white;
 		background: $border-gray;
 	}
 
 	.offcanvas-content {
-		padding: $base-space;
+		padding: $base-space 0;
 	}
 
 }

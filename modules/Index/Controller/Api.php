@@ -32,12 +32,18 @@ class Api extends BaseController
 
         $post = $request->getParamPost();
 
-
-
         if(!isset($post["email"],$post["subject"],$post["message"])) {
             $response->getTwigHelper()->setOutput(json_encode([
                 "success"=>"false",
                 "problem"=>"missing_value"
+            ]));
+            return;
+        }
+
+        if($post["url"] && $post["url"] != "") {
+            $response->getTwigHelper()->setOutput(json_encode([
+                "success"=>"false",
+                "problem"=>"bot_detection"
             ]));
             return;
         }

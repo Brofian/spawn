@@ -1,5 +1,13 @@
 .personal-teaser {
-
 	text-align: center;
 
+
+	.text-span {
+		transition: font-size 0.2s ease-in-out;
+
+		&:hover {
+			font-size: 1.2em;
+		}
+	}
 }
+

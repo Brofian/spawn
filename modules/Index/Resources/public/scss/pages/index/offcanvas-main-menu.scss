@@ -1,0 +1,15 @@
+.offcanvas-main-menu-entries {
+
+	li {
+		position: relative;
+
+		.navigation-entry-arrow {
+			position: absolute;
+			top: 50%;
+			right: $base-space;
+			transform: translateY(-50%);
+		}
+	}
+
+
+}

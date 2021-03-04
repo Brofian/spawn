@@ -3,15 +3,22 @@
     <div id="header" class="is-top">
 
         <div class="header-inner container">
+            <div class="main-menu-offcanvas-trigger d-inline-block d-md-none">
+                    <span data-offcanvas-id="main-menu-offcanvas" data-offcanvas-trigger>
+                        {{ "burger"|icon }}
+                    </span>
+            </div>
+
             <div class="header-title">
                 <a href="{{ "module.index.index.index"|link }}" class="ignore-link">
-                    <span class="h1 ">Fabian Holzwarth</span>
+                    <span class="h1 d-none d-sm-block">Fabian Holzwarth</span>
+                    <span class="h1 d-block d-sm-none" style="padding-right: 50px;">F.H.</span>
                 </a>
             </div>
 
             <nav class="header-navigation">
 
-                <ul class="horizontal-listing d-none d-md-inline-block">
+                <ul class="horizontal-listing no-style d-none d-md-inline-block">
 
                     {% for id,title in context.main_navigation %}
                         <li>
@@ -23,12 +30,6 @@
 
                 </ul>
 
-
-                <div class="main-menu-offcanvas d-inline-block d-md-none">
-                    <span data-offcanvas-id="main-menu-offcanvas" data-offcanvas-trigger>
-                        {{ "burger"|icon }}
-                    </span>
-                </div>
             </nav>
 
         </div>

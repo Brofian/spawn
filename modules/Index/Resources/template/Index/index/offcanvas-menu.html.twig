@@ -1,5 +1,24 @@
 {% extends "Index/contents/offcanvas.html.twig" %}
 
 {% block content %}
-    Hello world
+
+    <ul class="offcanvas-main-menu-entries no-style vertical-listing">
+
+    {% for id,title in context.main_navigation %}
+
+        <li>
+            <a href="{{ id|link }}" class="navigation-entry special bottom-roof-line">
+                <span class="navigation-entry">{{ title }}</span>
+            </a>
+
+            <span class="navigation-entry-arrow">
+                {{ "simple-arrow"|icon("rotatedeg--90") }}
+            </span>
+
+        </li>
+
+    {% endfor %}
+
+    </ul>
+
 {% endblock %}
