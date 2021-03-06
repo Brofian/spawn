@@ -46,7 +46,6 @@ class ContactTable extends DatabaseTable
             ->setLength(1000);
         $this->addColumn($col);
 
-
         return true;
     }
 

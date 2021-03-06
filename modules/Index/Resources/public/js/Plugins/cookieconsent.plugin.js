@@ -9,7 +9,7 @@ export default class CookieConsentPlugin extends Plugin {
 
         me.buttonSelector = ".cookie-consent-button";
         me.acceptedClass = "accepted";
-        me.cookie = "acceptedCookies";
+        me.cookie = "acceptedCookies=true;path=/";
 
         me.addEventListeners();
     }
@@ -19,20 +19,16 @@ export default class CookieConsentPlugin extends Plugin {
 
         var button = me._element.querySelector(me.buttonSelector);
 
-        console.log(me);
-        console.log(button);
-
         if(button) {
             button.addEventListener('click', me.onAccept.bind(me));
         }
-
     }
 
 
     onAccept() {
         var me = this;
 
-        document.cookie = me.cookie+'=true';
+        document.cookie = me.cookie;
         me._element.classList.add(me.acceptedClass)
     }
 }

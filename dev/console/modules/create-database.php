@@ -42,7 +42,6 @@ foreach($databaseClasses as $class) {
 
     if ($dbhelper->doesTableExist($c->getTableName())) {
         IO::printLine(IO::TAB . "- " . $c->getTableName() . " already exists");
-
     }
     else {
         $sql = $c->getTableCreationSQL(DB_DATABASE);

@@ -147,6 +147,9 @@ class DatabaseColumn
      */
     public function getCanBeNull(): bool
     {
+        //when an index is set, table cant be null
+        if($this->index != "") return false;
+
         return $this->canBeNull;
     }
 
