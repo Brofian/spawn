@@ -1,0 +1,57 @@
+@include breakpoint-difference(".align") {
+	&-f-start {
+		align-content: flex-start !important;
+		align-items: flex-start !important;
+	}
+
+	&-start {
+		align-content: start !important;
+		align-items: start !important;
+	}
+
+	&-f-end {
+		align-content: flex-end !important;
+		align-items: flex-end !important;
+	}
+
+	&-end {
+		align-content: end !important;
+		align-items: end !important;
+	}
+
+	&-center {
+		align-content: center !important;
+		align-items: center !important;
+	}
+
+	&-space-between {
+		align-content: space-between !important;
+	}
+
+	&-space-around {
+		align-content: space-around !important;
+	}
+
+	&-space-evenly {
+		align-content: space-evenly !important;
+	}
+
+	&-stretch {
+		align-content: stretch !important;
+		align-items: stretch !important;
+	}
+
+	&-baseline {
+		align-items: baseline !important;
+	}
+
+	&-normal {
+		align-items: normal !important;
+	}
+
+	&-inherit {
+		align-content: inherit !important;
+		align-items: inherit !important;
+	}
+
+}

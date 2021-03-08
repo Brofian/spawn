@@ -1,4 +1,3 @@
-
 /*
  * Global Styles
  * ------------- */
@@ -9,6 +8,22 @@
  * Elements
  * -------- */
 @import "elements/icons";
+@import "elements/container";
+
+
+/*
+ * Properties
+ * ---------- */
+@import "properties/display";
+@import "properties/align";
+@import "properties/justify";
+@import "properties/flex-direction";
+
+
+/*
+ * Layout
+ * ------ */
+@import "layout/col";
 
 
 /*

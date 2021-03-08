@@ -1,0 +1,19 @@
+@include breakpoint-difference(".f-dir") {
+	&-col {
+		flex-direction: column !important;
+	}
+
+	&-row {
+		flex-direction: row !important;
+	}
+
+	&-col-r {
+		flex-direction: column-reverse !important;
+	}
+
+	&-row-r {
+		flex-direction: row-reverse !important;
+	}
+}
+
+

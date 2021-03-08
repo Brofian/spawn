@@ -2,7 +2,7 @@
 
 <controllerlist>
 
-    <controller class="webu\modules\Index\Controller\Index" name="index.index">
+    <controller class="webu\modules\Index\Controller\Index" name="Index">
         <actions>
 
             <action id="module.index.index.index">
@@ -15,7 +15,14 @@
                 <url>/contact</url>
             </action>
 
-            <action id="module.index.index.error">
+        </actions>
+    </controller>
+
+
+    <controller class="webu\modules\Index\Controller\Error" name="Error">
+        <actions>
+
+            <action id="module.index.error.error404">
                 <method>error404</method>
                 <url>/404</url>
             </action>
@@ -24,8 +31,28 @@
     </controller>
 
 
+    <controller class="webu\modules\Index\Controller\Projects" name="Projects">
+        <actions>
 
-    <controller class="webu\modules\Index\Controller\Api" name="index.api">
+            <action id="module.index.projects.list">
+                <method>list</method>
+                <url>/projects</url>
+            </action>
+            <action id="module.index.projects.list.page">
+                <method>list</method>
+                <url>/projects/p/{page}</url>
+            </action>
+
+            <action id="module.index.projects.detail">
+                <method>list</method>
+                <url>/projects/detail/{id}</url>
+            </action>
+
+        </actions>
+    </controller>
+
+
+    <controller class="webu\modules\Index\Controller\Api" name="Api">
         <actions>
 
             <action id="module.index.api.contactform">

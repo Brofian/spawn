@@ -200,7 +200,9 @@ class Request
             $result = $routingHelper->route("404");
         }
 
+
         $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $result["uri"]);
+
 
         /** @var Module $module */
         $module = $result["module"];
@@ -238,12 +240,11 @@ class Request
         $params = array_merge($params, $uriParameters);
 
 
-
-
         /* Insert gathered Information to Context */
         $this->fillContext();
         $this->getContext()->set("ModuleCollection", $this->moduleCollection);
         $this->getContext()->set("Module", $module->getName());
+        $this->getContext()->set("ControllerClass", $controller->getClass());
         $this->getContext()->set("Controller", $controller->getName());
         $this->getContext()->set("Action", $method);
 

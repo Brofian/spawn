@@ -29,10 +29,6 @@ class Index extends BaseController {
         $response->getTwigHelper()->assign("form-target", "");
     }
 
-    public function error404(Request $request, Response $response) {
-
-    }
-
 
 
     /*
@@ -40,10 +36,12 @@ class Index extends BaseController {
      *  Custom Functions for this controller
      *
      */
-    private function createMainNavigation() {
+    public static function createMainNavigation() {
         return [
             'module.index.index.index' => "Home",
-            'module.index.index.contact' => "Kontakt"
+            'module.index.index.contact' => "Kontakt",
+            'module.index.projects.list' => "Projekte"
         ];
     }
+
 }

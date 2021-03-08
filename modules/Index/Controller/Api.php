@@ -14,11 +14,11 @@ use webu\system\core\Response;
 class Api extends BaseController
 {
 
-
     public function onControllerStart(Request $request, Response $response)
     {
+
         //this is just an api, so return true by default
-        $response->getTwigHelper()->setOutput(json_encode(true));
+        $this->twig->setOutput(json_encode(true));
     }
 
     /*
@@ -33,28 +33,28 @@ class Api extends BaseController
         $post = $request->getParamPost();
 
         if(!isset($post["email"],$post["subject"],$post["message"])) {
-            $response->getTwigHelper()->setOutput(json_encode([
+            $this->setJsonOutput([
                 "success"=>"false",
                 "problem"=>"missing_value"
-            ]));
+            ]);
             return;
         }
 
         if($post["url"] && $post["url"] != "") {
-            $response->getTwigHelper()->setOutput(json_encode([
+            $this->setJsonOutput([
                 "success"=>"false",
                 "problem"=>"bot_detection"
-            ]));
+            ]);
             return;
         }
 
         $email_pattern = '/^([^@]*)@([^@\.]*)\.([^@.]*)$/m';
 
         if(!preg_match($email_pattern, $post["email"])) {
-            $response->getTwigHelper()->setOutput(json_encode([
+            $this->setJsonOutput([
                 "success"=>"false",
                 "problem"=>"invalid_email"
-            ]));
+            ]);
             return;
         }
 
@@ -69,9 +69,20 @@ class Api extends BaseController
         $query->execute();
 
 
-        $response->getTwigHelper()->setOutput(json_encode([
-            "success"=>"true",
-        ]));
+        $this->setJsonOutput(["success"=>"true"]);
+    }
+
+    
+
+
+    /*
+     *
+     * Custom Controller Functions
+     *
+     */
+
+    private function setJsonOutput($outputValue) {
+        $this->twig->setOutput(json_encode($outputValue));
     }
 
 }

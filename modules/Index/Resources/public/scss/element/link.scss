@@ -1,4 +1,4 @@
-a[href]:not(.ignore-link) {
+a[href] {
 
 	&,
 	&:link,
@@ -16,7 +16,12 @@ a[href]:not(.ignore-link) {
 	}
 
 
-	&:not(.special) {
+	&.ignore-link {
+		color: $default-font-color;
+	}
+
+
+	&:not(.ignore-link):not(.special) {
 		&:before {
 			content: "";
 			position: absolute;
@@ -38,7 +43,7 @@ a[href]:not(.ignore-link) {
 	}
 
 
-	&.special {
+	&:not(.ignore-link).special {
 
 
 		//class="special bottom-roof-line"

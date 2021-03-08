@@ -8,6 +8,8 @@ use webu\system\Core\Base\Database\DatabaseConnection;
 class QuerySelect extends QueryBase
 {
 
+    const COUNT = 'COUNT(*) as count';
+
     /** @var string */
     const COMMAND = 'SELECT ';
 

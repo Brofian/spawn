@@ -41,7 +41,7 @@ class ModuleController {
      * @return string
      */
     public function getName() {
-        return $this->class;
+        return $this->name;
     }
 
     /**

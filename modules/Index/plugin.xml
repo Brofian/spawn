@@ -17,6 +17,10 @@
     <tablelist>
         <table class="webu\modules\Index\Database\ContactTable">
         </table>
+        <table class="webu\modules\Index\Database\ProgrammingLanguageTable">
+        </table>
+        <table class="webu\modules\Index\Database\ProjectsTable">
+        </table>
     </tablelist>
 
 

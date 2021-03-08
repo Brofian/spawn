@@ -1,0 +1,16 @@
+.container {
+	padding: $base-space;
+
+	&-vert {
+		padding: $base-space 0;
+	}
+
+	&-hor {
+		padding: 0 $base-space;
+	}
+
+	&-x {
+		margin-left: -$base-space;
+		margin-right: -$base-space;
+	}
+}

@@ -3,22 +3,32 @@
     <div id="content">
         <div class="content-inner">
 
-            {% include "Index/"~ context.Action ~"/content.html.twig" %}
+            {% block content_inner %}
+                {% include context.Module~"/"~context.Controller~"/"~ context.Action ~"/content.html.twig" %}
+            {% endblock %}
 
         </div>
     </div>
 
 
-    {% include "Index/contents/components/cookie-consent.html.twig" %}
+    {% block cookie_consent %}
+        {% include "Index/contents/components/cookie-consent.html.twig" %}
+    {% endblock %}
 
-    <div id="offcanvas-container">
-        {% include "Index/index/offcanvas-menu.html.twig" with {
-            offcanvasId : "main-menu-offcanvas"
-        } %}
 
-        <div id="offcanvas-background" class="d-md-none" data-can-close-offcanvas></div>
-    </div>
+    {% block offcanvas_container %}
+        <div id="offcanvas-container">
+            {% include "Index/index/index/offcanvas-menu.html.twig" with {
+                offcanvasId : "main-menu-offcanvas"
+            } %}
 
-    {% include "Index/contents/footer.html.twig" %}
+            <div id="offcanvas-background" class="d-md-none" data-can-close-offcanvas></div>
+        </div>
+    {% endblock %}
+
+
+    {% block footer %}
+        {% include "Index/contents/footer.html.twig" %}
+    {% endblock %}
 
 {% endblock %}

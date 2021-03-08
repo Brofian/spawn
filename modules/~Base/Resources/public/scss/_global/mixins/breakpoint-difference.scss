@@ -1,0 +1,25 @@
+@mixin breakpoint-difference($mainName) {
+
+	#{$mainName} {
+		@content
+	}
+
+	@include media-up($sm) {
+		#{$mainName}-sm {
+			@content
+		}
+	}
+
+	@include media-up($md) {
+		#{$mainName}-md {
+			@content
+		}
+	}
+
+	@include media-up($lg) {
+		#{$mainName}-lg {
+			@content
+		}
+	}
+
+}

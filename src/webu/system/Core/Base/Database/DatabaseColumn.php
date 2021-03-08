@@ -11,11 +11,14 @@ class DatabaseColumn
 {
     const NAME = '';
 
+    const VARCHAR_MAX = 8000;
+    const VARCHAR_SMALL = 255;
+
     /** @var string */
     protected $name = '';
     /** @var string */
     protected $type = DatabaseType::INT;
-    /** @var int */
+    /** @var int|string */
     protected $length = 0;
     /** @var string|null */
     protected $default = null;
@@ -47,7 +50,10 @@ class DatabaseColumn
         $sql = '`' . $this->name . '`';
         $sql .= ' ' . $this->type;
 
-        if ($this->length > 0) {
+        if($this->length === self::VARCHAR_MAX) {
+            $sql .= '(' . $this->length . ')';
+        }
+        else if ($this->length > 0) {
             $sql .= '(' . $this->length . ')';
         }
 
@@ -55,7 +61,7 @@ class DatabaseColumn
             $sql .= ' ' . $this->attribute;
         }
 
-        if ($this->canBeNull) {
+        if ($this->canBeNull && $this->index == '') {
             $sql .= ' NULL';
         } else {
             $sql .= ' NOT NULL';
@@ -74,7 +80,7 @@ class DatabaseColumn
     }
 
 
-    public function setLength(int $length)
+    public function setLength($length)
     {
         $this->length = $length;
         return $this;
@@ -127,9 +133,9 @@ class DatabaseColumn
     }
 
     /**
-     * @return int
+     * @return int | string
      */
-    public function getLength(): int
+    public function getLength()
     {
         return $this->length;
     }
