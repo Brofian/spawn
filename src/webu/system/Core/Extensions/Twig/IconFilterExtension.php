@@ -17,12 +17,12 @@ class IconFilterExtension extends FilterExtension
 
     protected function getFilterFunction(): callable
     {
-        return function($icon, $additionalClasses = "", $namespace = ModuleNamespacer::GLOBAL_NAMESPACE_RAW) {
+        return function($context, $icon, $additionalClasses = "") {
 
             $iconPath = URIHelper::createPath([
                 ROOT . CACHE_DIR,
                 "public",
-                ModuleNamespacer::hashRawNamespace($namespace),
+                $context["namespace"],
                 "assets",
                 "icons",
                 $icon.".svg"
@@ -43,6 +43,7 @@ class IconFilterExtension extends FilterExtension
     protected function getFilterOptions(): array
     {
         return [
+            'needs_context' => true,
             'is_safe' => ['html']
         ];
     }

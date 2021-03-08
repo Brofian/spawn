@@ -4,7 +4,12 @@ namespace webu\system\Core\Contents\Modules;
 
 class ModuleCollection {
 
+    const DEFAULT_NAMESPACE = "default";
+
+
     private $modules = array();
+
+
 
 
     public function __construct()
@@ -42,7 +47,9 @@ class ModuleCollection {
 
         /** @var Module $module */
         foreach($this->getModuleList() as $module) {
-            $namespace = ($module->getResourceNamespace() == "") ? "default" : $module->getResourceNamespace();
+            if(!$module->isActive()) continue;
+
+            $namespace = ($module->getResourceNamespace() == "") ? "DEFAULT_NAMESPACE" : $module->getResourceNamespace();
 
             if(!in_array($namespace, $namespaces)) {
                 $namespaces[] = $namespace;

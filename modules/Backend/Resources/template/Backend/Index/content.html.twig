@@ -1,0 +1,16 @@
+<div id="backend-container">
+
+
+    {% set isSidebarSmall = context.Parameters.COOKIES.cookies["sidebarState"] == "small" %}
+    <div class="sidebar-container {% if isSidebarSmall %}small{% endif %}" data-sidebar>
+        {% include "Backend/Index/sidebar.html.twig" %}
+    </div>
+
+    <div class="content-container">
+
+        Hello Backend world Content
+
+    </div>
+
+</div>
+

@@ -15,12 +15,12 @@ import Plugin from "Plugin";
 
 export default class AjaxFormPlugin extends Plugin {
 
-    static target = "";
-    static method = "get";
-    static isLoading = false;
-
     init() {
         var me = this;
+
+        me.target = "";
+        me.method = "get";
+        me.isLoading = false;
 
         if(me._element.tagName !== "FORM") return;
 

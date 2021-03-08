@@ -196,6 +196,7 @@ class Request
         $routingHelper = new RoutingHelper($this->moduleCollection);
         $result = $routingHelper->route($this->requestURI);
 
+
         if($result === false) {
             $result = $routingHelper->route("404");
         }

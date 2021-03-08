@@ -95,11 +95,7 @@ class ScssHelper
         foreach ($moduleCollection->getNamespaceList() as $namespace) {
 
             $baseFile = $this->baseFolder . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $this->baseFileName;
-            if(!file_exists($baseFile)) {
-                //info: it is possible for an inactive module to appear in the namespace list, but have no files collected
-                //info: this is totally fine, just skip the namespace
-                continue;
-            }
+
 
 
 

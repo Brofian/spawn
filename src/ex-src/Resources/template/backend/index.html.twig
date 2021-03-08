@@ -1,0 +1,28 @@
+{% block master_block %}
+    <!DOCTYPE html>
+    <html lang="de" data-backend>
+
+
+    {% block body %}
+        <body class="is--ctr-{{ controller }} is--act-{{ action }}"
+              id="body"
+              onload="document.getElementById('body').classList.add('ready')"
+        >
+
+        {% if action == 'login' %}
+            {% include "backend/login/login.html.twig" %}
+        {% else %}
+
+
+
+        {% endif %}
+
+
+        </body>
+    {% endblock %}
+
+    </html>
+{% endblock %}
+
+
+

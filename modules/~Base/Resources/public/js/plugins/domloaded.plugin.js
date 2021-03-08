@@ -10,7 +10,6 @@ export default class DomLoadedPlugin extends Plugin {
         var me = this;
 
 
-        console.log("dom plugin called");
         me.expectedReadyState = "complete";
         me.event = "dom.content.ready";
         me.readyClass = "is-ready";

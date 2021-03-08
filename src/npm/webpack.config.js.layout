@@ -26,7 +26,8 @@ module.exports = {
 	],
 	alias: {
 	     PluginManager: path.resolve(__dirname, './plugin-system/PluginManager'),
-	     Plugin: path.resolve(__dirname, './plugin-system/Plugin')
+	     Plugin: path.resolve(__dirname, './plugin-system/Plugin'),
+     	     CookieManager: path.resolve(__dirname, './plugin-system/CookieManager')
 	}
     },
 
