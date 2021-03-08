@@ -4,13 +4,13 @@
 @font-face {
 	font-weight: $font-weight-light;
 	font-family: "Poppins";
-	src: url("#{$defaultAssetsPath}/fonts/poppins/Poppins-Light.ttf") format("truetype");
+	src: url("#{$assetPath}/fonts/poppins/Poppins-Light.ttf") format("truetype");
 }
 @font-face {
 	font-weight: $font-weight-light;
 	font-style: italic;
 	font-family: "Poppins";
-	src: url("#{$defaultAssetsPath}/fonts/poppins/Poppins-LightItalic.ttf") format("truetype");
+	src: url("#{$assetPath}/fonts/poppins/Poppins-LightItalic.ttf") format("truetype");
 }
 
 
@@ -20,14 +20,14 @@
 @font-face {
 	font-weight: $font-weight-regular;
 	font-family: "Poppins";
-	src: url("#{$defaultAssetsPath}/fonts/poppins/Poppins-Regular.ttf") format("truetype");
+	src: url("#{$assetPath}/fonts/poppins/Poppins-Regular.ttf") format("truetype");
 }
 
 @font-face {
 	font-weight: $font-weight-regular;
 	font-style: italic;
 	font-family: "Poppins";
-	src: url("#{$defaultAssetsPath}/fonts/poppins/Poppins-Italic.ttf") format("truetype");
+	src: url("#{$assetPath}/fonts/poppins/Poppins-Italic.ttf") format("truetype");
 }
 
 
@@ -37,12 +37,12 @@
 @font-face {
 	font-weight: $font-weight-bold;
 	font-family: "Poppins";
-	src: url("#{$defaultAssetsPath}/fonts/poppins/Poppins-Bold.ttf") format("truetype");
+	src: url("#{$assetPath}/fonts/poppins/Poppins-Bold.ttf") format("truetype");
 }
 
 @font-face {
 	font-weight: $font-weight-bold;
 	font-style: italic;
 	font-family: "Poppins";
-	src: url("#{$defaultAssetsPath}/fonts/poppins/Poppins-BoldItalic.ttf") format("truetype");
+	src: url("#{$assetPath}/fonts/poppins/Poppins-BoldItalic.ttf") format("truetype");
 }

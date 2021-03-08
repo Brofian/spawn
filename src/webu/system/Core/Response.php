@@ -40,7 +40,7 @@ class Response
     public function prepare(Environment $environment) {
 
         //gather resources from the modules
-        if(ResourceCollector::isGatheringNeeded() || MODE == 'dev') {
+        if(ResourceCollector::isGatheringNeeded() || MODE == 'dev-false') {
             $resourceCollector = new ResourceCollector();
             $resourceCollector->gatherModuleData($environment->request->getModuleCollection());
         }

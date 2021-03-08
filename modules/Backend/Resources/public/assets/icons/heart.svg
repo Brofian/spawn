@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="20pt"
+   height="20pt"
+   viewBox="0 0 7.0555558 7.0555555"
+   version="1.1"
+   id="svg1035"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="heart.svg">
+  <defs
+     id="defs1029" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.919596"
+     inkscape:cx="-34.776005"
+     inkscape:cy="36.393938"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="pt"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1032">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 6.4051539,3.3141421 c -0.5253245,1.1363696 -2.861029,3.1198763 -2.861029,3.1198763 0,0 -2.3370127,-2.0240467 -2.8610291,-3.1739464 -0.22795356,-0.5002205 -0.21825218,-0.9154709 0,-1.4199998 C 0.9532574,1.2155454 1.4908813,0.75934256 2.170831,0.78559995 2.8496857,0.81181509 3.5441249,1.8337043 3.5441249,1.8337043 c 0,0 0.6943782,-1.02351999 1.373294,-1.04810435 0.6831019,-0.0247365 1.217853,0.43997395 1.487735,1.06798975 0.2223767,0.517471 0.23634,0.9493078 0,1.4605524 z"
+       id="path7023"
+       sodipodi:nodetypes="scssscsss" />
+  </g>
+</svg>

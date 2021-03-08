@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 
-<plugin active="false">
+<plugin active="true">
 
     <info>
         <author>Fabian Holzwarth</author>
@@ -12,6 +12,14 @@
         <link>Controller/_controllers.xml</link>
     </controllerlist>
 
+    <resources weight="99" namespace="backend">/Resources</resources>
 
-    <resources weight="9999" namespace="global">/Resources</resources>
+    <using>
+        <namespace>global</namespace>
+    </using>
+
+    <tablelist>
+    </tablelist>
+
+
 </plugin>

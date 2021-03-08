@@ -9,20 +9,19 @@ use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Custom\Debugger;
 
 
-class ScssHelper {
+class ScssHelper
+{
 
-    const SCSS_FILES_PATH         = ROOT . '/vendor/scssphp/scssphp/scss.inc.php';
+    const SCSS_FILES_PATH = ROOT . '/vendor/scssphp/scssphp/scss.inc.php';
 
-    private $alwaysReload       = false;
+    private $alwaysReload = false;
 
     private $baseVariables = array();
 
 
-    public  $cacheFilePath      = ROOT . CACHE_DIR . '/public/{namespace}/css';
-    public  $baseFolder         = ROOT . CACHE_DIR . '/private/resources';
-    public  $baseFileName       = 'scss/index.scss';
-
-
+    public $cacheFilePath = ROOT . CACHE_DIR . '/public/{namespace}/css';
+    public $baseFolder = ROOT . CACHE_DIR . '/private/resources';
+    public $baseFileName = 'scss/index.scss';
 
 
     public function __construct()
@@ -32,10 +31,9 @@ class ScssHelper {
     }
 
 
-    public function setBackendFilePaths() {
-    }
 
-    private function compile(string $baseFile, bool $compressed = false) {
+    private function compile(string $baseFile, bool $compressed = false)
+    {
         $scss = new Compiler();
 
         //set the output style
@@ -50,16 +48,15 @@ class ScssHelper {
         $scss->setImportPaths([dirname($baseFile)]);
 
 
-
         try {
             $css = $scss->compile('
-              '.$baseVariables.'
-              @import "'.basename($baseFile).'";
+              ' . $baseVariables . '
+              @import "' . basename($baseFile) . '";
             ');
         } catch (CompilerException $e) {
             $css = "";
 
-            if(MODE == 'dev') {
+            if (MODE == 'dev') {
                 Debugger::ddump($e);
             }
         }
@@ -68,32 +65,43 @@ class ScssHelper {
         return $css;
     }
 
-    private function compileBaseVariables() {
+    private function compileBaseVariables()
+    {
         $result = "";
-        foreach(BRAND_COLORS as $name => $color) {
-            $result .= '$' . $name . ' : ' . $color  . ';' . PHP_EOL;
+        foreach (BRAND_COLORS as $name => $color) {
+            $result .= '$' . $name . ' : ' . $color . ';' . PHP_EOL;
         }
 
-        foreach($this->baseVariables as $name => $value) {
-            $result .= '$' . $name . ' : "' . $value  . '";' . PHP_EOL;
+        foreach ($this->baseVariables as $name => $value) {
+            $result .= '$' . $name . ' : "' . $value . '";' . PHP_EOL;
         }
 
         return $result;
     }
 
-    private function cacheExists() : bool {
+    private function cacheExists(): bool
+    {
         return file_exists($this->cacheFilePath);
     }
 
 
-    public function createCss(ModuleCollection $moduleCollection) {
-        if($this->cacheExists() && !$this->alwaysReload) {
+    public function createCss(ModuleCollection $moduleCollection)
+    {
+        if ($this->cacheExists() && !$this->alwaysReload) {
             //File already exists and no force-reload
             return;
         }
 
-        foreach($moduleCollection->getNamespaceList() as $namespace) {
+        foreach ($moduleCollection->getNamespaceList() as $namespace) {
+
             $baseFile = $this->baseFolder . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $this->baseFileName;
+            if(!file_exists($baseFile)) {
+                //info: it is possible for an inactive module to appear in the namespace list, but have no files collected
+                //info: this is totally fine, just skip the namespace
+                continue;
+            }
+
+
 
             $css = $this->compile($baseFile);
             $cssMinified = $this->compile($baseFile, true);
@@ -108,25 +116,23 @@ class ScssHelper {
         }
 
 
-
-
     }
 
 
-    private function registerFunctions(Compiler &$scss) {
+    private function registerFunctions(Compiler &$scss)
+    {
         //register custom scss functions
         $scss->registerFunction(
             'degToPadd',
-            function($args) {
+            function ($args) {
                 $deg = $args[0][1];
                 $a = $args[1][1];
 
 
-
-                $magicNumber = tan(deg2rad($deg)/2);
+                $magicNumber = tan(deg2rad($deg) / 2);
                 $contentWidth = $a;
 
-                $erg =  $magicNumber * $contentWidth;
+                $erg = $magicNumber * $contentWidth;
                 return $erg . "px";
             }
         );
@@ -134,11 +140,11 @@ class ScssHelper {
 
         $scss->registerFunction(
             'assetURL',
-            function($args) {
+            function ($args) {
                 $path = $args[0][1];
                 $fullpath = ROOT . 'src/Resources/public/assets/' . $path;
 
-                $url = "url('".$fullpath."')";
+                $url = "url('" . $fullpath . "')";
                 return $url;
             }
         );
@@ -146,7 +152,8 @@ class ScssHelper {
     }
 
 
-    public function setBaseVariable(string $name, string $value) {
+    public function setBaseVariable(string $name, string $value)
+    {
         $this->baseVariables[$name] = $value;
     }
 }

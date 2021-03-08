@@ -29,13 +29,15 @@ class ModuleLoader {
 
         $moduleFolders = scandir($rootPath);
 
+        $moduleCount = 0;
         foreach($moduleFolders as $moduleFolder) {
             if($moduleFolder == "." || $moduleFolder == "..") continue;
 
             $basePath = $rootPath . "/" . $moduleFolder ;
             URIHelper::pathifie($basePath);
 
-            $this->loadModule($moduleFolder, $basePath);
+            $this->loadModule($moduleFolder, $basePath, $moduleCount);
+            $moduleCount++;
         }
 
 
@@ -45,7 +47,7 @@ class ModuleLoader {
         return $this->moduleCollection;
     }
 
-    private function loadModule($moduleName, $basePath) {
+    private function loadModule($moduleName, $basePath, $moduleId) {
 
         if( !file_exists(URIHelper::joinPaths($basePath, self::REL_XML_PATH)) ||
             !file_exists(URIHelper::joinPaths($basePath ,DIRECTORY_SEPARATOR.$moduleName.".php")))
@@ -62,13 +64,14 @@ class ModuleLoader {
         $pluginXML = (new XMLHelper())->readFile($basePath . self::REL_XML_PATH);
 
 
-        if((string)$pluginXML->attributes()->active != "true") {
-            return;
-        }
+        /*
+         * Set Module active
+         */
+        $module->setActive(((string)$pluginXML->attributes()->active == "true"));
 
 
         /*
-         * Set Plugin Informations
+         * Set Modle Informations
          */
         if(isset($pluginXML->info)) {
             foreach($pluginXML->info->children() as $key => $info) {
@@ -80,7 +83,7 @@ class ModuleLoader {
         /*
          * Load Controllers
          */
-        if(isset($pluginXML->controllerlist)) {
+        if(isset($pluginXML->controllerlist) && $module->isActive()) {
             foreach($pluginXML->controllerlist->children() as $controller) {
 
                 $controllerActions = array();
@@ -125,6 +128,16 @@ class ModuleLoader {
 
 
         /*
+         * Load "using"
+         */
+        if(isset($pluginXML->using)) {
+            $using = (array)$pluginXML->using;
+
+            $module->setUsingNamespaces((array)$using["namespace"]);
+        }
+
+
+        /*
          * Database tables
          */
         if(isset($pluginXML->tablelist)) {
@@ -134,7 +147,7 @@ class ModuleLoader {
         }
 
 
-
+        $module->setId("$moduleId");
         $this->moduleCollection->addModule($module);
     }
 

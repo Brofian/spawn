@@ -6,6 +6,11 @@ use webu\system\Core\Helper\URIHelper;
 
 class Module {
 
+    /** @var string  */
+    private $id = "";
+
+    /** @var bool  */
+    private $active = false;
 
     /** @var array */
     private $informations = array();
@@ -30,6 +35,9 @@ class Module {
 
     /** @var array */
     private $databaseTableClasses = array();
+
+    /** @var array  */
+    private $usingNamespaces = array();
 
 
     public function __construct(string $moduleName)
@@ -174,4 +182,56 @@ class Module {
     public function getDatabaseTableClasses() : array {
         return $this->databaseTableClasses;
     }
+
+    /**
+     * @return array
+     */
+    public function getUsingNamespaces(): array
+    {
+        return $this->usingNamespaces;
+    }
+
+    /**
+     * @param array $usingNamespaces
+     */
+    public function setUsingNamespaces(array $usingNamespaces): void
+    {
+        $this->usingNamespaces = $usingNamespaces;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+
+
+
 }
