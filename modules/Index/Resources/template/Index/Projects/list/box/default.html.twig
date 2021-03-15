@@ -1,0 +1,32 @@
+{% block listing_box %}
+
+    {% set link = "module.index.projects.detail"|link({'id':project.id}) %}
+    {% set previewLength = 200 %}
+
+    <div class="col-1 col-md-2 col-lg-3 container">
+
+        <div class="box-default">
+
+            <div class="box-image container">
+                <a href="{{ link }}" class="ignore-link">
+                    <div class="box-image-element" style="background-image: url('{{ assetPath(namespace) }}/assets/media/examples/example_800x500.png')">
+                    </div>
+                </a>
+            </div>
+
+            <div class="box-title container">
+                <a href="{{ link }}"  class="ignore-link">
+                    {{ project.title }}
+                </a>
+            </div>
+
+            <div class="box-content container-hor">
+                {{ project.content|slice(0,previewLength) }}{% if project.content|length > previewLength%}...{% endif %}
+            </div>
+
+            <div class="spacer-s"></div>
+        </div>
+
+    </div>
+
+{% endblock %}

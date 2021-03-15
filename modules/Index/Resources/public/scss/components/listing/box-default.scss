@@ -1,0 +1,48 @@
+.box-default {
+	height: 100%;
+
+	background: $white;
+	border: 1px solid transparent;
+
+	body.is-ready & {
+		transition: box-shadow $animation-time ease-in-out,
+					border-color $animation-time ease-in-out;
+	}
+
+
+	&:hover {
+		box-shadow: 0 0 10px 0 $border-gray;
+		border-color: $border-gray;
+	}
+
+	.box-image {
+		position: relative;
+		height: 15rem;
+		width: 100%;
+		text-align: center;
+
+		a {
+			width: 100%;
+			height: 100%;
+			position: relative;
+		}
+
+		.box-image-element {
+			width: 100%;
+			height: 100%;
+
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center;
+		}
+	}
+
+	.box-title {
+		font-weight: $font-weight-bold;
+	}
+
+	.box-content {
+
+	}
+
+}

@@ -1,0 +1,106 @@
+$offcanvas-trigger-width: 50px;
+
+#header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	width: 100%;
+	height: $header-height;
+	padding: $base-space 0;
+	background: $white;
+
+	z-index: $z-header;
+
+	transition: top 0.5s ease-in-out,
+				box-shadow 0.5s ease-in-out;
+
+	&.is-top {
+		top: 0;
+		position: relative;
+	}
+
+	&:not(.is-top) {
+		top: 0;
+		-webkit-box-shadow: 0 0 10px 0 $border-gray;
+		-moz-box-shadow: 0 0 10px 0 $border-gray;
+		box-shadow: 0 0 10px 0 $border-gray;
+	}
+
+	&.is-scrollup {
+		top: 0;
+	}
+	&.is-scrolldown {
+		top: -$header-height;
+
+		-webkit-box-shadow: none !important;
+		-moz-box-shadow: none !important;
+		box-shadow: none !important;
+	}
+
+
+	.header-inner {
+		flex: 0 1 100%;
+		align-self: center;
+		padding: 0 $base-space;
+		height: auto;
+		max-width: $max-width;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.header-title {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			text-align: left;
+
+			margin-right: $offcanvas-trigger-width;
+
+			& * {
+				text-decoration: none;
+				color: $default-font-color;
+			}
+		}
+
+		.main-menu-offcanvas-trigger {
+			cursor: pointer;
+			height: $offcanvas-trigger-width;
+			width: $offcanvas-trigger-width;
+			padding: 5px;
+
+			.icon {
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+	}
+}
+
+
+
+@include media-up($md) {
+	#header {
+		.header-inner {
+
+			.header-title {
+				margin-right: 0;
+			}
+
+			.header-navigation {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				.navigation-entry {
+					padding: 0.5rem;
+					margin: 0 0.5rem;
+				}
+			}
+		}
+	}
+}
