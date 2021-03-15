@@ -2,6 +2,7 @@
 
 namespace webu\modules\Backend\Controller;
 
+use webu\modules\backend\models\BackendUserModel;
 use webu\modules\Backend\Models\SidebarElement;
 use webu\system\Core\Base\Controller\BaseController;
 use webu\system\core\Request;
@@ -10,10 +11,29 @@ use webu\system\core\Response;
 
 class Index extends BaseController {
 
+    /** @var string  */
+    const LOGIN_ACTION_ID = "module.backend.login.index";
+
+    /** @var BackendUserModel */
+    protected $backendUser;
+
+
+
 
     public function onControllerStart(Request $request, Response $response)
     {
+        $this->backendUser = new BackendUserModel($request, $response);
+        $currentActionId = $request->getContext()->get("ActionId");
+
+        if(!$this->backendUser->isLoggedIn() && $currentActionId != self::LOGIN_ACTION_ID) {
+            $headerHelper = $response->getHeaderHelper();
+            $headerHelper->redirect(self::LOGIN_ACTION_ID, [], $headerHelper::RC_REDIRECT_TEMPORARILY);
+            $this->twig->setOutput("Access denied! Please log before accessing the Backend!");
+            $this->stopExecution();
+        }
+
         $this->twig->assign("sidebar", $this->createSidebar());
+        return true;
     }
 
 
@@ -27,6 +47,10 @@ class Index extends BaseController {
 
     }
 
+
+    public function login(Request $request, Response $response) {
+
+    }
 
     /*
      *

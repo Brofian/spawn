@@ -11,12 +11,16 @@ use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Contents\Context;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Helper\FrameworkHelper\ResourceCollector;
+use webu\system\Core\Helper\HeaderHelper;
 use webu\system\Core\Helper\ScssHelper;
 use webu\system\Core\Helper\TwigHelper;
 use webu\system\Environment;
 
 class Response
 {
+
+    /** @var Environment  */
+    private $environment = null;
 
     /** @var string */
     private $html = '';
@@ -26,23 +30,26 @@ class Response
     private $twigHelper = null;
     /** @var ScssHelper  */
     private $scssHelper = null;
+    /** @var HeaderHelper  */
+    private $headerHelper = null;
 
-    public function __construct()
+    public function __construct(Environment $environment)
     {
+        $this->environment = $environment;
+
+        $this->headerHelper = new HeaderHelper($environment->request, $this);
         $this->twigHelper = new TwigHelper();
         $this->scssHelper = new ScssHelper();
     }
 
 
-    /**
-     * @param Environment $environment
-     */
-    public function prepare(Environment $environment) {
+
+    public function prepare() {
 
         //gather resources from the modules
         if(ResourceCollector::isGatheringNeeded() || MODE == 'dev') {
             $resourceCollector = new ResourceCollector();
-            $resourceCollector->gatherModuleData($environment->request->getModuleCollection());
+            $resourceCollector->gatherModuleData($this->environment->request->getModuleCollection());
         }
 
 
@@ -59,6 +66,8 @@ class Response
         /* Render Scss */
         $this->scssHelper->createCss($moduleCollection);
 
+        /* set headers send by before sending actual html to prevent problems */
+        $this->headerHelper->setHeadersSentBy();
 
         /* Render twig */
         $this->getTwigHelper()->assign('context', $context->getContext());
@@ -88,20 +97,12 @@ class Response
     }
 
     /**
-     * @return int
+     * @return HeaderHelper
      */
-    public function getResponseCode()
-    {
-        return $this->responseCode;
+    public function getHeaderHelper() {
+        return $this->headerHelper;
     }
 
-    /**
-     * @param $responseCode
-     */
-    public function setResponseCode($responseCode)
-    {
-        $this->responseCode = $responseCode;
-    }
 
     /**
      * @return string

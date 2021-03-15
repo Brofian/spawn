@@ -42,7 +42,6 @@ class BackendApi extends ApiController {
         $request->getContext()->setBackendContext();
         if($request->getSessionHelper()->get('webu_user_logged_in', false) == false) {
             //response code
-            $response->setResponseCode(403);
             $response->getTwigHelper()->setOutput("You have no permission to use this resource! Please log in to verify");
             return;
         }

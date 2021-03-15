@@ -15,11 +15,15 @@ class RoutingHelper
 {
 
     /** @var ModuleCollection */
+    private $moduleCollection;
+
+    /** @var ModuleCollection */
     private $routeList;
 
     public function __construct(ModuleCollection $moduleCollection)
     {
-        $this->routeList = $this->initURIRegex($moduleCollection);
+        $this->moduleCollection = $moduleCollection;
+        $this->routeList = $this->generateRouteListByModuleCollection($moduleCollection);
     }
 
 
@@ -27,7 +31,7 @@ class RoutingHelper
      * @param ModuleCollection $moduleCollection
      * @return array
      */
-    private function initURIRegex(ModuleCollection $moduleCollection) {
+    private function generateRouteListByModuleCollection(ModuleCollection $moduleCollection) {
         $routeList = array();
 
 
@@ -41,7 +45,9 @@ class RoutingHelper
                 foreach($controller->getActions() as $action) {
                     $uriVars = [];
                     $newUri = CUriConverter::cUriToRegex($action->getCustomUrl(), $uriVars);
+
                     $routeList[$action->getId()] = [
+                        "id" => $action->getId(),
                         "uri" => $newUri,
                         "uri_vars" => $uriVars,
                         "module" => $module,
@@ -72,5 +78,36 @@ class RoutingHelper
 
         return false;
     }
+
+
+
+
+    public function getLinkFromId($actionId, $parameters = []) {
+        return self::getLinkByIdFromCollection($actionId, $this->moduleCollection, $parameters);
+    }
+
+    public static function getLinkByIdFromCollection($actionId, ModuleCollection $moduleCollection, $parameters = []) {
+        if(!$actionId || !$moduleCollection) {
+            return MAIN_ADDRESS_FULL . "/";
+        }
+
+        /** @var Module $module */
+        foreach($moduleCollection->getModuleList() as $module) {
+            /** @var ModuleController $controller */
+            foreach($module->getModuleControllers() as $controller) {
+                /** @var ModuleAction $action */
+                foreach($controller->getActions() as $action) {
+
+                    if($action->getId() == $actionId) {
+                        return MAIN_ADDRESS_FULL . CUriConverter::cUriToUri($action->getCustomUrl(), $parameters);
+                    }
+
+                }
+            }
+        }
+
+        return MAIN_ADDRESS_FULL . "/";
+    }
+
 
 }

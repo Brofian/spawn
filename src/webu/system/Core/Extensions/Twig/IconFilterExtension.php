@@ -19,10 +19,15 @@ class IconFilterExtension extends FilterExtension
     {
         return function($context, $icon, $additionalClasses = "") {
 
+            $namespace = ModuleNamespacer::getGlobalNamespace();
+            if(isset($context["namespace"])) {
+                $namespace = $context["namespace"];
+            }
+
             $iconPath = URIHelper::createPath([
                 ROOT . CACHE_DIR,
                 "public",
-                $context["namespace"],
+                $namespace,
                 "assets",
                 "icons",
                 $icon.".svg"

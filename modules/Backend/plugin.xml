@@ -19,6 +19,8 @@
     </using>
 
     <tablelist>
+        <table class="webu\modules\Backend\Database\BackendUserTable">
+        </table>
     </tablelist>
 
 

@@ -49,6 +49,8 @@ foreach($databaseClasses as $class) {
 
         IO::printLine(IO::TAB . "- " . $c->getTableName() . " successfully created");
         $createdTablesCount++;
+
+        $c->afterCreation($dbhelper);
     }
 
 

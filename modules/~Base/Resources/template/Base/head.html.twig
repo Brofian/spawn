@@ -12,6 +12,10 @@
             <meta charset="UTF-8" />
         {% endblock %}
 
+        {% block document_favicon %}
+            <link rel="icon" type="image/svg+xml" href="{{ assetPath(namespace) }}/assets/icons/favicon.svg">
+        {% endblock %}
+
         {% block document_viewport %}
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         {% endblock %}

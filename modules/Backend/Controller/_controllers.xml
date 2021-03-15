@@ -10,9 +10,24 @@
                 <url>/backend</url>
             </action>
 
+            <action id="module.backend.projects.index">
+                <method>index</method>
+                <url>/backend/projects</url>
+            </action>
+
         </actions>
     </controller>
 
+    <controller class="webu\modules\Backend\Controller\Login" name="Login">
+        <actions>
+
+            <action id="module.backend.login.index">
+                <method>index</method>
+                <url>/backend/login</url>
+            </action>
+
+        </actions>
+    </controller>
 
 
 

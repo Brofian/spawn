@@ -12,6 +12,9 @@ use webu\system\core\Response;
 abstract class BaseController
 {
 
+    /** @var bool  */
+    protected $stopExecution = false;
+
     /** @var TwigHelper  */
     protected $twig;
 
@@ -33,12 +36,21 @@ abstract class BaseController
     protected function onControllerStop(Request $request, Response $response)
     {}
 
+    protected final function stopExecution() {
+        $this->stopExecution = true;
+    }
+    public final function isExecutionStopped() {
+        return $this->stopExecution;
+    }
 
 
     public function index(Request $request, Response $response)
     {
         echo 'Undefined Index Action';
     }
+
+
+
 
 
 }

@@ -2,5 +2,10 @@
 
 {% block document_content %}
 
-    {% include "Backend/Index/content.html.twig" %}
+    {% if isLoginPage %}
+        {% include "Backend/Login/content.html.twig" %}
+    {% else %}
+        {% include "Backend/Index/content.html.twig" %}
+    {% endif %}
+
 {% endblock %}

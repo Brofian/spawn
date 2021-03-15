@@ -24,7 +24,7 @@ class Environment
     public function __construct()
     {
         $this->request = new Request($this);
-        $this->response = new Response();
+        $this->response = new Response($this);
 
 
         try {

@@ -193,12 +193,12 @@ class Request
             $this->environment->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
         }
 
-        $routingHelper = new RoutingHelper($this->moduleCollection);
-        $result = $routingHelper->route($this->requestURI);
+        $this->routingHelper = new RoutingHelper($this->moduleCollection);
+        $result = $this->routingHelper->route($this->requestURI);
 
 
         if($result === false) {
-            $result = $routingHelper->route("404");
+            $result = $this->routingHelper->route("404");
         }
 
 
@@ -211,6 +211,8 @@ class Request
         $controller = $result["controller"];
         /** @var string $method */
         $method = $result["method"];
+        /** @var string $actionId */
+        $actionId = $result["id"];
 
         $this->environment->response->getTwigHelper()->assign("namespace", $module->getResourceNamespace());
         $this->environment->response->getTwigHelper()->assign("environment", MODE);
@@ -248,6 +250,7 @@ class Request
         $this->getContext()->set("ControllerClass", $controller->getClass());
         $this->getContext()->set("Controller", $controller->getName());
         $this->getContext()->set("Action", $method);
+        $this->getContext()->set("ActionId", $actionId);
 
 
 
@@ -258,17 +261,18 @@ class Request
 
         $ctrl->init($this, $this->environment->response);
 
+        //stop execution immediately when stopped
+        if($ctrl->isExecutionStopped()) {
+            return;
+        }
+
         //call the controller method
         call_user_func_array(
-            [
-                $ctrl,
-                $method
-            ],
+            [$ctrl,$method],
             $params
         );
 
         $ctrl->end($this, $this->environment->response);
-
     }
 
     private function fillContext() {
