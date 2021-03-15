@@ -25,6 +25,9 @@ class Index extends BaseController {
     public function index(Request $request, Response $response) {
     }
 
+    public function impress(Request $request, Response $response) {
+    }
+
     public function contact(Request $request, Response $response) {
         $response->getTwigHelper()->assign("form-target", "");
     }

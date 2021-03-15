@@ -81,8 +81,5 @@ class Api extends BaseController
      *
      */
 
-    private function setJsonOutput($outputValue) {
-        $this->twig->setOutput(json_encode($outputValue));
-    }
 
 }

@@ -118,9 +118,11 @@ class QueryUpdate extends QueryBase
             }
         }
 
-        $operator = ($isString) ? 'LIKE' : '=';
+        $operator = ($isString) ? ' LIKE ' : ' = ';
 
-        $this->where[] = $prefix . $column . $operator . $value;
+        $ph = ":where".count($this->where);
+        $this->bindValue($ph, $value);
+        $this->where[] = $prefix . $column . $operator . $ph;
 
         return $this;
     }

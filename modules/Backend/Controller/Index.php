@@ -26,6 +26,7 @@ class Index extends BaseController {
         $currentActionId = $request->getContext()->get("ActionId");
 
         if(!$this->backendUser->isLoggedIn() && $currentActionId != self::LOGIN_ACTION_ID) {
+            //when not logged in, redirect to login page
             $headerHelper = $response->getHeaderHelper();
             $headerHelper->redirect(self::LOGIN_ACTION_ID, [], $headerHelper::RC_REDIRECT_TEMPORARILY);
             $this->twig->setOutput("Access denied! Please log before accessing the Backend!");

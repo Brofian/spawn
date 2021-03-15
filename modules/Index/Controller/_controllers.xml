@@ -10,6 +10,11 @@
                 <url>/</url>
             </action>
 
+            <action id="module.index.index.impress">
+                <method>impress</method>
+                <url>/impressum</url>
+            </action>
+
             <action id="module.index.index.contact">
                 <method>contact</method>
                 <url>/contact</url>

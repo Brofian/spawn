@@ -12,34 +12,41 @@ use webu\system\core\Response;
 abstract class BaseController
 {
 
-    /** @var bool  */
+    /** @var bool */
     protected $stopExecution = false;
 
-    /** @var TwigHelper  */
+    /** @var TwigHelper */
     protected $twig;
 
 
-    public final function init(Request $request, Response $response) {
+    public final function init(Request $request, Response $response)
+    {
         $this->twig = $response->getTwigHelper();
         //$this->twig->assign('controller', $this->getControllerAlias());
         //$this->twig->assign('action', $request->getRequestActionPath());
         $this->onControllerStart($request, $response);
     }
 
-    public final function end(Request $request, Response $response) {
+    public final function end(Request $request, Response $response)
+    {
         $this->onControllerStop($request, $response);
     }
 
     protected function onControllerStart(Request $request, Response $response)
-    {}
+    {
+    }
 
     protected function onControllerStop(Request $request, Response $response)
-    {}
+    {
+    }
 
-    protected final function stopExecution() {
+    protected final function stopExecution()
+    {
         $this->stopExecution = true;
     }
-    public final function isExecutionStopped() {
+
+    public final function isExecutionStopped()
+    {
         return $this->stopExecution;
     }
 
@@ -50,7 +57,10 @@ abstract class BaseController
     }
 
 
-
+    protected function setJsonOutput($outputValue)
+    {
+        $this->twig->setOutput(json_encode($outputValue));
+    }
 
 
 }

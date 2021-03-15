@@ -4,8 +4,6 @@ namespace webu\modules\backend\models;
 
 use webu\Database\StructureTables\WebuBackendUser;
 use webu\system\Core\Base\Database\Query\QueryBuilder;
-use webu\system\Core\Base\Database\Query\Types\QuerySelect;
-use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
@@ -38,7 +36,7 @@ class BackendUserModel {
     {
         $this->request = $request;
         $this->response = $response;
-        $this->checkAlreadyLoggedIn();
+        $e = $this->checkAlreadyLoggedIn();
     }
 
 
@@ -49,6 +47,7 @@ class BackendUserModel {
         $sessionKey = $this->request->getSessionHelper()->get(self::BACKEND_USER_SESSION_KEY, false);
         $cookieKey = $this->request->getCookieHelper()->get(self::BACKEND_USER_SESSION_KEY, false);
 
+
         if($sessionKey && $cookieKey && $sessionUsername && ($sessionKey == $cookieKey) ) {
             //can be logged in, if the session key and username is valid
             return $this->verifyBackendUserSessionKey($sessionKey, $sessionUsername);
@@ -57,6 +56,7 @@ class BackendUserModel {
             $this->request->getCookieHelper()->set(self::BACKEND_USER_SESSION_KEY, "", true, "/", -1);
             $this->request->getSessionHelper()->set(self::BACKEND_USER_SESSION_KEY, null, true);
             $this->request->getSessionHelper()->set(self::BACKEND_USERNAME_SESSION_KEY, null, true);
+            $this->isLoggedIn = false;
             return false;
         }
     }
@@ -65,8 +65,6 @@ class BackendUserModel {
     protected function verifyBackendUserSessionKey($sessionKey, $username) {
         $qb = new QueryBuilder($this->request->getDatabaseHelper()->getConnection());
 
-        dd("hello world");
-
         $backendUser = $qb->select("*")
             ->from(WebuBackendUser::TABLENAME)
             ->where(WebuBackendUser::COL_SESSION_HASH, $sessionKey)
@@ -74,13 +72,12 @@ class BackendUserModel {
             ->execute();
 
 
-        dd($backendUser);
-
         if(count($backendUser) == 1) {
-            $this->userName = $backendUser[0][WebuBackendUser::COL_USERNAME];
-            $this->email = $backendUser[0][WebuBackendUser::COL_EMAIL];
-            $this->id = $backendUser[0][WebuBackendUser::COL_ID];
-            $this->sessionkey = $backendUser[0][WebuBackendUser::COL_SESSION_HASH];
+            $backendUser = $backendUser[0];
+            $this->userName = $backendUser[WebuBackendUser::RAW_COL_USERNAME];
+            $this->email = $backendUser[WebuBackendUser::RAW_COL_EMAIL];
+            $this->id = $backendUser[WebuBackendUser::RAW_COL_ID];
+            $this->sessionkey = $backendUser[WebuBackendUser::RAW_COL_SESSION_HASH];
             $this->isLoggedIn = true;
             return true;
         }
@@ -91,7 +88,60 @@ class BackendUserModel {
     }
 
 
+    public function tryLogin(string $username, string $password) {
 
+        $qb = new QueryBuilder($this->request->getDatabaseHelper()->getConnection());
+        $user = $qb->select("*")
+            ->from(WebuBackendUser::TABLENAME)
+            ->where(WebuBackendUser::COL_USERNAME, $username)
+            ->where(WebuBackendUser::COL_EMAIL, $username, true)
+            ->execute();
+
+        if(count($user) != 1) {
+            return false;
+        }
+
+        $user = $user[0];
+        if(password_verify($password, $user[WebuBackendUser::RAW_COL_PASSWORD])) {
+
+            $this->id = $user[WebuBackendUser::RAW_COL_ID];
+            $this->userName = $user[WebuBackendUser::RAW_COL_USERNAME];
+            $this->email = $user[WebuBackendUser::RAW_COL_EMAIL];
+            $this->isLoggedIn = true;
+
+
+            $sessionKey = md5(time());
+            $insertErg = $qb->update(WebuBackendUser::TABLENAME)
+                ->set(WebuBackendUser::RAW_COL_SESSION_HASH, $sessionKey)
+                ->where(WebuBackendUser::RAW_COL_ID, (int)$this->id)
+                ->execute();
+
+            $this->sessionkey = $sessionKey;
+
+            $sessionHelper = $this->request->getSessionHelper();
+            $sessionHelper->set(self::BACKEND_USERNAME_SESSION_KEY, $this->userName);
+            $sessionHelper->set(self::BACKEND_USER_SESSION_KEY, $sessionKey);
+            $this->request->getCookieHelper()->set(self::BACKEND_USER_SESSION_KEY, $sessionKey, true, "/");
+
+
+
+            return true;
+        }
+
+        return false;
+    }
+
+
+
+    public function logout() {
+        if($this->isLoggedIn) {
+            $this->request->getCookieHelper()->set(self::BACKEND_USER_SESSION_KEY, "", true, "/", -1);
+            $this->request->getSessionHelper()->set(self::BACKEND_USER_SESSION_KEY, null, true);
+            $this->request->getSessionHelper()->set(self::BACKEND_USERNAME_SESSION_KEY, null, true);
+            $this->isLoggedIn = false;
+        }
+
+    }
 
 
 

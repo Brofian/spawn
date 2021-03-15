@@ -103,8 +103,6 @@ export default class AjaxFormPlugin extends Plugin {
     onAjaxSuccess(result) {
         var me = this;
 
-        console.log(result);
-
         me._$element.trigger("ajaxform:success", [result]);
         me.onAjaxResult();
     }

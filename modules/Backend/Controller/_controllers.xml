@@ -26,6 +26,16 @@
                 <url>/backend/login</url>
             </action>
 
+            <action id="module.backend.login.trylogin">
+                <method>tryLogin</method>
+                <url>/backend/api/login</url>
+            </action>
+
+            <action id="module.backend.login.logout">
+                <method>logout</method>
+                <url>/backend/logout</url>
+            </action>
+
         </actions>
     </controller>
 

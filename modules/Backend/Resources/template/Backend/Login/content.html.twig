@@ -1,1 +1,46 @@
-login
+{% block login %}
+    <div class="login-body">
+
+    {% block login_container %}
+        <div class="login-window">
+
+            <img class="col-4 login-window-image" src="{{ assetPath(namespace) }}/assets/media/login/login_sideimage.png" title="" alt=""/>
+
+            <div class="login-container">
+
+                <div class="h2">Login</div>
+
+                <div class="login-form-container">
+                    <form class="login-container-form" method="post" action="{{ loginRequestTarget|link }}" data-ajax-form data-backend-login-form>
+
+                        <input type="text"
+                               name="username"
+                               id="login-username"
+                               data-label="Benutzername"
+                               class="webu-input-text"
+                               autocomplete="off"
+                               placeholder="Benutzername"
+                               required />
+
+                        <input type="password"
+                               name="password"
+                               id="login-password"
+                               data-label="Passwort"
+                               class="webu-input-text"
+                               autocomplete="off"
+                               placeholder="Passwort"
+                               required />
+
+                        <input type="submit"
+                               class="btn btn-primary"
+                               value="Anmelden">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    {% endblock %}
+
+    </div>
+
+{% endblock %}
