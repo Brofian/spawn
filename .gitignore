@@ -1,6 +1,8 @@
 # Individual contents and cache
 var
 vendor
+modules
+
 
 #Config File (but sample is included)
 config.php

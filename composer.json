@@ -1,4 +1,25 @@
 {
+  "name": "webu-creator/project",
+  "type": "project",
+  "version": "0.1",
+  "description": "The Basic Webu Creator Framework",
+
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:F-H00/webu-homepage-module.git"
+    },
+    {
+      "type": "vcs",
+      "url":  "git@github.com:F-H00/webu-backend-module.git"
+    },
+    {
+      "type": "vcs",
+      "url":  "git@github.com:F-H00/webu-base-module.git"
+    }
+  ],
+
+
   "require": {
     "twig/twig": "^3.0",
     "ext-json": "*",
@@ -8,6 +29,18 @@
     "symfony/debug-bundle": "^5.2",
     "symfony/var-dumper": "^5.2",
     "ext-simplexml": "*",
-    "ext-dom": "*"
+    "ext-dom": "*",
+    "oomphinc/composer-installers-extender": "*",
+    "fh00-webu/homepage": "dev-master as 0.0.1",
+    "fh00-webu/backend": "dev-master as 0.0.1",
+    "fh00-webu/base": "dev-master as 0.0.1"
+  },
+
+  "extra": {
+    "installer-types": ["webu-module"],
+    "installer-paths": {
+      "modules/{$name}": ["type:webu-module"]
+    }
   }
+
 }
