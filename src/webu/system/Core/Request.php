@@ -201,7 +201,6 @@ class Request
             $result = $this->routingHelper->route("404");
         }
 
-
         $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $result["uri"]);
 
 
