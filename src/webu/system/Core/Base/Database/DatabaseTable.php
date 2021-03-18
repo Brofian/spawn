@@ -39,12 +39,18 @@ abstract class DatabaseTable
             return 2;
         }
 
+        //init table
         $this->init();
 
+        //run main script
         $sql = $this->getTableCreationSQL(DB_DATABASE);
         $dbHelper->query($sql);
+
+        //create structure file
         $this->createStructureFile();
 
+        //run after creation script
+        $this->afterCreation($dbHelper);
         return 0;
     }
 

@@ -75,7 +75,7 @@ namespace modules\\".$moduleName."\\Database\\Migrations;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\core\base\Migration;
 
-class ".$className." extends Migration {
+class ".$className." extends Migr"."ation {
     
     public static function getUnixTimestamp(): int
     {
