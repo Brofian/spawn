@@ -9,6 +9,7 @@ use webu\system\Core\Base\Database\Storage\DatabaseDefaults;
 use webu\system\Core\Base\Database\Storage\DatabaseIndex;
 use webu\system\Core\Base\Database\Storage\DatabaseType;
 use webu\system\Core\Base\Helper\DatabaseHelper;
+use webu\system\Core\Helper\FrameworkHelper\DatabaseStructureHelper;
 
 abstract class DatabaseTable
 {
@@ -29,6 +30,26 @@ abstract class DatabaseTable
         if($hasUpdatedAt) {
             $this->createUpdatedAtColumn();
         }
+    }
+
+
+
+    public function create(DatabaseHelper $dbHelper) {
+        if($dbHelper->doesTableExist($this->getTableName())) {
+            return 2;
+        }
+
+        $this->init();
+
+        $sql = $this->getTableCreationSQL(DB_DATABASE);
+        $dbHelper->query($sql);
+        $this->createStructureFile();
+
+        return 0;
+    }
+
+    protected function createStructureFile() {
+        DatabaseStructureHelper::createDatabaseStructure($this);
     }
 
 

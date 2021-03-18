@@ -90,6 +90,9 @@ class IO {
     }
 
 
+    public static function readLine(string $text = "") {
+        return readline($text);
+    }
 
 
 }

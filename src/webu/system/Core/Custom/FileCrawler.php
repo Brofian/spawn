@@ -61,7 +61,6 @@ class FileCrawler
 
         $this->scanDirs($rootPath, $this->results);
 
-
         return $this->results;
     }
 

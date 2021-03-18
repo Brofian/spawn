@@ -33,6 +33,7 @@
     "symfony/debug-bundle": "^5.2",
     "symfony/var-dumper": "^5.2",
     "ext-simplexml": "*",
+    "ext-readline": "*",
     "ext-dom": "*",
     "oomphinc/composer-installers-extender": "*",
     "fh00-webu/homepage": "dev-master as 0.0.1",
