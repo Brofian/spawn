@@ -36,10 +36,10 @@
     "ext-readline": "*",
     "ext-dom": "*",
     "oomphinc/composer-installers-extender": "*",
-    "fh00-webu/homepage": "dev-master as 0.0.1",
-    "fh00-webu/backend": "dev-master as 0.0.1",
-    "fh00-webu/manual": "dev-master as 0.0.1",
-    "fh00-webu/base": "dev-master as 0.0.1"
+    "fh00-webu/homepage": "dev-develop as 0.0.1",
+    "fh00-webu/backend": "dev-develop as 0.0.1",
+    "fh00-webu/manual": "dev-develop as 0.0.1",
+    "fh00-webu/base": "dev-develop as 0.0.1"
   },
 
 

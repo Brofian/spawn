@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac0f81d806eb7d224f9cf3c3239f798c",
+    "content-hash": "f2084715e4f2c181049551a9fb38d212",
     "packages": [
         {
             "name": "composer/installers",
@@ -156,22 +156,21 @@
         },
         {
             "name": "fh00-webu/backend",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-backend-module.git",
-                "reference": "bb1c61490c88e562cd773429eb264cb874523f92"
+                "reference": "c581babfd18e7f498c3bc2a2c2f4ba62a69b1eab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/bb1c61490c88e562cd773429eb264cb874523f92",
-                "reference": "bb1c61490c88e562cd773429eb264cb874523f92",
+                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/c581babfd18e7f498c3bc2a2c2f4ba62a69b1eab",
+                "reference": "c581babfd18e7f498c3bc2a2c2f4ba62a69b1eab",
                 "shasum": ""
             },
             "require": {
                 "fh00-webu/base": "*"
             },
-            "default-branch": true,
             "type": "webu-module",
             "license": [
                 "proprietary"
@@ -183,26 +182,25 @@
             ],
             "description": "Webu Modul - Basis Backend",
             "support": {
-                "source": "https://github.com/F-H00/webu-backend-module/tree/master",
+                "source": "https://github.com/F-H00/webu-backend-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-backend-module/issues"
             },
-            "time": "2021-03-17T19:06:01+00:00"
+            "time": "2021-03-22T12:03:59+00:00"
         },
         {
             "name": "fh00-webu/base",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/F-H00/webu-base-module.git",
-                "reference": "a7a360ad5977aa148b6e38ceb907f6ea8ebe0604"
+                "reference": "4a085c4e9b6802a4f92e0508e414222df1fc080f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-base-module/zipball/a7a360ad5977aa148b6e38ceb907f6ea8ebe0604",
-                "reference": "a7a360ad5977aa148b6e38ceb907f6ea8ebe0604",
+                "url": "https://api.github.com/repos/F-H00/webu-base-module/zipball/4a085c4e9b6802a4f92e0508e414222df1fc080f",
+                "reference": "4a085c4e9b6802a4f92e0508e414222df1fc080f",
                 "shasum": ""
             },
-            "default-branch": true,
             "type": "webu-module",
             "license": [
                 "proprietary"
@@ -214,29 +212,29 @@
             ],
             "description": "Webu Modul - Basis Modul",
             "support": {
-                "source": "https://github.com/F-H00/webu-base-module/tree/master",
+                "source": "https://github.com/F-H00/webu-base-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-base-module/issues"
             },
-            "time": "2021-03-17T18:16:08+00:00"
+            "time": "2021-03-22T12:03:07+00:00"
         },
         {
             "name": "fh00-webu/homepage",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-homepage-module.git",
-                "reference": "e5fe4ce07ffcfa0c08a20dacc567cbb3819017fc"
+                "reference": "f5878156334bae3c9d68cc03b250ca5480b777b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/e5fe4ce07ffcfa0c08a20dacc567cbb3819017fc",
-                "reference": "e5fe4ce07ffcfa0c08a20dacc567cbb3819017fc",
+                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/f5878156334bae3c9d68cc03b250ca5480b777b4",
+                "reference": "f5878156334bae3c9d68cc03b250ca5480b777b4",
                 "shasum": ""
             },
             "require": {
+                "fh00-webu/backend": "*",
                 "fh00-webu/base": "*"
             },
-            "default-branch": true,
             "type": "webu-module",
             "license": [
                 "proprietary"
@@ -248,14 +246,14 @@
             ],
             "description": "Webu Modul - Private Homepage",
             "support": {
-                "source": "https://github.com/F-H00/webu-homepage-module/tree/master",
+                "source": "https://github.com/F-H00/webu-homepage-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-homepage-module/issues"
             },
-            "time": "2021-03-17T19:05:19+00:00"
+            "time": "2021-03-22T12:05:03+00:00"
         },
         {
             "name": "fh00-webu/manual",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-manual-module.git",
@@ -270,7 +268,6 @@
             "require": {
                 "fh00-webu/base": "*"
             },
-            "default-branch": true,
             "type": "webu-module",
             "license": [
                 "proprietary"
@@ -1910,25 +1907,25 @@
     "aliases": [
         {
             "package": "fh00-webu/backend",
-            "version": "9999999-dev",
+            "version": "dev-develop",
             "alias": "0.0.1",
             "alias_normalized": "0.0.1.0"
         },
         {
             "package": "fh00-webu/base",
-            "version": "9999999-dev",
+            "version": "dev-develop",
             "alias": "0.0.1",
             "alias_normalized": "0.0.1.0"
         },
         {
             "package": "fh00-webu/homepage",
-            "version": "9999999-dev",
+            "version": "dev-develop",
             "alias": "0.0.1",
             "alias_normalized": "0.0.1.0"
         },
         {
             "package": "fh00-webu/manual",
-            "version": "9999999-dev",
+            "version": "dev-develop",
             "alias": "0.0.1",
             "alias_normalized": "0.0.1.0"
         }
@@ -1946,6 +1943,7 @@
         "ext-json": "*",
         "ext-pdo": "*",
         "ext-simplexml": "*",
+        "ext-readline": "*",
         "ext-dom": "*"
     },
     "platform-dev": [],
