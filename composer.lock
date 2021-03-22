@@ -160,12 +160,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-backend-module.git",
-                "reference": "c581babfd18e7f498c3bc2a2c2f4ba62a69b1eab"
+                "reference": "36f4e266abc4d83968bd17e453c3f5386c11242e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/c581babfd18e7f498c3bc2a2c2f4ba62a69b1eab",
-                "reference": "c581babfd18e7f498c3bc2a2c2f4ba62a69b1eab",
+                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/36f4e266abc4d83968bd17e453c3f5386c11242e",
+                "reference": "36f4e266abc4d83968bd17e453c3f5386c11242e",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
                 "source": "https://github.com/F-H00/webu-backend-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-backend-module/issues"
             },
-            "time": "2021-03-22T12:03:59+00:00"
+            "time": "2021-03-22T14:00:55+00:00"
         },
         {
             "name": "fh00-webu/base",
@@ -193,12 +193,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/F-H00/webu-base-module.git",
-                "reference": "4a085c4e9b6802a4f92e0508e414222df1fc080f"
+                "reference": "4aa49fbdcded56ad010d0d4a8c7cee7449f88519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-base-module/zipball/4a085c4e9b6802a4f92e0508e414222df1fc080f",
-                "reference": "4a085c4e9b6802a4f92e0508e414222df1fc080f",
+                "url": "https://api.github.com/repos/F-H00/webu-base-module/zipball/4aa49fbdcded56ad010d0d4a8c7cee7449f88519",
+                "reference": "4aa49fbdcded56ad010d0d4a8c7cee7449f88519",
                 "shasum": ""
             },
             "type": "webu-module",
@@ -215,7 +215,7 @@
                 "source": "https://github.com/F-H00/webu-base-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-base-module/issues"
             },
-            "time": "2021-03-22T12:03:07+00:00"
+            "time": "2021-03-22T14:00:35+00:00"
         },
         {
             "name": "fh00-webu/homepage",
@@ -257,12 +257,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-manual-module.git",
-                "reference": "81985a1492d3c156e31b5199730855a5d53b8882"
+                "reference": "4b2348da125e1c84b51f9340a34352ada8a8d425"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-manual-module/zipball/81985a1492d3c156e31b5199730855a5d53b8882",
-                "reference": "81985a1492d3c156e31b5199730855a5d53b8882",
+                "url": "https://api.github.com/repos/F-H00/webu-manual-module/zipball/4b2348da125e1c84b51f9340a34352ada8a8d425",
+                "reference": "4b2348da125e1c84b51f9340a34352ada8a8d425",
                 "shasum": ""
             },
             "require": {
@@ -282,7 +282,7 @@
                 "source": "https://github.com/F-H00/webu-manual-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-manual-module/issues"
             },
-            "time": "2021-03-17T20:55:16+00:00"
+            "time": "2021-03-22T14:00:08+00:00"
         },
         {
             "name": "oomphinc/composer-installers-extender",
