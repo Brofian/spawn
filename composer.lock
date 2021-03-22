@@ -223,12 +223,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-homepage-module.git",
-                "reference": "f5878156334bae3c9d68cc03b250ca5480b777b4"
+                "reference": "48021fcf40970534cbdbad49e8ca538ee92e7a83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/f5878156334bae3c9d68cc03b250ca5480b777b4",
-                "reference": "f5878156334bae3c9d68cc03b250ca5480b777b4",
+                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/48021fcf40970534cbdbad49e8ca538ee92e7a83",
+                "reference": "48021fcf40970534cbdbad49e8ca538ee92e7a83",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
                 "source": "https://github.com/F-H00/webu-homepage-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-homepage-module/issues"
             },
-            "time": "2021-03-22T12:05:03+00:00"
+            "time": "2021-03-22T14:01:35+00:00"
         },
         {
             "name": "fh00-webu/manual",

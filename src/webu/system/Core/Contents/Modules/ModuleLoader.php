@@ -31,7 +31,7 @@ class ModuleLoader {
 
         $moduleCount = 0;
         foreach($moduleFolders as $moduleFolder) {
-            if($moduleFolder == "." || $moduleFolder == "..") continue;
+            if($moduleFolder == "." || $moduleFolder == ".." || $moduleFolder == ".gitignore") continue;
 
             $basePath = $rootPath . "/" . $moduleFolder ;
             URIHelper::pathifie($basePath);

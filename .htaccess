@@ -1,8 +1,8 @@
 RewriteEngine On
 
 #Redirect http to https as an constant redirect (301 -> so it will be cached by browsers)
-#RewriteCond %{HTTPS} !=on
-#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 #Allow Requests to var/cache/public files and stop rewriting
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -10,5 +10,3 @@ RewriteRule ^(var/cache/public)($|/) - [L]
 
 #Rewrite everything to www/index.php and stop rewriting
 RewriteRule (.*) www/index.php [L]
-
-

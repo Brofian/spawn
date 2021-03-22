@@ -17,7 +17,7 @@ class TwigHelper
     private $variables = array();
 
     /** @var string  */
-    private $targetFile = 'Base.html.twig';
+    private $targetFile = 'base.html.twig';
 
     /** @var array  */
     private $templateDirs = [

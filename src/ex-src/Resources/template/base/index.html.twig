@@ -4,7 +4,7 @@
 
     {% block head %}
         <head>
-            {% include "Base/head.html.twig" %}
+            {% include "base/head.html.twig" %}
         </head>
     {% endblock %}
 
@@ -12,7 +12,7 @@
         <body class="is--ctr-{{ controller }} is--act-{{ action }}">
 
         {% block header %}
-            {% include "Base/header.html.twig" %}
+            {% include "base/header.html.twig" %}
         {% endblock %}
 
         {% block content %}
@@ -25,7 +25,7 @@
 
         {% block footer %}
             <div id="footer">
-                {% include "Base/footer.html.twig" %}
+                {% include "base/footer.html.twig" %}
             </div>
         {% endblock %}
 

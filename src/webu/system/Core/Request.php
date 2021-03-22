@@ -193,6 +193,8 @@ class Request
             $this->environment->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
         }
 
+
+
         $this->routingHelper = new RoutingHelper($this->moduleCollection);
         $result = $this->routingHelper->route($this->requestURI);
 
