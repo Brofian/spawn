@@ -23,7 +23,7 @@ class QueryCondition
     }
 
     public function addCondition(string $column, $value, bool $isOr = false, bool $isNot = false) {
-        $conditions[] = [
+        $this->conditions[] = [
             'column' => $column,
             'value' => $value,
             'isOr' => $isOr,

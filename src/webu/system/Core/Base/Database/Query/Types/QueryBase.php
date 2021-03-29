@@ -103,6 +103,9 @@ abstract class QueryBase {
 
     public function applyCondition(QueryCondition $condition) {
 
+        if(count($condition->getConditions()) < 1) return;
+
+
         $where = "( ";
 
         $count = 0;

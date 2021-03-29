@@ -8,18 +8,25 @@ class DumpFunctionExtension extends FunctionExtension
 {
     protected function getFunctionName(): string
     {
-        return "d";
+        return "dump";
     }
 
     protected function getFunctionFunction(): callable
     {
-        return function ($var = "nothing to see here") {
-            dump($var);
+        return function ($context, $var = "nothingtoseehere") {
+            if($var == "nothingtoseehere") {
+                dump($context);
+            }
+            else {
+                dump($var);
+            }
         };
     }
 
     protected function getFunctionOptions(): array
     {
-        return [];
+        return [
+            'needs_context' => true,
+        ];
     }
 }

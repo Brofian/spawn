@@ -54,14 +54,13 @@ class QueryUpdate extends QueryBase
 
         $isFirst = (count($this->where) < 1);
         foreach ($this->conditions as $condition) {
-            if(!$isFirst) {
-                $connector = ($condition["necessary"]) ? " AND " : " OR ";
-                $sql .= $connector;
-            }
-            else {
+            if($isFirst) {
+                $sql .= " WHERE 1 ";
                 $isFirst = false;
             }
 
+            $connector = ($condition["necessary"]) ? " AND " : " OR ";
+            $sql .= $connector;
             $sql .= $condition["condition"] . " ";
         }
 

@@ -8,5 +8,9 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(var/cache/public)($|/) - [L]
 
+#Allow Requests to var/library files and stop rewriting
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(var/library)($|/) - [L]
+
 #Rewrite everything to www/index.php and stop rewriting
 RewriteRule (.*) www/index.php [L]
