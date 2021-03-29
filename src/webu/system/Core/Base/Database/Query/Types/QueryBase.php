@@ -4,6 +4,7 @@ namespace webu\system\Core\Base\Database\Query\Types;
 
 use PDOStatement;
 use webu\system\Core\Base\Database\DatabaseConnection;
+use webu\system\Core\Base\Database\Query\QueryCondition;
 
 abstract class QueryBase {
 
@@ -22,8 +23,10 @@ abstract class QueryBase {
     public $boundValues = array();
     protected $boundValuesLength = 0;
 
+    protected $conditions = [];
+
     /** @var DatabaseConnection  */
-    private $connection = null;
+    protected $connection = null;
 
 
     public function __construct(DatabaseConnection $connection)
@@ -95,6 +98,42 @@ abstract class QueryBase {
         }
 
         return false;
+    }
+
+
+    public function applyCondition(QueryCondition $condition) {
+
+        $where = "( ";
+
+        $count = 0;
+        foreach($condition->getConditions() as $cond) {
+            if($count != 0) {
+                if($cond["isOr"]) {
+                    $where .= "OR ";
+                }
+                else {
+                    $where .= "AND ";
+                }
+            }
+
+            if($cond["isNot"]) {
+                $where .= "NOT ";
+            }
+
+            $seperator = (is_string($cond["value"])) ? "LIKE" : "=";
+            $placeholder = ":cond" . count($this->conditions);
+            $this->bindValue($placeholder, $cond["value"]);
+
+            $where .= $cond["column"] . $seperator . $placeholder . " ";
+        }
+
+        $where .= ") ";
+
+
+        $this->conditions[] = [
+           'necessary' => $condition->isNecessary(),
+           'condition' => $where
+        ];
     }
 
 }

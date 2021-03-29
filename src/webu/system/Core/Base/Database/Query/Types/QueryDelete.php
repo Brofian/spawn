@@ -44,6 +44,19 @@ class QueryDelete extends QueryBase
             $sql .= $where . ' ';
         }
 
+        $isFirst = (count($this->where) < 1);
+        foreach ($this->conditions as $condition) {
+            if(!$isFirst) {
+                $connector = ($condition["necessary"]) ? " AND " : " OR ";
+                $sql .= $connector;
+            }
+            else {
+                $isFirst = false;
+            }
+
+            $sql .= $condition["condition"] . " ";
+        }
+
         return $sql;
     }
 

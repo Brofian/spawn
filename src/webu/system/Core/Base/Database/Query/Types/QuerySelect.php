@@ -64,6 +64,19 @@ class QuerySelect extends QueryBase
             $sql .= $where . ' ';
         }
 
+        $isFirst = (count($this->where) < 1);
+        foreach ($this->conditions as $condition) {
+            if(!$isFirst) {
+                $connector = ($condition["necessary"]) ? " AND " : " OR ";
+                $sql .= $connector;
+            }
+            else {
+                $isFirst = false;
+            }
+
+            $sql .= $condition["condition"] . " ";
+        }
+
         if (sizeof($this->orderby) > 0)
         {
             $sql .= 'ORDER BY ' .  implode(',', $this->orderby) . ' ';

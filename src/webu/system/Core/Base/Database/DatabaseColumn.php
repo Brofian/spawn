@@ -11,7 +11,7 @@ class DatabaseColumn
 {
     const NAME = '';
 
-    const VARCHAR_MAX = 8000;
+    const VARCHAR_MAX = 4000;
     const VARCHAR_SMALL = 255;
 
     /** @var string */
