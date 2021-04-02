@@ -12,7 +12,8 @@ class Console {
     const COMMAND_ROOT = ROOT . "\\dev\\console";
     const IGNORED_DIRS = [
         '.',
-        '..'
+        '..',
+        'callable'
     ];
 
 
@@ -38,11 +39,14 @@ class Console {
 
     private function runCommand() {
         if(count($this->params) < 1) {
-            echo "Please enter a command!" . PHP_EOL;
+            IO::printLine("Please enter a command!");
             $this->printAvailableCommands($this->commandList);
             return;
         }
-
+        else if($this->params[0] == "help" || $this->params[0] == "?") {
+            $this->printAvailableCommands($this->commandList, "", "");
+            return;
+        }
 
         $path = explode(":",trim($this->params[0], ":"));
 
@@ -81,12 +85,13 @@ class Console {
         IO::endLine(IO::WHITE_TEXT);
         $this->printAvailableCommands($availableCommands, $parsedCmd);
 
-
     }
 
 
-    private function printAvailableCommands(array $availableCommands, $prefix = "") {
-        IO::endLine(IO::RED_BG);
+    private function printAvailableCommands(array $availableCommands, $prefix = "", $cFlags = null) {
+        $colorFlag = ($cFlags === null) ? IO::RED_BG : $cFlags;
+
+        IO::endLine($colorFlag);
 
         $printCommand = function($array, $printFunction, $cmd = "", $nestingLevel = 0) {
             foreach($array as $key => $item) {

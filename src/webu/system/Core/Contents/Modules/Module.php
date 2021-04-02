@@ -33,6 +33,9 @@ class Module {
     /** @var string */
     private $resourceNamespace;
 
+    /** @var string */
+    private $resourceNamespaceRaw;
+
     /** @var array */
     private $databaseTableClasses = array();
 
@@ -103,6 +106,13 @@ class Module {
      */
     public function setResourceNamespace(string $resourceNamespace) {
         $this->resourceNamespace = $resourceNamespace;
+    }
+
+    /**
+     * @param string $basePath
+     */
+    public function setResourceNamespaceRaw(string $resourceNamespaceRaw) {
+        $this->resourceNamespaceRaw = $resourceNamespaceRaw;
     }
 
 
@@ -176,6 +186,13 @@ class Module {
      */
     public function getResourceNamespace() : string {
         return $this->resourceNamespace;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceNamespaceRaw() : string {
+        return $this->resourceNamespaceRaw;
     }
 
 

@@ -34,6 +34,7 @@ class ModuleCacher {
                 "resourcePath" => $module->getRelativeResourcePath(),
                 "resourceWeight" => $module->getResourceWeight(),
                 "resourceNamespace" => $module->getResourceNamespace(),
+                "resourceNamespaceRaw" => $module->getResourceNamespaceRaw(),
                 "usingNamespaces" => $module->getUsingNamespaces(),
                 "id" => $module->getId(),
                 "active" => $module->isActive()
@@ -67,6 +68,7 @@ class ModuleCacher {
             $module->setResourcePath($moduleArray->resourcePath);
             $module->setResourceWeight($moduleArray->resourceWeight);
             $module->setResourceNamespace($moduleArray->resourceNamespace);
+            $module->setResourceNamespaceRaw($moduleArray->resourceNamespaceRaw);
             $module->setUsingNamespaces($moduleArray->usingNamespaces);
             $module->setId($moduleArray->id);
             $module->setActive((bool)$moduleArray->active);

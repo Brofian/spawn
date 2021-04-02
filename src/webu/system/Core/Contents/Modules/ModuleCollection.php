@@ -50,9 +50,10 @@ class ModuleCollection {
             if(!$module->isActive()) continue;
 
             $namespace = ($module->getResourceNamespace() == "") ? "DEFAULT_NAMESPACE" : $module->getResourceNamespace();
+            $namespace_raw = $module->getResourceNamespaceRaw();
 
             if(!in_array($namespace, $namespaces)) {
-                $namespaces[] = $namespace;
+                $namespaces[$namespace_raw] = $namespace;
             }
         }
 

@@ -18,7 +18,6 @@ class ScssHelper
 
     private $baseVariables = array();
 
-
     public $cacheFilePath = ROOT . CACHE_DIR . '/public/{namespace}/css';
     public $baseFolder = ROOT . CACHE_DIR . '/private/resources';
     public $baseFileName = 'scss/index.scss';

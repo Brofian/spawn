@@ -219,16 +219,14 @@ class Request
         $this->environment->response->getTwigHelper()->assign("environment", MODE);
         $this->environment->response->getScssHelper()->setBaseVariable("assetsPath", URIHelper::createPath([
             MAIN_ADDRESS_FULL,
-            "var",
-            "cache",
+            CACHE_DIR,
             "public",
             $module->getResourceNamespace(),
             "assets"
         ], "/"));
         $this->environment->response->getScssHelper()->setBaseVariable("defaultAssetsPath", URIHelper::createPath([
             MAIN_ADDRESS_FULL,
-            "var",
-            "cache",
+            CACHE_DIR,
             "public",
             ModuleNamespacer::getGlobalNamespace(),
             "assets"

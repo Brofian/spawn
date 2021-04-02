@@ -28,8 +28,12 @@ class IO {
 
     const BLACK_BG = "\e[40m";
     const RED_BG = "\e[41m";
+    const GREEN_BG = "\e[42m";
+    const YELLOW_BG = "\e[43m";
+    const BLUE_BG = "\e[44m";
+    const PURPLE_BG = "\e[45m";
     const CYAN_BG = "\e[46m";
-    const WHITE_BG = "\e[49m";
+    const WHITE_BG = "\e[47m";
 
     const TAB = "   ";
 

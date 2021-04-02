@@ -118,12 +118,14 @@ class ModuleLoader {
             $namespace = (string)$pluginXML->resources->attributes()->namespace;
 
             if($namespace == "") {
+                $namespace = ModuleNamespacer::getGlobalNamespaceRaw();
                 $namespaceHash = ModuleNamespacer::getGlobalNamespace();
             }
             else {
                 $namespaceHash = ModuleNamespacer::hashRawNamespace($namespace);
             }
             $module->setResourceNamespace($namespaceHash);
+            $module->setResourceNamespaceRaw($namespace);
         }
 
 

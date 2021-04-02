@@ -6,8 +6,12 @@ use \webu\system\Core\Contents\Modules\Module;
 use \bin\webu\IO;
 use \webu\system\Core\Base\Custom\FileEditor;
 
-$moduleLoader = new ModuleLoader();
-$moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
+
+if(!isset($moduleCollection)) {
+    $moduleLoader = new ModuleLoader();
+    $moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
+}
+
 
 IO::printLine("Für welches Modul möchtest du die Migration erstellen?", IO::BLUE_TEXT);
 
