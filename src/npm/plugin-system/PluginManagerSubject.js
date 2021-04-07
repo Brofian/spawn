@@ -55,21 +55,21 @@ export default class PluginManagerSubject {
 
 
 
-    initializePlugins() {
+    initializePlugins(scope) {
         var me = this;
 
         for(let plugin of me.registeredPluginList) {
-            me.initializePlugin(plugin.class, plugin.binding, plugin.name);
+            me.initializePlugin(plugin.class, plugin.binding, plugin.name, scope);
         }
 
         me.pluginsInitialized = true;
     }
 
 
-    initializePlugin(pluginClass, pluginBinding, pluginName) {
+    initializePlugin(pluginClass, pluginBinding, pluginName, scope) {
         var me = this;
 
-        var boundElements = document.querySelectorAll(pluginBinding);
+        var boundElements = scope.querySelectorAll(pluginBinding);
 
         for(let boundElement of boundElements ) {
 
@@ -91,6 +91,29 @@ export default class PluginManagerSubject {
 
         }
 
+    }
+
+
+    purgeRegisteredPlugins() {
+        var me = this;
+
+        let remIndices = [];
+        for(let i of me.initializedPluginList) {
+            let exists = document.contains(i.instance._element);
+            if(!exists) {
+                remIndices.push(i);
+            }
+        }
+
+        //sort by highest
+        remIndices.sort(function(a, b) {
+            return b-a;
+        });
+
+
+        for(let i of remIndices) {
+            me.initializedPluginList.splice(i,1);
+        }
     }
 
 

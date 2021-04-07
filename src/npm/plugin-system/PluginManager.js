@@ -23,15 +23,16 @@ export default class PluginManager {
         return PluginManagerInstance.getPluginList();
     }
 
-    static initializePlugins() {
-        return PluginManagerInstance.initializePlugins();
+    static initializePlugins(scope) {
+        return PluginManagerInstance.initializePlugins(scope);
     }
 
+    static purgeRegisteredPlugins() { return PluginManagerInstance.purgeRegisteredPlugins() }
 }
 window.PluginManager = new PluginManager();
 
 document.addEventListener('readystatechange', (event) => {
     if (event.target.readyState === 'complete') {
-        PluginManager.initializePlugins();
+        PluginManager.initializePlugins(document);
     }
 }, false);
