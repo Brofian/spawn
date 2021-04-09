@@ -5,9 +5,10 @@ namespace webu\system\Core\Custom;
 class Logger
 {
 
-    const logdir = '../var/.log/';
+    const logdir = ROOT . '/var/.log/';
     const accesslog = 'access-log.txt';
     const errorlog = 'error-log.txt';
+    const devlog = 'dev-log.txt';
 
 
     public function __construct()
@@ -63,4 +64,21 @@ class Logger
         return '[' . date('Y-m-d h:i:s') . '] ';
     }
 
+
+    public static function writeToDevlog(string $text, string $title = '')
+    {
+        $string = self::getCurrentTime();
+        if ($title != '') {
+            $string .= $title;
+            $string .= PHP_EOL;
+        }
+        $string .= $text;
+        $string .= PHP_EOL;
+
+        $log = self::logdir . self::devlog;
+        if(!is_file($log)) {
+            mkdir(self::logdir);
+        }
+        file_put_contents($log, $string, FILE_APPEND);
+    }
 }
