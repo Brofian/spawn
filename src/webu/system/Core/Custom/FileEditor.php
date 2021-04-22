@@ -7,7 +7,6 @@ use webu\system\Core\Helper\URIHelper;
 class FileEditor
 {
 
-
     /**
      * @param $path
      * @return bool

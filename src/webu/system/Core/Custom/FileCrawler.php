@@ -8,7 +8,6 @@ use webu\system\Core\Helper\URIHelper;
 
 /**
  * Class FileCrawler
- * @package webu\autoloader
  *
  * Allows you to simply check all files in a directory.
  * The Check function has to have the following Parameters:
@@ -30,15 +29,16 @@ class FileCrawler
     /** @var int */
     private $maxDepth = 999;
 
-
+    /** @var array  */
     private $ignored_dirs = [
         '.',
         '..'
     ];
 
 
-
-
+    /**
+     * @param string $dirname
+     */
     public function addIgnoredDirName(string $dirname) {
         $this->ignored_dirs[] = $dirname;
     }
@@ -72,7 +72,6 @@ class FileCrawler
      */
     private function scanDirs(string $current, array &$ergs, int $depth = 0, string $relativePath = '/'): array
     {
-
         $currentContents = scandir($current);
 
         foreach ($currentContents as $content) {
@@ -84,7 +83,6 @@ class FileCrawler
             //extend path with current content element
             $path = $current . '\\' . $content;
             URIHelper::pathifie($path);
-
 
             //check if content is file or directory
             if (is_file($path)) {

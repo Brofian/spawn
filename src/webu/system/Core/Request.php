@@ -46,8 +46,6 @@ class Request
     private $requestURI = '';
     /** @var array */
     private $requestURIParams = array();
-    /** @var array */
-    private $compiledURIParams = array();
     /** @var string */
     private $requestController = 'index';
     /** @var string */
@@ -57,20 +55,25 @@ class Request
     /** @var ModuleCollection  */
     private $moduleCollection = null;
 
+    /**
+     * Request constructor.
+     * @param Environment $environment
+     */
     public function __construct(Environment $environment)
     {
         $this->environment = $environment;
     }
 
-    public function gatherInformations()
+
+    public function gatherInformationsFromRequest()
     {
         //Load all Informations, found in the request
         $this->setParams();
         $this->setBaseURI();
         $this->setRequestURI();
         $this->setRequestURIParams();
-        $this->compileURIParams();
     }
+
 
     public function addToAccessLog()
     {
@@ -94,61 +97,31 @@ class Request
 
         //get the controller
         if (sizeof($params) > 0) {
-            $this->requestController = $params[0];
-            array_shift($params);
+            $this->requestController = array_shift($params);
         }
 
 
         /* Save the Action */
         if (sizeof($params) > 0) {
-            $this->requestActionPath = $params[0];
-            array_shift($params);
+            $this->requestActionPath = array_shift($params);;
         }
 
         /* Save Params */
-        if(sizeof($params) > 0) {
-            $this->requestURIParams = $params;
-        }
-        else {
-            $this->requestURIParams = [];
-        }
+        $this->requestURIParams = $params ?? [];
 
     }
 
-    private function compileURIParams() {
-        $compiledParams = [];
-
-        for($index = 0; $index < sizeof($this->requestURIParams); $index++) {
-            $param = $this->requestURIParams[$index];
-
-
-            if($index%2 == 1) {
-                //jedes zweite element
-                $prev = $this->requestURIParams[$index-1];
-                $compiledParams[$prev] = $param;
-            }
-            else if($index == sizeof($this->requestURIParams)-1) {
-                //letztes element, falls ungerade parameter anzahl
-                $compiledParams[0] = $param;
-            }
-
-
-        }
-
-
-        $this->compiledURIParams = $compiledParams;
-    }
 
     private function setRequestURI()
     {
         $requestURI = $_SERVER['REQUEST_URI'];
-        $getSeperator = strrpos($requestURI, '?');
+        $getSeperatorPosition = strrpos($requestURI, '?');
 
-        if ($getSeperator === false) {
+        if ($getSeperatorPosition === false) {
             $this->requestURI = trim($requestURI, "/");
         }
         else {
-            $this->requestURI = trim(substr($requestURI, 0, $getSeperator), "/");
+            $this->requestURI = trim(substr($requestURI, 0, $getSeperatorPosition), "/");
         }
 
     }
@@ -165,6 +138,7 @@ class Request
         $this->baseURI = $uri; //e.g. 'http://localhost//'
     }
 
+
     private function setParams()
     {
         $this->get = $_GET;
@@ -176,44 +150,41 @@ class Request
     }
 
 
-
     public function loadController()
     {
         $moduleLoader = new ModuleLoader();
         $this->moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
 
-
         //sort modules by resource Weight
         $moduleList = $this->moduleCollection->getModuleList();
         ModuleCollection::sortModulesByWeight($moduleList);
 
-
+        $twigHelper = $this->environment->response->getTwigHelper();
         /** @var Module $module */
         foreach($moduleList as $module) {
-            $this->environment->response->getTwigHelper()->addTemplateDir($module->getResourcePath() . "/template");
+            $twigHelper->addTemplateDir($module->getResourcePath() . "/template");
         }
-
 
 
         $this->routingHelper = new RoutingHelper($this->moduleCollection);
-        $result = $this->routingHelper->route($this->requestURI);
+        $routingResult = $this->routingHelper->route($this->requestURI);
 
 
-        if($result === false) {
-            $result = $this->routingHelper->route("404");
+        if($routingResult === false) {
+            $routingResult = $this->routingHelper->route("404");
         }
 
-        $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $result["uri"]);
+        $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $routingResult["uri"]);
 
 
         /** @var Module $module */
-        $module = $result["module"];
+        $module = $routingResult["module"];
         /** @var ModuleController $controller */
-        $controller = $result["controller"];
+        $controller = $routingResult["controller"];
         /** @var string $method */
-        $method = $result["method"];
+        $method = $routingResult["method"];
         /** @var string $actionId */
-        $actionId = $result["id"];
+        $actionId = $routingResult["id"];
 
         $this->environment->response->getTwigHelper()->assign("namespace", $module->getResourceNamespace());
         $this->environment->response->getTwigHelper()->assign("environment", MODE);
@@ -238,7 +209,6 @@ class Request
             $this,
             $this->environment->response
         ];
-
         $params = array_merge($params, $uriParameters);
 
 
@@ -253,11 +223,9 @@ class Request
 
 
 
-
         $cls = $controller->getClass();
         /** @var BaseController $ctrl */
         $ctrl = new $cls();
-
         $ctrl->init($this, $this->environment->response);
 
         //stop execution immediately when stopped
@@ -271,14 +239,18 @@ class Request
             $params
         );
 
+        //stop execution immediately when stopped
+        if($ctrl->isExecutionStopped()) {
+            return;
+        }
+
         $ctrl->end($this, $this->environment->response);
     }
 
-    private function fillContext() {
 
+    protected function fillContext() {
         $contentLoader = new ContentLoader($this);
         $contentLoader->init($this->getContext());
-
     }
 
 
@@ -355,14 +327,6 @@ class Request
     public function getRequestURIParams()
     {
         return $this->requestURIParams;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCompiledURIParams()
-    {
-        return $this->compiledURIParams;
     }
 
     /**

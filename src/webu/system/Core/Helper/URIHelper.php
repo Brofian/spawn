@@ -31,7 +31,6 @@ class URIHelper
             $string = trim($string, implode("", self::SEPERATORS));
         }
 
-
         return $string;
     }
 
@@ -48,8 +47,6 @@ class URIHelper
         }
         $p2 = trim($p2, implode("", self::SEPERATORS));
 
-
-
         $joined = $p1 . "/" . $p2;
 
         self::pathifie($joined, $seperator, $trim);
@@ -57,7 +54,11 @@ class URIHelper
         return $joined;
     }
 
-
+    /**
+     * @param array $segments
+     * @param string $seperator
+     * @return string
+     */
     public static function createPath(array $segments, string $seperator = self::DEFAULT_SEPERATOR) {
         $path = "";
 
@@ -71,7 +72,10 @@ class URIHelper
         return $path;
     }
 
-
+    /**
+     * @param string $string
+     * @return string
+     */
     public static function urifie(string &$string) {
         self::pathifie($string, "/");
         $string = urlencode($string);

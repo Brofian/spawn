@@ -2,10 +2,18 @@
 
 namespace webu\system\Core\Helper\FrameworkHelper;
 
-
+/*
+ * Custom Uri Converted
+ * Allows reading and converting custom urls (like "/foo/bar/{id}/test")
+ * to normal urls
+ */
 class CUriConverter {
 
-
+    /**
+     * @param string $cUri
+     * @param array $parameters
+     * @return string|string[]
+     */
     public static function cUriToUri(string $cUri, array $parameters) {
 
         foreach($parameters as $key => $value) {
@@ -15,6 +23,11 @@ class CUriConverter {
         return $cUri;
     }
 
+    /**
+     * @param string $uri
+     * @param array $vars
+     * @return string|string[]
+     */
     public static function cUriToRegex(string $uri, array &$vars = []) {
 
         $pattern = "/{([^}]*)}/m";
@@ -37,13 +50,16 @@ class CUriConverter {
     }
 
 
-
-    public static function getParametersFromUri(string $uri, string $curi, array $uriVars = []) : array {
+    /**
+     * @param string $uri
+     * @param string $curi
+     * @return array
+     */
+    public static function getParametersFromUri(string $uri, string $curi) : array {
         $uri = "/" . $uri;
 
         $matches = [];
         preg_match_all($curi, $uri, $matches);
-
 
         $parameters = [];
         for($i = 1; $i < sizeof($matches); $i++) {

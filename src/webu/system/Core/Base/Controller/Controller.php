@@ -5,14 +5,19 @@ namespace webu\system\Core\Base\Controller;
 
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Helper\RoutingHelper;
+use webu\system\Core\Helper\TwigHelper;
 use webu\system\core\Request;
 use webu\system\core\Response;
 
-abstract class Controller implements ControllerInterface
+abstract class Controller
 {
-
+    /** @var TwigHelper */
     protected $twig;
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     public function init(Request $request, Response $response) {
         $this->twig = $response->getTwigHelper();
         $this->twig->assign('controller', $this->getControllerAlias());
@@ -20,11 +25,17 @@ abstract class Controller implements ControllerInterface
         $this->onControllerStart($request, $response);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     public function end(Request $request, Response $response) {
         $this->onControllerStop($request, $response);
     }
 
-
+    /**
+     * @return bool
+     */
     function isApi() {
         return false;
     }
@@ -53,7 +64,10 @@ abstract class Controller implements ControllerInterface
     }
 
 
-
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     public function index(Request $request, Response $response)
     {
         echo 'Undefined Index Action';

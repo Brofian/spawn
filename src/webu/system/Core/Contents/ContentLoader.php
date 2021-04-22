@@ -21,19 +21,28 @@ class ContentLoader {
     private $request = null;
 
 
+    /**
+     * ContentLoader constructor.
+     * @param Request $request
+     */
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->connection = $request->getDatabaseHelper()->getConnection();
     }
 
+    /**
+     * @param Context $context
+     */
     public function init(Context $context) {
         $this->loadRequestInfos($context);
         $this->loadUser($context);
     }
 
 
-
+    /**
+     * @param Context $context
+     */
     private function loadRequestInfos(Context $context) {
         $context->multiSet([
             'Controller' => $this->request->getRequestController(),
@@ -49,6 +58,9 @@ class ContentLoader {
         ]);
     }
 
+    /**
+     * @param Context $context
+     */
     private function loadUser(Context $context) {
         $context->set("user", new UserHelper(
             $this->request->getSessionHelper(),

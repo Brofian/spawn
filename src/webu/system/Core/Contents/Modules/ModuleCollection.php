@@ -6,15 +6,8 @@ class ModuleCollection {
 
     const DEFAULT_NAMESPACE = "default";
 
-
+    /** @var array  */
     private $modules = array();
-
-
-
-
-    public function __construct()
-    {
-    }
 
 
     /**
@@ -23,7 +16,6 @@ class ModuleCollection {
     public function addModule(Module $module) {
         $this->modules[$module->getName()] = $module;
     }
-
 
     /*
      *

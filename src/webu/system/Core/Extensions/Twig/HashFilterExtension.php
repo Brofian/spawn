@@ -8,11 +8,17 @@ use webu\system\Core\Base\Extensions\Twig\FilterExtension;
 class HashFilterExtension extends FilterExtension
 {
 
+    /**
+     * @return string
+     */
     protected function getFilterName(): string
     {
         return "hash";
     }
 
+    /**
+     * @return callable
+     */
     protected function getFilterFunction(): callable
     {
         return function($string, $hashtype = "md5") {
@@ -20,6 +26,9 @@ class HashFilterExtension extends FilterExtension
         };
     }
 
+    /**
+     * @return array
+     */
     protected function getFilterOptions(): array
     {
         return [

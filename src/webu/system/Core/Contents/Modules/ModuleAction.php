@@ -12,7 +12,12 @@ class ModuleAction {
     /** @var string  */
     private $action = "";
 
-
+    /**
+     * ModuleAction constructor.
+     * @param string $id
+     * @param string $c_url
+     * @param string $action
+     */
     public function __construct(string $id, string $c_url, string $action)
     {
         $this->id = $id;

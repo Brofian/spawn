@@ -78,7 +78,7 @@ class ScssHelper
         return $result;
     }
 
-    private function cacheExists(): bool
+    public function cacheExists(): bool
     {
         return file_exists($this->cacheFilePath);
     }
@@ -86,16 +86,10 @@ class ScssHelper
 
     public function createCss(ModuleCollection $moduleCollection)
     {
-        if ($this->cacheExists() && !$this->alwaysReload) {
-            //File already exists and no force-reload
-            return;
-        }
 
         foreach ($moduleCollection->getNamespaceList() as $namespace) {
 
             $baseFile = $this->baseFolder . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $this->baseFileName;
-
-
 
 
             $css = $this->compile($baseFile);

@@ -17,8 +17,17 @@ abstract class DatabaseTable
     /** @var array  */
     protected $columns = array();
 
+    /**
+     * @var string
+     */
     protected $foreignKey = '';
 
+    /**
+     * DatabaseTable constructor.
+     * @param bool $hasId
+     * @param bool $hasCreatedAt
+     * @param bool $hasUpdatedAt
+     */
     public function __construct(bool $hasId = true, bool $hasCreatedAt = true, bool $hasUpdatedAt = true)
     {
         if($hasId) {
@@ -33,7 +42,10 @@ abstract class DatabaseTable
     }
 
 
-
+    /**
+     * @param DatabaseHelper $dbHelper
+     * @return int
+     */
     public function create(DatabaseHelper $dbHelper) {
         if($dbHelper->doesTableExist($this->getTableName())) {
             return 2;
@@ -54,13 +66,19 @@ abstract class DatabaseTable
         return 0;
     }
 
+
     protected function createStructureFile() {
         DatabaseStructureHelper::createDatabaseStructure($this);
     }
 
-
+    /**
+     * @return bool
+     */
     abstract public function init() : bool;
 
+    /**
+     * @return string
+     */
     abstract public function getTableName() : string;
 
 
@@ -142,6 +160,10 @@ abstract class DatabaseTable
         return $this->columns;
     }
 
+    /**
+     * @param string $databaseName
+     * @return string
+     */
     public function getTableCreationSQL(string $databaseName) : string {
 
         //Table Declaration
@@ -228,10 +250,19 @@ abstract class DatabaseTable
         return $keys;
     }
 
+    /**
+     * @param string $thisColumn
+     * @param string $foreignTable
+     * @param string $foreignColumn
+     */
     public function setOnDeleteCascade(string $thisColumn, string $foreignTable, string $foreignColumn) {
         $this->foreignKey = 'FOREIGN KEY ('.$thisColumn.') REFERENCES '.$foreignTable.'('.$foreignColumn.') ON DELETE CASCADE';
     }
 
+    /**
+     * @param DatabaseHelper $dbhelper
+     * @return mixed
+     */
     public abstract function afterCreation(DatabaseHelper $dbhelper);
 
 }

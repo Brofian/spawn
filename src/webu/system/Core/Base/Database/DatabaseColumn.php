@@ -31,7 +31,11 @@ class DatabaseColumn
     /** @var string */
     protected $attribute = DatabaseAttributes::NONE;
 
-
+    /**
+     * DatabaseColumn constructor.
+     * @param string $name
+     * @param string $type
+     */
     public function __construct(string $name, string $type)
     {
         $this->name = $name;
@@ -79,37 +83,60 @@ class DatabaseColumn
 
     }
 
-
+    /**
+     * @param $length
+     * @return $this
+     */
     public function setLength($length)
     {
         $this->length = $length;
         return $this;
     }
 
+    /**
+     * @param bool $autoIncrement
+     * @return $this
+     */
     public function setAutoIncrement(bool $autoIncrement)
     {
         $this->autoIncrement = $autoIncrement;
         return $this;
     }
 
+    /**
+     * @param bool $canBeNull
+     * @return $this
+     */
     public function setCanBeNull(bool $canBeNull)
     {
         $this->canBeNull = $canBeNull;
         return $this;
     }
 
+    /**
+     * @param string $attribute
+     * @return $this
+     */
     public function setAttribute(string $attribute)
     {
         $this->attribute = $attribute;
         return $this;
     }
 
+    /**
+     * @param $default
+     * @return $this
+     */
     public function setDefault($default)
     {
         $this->default = $default;
         return $this;
     }
 
+    /**
+     * @param string $index
+     * @return $this
+     */
     public function setIndex(string $index)
     {
         $this->index = $index;

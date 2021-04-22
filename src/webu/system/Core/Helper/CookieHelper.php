@@ -10,6 +10,9 @@ class CookieHelper
     /** @var array */
     private $cookies = array();
 
+    /**
+     * CookieHelper constructor.
+     */
     public function __construct()
     {
         $this->cookies = $_COOKIE;
@@ -56,7 +59,9 @@ class CookieHelper
         return $fallback;
     }
 
-
+    /**
+     * @return array
+     */
     public function getCookies() : array {
         return $this->cookies;
     }

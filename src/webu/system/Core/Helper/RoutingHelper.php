@@ -20,6 +20,10 @@ class RoutingHelper
     /** @var ModuleCollection */
     private $routeList;
 
+    /**
+     * RoutingHelper constructor.
+     * @param ModuleCollection $moduleCollection
+     */
     public function __construct(ModuleCollection $moduleCollection)
     {
         $this->moduleCollection = $moduleCollection;
@@ -33,7 +37,6 @@ class RoutingHelper
      */
     private function generateRouteListByModuleCollection(ModuleCollection $moduleCollection) {
         $routeList = array();
-
 
         /** @var Module $module */
         foreach($moduleCollection->getModuleList() as $module) {

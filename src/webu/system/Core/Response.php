@@ -33,6 +33,10 @@ class Response
     /** @var HeaderHelper  */
     private $headerHelper = null;
 
+    /**
+     * Response constructor.
+     * @param Environment $environment
+     */
     public function __construct(Environment $environment)
     {
         $this->environment = $environment;
@@ -52,7 +56,6 @@ class Response
             $resourceCollector->gatherModuleData($this->environment->request->getModuleCollection());
         }
 
-
     }
 
 
@@ -64,7 +67,10 @@ class Response
     public function finish(ModuleCollection $moduleCollection, Context $context) {
 
         /* Render Scss */
-        $this->scssHelper->createCss($moduleCollection);
+        if (!$this->scssHelper->cacheExists() || MODE == 'dev') {
+            $this->scssHelper->createCss($moduleCollection);
+        }
+
 
         /* set headers send by before sending actual html to prevent problems */
         $this->headerHelper->setHeadersSentBy();

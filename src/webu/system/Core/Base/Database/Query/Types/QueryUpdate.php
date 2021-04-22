@@ -12,11 +12,18 @@ class QueryUpdate extends QueryBase
     /** @var string */
     const COMMAND = 'UPDATE ';
 
+    /** @var string  */
     private $table = '';
+    /** @var array  */
     private $values = array();
+    /** @var array  */
     private $where = array();
 
-
+    /**
+     * QueryUpdate constructor.
+     * @param DatabaseConnection $connection
+     * @param string $table
+     */
     public function __construct(DatabaseConnection $connection, string $table)
     {
         parent::__construct($connection);

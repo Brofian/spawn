@@ -13,7 +13,12 @@ class ModuleController {
     /** @var array  */
     private $actions = array();
 
-
+    /**
+     * ModuleController constructor.
+     * @param string $class
+     * @param string $name
+     * @param array $actions
+     */
     public function __construct(string $class, string $name, array $actions)
     {
         $this->class = $class;

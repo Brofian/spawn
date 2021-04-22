@@ -21,7 +21,6 @@ class DatabaseStructureHelper {
 
         $tablename = $table->getTableName();
 
-
         $filecontent =
             "<?php" . PHP_EOL . PHP_EOL .
             "namespace " . self::STRUCTURE_FILE_NAMESPACE . ";" . PHP_EOL . PHP_EOL .
@@ -39,7 +38,6 @@ class DatabaseStructureHelper {
         $fileName = $folderName . toClassnameFormat($tablename) . '.php';
         FileEditor::createFolder(dirname($fileName));
         FileEditor::createFile($fileName, $filecontent);
-
     }
 
 

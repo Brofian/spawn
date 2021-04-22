@@ -13,12 +13,18 @@ class ModuleLoader {
     /** @var ModuleCollection */
     private $moduleCollection;
 
+    /**
+     * ModuleLoader constructor.
+     */
     public function __construct()
     {
         $this->moduleCollection = new ModuleCollection();
     }
 
-
+    /**
+     * @param string $rootPath
+     * @return bool|ModuleCollection
+     */
     public function loadModules(string $rootPath) {
 
         $cachedModuleCollection = ModuleCacher::readModuleCache();
@@ -47,6 +53,12 @@ class ModuleLoader {
         return $this->moduleCollection;
     }
 
+
+    /**
+     * @param $moduleName
+     * @param $basePath
+     * @param $moduleId
+     */
     private function loadModule($moduleName, $basePath, $moduleId) {
 
         if( !file_exists(URIHelper::joinPaths($basePath, self::REL_XML_PATH)) ||
@@ -152,8 +164,6 @@ class ModuleLoader {
         $module->setId("$moduleId");
         $this->moduleCollection->addModule($module);
     }
-
-
 
 
 

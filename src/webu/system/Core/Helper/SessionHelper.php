@@ -8,7 +8,9 @@ class SessionHelper
     /** @var array */
     private $session = array();
 
-
+    /**
+     * SessionHelper constructor.
+     */
     public function __construct()
     {
         $this->startSession();
@@ -51,7 +53,7 @@ class SessionHelper
      */
     private function isSessionActive(): bool
     {
-        return (session_status() != PHP_SESSION_NONE);
+        return (session_status() == PHP_SESSION_ACTIVE);
     }
 
     /**
@@ -78,6 +80,5 @@ class SessionHelper
         }
         return false;
     }
-
 
 }

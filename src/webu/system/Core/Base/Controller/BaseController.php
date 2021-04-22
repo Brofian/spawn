@@ -18,7 +18,10 @@ abstract class BaseController
     /** @var TwigHelper */
     protected $twig;
 
-
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     public final function init(Request $request, Response $response)
     {
         $this->twig = $response->getTwigHelper();
@@ -27,18 +30,31 @@ abstract class BaseController
         $this->onControllerStart($request, $response);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     public final function end(Request $request, Response $response)
     {
         $this->onControllerStop($request, $response);
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     protected function onControllerStart(Request $request, Response $response)
     {
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     protected function onControllerStop(Request $request, Response $response)
     {
     }
+
 
     protected final function stopExecution()
     {
@@ -50,13 +66,18 @@ abstract class BaseController
         return $this->stopExecution;
     }
 
-
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     public function index(Request $request, Response $response)
     {
         echo 'Undefined Index Action';
     }
 
-
+    /**
+     * @param $outputValue
+     */
     protected function setJsonOutput($outputValue)
     {
         $this->twig->setOutput(json_encode($outputValue));

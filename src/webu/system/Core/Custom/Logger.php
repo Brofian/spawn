@@ -11,11 +11,10 @@ class Logger
     const devlog = 'dev-log.txt';
 
 
-    public function __construct()
-    {
-    }
-
-
+    /**
+     * @param string $text
+     * @param string $title
+     */
     public static function writeToAccessLog(string $text, string $title = '')
     {
         $string = self::getCurrentTime();
@@ -33,12 +32,22 @@ class Logger
         file_put_contents($log, $string, FILE_APPEND);
     }
 
+
+    /**
+     * @return bool
+     */
     public function clearAccessLog()
     {
         $log = self::logdir . self::accesslog;
         file_put_contents($log, '');
+        return true;
     }
 
+
+    /**
+     * @param string $text
+     * @param string $title
+     */
     public static function writeToErrorLog(string $text, string $title = '')
     {
         $string = self::getCurrentTime();
@@ -53,18 +62,29 @@ class Logger
         file_put_contents($log, $string, FILE_APPEND);
     }
 
+
+    /**
+     * @return bool
+     */
     public function clearErrorLog()
     {
         $log = self::logdir . self::errorlog;
         file_put_contents($log, '');
+        return true;
     }
 
+    /**
+     * @return string
+     */
     public static function getCurrentTime()
     {
         return '[' . date('Y-m-d h:i:s') . '] ';
     }
 
-
+    /**
+     * @param string $text
+     * @param string $title
+     */
     public static function writeToDevlog(string $text, string $title = '')
     {
         $string = self::getCurrentTime();

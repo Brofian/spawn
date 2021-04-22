@@ -25,9 +25,11 @@ class DatabaseHelper
     /** @var DatabaseConnection */
     private $connection;
 
+    /**
+     * DatabaseHelper constructor.
+     */
     public function __construct()
     {
-
         $this->loadDBConfig();
         $this->createConnection();
     }
@@ -54,6 +56,11 @@ class DatabaseHelper
         }
     }
 
+    /**
+     * @param $sql
+     * @param bool $preventFetchAll
+     * @return array|bool|false|\PDOStatement
+     */
     public function query($sql, bool $preventFetchAll = false) {
         try {
             $result = $this->connection->getConnection()->query($sql);
@@ -63,21 +70,25 @@ class DatabaseHelper
         }
 
         if(!$preventFetchAll && $result) {
-            $result = $result->fetchAll();
+            return $result->fetchAll();
         }
 
         return $result;
     }
 
-
+    /**
+     * @return DatabaseConnection
+     */
     public function getConnection() {
         return $this->connection;
     }
 
-
+    /**
+     * @param string $tablename
+     * @return bool
+     */
     public function doesTableExist(string $tablename) {
         $results = $this->query("SHOW TABLES LIKE '$tablename'");
-
         return sizeof($results) != 0;
     }
 

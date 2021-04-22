@@ -10,11 +10,17 @@ use webu\system\Core\Helper\URIHelper;
 class IconFilterExtension extends FilterExtension
 {
 
+    /**
+     * @return string
+     */
     protected function getFilterName(): string
     {
         return "icon";
     }
 
+    /**
+     * @return callable
+     */
     protected function getFilterFunction(): callable
     {
         return function($context, $icon, $additionalClasses = "") {
@@ -45,6 +51,9 @@ class IconFilterExtension extends FilterExtension
         };
     }
 
+    /**
+     * @return array
+     */
     protected function getFilterOptions(): array
     {
         return [

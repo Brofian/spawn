@@ -12,12 +12,16 @@ class QueryInsert extends QueryBase
     /** @var string */
     const COMMAND = 'INSERT ';
 
-    //INSERT INTO table (col1,col2,col3) VALUES (val1,val2,val3)
+    /** @var string  */
     private $table = '';
+    /** @var array  */
     private $values = array();
 
 
-
+    /**
+     * QueryInsert constructor.
+     * @param DatabaseConnection $connection
+     */
     public function __construct(DatabaseConnection $connection)
     {
         parent::__construct($connection);

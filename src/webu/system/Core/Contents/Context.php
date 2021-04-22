@@ -65,7 +65,7 @@ class Context
      */
     public function get(string $identifier, $fallback = false)
     {
-        if ($identifier == '' || isset($this->context[$identifier])) {
+        if ($identifier && isset($this->context[$identifier])) {
             return $this->context[$identifier];
         } else {
             return $fallback;

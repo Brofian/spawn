@@ -9,7 +9,9 @@ class ModuleCacher {
 
     const MODULE_CACHE_FILE = ROOT . CACHE_DIR . "\\private\\generated\\modules\\module_cache.json";
 
-
+    /**
+     * @param ModuleCollection $moduleCollection
+     */
     public static function createModuleCache(ModuleCollection $moduleCollection) {
         $collectionArray = array();
 
@@ -50,7 +52,9 @@ class ModuleCacher {
 
     }
 
-
+    /**
+     * @return bool|ModuleCollection
+     */
     public static function readModuleCache() {
         if(!file_exists(self::MODULE_CACHE_FILE)) return false;
 

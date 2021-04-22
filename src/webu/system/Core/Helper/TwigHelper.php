@@ -33,6 +33,9 @@ class TwigHelper
     /** @var string  */
     private $cacheFolderPath = ROOT . '/var/cache/private/twig';
 
+    /**
+     * TwigHelper constructor.
+     */
     public function __construct()
     {
         $this->alwaysReload = (MODE == 'dev');
@@ -58,8 +61,6 @@ class TwigHelper
      */
     private function loadTwig() {
 
-
-
         $loader = new FilesystemLoader($this->templateDirs);
         $twig = new Environment($loader, [
             'debug' => (MODE == "dev"),
@@ -67,13 +68,12 @@ class TwigHelper
         ]); //<- Twig environment
 
 
-        ExtensionLoader::loadTwigExtensions($twig);
-        $twig->addExtension(new DebugExtension());
-
-
         if(is_object($twig) == false) {
             Debugger::ddump("Couldn´t load Twig");
         }
+
+        ExtensionLoader::loadTwigExtensions($twig);
+        $twig->addExtension(new DebugExtension());
 
         $this->twig = $twig;
     }
@@ -97,12 +97,16 @@ class TwigHelper
         return $twig->render($this->targetFile, $this->variables);
     }
 
-
+    /**
+     * @param string $file
+     */
     public function setRenderFile(string $file) {
-
         $this->targetFile = $file;
     }
 
+    /**
+     * @param string $path
+     */
     public function addTemplateDir(string $path) {
         $this->templateDirs[] = $path;
     }
@@ -117,7 +121,9 @@ class TwigHelper
         $this->variables[$key] = $value;
     }
 
-
+    /**
+     * @param $value
+     */
     public function setOutput($value) {
         if(is_string($value)) {
             $this->customoutput = $value;

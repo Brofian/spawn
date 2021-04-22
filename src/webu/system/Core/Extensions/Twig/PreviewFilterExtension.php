@@ -14,11 +14,17 @@ use webu\system\Core\Helper\RoutingHelper;
 class PreviewFilterExtension extends FilterExtension
 {
 
+    /**
+     * @return string
+     */
     protected function getFilterName(): string
     {
         return "preview";
     }
 
+    /**
+     * @return callable
+     */
     protected function getFilterFunction(): callable
     {
         return function($text, int $length) {
@@ -33,6 +39,9 @@ class PreviewFilterExtension extends FilterExtension
         };
     }
 
+    /**
+     * @return array
+     */
     protected function getFilterOptions(): array
     {
         return [];

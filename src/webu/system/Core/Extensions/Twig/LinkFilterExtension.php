@@ -14,14 +14,17 @@ use webu\system\Core\Helper\RoutingHelper;
 class LinkFilterExtension extends FilterExtension
 {
 
-    /** @var ModuleCollection */
-    public $moduleCollection = null;
-
+    /**
+     * @return string
+     */
     protected function getFilterName(): string
     {
         return "link";
     }
 
+    /**
+     * @return callable
+     */
     protected function getFilterFunction(): callable
     {
         return function($context, $actionId, $parameters = []) {
@@ -33,6 +36,9 @@ class LinkFilterExtension extends FilterExtension
         };
     }
 
+    /**
+     * @return array
+     */
     protected function getFilterOptions(): array
     {
         return [

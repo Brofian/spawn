@@ -16,6 +16,10 @@ class QueryBuilder
     /** @var DatabaseConnection $connection */
     public $connection;
 
+    /**
+     * QueryBuilder constructor.
+     * @param DatabaseConnection $connection
+     */
     public function __construct(DatabaseConnection $connection)
     {
         $this->connection = $connection;

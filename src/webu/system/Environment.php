@@ -21,6 +21,9 @@ class Environment
     public $response;
 
 
+    /**
+     * Environment constructor.
+     */
     public function __construct()
     {
         $this->request = new Request($this);
@@ -38,27 +41,27 @@ class Environment
 
     public function init()
     {
-        $this->request->gatherInformations();
+        $this->request->gatherInformationsFromRequest();
         $this->request->addToAccessLog();
-
 
         $this->request->loadController();
 
-        $this->response->prepare($this);
-
+        $this->response->prepare();
 
         $this->response->finish($this->request->getModuleCollection(), $this->request->getContext());
     }
 
-
-    private function handleException(\Throwable $e)
+    /**
+     * @param \Throwable $e
+     */
+    private function handleException(\Throwable $exception)
     {
 
-        Logger::writeToErrorLog($e->getTraceAsString(), $e->getMessage());
+        Logger::writeToErrorLog($exception->getTraceAsString(), $exception->getMessage());
 
         if (MODE == 'dev') {
-            $message = $e->getMessage() ?? 'No error-message provided!';
-            $trace = $e->getTrace() ?? [];
+            $message = $exception->getMessage() ?? 'No error-message provided!';
+            $trace = $exception->getTrace() ?? [];
 
             echo "ERROR: <b>" . $message . "</b><br><pre>";
 
@@ -70,13 +73,17 @@ class Environment
             }
             echo "</ul>";
 
-            var_dump($e);
+            var_dump($exception);
         } else {
             echo "Leider ist etwas schief gelaufen :(";
         }
+
     }
 
 
+    /**
+     * @return string
+     */
     public function finish() {
         return $this->response->getHtml();
     }

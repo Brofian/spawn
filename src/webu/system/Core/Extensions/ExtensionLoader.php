@@ -17,6 +17,10 @@ use webu\system\Core\Helper\XMLHelper;
 
 class ExtensionLoader {
 
+    /**
+     * @param Environment $twig
+     * @return bool
+     */
     public static function loadTwigExtensions(Environment &$twig) {
 
         /*
@@ -33,7 +37,6 @@ class ExtensionLoader {
 
         $previewFilter = new PreviewFilterExtension();
         $previewFilter->addToTwig($twig);
-
 
 
 

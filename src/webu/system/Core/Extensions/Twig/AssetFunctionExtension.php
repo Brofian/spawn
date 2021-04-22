@@ -8,11 +8,19 @@ use webu\system\Core\Helper\URIHelper;
 
 class AssetFunctionExtension extends FunctionExtension
 {
+
+    /**
+     * @return string
+     */
     protected function getFunctionName(): string
     {
         return "assetPath";
     }
 
+
+    /**
+     * @return callable
+     */
     protected function getFunctionFunction(): callable
     {
         return function ($namespace, $doHash = false) {
@@ -31,6 +39,9 @@ class AssetFunctionExtension extends FunctionExtension
         };
     }
 
+    /**
+     * @return array
+     */
     protected function getFunctionOptions(): array
     {
         return [];

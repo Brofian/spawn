@@ -6,11 +6,19 @@ use webu\system\Core\Base\Extensions\Twig\FunctionExtension;
 
 class DumpFunctionExtension extends FunctionExtension
 {
+
+    /**
+     * @return string
+     */
     protected function getFunctionName(): string
     {
         return "dump";
     }
 
+
+    /**
+     * @return callable
+     */
     protected function getFunctionFunction(): callable
     {
         return function ($context, $var = "nothingtoseehere") {
@@ -23,6 +31,9 @@ class DumpFunctionExtension extends FunctionExtension
         };
     }
 
+    /**
+     * @return array
+     */
     protected function getFunctionOptions(): array
     {
         return [

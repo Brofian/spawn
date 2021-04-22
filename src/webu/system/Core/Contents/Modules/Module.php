@@ -42,7 +42,10 @@ class Module {
     /** @var array  */
     private $usingNamespaces = array();
 
-
+    /**
+     * Module constructor.
+     * @param string $moduleName
+     */
     public function __construct(string $moduleName)
     {
         $this->moduleName = $moduleName;

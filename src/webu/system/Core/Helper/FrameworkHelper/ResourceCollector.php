@@ -13,15 +13,22 @@ use webu\system\Core\Helper\URIHelper;
 
 class ResourceCollector {
 
+    /** @var string  */
     const RESOURCE_CACHE_FOLDER = ROOT . CACHE_DIR . "/private/resources";
+    /** @var string  */
     const RESOURCE_CACHE_FOLDER_PUBLIC = ROOT . CACHE_DIR . "/public";
 
 
-
+    /**
+     * @return bool
+     */
     public static function isGatheringNeeded() : bool {
         return !file_exists(self::RESOURCE_CACHE_FOLDER);
     }
 
+    /**
+     * @param ModuleCollection $moduleCollection
+     */
     public function gatherModuleData(ModuleCollection $moduleCollection) {
 
         $sortedModules = $this->sortModuleCollectionByNamespace($moduleCollection);
@@ -48,7 +55,15 @@ class ResourceCollector {
 
     }
 
-
+    /**
+     * @param $namespace
+     * @param $modules
+     * @param $scssIndexFile
+     * @param $jsIndexFile
+     * @param $entryPointCss
+     * @param $entryPointJs
+     * @param $entryPointAssets
+     */
     private function moveModuleData($namespace, $modules, &$scssIndexFile, &$jsIndexFile, $entryPointCss, $entryPointJs, $entryPointAssets) {
         /** @var Module $module */
         foreach($modules as $module) {
@@ -89,9 +104,10 @@ class ResourceCollector {
     }
 
 
-
-
-
+    /**
+     * @param ModuleCollection $moduleCollection
+     * @return array
+     */
     public function sortModuleCollectionByNamespace(ModuleCollection $moduleCollection) {
         $sortedModuleCollection = array();
 
@@ -105,25 +121,19 @@ class ResourceCollector {
             $sortedModuleCollection[$module->getResourceNamespace()][] = $module;
         }
 
-
         return $sortedModuleCollection;
     }
 
 
-
-
-
+    /**
+     * @param string $source
+     * @param string $dest
+     */
     public static function copyFolderRecursive(string $source, string $dest) {
         URIHelper::pathifie($source, DIRECTORY_SEPARATOR, false);
         URIHelper::pathifie($dest, DIRECTORY_SEPARATOR, false);
 
-
-        if(!file_exists($dest)) {
-            FileEditor::createFolder($dest);
-        }
-
-
-
+        FileEditor::createFolder($dest);
 
         foreach (
             /** @var RecursiveIteratorIterator $iterator */

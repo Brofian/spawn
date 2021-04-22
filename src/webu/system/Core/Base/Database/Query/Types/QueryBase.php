@@ -123,7 +123,7 @@ abstract class QueryBase {
                 $where .= "NOT ";
             }
 
-            $seperator = (is_string($cond["value"])) ? "LIKE" : "=";
+            $seperator = (is_string($cond["value"])) ? " LIKE " : " = ";
             $placeholder = ":cond" . count($this->conditions);
             $this->bindValue($placeholder, $cond["value"]);
 
