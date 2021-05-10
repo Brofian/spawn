@@ -2,6 +2,7 @@
 
 use bin\webu\IO;
 
+include_once(__DIR__ . "/addNodeJsToPath.php");
 
 IO::execInDir('composer run-script download-nodejs', ROOT);
 
