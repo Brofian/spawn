@@ -33,8 +33,8 @@
     "symfony/debug-bundle": "^5.2",
     "symfony/var-dumper": "^5.2",
     "ext-simplexml": "*",
-    "ext-readline": "*",
     "ext-dom": "*",
+    "mouf/nodejs-installer": "~1.0",
     "oomphinc/composer-installers-extender": "*",
     "fh00-webu/homepage": "dev-develop as 0.0.1",
     "fh00-webu/backend": "dev-develop as 0.0.1",
@@ -49,5 +49,4 @@
       "modules/{$name}": ["type:webu-module"]
     }
   }
-
 }

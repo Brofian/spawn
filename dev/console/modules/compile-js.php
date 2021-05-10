@@ -16,6 +16,7 @@ $errorCodeSum = 0;
 IO::printLine("> compiling JavaScript", IO::YELLOW_TEXT);
 
 //javascript kompilieren
+include_once(__DIR__ . "/../npm/addNodeJsToPath.php");
 $webpackDir = ROOT . "/src/npm";
 
 foreach($moduleCollection->getNamespaceList() as $namespace) {
