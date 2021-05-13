@@ -99,6 +99,7 @@ foreach($migrations as $migration) {
         $m->run($dbHelper);
 
         $newMigrations[] = $migration;
+        IO::print("> executed Migration \"$migrationClass\"", IO::GREEN_TEXT);
     }
     catch(Exception $e) {
         IO::print("An error occured while running Migration ", IO::RED_TEXT);
