@@ -47,19 +47,20 @@ abstract class DatabaseTable
      * @return int
      */
     public function create(DatabaseHelper $dbHelper) {
+        //init table
+        $this->init();
+
+        //create/update structure file
+        $this->createStructureFile();
+
+        //dont execute the rest of the table setup, if the table already exist
         if($dbHelper->doesTableExist($this->getTableName())) {
             return 2;
         }
 
-        //init table
-        $this->init();
-
         //run main script
         $sql = $this->getTableCreationSQL(DB_DATABASE);
         $dbHelper->query($sql);
-
-        //create structure file
-        $this->createStructureFile();
 
         //run after creation script
         $this->afterCreation($dbHelper);
