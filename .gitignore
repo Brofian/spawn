@@ -2,15 +2,12 @@
 var
 vendor
 
-
-
 #Config File (but sample is included)
 config.php
 
 #IDE Folders
 .idea
 TODO.php
-
 
 #Tests
 *test.php

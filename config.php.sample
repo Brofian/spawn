@@ -25,8 +25,8 @@ define('DEFAULTCONTROLLER', 'Main');
 define('NOTFOUNDCONTROLLER', '404');
 define('ERRORCONTROLLER', '505');
 
-//default Cache Directory
-define('CACHE_DIR', '/var/cache');
+//maximum size for uploaded images
+define('MAX_IMG_UPLOAD_SIZE', 500000);
 
 //Global Brand Colors
 define('BRAND_COLORS', [
