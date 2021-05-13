@@ -10,7 +10,8 @@ $newPathVars = [
 ];
 
 foreach($newPathVars as $newPath) {
-    IO::execInDir('export PATH=$PATH:'.$newPath, ROOT);
+    $path = getenv("PATH");
+    putenv("PATH=$path:$newPath");
 }
 
 
