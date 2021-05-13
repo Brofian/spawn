@@ -105,6 +105,8 @@ foreach($migrations as $migration) {
         IO::print($migrationClass, IO::YELLOW_TEXT);
         IO::printLine("! Skipping!", IO::RED_TEXT);
         $problems++;
+
+        break;
     }
 
 }
@@ -118,7 +120,6 @@ foreach($migrations as $migration) {
  *
  */
 $sql = "INSERT INTO `webu_migrations` (`class`,`timestamp`) VALUES ";
-
 $isFirst = true;
 foreach($newMigrations as $newMigration) {
 
@@ -136,7 +137,6 @@ foreach($newMigrations as $newMigration) {
     $sql .= $values;
     $isFirst = false;
 }
-
 $dbHelper->query($sql);
 
 
