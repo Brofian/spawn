@@ -1,5 +1,7 @@
 <?php
 
+require(ROOT . "/vendor/autoload.php");
+
 require("Autoloader.php");
 
 

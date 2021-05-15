@@ -10,6 +10,17 @@ class ModuleLoader {
 
     const REL_XML_PATH = "/plugin.xml";
 
+    protected $moduleRootPaths = [
+        "/custom",
+        "/vendor"
+    ];
+
+    protected $ignoredDirs = [
+        ".",
+        ".."
+    ];
+
+
     /** @var ModuleCollection */
     private $moduleCollection;
 
@@ -25,32 +36,90 @@ class ModuleLoader {
      * @param string $rootPath
      * @return bool|ModuleCollection
      */
-    public function loadModules(string $rootPath) {
-
+    public function loadModules() {
+        /*
         $cachedModuleCollection = ModuleCacher::readModuleCache();
         if($cachedModuleCollection && MODE != 'dev') return $cachedModuleCollection;
+        */
+
+        /*
+         * Stucture:
+         * - moduleRootPath
+         * -- moduleNamespacePath
+         * --- modulePath
+         */
 
 
-        if(!is_dir($rootPath)) return false;
-
-        $moduleFolders = scandir($rootPath);
-
+        $moduleFolders = [];
         $moduleCount = 0;
-        foreach($moduleFolders as $moduleFolder) {
-            if($moduleFolder == "." || $moduleFolder == ".." || $moduleFolder == ".gitignore") continue;
+        foreach($this->moduleRootPaths as $rootPath) {
+            $currentPath = URIHelper::joinPaths(ROOT, $rootPath);
+            if(!is_dir($currentPath)) continue;
 
-            $basePath = $rootPath . "/" . $moduleFolder ;
-            URIHelper::pathifie($basePath);
+            $modulePathElements = scandir($currentPath);
 
-            $this->loadModule($moduleFolder, $basePath, $moduleCount);
-            $moduleCount++;
+            foreach($modulePathElements as $namespace) {
+                if(in_array($namespace, $this->ignoredDirs)) continue;
+                $currentNamespacePath = URIHelper::joinPaths($currentPath, $namespace);
+                if(!is_dir($currentNamespacePath)) continue;
+
+
+                $moduleElements = scandir($currentNamespacePath);
+                foreach($moduleElements as $moduleElement) {
+                    $currentModulePath = URIHelper::joinPaths($currentNamespacePath, $moduleElement);
+                    if($this->isModuleDirectory($currentModulePath)) {
+
+                        //TODO: dump($this->moduleLocationToSlug($namespace, $moduleElement));
+
+                        $this->loadModule(basename($currentModulePath), $currentModulePath, $moduleCount);
+                        $moduleCount++;
+                    }
+                }
+            }
         }
 
-
+        /*
+        dd($moduleFolders);
+        die();
+        */
 
         ModuleCacher::createModuleCache($this->moduleCollection);
 
         return $this->moduleCollection;
+    }
+
+
+    protected function moduleLocationToSlug($namespace, $module) {
+
+        $namespaceParts = explode("-", $namespace);
+        $namespace = "";
+        foreach($namespaceParts as $part) {
+            $namespace .= ucFirst($part);
+        }
+
+        $moduleParts = explode("-", $module);
+        $module = "";
+        foreach($moduleParts as $part) {
+            $module .= ucFirst($part);
+        }
+
+        return ($namespace . $module);
+    }
+
+
+    protected function isModuleDirectory($directory) : bool {
+        $xmlFilePath = URIHelper::joinPaths($directory, "plugin.xml");
+        if(!file_exists($xmlFilePath) || !is_file($xmlFilePath)) {
+            return false;
+        }
+
+        $directoryName = basename($directory);
+        $moduleClassPath = URIHelper::joinPaths($directory, $directoryName.".php");
+        if(!file_exists($moduleClassPath) || !is_file($moduleClassPath)) {
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -60,14 +129,6 @@ class ModuleLoader {
      * @param $moduleId
      */
     private function loadModule($moduleName, $basePath, $moduleId) {
-
-        if( !file_exists(URIHelper::joinPaths($basePath, self::REL_XML_PATH)) ||
-            !file_exists(URIHelper::joinPaths($basePath ,DIRECTORY_SEPARATOR.$moduleName.".php")))
-        {
-            return;
-        }
-
-
 
         $module = new Module($moduleName);
         $module->setBasePath($basePath);
