@@ -70,9 +70,9 @@ class ModuleLoader {
                     $currentModulePath = URIHelper::joinPaths($currentNamespacePath, $moduleElement);
                     if($this->isModuleDirectory($currentModulePath)) {
 
-                        //TODO: dump($this->moduleLocationToSlug($namespace, $moduleElement));
+                        $slug = $this->moduleLocationToSlug($namespace, $moduleElement);
 
-                        $this->loadModule(basename($currentModulePath), $currentModulePath, $moduleCount);
+                        $this->loadModule(basename($currentModulePath), $currentModulePath, $moduleCount, $slug);
                         $moduleCount++;
                     }
                 }
@@ -119,10 +119,11 @@ class ModuleLoader {
      * @param $basePath
      * @param $moduleId
      */
-    private function loadModule($moduleName, $basePath, $moduleId) {
+    private function loadModule($moduleName, $basePath, $moduleId, $slug) {
 
         $module = new Module($moduleName);
         $module->setBasePath($basePath);
+        $module->setSlug($slug);
 
         /** @var $pluginXML SimpleXMLElement */
         $pluginXML = (new XMLHelper())->readFile($basePath . self::REL_XML_PATH);

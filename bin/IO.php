@@ -96,12 +96,6 @@ class IO {
 
     public static function readLine(string $text = "", callable $validationFunc = null, $errorMessage = "Invalid input! Try again! ") {
 
-        if($validationFunc != null) {
-             $validationFunc = function($a) {
-                 return true;
-             };
-        }
-
         $isFirstQuery = true;
         do {
             if(!$isFirstQuery) {
@@ -111,7 +105,7 @@ class IO {
 
             $answer = readline($text);
         }
-        while(!$validationFunc($answer));
+        while($validationFunc != null && !$validationFunc($answer));
 
 
 

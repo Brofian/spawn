@@ -4,7 +4,7 @@
 use \webu\system\Core\Contents\Modules\Module;
 use \bin\webu\IO;
 use \webu\system\Core\Base\Custom\FileEditor;
-
+use \webu\system\Core\Helper\URIHelper;
 
 $moduleCollection = include(__DIR__ . "/../modules/callable/list-modules.php");
 
@@ -28,8 +28,7 @@ $answer = IO::readLine("Bitte gib eine gültige ID an: ", function($answer) use 
 
 
 $moduleName = $modules[$answer]->getName();
-$path = $modules[$answer]->getBasePath() . "/Database/Migrations/";
-
+$path = URIHelper::joinMultiplePaths($modules[$answer]->getBasePath(), "src", "Database", "Migrations");
 
 $try = 0;
 do {
@@ -54,7 +53,7 @@ while(!$isValidAnswer);
 
 $timeStamp = time();
 $className = "M".$timeStamp.$answer;
-$filePath = $path.$className.".php";
+$filePath = URIHelper::joinPaths($path, $className.".php");
 
 FileEditor::createFile($filePath, "<?php
 

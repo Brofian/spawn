@@ -12,7 +12,8 @@ $moduleList[] = [
     "ID",
     "Module",
     "Active",
-    "Information"
+    "Version",
+    "Author"
 ];
 
 
@@ -20,9 +21,10 @@ $moduleList[] = [
 foreach($moduleCollection->getModuleList() as $module) {
     $moduleList[] = [
         $module->getId(),
-        $module->getName(),
-        $module->isActive(),
-        json_encode($module->getInformation())
+        $module->getSlug(),
+        $module->isActive() ? "1" : "0",
+        $module->getInformation("version"),
+        $module->getInformation("author")
     ];
 }
 

@@ -8,39 +8,30 @@ class Module {
 
     /** @var string  */
     private $id = "";
-
     /** @var bool  */
     private $active = false;
-
     /** @var array */
     private $informations = array();
-
     /** @var string  */
     private $moduleName;
-
     /** @var array  */
     private $moduleControllers = array();
-
     /** @var string  */
     private $basePath;
-
     /** @var string */
     private $resourcePath;
-
     /** @var string */
     private $resourceWeight;
-
     /** @var string */
     private $resourceNamespace;
-
     /** @var string */
     private $resourceNamespaceRaw;
-
     /** @var array */
     private $databaseTableClasses = array();
-
     /** @var array  */
     private $usingNamespaces = array();
+    /** @var string */
+    private $slug;
 
     /**
      * Module constructor.
@@ -140,7 +131,12 @@ class Module {
      */
     public function getInformation(string $key = "") {
         if($key != "") {
-            return $this->informations[$key];
+            if(isset($this->informations[$key])) {
+                return $this->informations[$key];
+            }
+            else {
+                return "";
+            }
         }
         else {
             return $this->informations;
@@ -250,6 +246,23 @@ class Module {
     {
         $this->active = $active;
     }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $moduleSlug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
 
 
 

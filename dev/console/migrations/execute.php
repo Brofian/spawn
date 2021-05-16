@@ -1,47 +1,59 @@
 <?php
 
-use \webu\system\core\base\Migration;
-use \bin\webu\IO;
+use webu\system\core\base\Migration;
+use bin\webu\IO;
+use webu\system\Core\Contents\Modules\ModuleCollection;
+use webu\system\Core\Helper\URIHelper;
+use webu\system\Core\Contents\Modules\Module;
+use webu\system\Core\Base\Custom\FileEditor;
+use webu\system\Core\Base\Helper\DatabaseHelper;
+
 
 /*
- *
  * Load all Migration files
- *
  */
 
-$filecrawler = new \webu\system\Core\Base\Custom\FileCrawler();
-$migrations = $filecrawler->searchInfos(ROOT, function(
-    string $fileContent,
-    array &$currentResults,
-    string $fileName,
-    string $rootPath,
-    string $relativePath
-) {
+/** @var ModuleCollection $moduleCollection */
+$moduleCollection = include(__DIR__ . "/../modules/callable/list-modules.php");
 
-    $matches = [];
-    //split up the word class, namespace and migration to prevent this file from being autoloaded incorrectly
-    $isMigration = preg_match_all('/clas'.'s ([^{]*) extends Migr'.'ation/m', $fileContent, $matches);
 
-    if(!$isMigration || count($matches) < 2) {
-        return;
+$migrations = [];
+/** @var Module $module */
+foreach($moduleCollection->getModuleList() as $module) {
+
+    $migrationsFolder = URIHelper::joinMultiplePaths($module->getBasePath(),"src", "Database", "Migrations");
+
+    if(!file_exists($migrationsFolder)) {
+        continue;
     }
-    $className = $matches[1][0];
 
+    $migrationFiles = scandir($migrationsFolder);
 
-    $matches = [];
-    //split up the word class, namespace and migration to prevent this file from being autoloaded incorrectly
-    $hasNamespace = preg_match_all('/name'.'space ([^;]*);/m', $fileContent, $matches);
-    if(!$hasNamespace || count($matches) < 2) {
-        return;
+    foreach($migrationFiles as $file) {
+        if($file == "." || $file == "..") continue;
+        $path = URIHelper::joinPaths($migrationsFolder, $file);
+
+        $fileContent = FileEditor::getFileContent($path);
+
+        //read classname
+        $matches = [];
+        $isMigration = preg_match_all('/clas'.'s ([^{]*) extends Migr'.'ation/', $fileContent, $matches);
+        if(!$isMigration || count($matches) < 2) continue;
+        $className = $matches[1][0];
+
+        //read namespace
+        $matches = [];
+        $hasNamespace = preg_match_all('/name'.'space ([^;]*);/', $fileContent, $matches);
+        if(!$hasNamespace || count($matches) < 2) continue;
+        $namespace = $matches[1][0];
+
+        /** @var Migration|string $fullClassName */
+        $fullClassName = $namespace . "\\" . $className;
+
+        $migrations[] = [$fullClassName::getUnixTimestamp(),$fullClassName];
     }
-    $namespace = $matches[1][0];
+}
 
-    /** @var Migration|string $fullClassName */
-    $fullClassName = $namespace . "\\" . $className;
-
-    $currentResults[] = [$fullClassName::getUnixTimestamp(),$fullClassName];
-
-});
 
 
 //sort all migrations by their timestamp (0 -> lowest)
@@ -51,15 +63,12 @@ usort($migrations, function($a, $b) {
 
 
 
-
 /*
- *
  * Get already executed Migrations
- *
  */
 
 
-$dbHelper = new \webu\system\Core\Base\Helper\DatabaseHelper();
+$dbHelper = new DatabaseHelper();
 $migrationTableExists = $dbHelper->doesTableExist('webu_migrations');
 
 $executedMigrations = [];
@@ -78,6 +87,7 @@ if($migrationTableExists) {
  *  Execute Migrations
  *
  */
+
 
 $newMigrations = [];
 $problems = 0;
