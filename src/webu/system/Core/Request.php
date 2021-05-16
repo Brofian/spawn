@@ -153,7 +153,7 @@ class Request
     public function loadController()
     {
         $moduleLoader = new ModuleLoader();
-        $this->moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
+        $this->moduleCollection = $moduleLoader->loadModules();
 
         //sort modules by resource Weight
         $moduleList = $this->moduleCollection->getModuleList();

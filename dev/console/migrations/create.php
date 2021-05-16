@@ -1,16 +1,12 @@
 <?php
 
 
-use \webu\system\Core\Contents\Modules\ModuleLoader;
 use \webu\system\Core\Contents\Modules\Module;
 use \bin\webu\IO;
 use \webu\system\Core\Base\Custom\FileEditor;
 
 
-if(!isset($moduleCollection)) {
-    $moduleLoader = new ModuleLoader();
-    $moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
-}
+$moduleCollection = include(__DIR__ . "/../modules/callable/list-modules.php");
 
 
 IO::printLine("Für welches Modul möchtest du die Migration erstellen?", IO::BLUE_TEXT);
@@ -25,23 +21,11 @@ foreach($moduleCollection->getModuleList() as $module) {
     $counter++;
 }
 
-$try = 0;
-do {
-    $isValidAnswer = false;
-    $answer = IO::readLine("Bitte gib eine gültige ID an: ");
 
-    if(is_numeric($answer) && (int)$answer < $counter && (int)$answer >= 0) {
-        $isValidAnswer = true;
-        $try = 0;
-    }
+$answer = IO::readLine("Bitte gib eine gültige ID an: ", function($answer) use ($counter) {
+    return (is_numeric($answer) && (int)$answer < $counter && (int)$answer >= 0);
+});
 
-    if($try >= 5 && !$isValidAnswer) {
-        IO::printLine("5 Fehlversuche! Vorgang wird abgebrochen!", IO::RED_TEXT);
-        return;
-    }
-    $try++;
-}
-while(!$isValidAnswer);
 
 $moduleName = $modules[$answer]->getName();
 $path = $modules[$answer]->getBasePath() . "/Database/Migrations/";

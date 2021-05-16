@@ -94,8 +94,28 @@ class IO {
     }
 
 
-    public static function readLine(string $text = "") {
-        return readline($text);
+    public static function readLine(string $text = "", callable $validationFunc = null, $errorMessage = "Invalid input! Try again! ") {
+
+        if($validationFunc != null) {
+             $validationFunc = function($a) {
+                 return true;
+             };
+        }
+
+        $isFirstQuery = true;
+        do {
+            if(!$isFirstQuery) {
+                self::printLine($errorMessage);
+            }
+            $isFirstQuery = false;
+
+            $answer = readline($text);
+        }
+        while(!$validationFunc($answer));
+
+
+
+        return $answer;
     }
 
 

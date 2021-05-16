@@ -54,6 +54,28 @@ class URIHelper
         return $joined;
     }
 
+    public static function joinMultiplePaths(...$paths) {
+        if(count($paths) < 2) return $paths;
+
+
+        $joinedPath = null;
+        foreach($paths as $path) {
+            $path = trim($path, implode("", self::SEPERATORS));
+
+            if($joinedPath == null) {
+                $joinedPath = $path;
+            }
+            else {
+                $joinedPath .= "/" . $path;
+
+                self::pathifie($joinedPath, self::DEFAULT_SEPERATOR, false);
+            }
+        }
+
+        return $joinedPath;
+    }
+
+
     /**
      * @param array $segments
      * @param string $seperator

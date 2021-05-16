@@ -3,6 +3,7 @@
 namespace webu\system\Core\Contents\Modules;
 
 use SimpleXMLElement;
+use webu\system\Core\Custom\StringConverter;
 use webu\system\Core\Helper\URIHelper;
 use webu\system\Core\Helper\XMLHelper;
 
@@ -89,22 +90,12 @@ class ModuleLoader {
     }
 
 
-    protected function moduleLocationToSlug($namespace, $module) {
-
-        $namespaceParts = explode("-", $namespace);
-        $namespace = "";
-        foreach($namespaceParts as $part) {
-            $namespace .= ucFirst($part);
-        }
-
-        $moduleParts = explode("-", $module);
-        $module = "";
-        foreach($moduleParts as $part) {
-            $module .= ucFirst($part);
-        }
-
+    public static function moduleLocationToSlug($namespace, $module) {
+        $namespace = StringConverter::snakeToPascalCase($namespace);
+        $module = StringConverter::snakeToPascalCase($module);
         return ($namespace . $module);
     }
+
 
 
     protected function isModuleDirectory($directory) : bool {
