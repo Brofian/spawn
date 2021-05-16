@@ -2,8 +2,9 @@
 var
 vendor
 
-#Config File (but sample is included)
+# Config Files
 config.php
+composer.json
 
 #IDE Folders
 .idea

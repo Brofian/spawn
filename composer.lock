@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f25f00fa415e9bd3820ffe1d3944d15e",
+    "content-hash": "4f4558e9fea29c786d0475e3c1d8acdb",
     "packages": [
         {
             "name": "composer/installers",
@@ -162,12 +162,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-backend-module.git",
-                "reference": "80b501bcca5b9a890486de37d0040712da9ab902"
+                "reference": "1f8abddf443502fd9f09cb63e92e0a55230f166b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/80b501bcca5b9a890486de37d0040712da9ab902",
-                "reference": "80b501bcca5b9a890486de37d0040712da9ab902",
+                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/1f8abddf443502fd9f09cb63e92e0a55230f166b",
+                "reference": "1f8abddf443502fd9f09cb63e92e0a55230f166b",
                 "shasum": ""
             },
             "require": {
@@ -192,7 +192,7 @@
                 "source": "https://github.com/F-H00/webu-backend-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-backend-module/issues"
             },
-            "time": "2021-05-15T18:01:41+00:00"
+            "time": "2021-05-15T19:41:12+00:00"
         },
         {
             "name": "fh00-webu/base",
@@ -200,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/F-H00/webu-base-module.git",
-                "reference": "90a9b0d30c435a803f27e829d5eb2abe053fecff"
+                "reference": "83b700acf82d4ddc2d4683884c889d879ac10153"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-base-module/zipball/90a9b0d30c435a803f27e829d5eb2abe053fecff",
-                "reference": "90a9b0d30c435a803f27e829d5eb2abe053fecff",
+                "url": "https://api.github.com/repos/F-H00/webu-base-module/zipball/83b700acf82d4ddc2d4683884c889d879ac10153",
+                "reference": "83b700acf82d4ddc2d4683884c889d879ac10153",
                 "shasum": ""
             },
             "type": "webu-module",
@@ -227,7 +227,7 @@
                 "source": "https://github.com/F-H00/webu-base-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-base-module/issues"
             },
-            "time": "2021-05-15T18:02:50+00:00"
+            "time": "2021-05-15T19:41:47+00:00"
         },
         {
             "name": "fh00-webu/homepage",
@@ -235,12 +235,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-homepage-module.git",
-                "reference": "51ec3dd7fa33708380333d8921e5e656987267d2"
+                "reference": "fead48adcfb45ba156e43976d1ab481b2169d3f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/51ec3dd7fa33708380333d8921e5e656987267d2",
-                "reference": "51ec3dd7fa33708380333d8921e5e656987267d2",
+                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/fead48adcfb45ba156e43976d1ab481b2169d3f7",
+                "reference": "fead48adcfb45ba156e43976d1ab481b2169d3f7",
                 "shasum": ""
             },
             "require": {
@@ -266,7 +266,7 @@
                 "source": "https://github.com/F-H00/webu-homepage-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-homepage-module/issues"
             },
-            "time": "2021-05-15T19:32:28+00:00"
+            "time": "2021-05-15T19:42:18+00:00"
         },
         {
             "name": "fh00-webu/manual",
@@ -1910,16 +1910,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.3.1",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ac44433c49892bf28d47c852b19832f3823bd351"
+                "reference": "21578f00e83d4a82ecfa3d50752b609f13de6790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ac44433c49892bf28d47c852b19832f3823bd351",
-                "reference": "ac44433c49892bf28d47c852b19832f3823bd351",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/21578f00e83d4a82ecfa3d50752b609f13de6790",
+                "reference": "21578f00e83d4a82ecfa3d50752b609f13de6790",
                 "shasum": ""
             },
             "require": {
@@ -1970,7 +1970,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.3.1"
+                "source": "https://github.com/twigphp/Twig/tree/v3.3.2"
             },
             "funding": [
                 {
@@ -1982,7 +1982,42 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-12T08:05:35+00:00"
+            "time": "2021-05-16T12:14:13+00:00"
+        },
+        {
+            "name": "webu/app",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/F-H00/webu-app.git",
+                "reference": "fa429815356232458c6ec0e328a3ebf22028f56e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/F-H00/webu-app/zipball/fa429815356232458c6ec0e328a3ebf22028f56e",
+                "reference": "fa429815356232458c6ec0e328a3ebf22028f56e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "webuApp\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Fabian Holzwarth"
+                }
+            ],
+            "description": "Webu Application Module",
+            "support": {
+                "source": "https://github.com/F-H00/webu-app/tree/develop",
+                "issues": "https://github.com/F-H00/webu-app/issues"
+            },
+            "time": "2021-05-16T20:41:09+00:00"
         }
     ],
     "packages-dev": [],
@@ -2010,10 +2045,17 @@
             "version": "dev-develop",
             "alias": "0.0.1",
             "alias_normalized": "0.0.1.0"
+        },
+        {
+            "package": "webu/app",
+            "version": "dev-develop",
+            "alias": "0.0.1",
+            "alias_normalized": "0.0.1.0"
         }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "webu/app": 20,
         "fh00-webu/homepage": 20,
         "fh00-webu/backend": 20,
         "fh00-webu/manual": 20,
