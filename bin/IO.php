@@ -119,4 +119,62 @@ class IO {
     }
 
 
+
+    public static function printAsTable(array $lines, bool $underlineFirst = false) {
+
+        //find the required length for each column
+        $colLenghts = [];
+        foreach($lines as $line) {
+            for($i=0; $i < count($line); $i++) {
+                if(isset($colLenghts[$i])) {
+                    $currentLength = strlen($line[$i]);
+                    if($colLenghts[$i] < $currentLength) {
+                        $colLenghts[$i] = $currentLength;
+                    }
+                }
+                else {
+                    $colLenghts[$i] = strlen($line[$i]);
+                }
+            }
+        }
+
+
+
+
+        //draw table
+        self::printLine("");
+
+        $row = 0;
+        foreach($lines as $line) {
+
+            //Print Line
+            self::print("|");
+            $col = 0;
+            foreach($line as $item) {
+                self::print(" ".str_pad($item, $colLenghts[$col]+1)."|");
+                $col++;
+            }
+            self::printLine("");
+
+
+            //Print underline, if set
+            if($underlineFirst && $row == 0) {
+                self::print("|");
+                $col = 0;
+                foreach($line as $item) {
+                    self::print(str_pad("", $colLenghts[$col]+2, "-")."|");
+                    $col++;
+                }
+                self::printLine("");
+            }
+
+
+            $row++;
+        }
+
+        self::printLine("");
+
+    }
+
+
 }

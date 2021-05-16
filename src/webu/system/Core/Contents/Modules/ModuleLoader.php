@@ -47,7 +47,7 @@ class ModuleLoader {
          * Stucture:
          * - moduleRootPath
          * -- moduleNamespacePath
-         * --- modulePath
+         * --- modulePath (snake-case)
          */
 
 
@@ -104,7 +104,7 @@ class ModuleLoader {
             return false;
         }
 
-        $directoryName = basename($directory);
+        $directoryName = StringConverter::snakeToPascalCase(basename($directory));
         $moduleClassPath = URIHelper::joinPaths($directory, $directoryName.".php");
         if(!file_exists($moduleClassPath) || !is_file($moduleClassPath)) {
             return false;
