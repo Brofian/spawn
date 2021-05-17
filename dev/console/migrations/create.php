@@ -26,8 +26,9 @@ $answer = IO::readLine("Bitte gib eine gültige ID an: ", function($answer) use 
     return (is_numeric($answer) && (int)$answer < $counter && (int)$answer >= 0);
 });
 
-
-$moduleName = $modules[$answer]->getName();
+/** @var Module $module */
+$module = $modules[$answer];
+$moduleName = $module->getName();
 $path = URIHelper::joinMultiplePaths($modules[$answer]->getBasePath(), "src", "Database", "Migrations");
 
 $try = 0;
@@ -54,10 +55,11 @@ while(!$isValidAnswer);
 $timeStamp = time();
 $className = "M".$timeStamp.$answer;
 $filePath = URIHelper::joinPaths($path, $className.".php");
+$slug = $module->getSlug();
 
 FileEditor::createFile($filePath, "<?php
 
-namespace modules\\".$moduleName."\\Database\\Migrations;
+namespace ".$slug."\\Database\\Migrations;
 
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\core\base\Migration;
