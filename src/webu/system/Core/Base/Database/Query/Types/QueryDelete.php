@@ -111,7 +111,7 @@ class QueryDelete extends QueryBase
         //if operator is not set: either LIKE or =
         $op = $operator;
         if(!$op) {
-            $op = ($isString) ? 'LIKE' : '=';
+            $op = ($isString) ? ' LIKE ' : ' = ';
         }
 
         $this->where[] = $prefix . $column . $op . $value;

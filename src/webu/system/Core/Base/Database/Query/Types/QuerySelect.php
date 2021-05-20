@@ -215,7 +215,6 @@ class QuerySelect extends QueryBase
         $this->where[] = $prefix . $column . " " . $operator . " " . $placeholder;
         $this->bindValue($placeholder, $value);
 
-
         return $this;
     }
 
