@@ -8,15 +8,17 @@ use bin\webu\IO;
 use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Contents\Modules\ModuleAction;
 use webuApp\Models\ModuleActionStorage;
-
+use webu\system\Core\Contents\Modules\ModuleLoader;
 
 $dbHelper = new DatabaseHelper();
 $migrationTableExists = $dbHelper->doesTableExist('webu_migrations');
 
 
 
+/** @var ModuleLoader $moduleLoader */
+$moduleLoader = new ModuleLoader();
 /** @var ModuleCollection $moduleCollection */
-$moduleCollection = include(__DIR__ . "/callable/list-modules.php");
+$moduleCollection = $moduleLoader->readModules();
 $existingModules = ModuleStorage::findAll($dbHelper->getConnection());
 
 
@@ -50,8 +52,9 @@ $count = 0;
 foreach($newModules as $module) {
     $resourceConfig = json_encode([
         "namespace" => $module->getResourceNamespace(),
+        "namespace_raw" => $module->getResourceNamespaceRaw(),
         "using" => $module->getUsingNamespaces(),
-        "path" => $module->getResourcePath(),
+        "path" => $module->getRelativeResourcePath(),
         "weight" => $module->getResourceWeight()
     ]);
     $informations = json_encode($module->getInformation());

@@ -22,6 +22,8 @@ use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Helper\SessionHelper;
 use webu\system\Core\Helper\URIHelper;
 use webu\system\Environment;
+use webu\system\Throwables\ModulesNotLoadedException;
+use webu\system\Throwables\NoModuleFoundException;
 
 class Request
 {
@@ -153,10 +155,13 @@ class Request
     public function loadController()
     {
         $moduleLoader = new ModuleLoader();
-        $this->moduleCollection = $moduleLoader->loadModules();
+        $this->moduleCollection = $moduleLoader->loadModules($this->getDatabaseHelper()->getConnection());
 
         //sort modules by resource Weight
         $moduleList = $this->moduleCollection->getModuleList();
+        if(count($moduleList) < 1) {
+            throw new ModulesNotLoadedException();
+        }
         ModuleCollection::sortModulesByWeight($moduleList);
 
         $twigHelper = $this->environment->response->getTwigHelper();
@@ -173,6 +178,11 @@ class Request
         if($routingResult === false) {
             $routingResult = $this->routingHelper->route("404");
         }
+
+        if($routingResult === false) {
+            throw new NoModuleFoundException();
+        }
+
 
         $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $routingResult["uri"]);
 

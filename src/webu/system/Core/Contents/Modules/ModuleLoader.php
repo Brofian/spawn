@@ -3,9 +3,14 @@
 namespace webu\system\Core\Contents\Modules;
 
 use SimpleXMLElement;
+use webu\Database\StructureTables\WebuModuleActions;
+use webu\Database\StructureTables\WebuModules;
+use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Custom\StringConverter;
 use webu\system\Core\Helper\URIHelper;
 use webu\system\Core\Helper\XMLHelper;
+use webuApp\Models\ModuleActionStorage;
+use webuApp\Models\ModuleStorage;
 
 class ModuleLoader {
 
@@ -23,7 +28,7 @@ class ModuleLoader {
 
 
     /** @var ModuleCollection */
-    private $moduleCollection;
+    private $moduleCollection = null;
 
     /**
      * ModuleLoader constructor.
@@ -33,15 +38,92 @@ class ModuleLoader {
         $this->moduleCollection = new ModuleCollection();
     }
 
+
+    public function loadModules(DatabaseConnection $connection) : ModuleCollection {
+        /** @var \PDOStatement $unfetchedActions */
+        $unfetchedActions = ModuleStorage::loadAllWithReferences($connection);
+
+
+        $moduleArray = array();
+        $moduleControllerArray = array();
+        $moduleActionArray = array();
+        while($action = $unfetchedActions->fetch()) {
+            $moduleSlug = $action[WebuModules::RAW_COL_SLUG];
+
+            if(!isset($moduleArray[$moduleSlug])) {
+                $module = new Module(basename($action[WebuModules::RAW_COL_PATH]));
+                $module->setActive($action[WebuModules::RAW_COL_ACTIVE]);
+                $module->setId($action[WebuModules::RAW_COL_ACTIVE]);
+                $module->setBasePath($action[WebuModules::RAW_COL_PATH]);
+                $module->setSlug($moduleSlug);
+
+                $moduleResourceConfig = json_decode($action[WebuModules::RAW_COL_RESSOURCE_CONFIG], true);
+                $module->setUsingNamespaces($moduleResourceConfig["using"]);
+                $module->setResourceNamespaceRaw($moduleResourceConfig["namespace_raw"]);
+                $module->setResourceNamespace($moduleResourceConfig["namespace"]);
+                $module->setResourcePath($moduleResourceConfig["path"]);
+                $module->setResourceWeight($moduleResourceConfig["weight"]);
+
+                $moduleInformations = json_decode($action[WebuModules::RAW_COL_INFORMATIONS], true);
+                foreach($moduleInformations as $key => $information) {
+                    $module->setInformation($key, $information);
+                }
+
+                $moduleArray[$moduleSlug] = $module;
+            }
+
+
+            $controllerClass = $action[WebuModuleActions::RAW_COL_CLASS];
+            if($controllerClass && !isset($moduleControllerArray[$controllerClass])) {
+                $controller = new ModuleController($controllerClass, basename($controllerClass), []);
+                $controller->moduleSlug = $action[WebuModules::RAW_COL_SLUG];
+                $moduleControllerArray[$controllerClass] = $controller;
+            }
+
+
+            if($action[WebuModuleActions::RAW_COL_IDENTIFIER]) {
+                $modAction = new ModuleAction(
+                    $action[WebuModuleActions::RAW_COL_IDENTIFIER],
+                    $action[WebuModuleActions::RAW_COL_CUSTOM_URL],
+                    $action[WebuModuleActions::RAW_COL_ACTION]
+                );
+                $modAction->controllerCls = $action[WebuModuleActions::RAW_COL_CLASS];
+                $moduleActionArray[] = $modAction;
+            }
+
+        }
+
+
+        //combine the loaded parts
+        /** @var ModuleController $controller */
+        foreach($moduleControllerArray as $ctrlClass => &$controller) {
+            foreach($moduleActionArray as $action) {
+                if($action->controllerCls == $ctrlClass) {
+                    $controller->addAction($action);
+                }
+            }
+        }
+        /** @var Module $modules */
+        foreach($moduleArray as &$module) {
+            foreach($moduleControllerArray as $controller) {
+                if($module->getSlug() == $controller->moduleSlug) {
+                   $module->addModuleController($controller);
+                }
+            }
+
+            $this->moduleCollection->addModule($module);
+        }
+
+        return $this->moduleCollection;
+    }
+
     /**
+     * This functions reads the modules live from the existing files
+     *
      * @param string $rootPath
-     * @return bool|ModuleCollection
+     * @return ModuleCollection
      */
-    public function loadModules() {
-        /*
-        $cachedModuleCollection = ModuleCacher::readModuleCache();
-        if($cachedModuleCollection && MODE != 'dev') return $cachedModuleCollection;
-        */
+    public function readModules() : ModuleCollection {
 
         /*
          * Stucture:
@@ -49,7 +131,6 @@ class ModuleLoader {
          * -- moduleNamespacePath
          * --- modulePath (snake-case)
          */
-
 
         $moduleFolders = [];
         $moduleCount = 0;
@@ -79,12 +160,6 @@ class ModuleLoader {
             }
         }
 
-        /*
-        dd($moduleFolders);
-        die();
-        */
-
-        ModuleCacher::createModuleCache($this->moduleCollection);
 
         return $this->moduleCollection;
     }

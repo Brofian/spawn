@@ -83,4 +83,10 @@ class ModuleController {
         return new $cls();
     }
 
+    /**
+     * @param ModuleAction $action
+     */
+    public function addAction(ModuleAction $action) {
+        $this->actions[] = $action;
+    }
 }
