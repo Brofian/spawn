@@ -1991,12 +1991,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/F-H00/webu-app.git",
-                "reference": "ab45fe96ac25489490a6ecd0521127f66ae37ade"
+                "reference": "c1a4d018722de7e6af40b6e89750935e62bcd953"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-app/zipball/ab45fe96ac25489490a6ecd0521127f66ae37ade",
-                "reference": "ab45fe96ac25489490a6ecd0521127f66ae37ade",
+                "url": "https://api.github.com/repos/F-H00/webu-app/zipball/c1a4d018722de7e6af40b6e89750935e62bcd953",
+                "reference": "c1a4d018722de7e6af40b6e89750935e62bcd953",
                 "shasum": ""
             },
             "type": "library",
@@ -2018,7 +2018,7 @@
                 "source": "https://github.com/F-H00/webu-app/tree/develop",
                 "issues": "https://github.com/F-H00/webu-app/issues"
             },
-            "time": "2021-05-24T19:46:52+00:00"
+            "time": "2021-05-24T21:16:19+00:00"
         }
     ],
     "packages-dev": [],
