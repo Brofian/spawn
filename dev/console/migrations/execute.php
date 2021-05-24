@@ -21,7 +21,11 @@ $migrations = [];
 /** @var Module $module */
 foreach($moduleCollection->getModuleList() as $module) {
 
-    $migrationsFolder = URIHelper::joinMultiplePaths($module->getBasePath(),"src", "Database", "Migrations");
+    $migrationsFolder = "/".URIHelper::joinMultiplePaths($module->getBasePath(),"src", "Database", "Migrations");
+    if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+        $migrationsFolder = "/" . $migrationsFolder;
+    }
+
 
     if(!file_exists($migrationsFolder)) {
         continue;
