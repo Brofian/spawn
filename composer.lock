@@ -235,12 +235,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-homepage-module.git",
-                "reference": "fead48adcfb45ba156e43976d1ab481b2169d3f7"
+                "reference": "5c6ff392ed26b3631cf430fd55e0ca9c75812271"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/fead48adcfb45ba156e43976d1ab481b2169d3f7",
-                "reference": "fead48adcfb45ba156e43976d1ab481b2169d3f7",
+                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/5c6ff392ed26b3631cf430fd55e0ca9c75812271",
+                "reference": "5c6ff392ed26b3631cf430fd55e0ca9c75812271",
                 "shasum": ""
             },
             "require": {
@@ -266,7 +266,7 @@
                 "source": "https://github.com/F-H00/webu-homepage-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-homepage-module/issues"
             },
-            "time": "2021-05-15T19:42:18+00:00"
+            "time": "2021-05-16T22:17:37+00:00"
         },
         {
             "name": "fh00-webu/manual",
@@ -521,16 +521,16 @@
         },
         {
             "name": "scssphp/scssphp",
-            "version": "v1.5.0",
+            "version": "v1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/scssphp/scssphp.git",
-                "reference": "d90ea7c479151f6254a6655446fd3425e59e22e8"
+                "reference": "6fe16f169f55f5e793474fb210aac0a4481619e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/d90ea7c479151f6254a6655446fd3425e59e22e8",
-                "reference": "d90ea7c479151f6254a6655446fd3425e59e22e8",
+                "url": "https://api.github.com/repos/scssphp/scssphp/zipball/6fe16f169f55f5e793474fb210aac0a4481619e5",
+                "reference": "6fe16f169f55f5e793474fb210aac0a4481619e5",
                 "shasum": ""
             },
             "require": {
@@ -544,7 +544,8 @@
                 "sass/sass-spec": "*",
                 "squizlabs/php_codesniffer": "~3.5",
                 "symfony/phpunit-bridge": "^5.1",
-                "twbs/bootstrap": "~4.3",
+                "twbs/bootstrap": "~5.0",
+                "twbs/bootstrap4": "4.6.0",
                 "zurb/foundation": "~6.5"
             },
             "suggest": {
@@ -587,9 +588,9 @@
             ],
             "support": {
                 "issues": "https://github.com/scssphp/scssphp/issues",
-                "source": "https://github.com/scssphp/scssphp/tree/v1.5.0"
+                "source": "https://github.com/scssphp/scssphp/tree/v1.5.2"
             },
-            "time": "2021-05-14T12:18:56+00:00"
+            "time": "2021-05-18T00:05:58+00:00"
         },
         {
             "name": "symfony/debug",
@@ -1191,16 +1192,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v5.2.8",
+            "version": "v5.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "c3cb71ee7e2d3eae5fe1001f81780d6a49b37937"
+                "reference": "eb540ef6870dbf33c92e372cfb869ebf9649e6cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/c3cb71ee7e2d3eae5fe1001f81780d6a49b37937",
-                "reference": "c3cb71ee7e2d3eae5fe1001f81780d6a49b37937",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/eb540ef6870dbf33c92e372cfb869ebf9649e6cb",
+                "reference": "eb540ef6870dbf33c92e372cfb869ebf9649e6cb",
                 "shasum": ""
             },
             "require": {
@@ -1283,7 +1284,7 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-kernel/tree/v5.2.8"
+                "source": "https://github.com/symfony/http-kernel/tree/v5.2.9"
             },
             "funding": [
                 {
@@ -1299,7 +1300,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-12T13:27:53+00:00"
+            "time": "2021-05-19T12:23:45+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -1990,12 +1991,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/F-H00/webu-app.git",
-                "reference": "fa429815356232458c6ec0e328a3ebf22028f56e"
+                "reference": "ab45fe96ac25489490a6ecd0521127f66ae37ade"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-app/zipball/fa429815356232458c6ec0e328a3ebf22028f56e",
-                "reference": "fa429815356232458c6ec0e328a3ebf22028f56e",
+                "url": "https://api.github.com/repos/F-H00/webu-app/zipball/ab45fe96ac25489490a6ecd0521127f66ae37ade",
+                "reference": "ab45fe96ac25489490a6ecd0521127f66ae37ade",
                 "shasum": ""
             },
             "type": "library",
@@ -2017,7 +2018,7 @@
                 "source": "https://github.com/F-H00/webu-app/tree/develop",
                 "issues": "https://github.com/F-H00/webu-app/issues"
             },
-            "time": "2021-05-16T20:41:09+00:00"
+            "time": "2021-05-24T19:46:52+00:00"
         }
     ],
     "packages-dev": [],
