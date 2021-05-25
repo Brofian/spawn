@@ -162,12 +162,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:F-H00/webu-backend-module.git",
-                "reference": "741dbcb4e3d5488079eea0975bcb8fd2f2296bf5"
+                "reference": "22607eb422aefdb4d6b76766a7aa22de5740274b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/741dbcb4e3d5488079eea0975bcb8fd2f2296bf5",
-                "reference": "741dbcb4e3d5488079eea0975bcb8fd2f2296bf5",
+                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/22607eb422aefdb4d6b76766a7aa22de5740274b",
+                "reference": "22607eb422aefdb4d6b76766a7aa22de5740274b",
                 "shasum": ""
             },
             "require": {
@@ -192,7 +192,7 @@
                 "source": "https://github.com/F-H00/webu-backend-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-backend-module/issues"
             },
-            "time": "2021-05-24T20:55:44+00:00"
+            "time": "2021-05-25T16:22:10+00:00"
         },
         {
             "name": "fh00-webu/base",
