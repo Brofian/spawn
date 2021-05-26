@@ -94,6 +94,7 @@ class ModuleLoader {
         }
 
 
+
         //combine the loaded parts
         /** @var ModuleController $controller */
         foreach($moduleControllerArray as $ctrlClass => &$controller) {
@@ -103,14 +104,15 @@ class ModuleLoader {
                 }
             }
         }
+
         /** @var Module $modules */
         foreach($moduleArray as &$module) {
-            foreach($moduleControllerArray as $controller) {
-                if($module->getSlug() == $controller->moduleSlug) {
-                   $module->addModuleController($controller);
+
+            foreach($moduleControllerArray as $controllerFromArray) {
+                if($module->getSlug() == $controllerFromArray->moduleSlug) {
+                   $module->addModuleController($controllerFromArray);
                 }
             }
-
             $this->moduleCollection->addModule($module);
         }
 
