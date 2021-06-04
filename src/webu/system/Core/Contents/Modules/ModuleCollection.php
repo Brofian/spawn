@@ -39,6 +39,7 @@ class ModuleCollection {
 
         /** @var Module $module */
         foreach($this->getModuleList() as $module) {
+
             if(!$module->isActive()) continue;
 
             $namespace = ($module->getResourceNamespace() == "") ? "DEFAULT_NAMESPACE" : $module->getResourceNamespace();

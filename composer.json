@@ -24,6 +24,10 @@
     {
       "type": "vcs",
       "url":  "git@github.com:F-H00/webu-manual-module.git"
+    },
+    {
+      "type": "vcs",
+      "url":  "git@github.com:F-H00/webu_tb.git"
     }
   ],
 
@@ -44,7 +48,8 @@
     "fh00-webu/homepage": "dev-develop as 0.0.1",
     "fh00-webu/backend": "dev-develop as 0.0.1",
     "fh00-webu/manual": "dev-develop as 0.0.1",
-    "fh00-webu/base": "dev-develop as 0.0.1"
+    "fh00-webu/base": "dev-develop as 0.0.1",
+    "fh00/tribal":  "dev-master as 0.0.1"
   }
 
 }

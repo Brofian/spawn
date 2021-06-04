@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f4558e9fea29c786d0475e3c1d8acdb",
+    "content-hash": "52cc9a94e07bf4345422faaba0f90cea",
     "packages": [
         {
             "name": "composer/installers",
@@ -300,6 +300,42 @@
                 "issues": "https://github.com/F-H00/webu-manual-module/issues"
             },
             "time": "2021-03-22T14:00:08+00:00"
+        },
+        {
+            "name": "fh00/tribal",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:F-H00/webu_tb.git",
+                "reference": "0bed831750149038f7ed88dc5cbc78540a016004"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/F-H00/webu_tb/zipball/0bed831750149038f7ed88dc5cbc78540a016004",
+                "reference": "0bed831750149038f7ed88dc5cbc78540a016004",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "webuTribal\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Fabian Holzwarth"
+                }
+            ],
+            "description": "Webu Application Module",
+            "support": {
+                "source": "https://github.com/F-H00/webu_tb/tree/master",
+                "issues": "https://github.com/F-H00/webu_tb/issues"
+            },
+            "time": "2021-05-26T17:44:14+00:00"
         },
         {
             "name": "mouf/nodejs-installer",
@@ -2048,6 +2084,12 @@
             "alias_normalized": "0.0.1.0"
         },
         {
+            "package": "fh00/tribal",
+            "version": "9999999-dev",
+            "alias": "0.0.1",
+            "alias_normalized": "0.0.1.0"
+        },
+        {
             "package": "webu/app",
             "version": "dev-develop",
             "alias": "0.0.1",
@@ -2060,7 +2102,8 @@
         "fh00-webu/homepage": 20,
         "fh00-webu/backend": 20,
         "fh00-webu/manual": 20,
-        "fh00-webu/base": 20
+        "fh00-webu/base": 20,
+        "fh00/tribal": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
