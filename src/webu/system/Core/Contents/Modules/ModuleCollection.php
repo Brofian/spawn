@@ -25,7 +25,7 @@ class ModuleCollection {
 
 
     /**
-     * @return array
+     * @return Module[]
      */
     public function getModuleList() {
         return $this->modules;

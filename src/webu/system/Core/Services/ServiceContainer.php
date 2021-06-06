@@ -7,6 +7,8 @@ class ServiceContainer {
 
     /** @var Service[]  */
     protected array $services = array();
+    /** @var String[]  */
+    protected array $decorations = array();
 
     public function addService(Service $service) : self{
         $this->services[$service->getId()] = $service;
@@ -14,6 +16,12 @@ class ServiceContainer {
     }
 
     public function getService(string $key) : ?Service{
+        //check if this key is decorated -> query and return the decorating service
+        if(isset($this->decorations[$key])) {
+            return $this->getService($this->decorations[$key]);
+        }
+
+        //check if this service is registered
         if(isset($this->services[$key])) {
             return $this->services[$key];
         }
@@ -24,6 +32,11 @@ class ServiceContainer {
 
     public function getServiceInstance(string $key) {
         if(isset($this->services[$key])) {
+
+            if($this->services[$key]->isAbstract()) {
+                return null;
+            }
+
             return $this->services[$key]->getInstance();
         }
         else {
@@ -46,6 +59,23 @@ class ServiceContainer {
 
     public function getServices() : ?array {
         return $this->services;
+    }
+
+
+    public function updateDecorations() {
+        $this->decorations = [];
+
+        foreach($this->services as $service) {
+            $decoratedServiceId = $service->getDecorates();
+
+            if($decoratedServiceId) {
+                $decoratedService = $this->getService($decoratedServiceId);
+
+                if($decoratedService) {
+                    $this->decorations[$decoratedService->getId()] = $service->getId();
+                }
+            }
+        }
     }
 
 }

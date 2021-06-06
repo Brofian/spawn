@@ -17,6 +17,13 @@ class SessionHelper
         $this->session = $_SESSION;
     }
 
+    public function __destruct()
+    {
+        if($this->isSessionActive()) {
+            session_write_close();
+        }
+    }
+
 
     /**
      * @param string $key

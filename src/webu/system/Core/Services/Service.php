@@ -6,12 +6,19 @@ use webu\system\Core\Custom\Mutable;
 
 class Service extends Mutable {
 
+    //the unique key, that identifies a service (is substituted by class, if not set)
     protected ?string $id;
+    //the class, that corresponds to this service (is substituted by id, if not set)
     protected ?string $class;
+    //abstract services can not be called as an instance and therefor dont need a class
     protected ?bool $abstract;
+    //this service can decorate another. When the other service is called, it will be replaced by this automatically
     protected ?string $decorates;
+    //if set, this service uses the arguments of its parent instead of its own
     protected ?string $parent;
+    //free string, that is used to separate services by their functionality
     protected ?string $tag;
+    //the arguments, that are given when the class of this service is instanciated. Can either be a fixed value or another service
     /** @var string[]  */
     protected array $arguments;
 
@@ -46,7 +53,7 @@ class Service extends Mutable {
 
         if($this->getParent() === null) {
             foreach($this->arguments as $argument) {
-                $arguments[] = $this->serviceContainer->getServiceInstance($argument);
+                $arguments[] = $this->getValueFromArgument($argument);
             }
         }
         else {
@@ -56,6 +63,20 @@ class Service extends Mutable {
         return $arguments;
     }
 
+
+    protected function getValueFromArgument(array $argument) {
+        $argType = $argument['type'];
+        $argValue = $argument['value'];
+
+        switch($argType) {
+            case "service":
+                return $this->serviceContainer->getServiceInstance($argValue);
+            case "value":
+                return $argValue;
+            default:
+                return $argValue;
+        }
+    }
 
 
     public function getId(): ?string
@@ -169,7 +190,7 @@ class Service extends Mutable {
                 $serviceString .= ',';
             }
 
-            $serviceString .= "\"$argument\"";
+            $serviceString .= "[\"type\"=>\"".$argument['type']."\",\"value\"=>\"".$argument['value']."\"]";
         }
 
         $serviceString .= ']]';

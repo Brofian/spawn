@@ -21,6 +21,7 @@ use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Helper\SessionHelper;
 use webu\system\Core\Helper\URIHelper;
+use webu\system\Core\Services\ServiceLoader;
 use webu\system\Environment;
 use webu\system\Throwables\ModulesNotLoadedException;
 use webu\system\Throwables\NoModuleFoundException;
@@ -154,8 +155,14 @@ class Request
 
     public function loadController()
     {
+
         $moduleLoader = new ModuleLoader();
         $this->moduleCollection = $moduleLoader->loadModules($this->getDatabaseHelper()->getConnection());
+
+        /*
+        $serviceLoader = new ServiceLoader();
+        $serviceLoader->loadServices($this->moduleCollection);
+        */
 
         //sort modules by resource Weight
         $moduleList = $this->moduleCollection->getModuleList();

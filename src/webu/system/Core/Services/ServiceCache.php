@@ -35,7 +35,7 @@ class ServiceCache {
     public static function readServiceCache() : ServiceContainer {
         $serviceContainer = new ServiceContainer();
 
-        if(file_exists(self::CACHE_FILE_PATH)) {
+        if(self::doesServiceCacheExist()) {
 
             $serviceArrays = include(self::CACHE_FILE_PATH);
 
@@ -48,5 +48,9 @@ class ServiceCache {
         return $serviceContainer;
     }
 
+
+    public static function doesServiceCacheExist() : bool {
+        return file_exists(self::CACHE_FILE_PATH);
+    }
 
 }
