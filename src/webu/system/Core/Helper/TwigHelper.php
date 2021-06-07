@@ -7,6 +7,7 @@ namespace webu\system\Core\Helper;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Extensions\ExtensionLoader;
 
@@ -133,4 +134,13 @@ class TwigHelper
         }
     }
 
+
+    public function loadTemplateDirFromModuleCollection(ModuleCollection $moduleCollection) {
+        $moduleList = $moduleCollection->getModuleList();
+        ModuleCollection::sortModulesByWeight($moduleList);
+
+        foreach($moduleList as $module) {
+            $this->addTemplateDir(ROOT . $module->getResourcePath() . "/template");
+        }
+    }
 }

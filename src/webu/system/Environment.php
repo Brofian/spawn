@@ -45,6 +45,8 @@ class Environment
 
         $this->request->addToAccessLog();
 
+        $this->request->addCoreServices();
+
         $this->request->loadController();
 
         $this->response->prepare();

@@ -2,39 +2,33 @@
 
 namespace webu\system\Core\Services;
 
+use ReflectionClass;
 use webu\system\Core\Custom\Mutable;
 
 class Service extends Mutable {
 
     //the unique key, that identifies a service (is substituted by class, if not set)
-    protected ?string $id;
+    protected ?string $id = null;
     //the class, that corresponds to this service (is substituted by id, if not set)
-    protected ?string $class;
+    protected ?string $class = null;
     //abstract services can not be called as an instance and therefor dont need a class
-    protected ?bool $abstract;
+    protected ?bool $abstract = null;
+    //static services generate only one instance. This same instance is then shared whenever it is called
+    protected ?bool $static = null;
+    protected $instance = null;
     //this service can decorate another. When the other service is called, it will be replaced by this automatically
-    protected ?string $decorates;
+    protected ?string $decorates = null;
     //if set, this service uses the arguments of its parent instead of its own
-    protected ?string $parent;
+    protected ?string $parent = null;
     //free string, that is used to separate services by their functionality
-    protected ?string $tag;
+    protected ?string $tag = ServiceTags::BASE_SERVICE;
+    //the id of the module, this service belongs to
+    protected ?int $moduleId = null;
     //the arguments, that are given when the class of this service is instanciated. Can either be a fixed value or another service
     /** @var string[]  */
-    protected array $arguments;
+    protected array $arguments = array();
 
-    protected ServiceContainer $serviceContainer;
-
-    public function __construct(ServiceContainer $serviceContainer)
-    {
-        $this->serviceContainer = $serviceContainer;
-        $this->id = null;
-        $this->class = null;
-        $this->abstract = null;
-        $this->decorates = null;
-        $this->parent = null;
-        $this->tag = null;
-        $this->arguments = array();
-    }
+    protected ?ServiceContainer $serviceContainer;
 
 
     public function getInstance() {
@@ -42,9 +36,26 @@ class Service extends Mutable {
             return null;
         }
 
-        $arguments = $this->getCallArguments();
+        //if this is a static service, that was called before, just return the existing instance
+        if($this->isStatic() && $this->instance) {
+            return $this->instance;
+        }
 
-        return call_user_func_array(new $this->class, $arguments);
+        //generate a new instance with the respective arguments
+        try {
+            $arguments = $this->getCallArguments();
+            $reflection = new ReflectionClass($this->class);
+            $myClassInstance = $reflection->newInstanceArgs($arguments);
+        } catch (\ReflectionException $e) {
+            return null;
+        }
+
+        //save the generated instance for the next use, if the service is static
+        if($this->isStatic()) {
+            $this->instance = $myClassInstance;
+        }
+
+        return $myClassInstance;
     }
 
 
@@ -104,9 +115,10 @@ class Service extends Mutable {
         return $this->tag;
     }
 
-    public function setTag(?string $tag): void
+    public function setTag(?string $tag): self
     {
         $this->tag = $tag;
+        return $this;
     }
 
     public function getArguments(): ?array
@@ -114,9 +126,17 @@ class Service extends Mutable {
         return $this->arguments;
     }
 
-    public function setArguments(?array $arguments): void
+    public function setArguments(?array $arguments): self
     {
         $this->arguments = $arguments;
+        return $this;
+    }
+
+    public function addArgument(string $type, string $value) {
+        $this->arguments[] = [
+            'type' => $type,
+            'value' => $value
+        ];
     }
 
     public function getClass(): ?string
@@ -149,6 +169,22 @@ class Service extends Mutable {
         return $this;
     }
 
+    public function isStatic(): ?bool
+    {
+        return $this->static;
+    }
+
+    public function setStatic(bool $static): self
+    {
+        $this->abstract = $static;
+        return $this;
+    }
+
+    public function setInstance($instance): self {
+        $this->instance = $instance;
+        return $this;
+    }
+
     public function getDecorates(): ?string
     {
         return $this->decorates;
@@ -170,6 +206,27 @@ class Service extends Mutable {
         $this->parent = $parent;
         return $this;
     }
+
+    public function getServiceContainer() : ?ServiceContainer {
+        return $this->serviceContainer;
+    }
+
+    public function setServiceContainer(ServiceContainer $serviceContainer) : self {
+        $this->serviceContainer = $serviceContainer;
+        return $this;
+    }
+
+    public function getModuleId() : ?int {
+        return $this->moduleId;
+    }
+
+    public function setModuleId(int $moduleId) : self {
+        $this->moduleId = $moduleId;
+        return $this;
+    }
+
+
+
 
     public function __toString()
     {

@@ -39,6 +39,26 @@ class AssociativeCollection extends AbstractCollectionBase {
         return null;
     }
 
+    public function first() {
+        if($this->count() == 0) {
+            return null;
+        }
+        else {
+            return $this->get(0);
+        }
+    }
+
+    public function last() {
+        $count = $this->count();
+
+        if($count == 0) {
+            return null;
+        }
+        else {
+            return $this->get($count-1);
+        }
+    }
+
 
     public function sort(callable $sortingMethod) {
         uasort($this->collection, $sortingMethod);

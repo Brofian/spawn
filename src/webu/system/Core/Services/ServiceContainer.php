@@ -11,7 +11,7 @@ class ServiceContainer {
     protected array $decorations = array();
 
     public function addService(Service $service) : self{
-        $this->services[$service->getId()] = $service;
+        $this->services[$service->getId()] = $service->setServiceContainer($this);
         return $this;
     }
 
@@ -31,20 +31,21 @@ class ServiceContainer {
     }
 
     public function getServiceInstance(string $key) {
-        if(isset($this->services[$key])) {
 
-            if($this->services[$key]->isAbstract()) {
-                return null;
-            }
+        $service = $this->getService($key);
 
+        if($service) {
             return $this->services[$key]->getInstance();
         }
-        else {
-            return null;
-        }
+
+        return null;
     }
 
-    public function getServicesByTag(string $tag) : ?array {
+    /**
+     * @param string $tag
+     * @return Service[]
+     */
+    public function getServicesByTag(string $tag) : array {
         $services = [];
 
         foreach($this->services as $service) {

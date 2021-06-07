@@ -6,9 +6,12 @@ use SimpleXMLElement;
 use webu\Database\StructureTables\WebuModuleActions;
 use webu\Database\StructureTables\WebuModules;
 use webu\system\Core\Base\Database\DatabaseConnection;
+use webu\system\Core\Contents\XMLContentModel;
 use webu\system\Core\Custom\StringConverter;
 use webu\system\Core\Helper\URIHelper;
 use webu\system\Core\Helper\XMLHelper;
+use webu\system\Core\Helper\XMLReader;
+use webuApp\Database\ModuleTable;
 use webuApp\Models\ModuleActionStorage;
 use webuApp\Models\ModuleStorage;
 
@@ -16,23 +19,19 @@ class ModuleLoader {
 
     const REL_XML_PATH = "/plugin.xml";
 
-    protected $moduleRootPaths = [
+    protected array $moduleRootPaths = [
         "/custom",
         "/vendor"
     ];
 
-    protected $ignoredDirs = [
+    protected array $ignoredDirs = [
         ".",
         ".."
     ];
 
+    private ?ModuleCollection $moduleCollection = null;
 
-    /** @var ModuleCollection */
-    private $moduleCollection = null;
 
-    /**
-     * ModuleLoader constructor.
-     */
     public function __construct()
     {
         $this->moduleCollection = new ModuleCollection();
@@ -40,79 +39,40 @@ class ModuleLoader {
 
 
     public function loadModules(DatabaseConnection $connection) : ModuleCollection {
-        /** @var \PDOStatement $unfetchedActions */
-        $unfetchedActions = ModuleStorage::loadAllWithReferences($connection);
 
+        $moduleEntries = ModuleStorage::findAll($connection);
 
-        $moduleArray = array();
-        $moduleControllerArray = array();
-        $moduleActionArray = array();
-        while($action = $unfetchedActions->fetch()) {
-            $moduleSlug = $action[WebuModules::RAW_COL_SLUG];
-
-            if(!isset($moduleArray[$moduleSlug])) {
-                $module = new Module(basename($action[WebuModules::RAW_COL_PATH]));
-                $module->setActive($action[WebuModules::RAW_COL_ACTIVE]);
-                $module->setId($action[WebuModules::RAW_COL_ACTIVE]);
-                $module->setBasePath($action[WebuModules::RAW_COL_PATH]);
-                $module->setSlug($moduleSlug);
-
-                $moduleResourceConfig = json_decode($action[WebuModules::RAW_COL_RESSOURCE_CONFIG], true);
-                $module->setUsingNamespaces($moduleResourceConfig["using"]);
-                $module->setResourceNamespaceRaw($moduleResourceConfig["namespace_raw"]);
-                $module->setResourceNamespace($moduleResourceConfig["namespace"]);
-                $module->setResourcePath($moduleResourceConfig["path"]);
-                $module->setResourceWeight($moduleResourceConfig["weight"]);
-
-                $moduleInformations = json_decode($action[WebuModules::RAW_COL_INFORMATIONS], true);
-                foreach($moduleInformations as $key => $information) {
-                    $module->setInformation($key, $information);
-                }
-
-                $moduleArray[$moduleSlug] = $module;
-            }
-
-
-            $controllerClass = $action[WebuModuleActions::RAW_COL_CLASS];
-            if($controllerClass && !isset($moduleControllerArray[$controllerClass])) {
-                $controller = new ModuleController($controllerClass, basename($controllerClass), []);
-                $controller->moduleSlug = $action[WebuModules::RAW_COL_SLUG];
-                $moduleControllerArray[$controllerClass] = $controller;
-            }
-
-
-            if($action[WebuModuleActions::RAW_COL_IDENTIFIER]) {
-                $modAction = new ModuleAction(
-                    $action[WebuModuleActions::RAW_COL_IDENTIFIER],
-                    $action[WebuModuleActions::RAW_COL_CUSTOM_URL],
-                    $action[WebuModuleActions::RAW_COL_ACTION]
-                );
-                $modAction->controllerCls = $action[WebuModuleActions::RAW_COL_CLASS];
-                $moduleActionArray[] = $modAction;
-            }
-
+        if(count($moduleEntries) < 1) {
+            return $this->readModules($connection);
         }
 
+        $this->moduleCollection = new ModuleCollection();
+
+        foreach($moduleEntries as $moduleEntry) {
+
+            $module = new Module($moduleEntry->getSlug());
+
+            $module
+                ->setId($moduleEntry->getId())
+                ->setActive($moduleEntry->isActive())
+                ->setSlug($moduleEntry->getSlug())
+                ->setBasePath($moduleEntry->getPath());
+
+            $resourceConfig = json_decode($moduleEntry->getResourceConfig());
+            $module
+                ->setUsingNamespaces($resourceConfig->using??[])
+                ->setResourceWeight($resourceConfig->weight??1)
+                ->setResourceNamespace($resourceConfig->namespace??ModuleNamespacer::getGlobalNamespace())
+                ->setResourceNamespaceRaw($resourceConfig->namespace_raw??ModuleNamespacer::getGlobalNamespaceRaw())
+                ->setResourcePath($resourceConfig->path??"");
 
 
-        //combine the loaded parts
-        /** @var ModuleController $controller */
-        foreach($moduleControllerArray as $ctrlClass => &$controller) {
-            foreach($moduleActionArray as $action) {
-                if($action->controllerCls == $ctrlClass) {
-                    $controller->addAction($action);
-                }
+            $informations = json_decode($moduleEntry->getInformations());
+
+            foreach($informations as $key => $value) {
+                $module->setInformation($key, $value);
             }
-        }
 
-        /** @var Module $modules */
-        foreach($moduleArray as &$module) {
-
-            foreach($moduleControllerArray as $controllerFromArray) {
-                if($module->getSlug() == $controllerFromArray->moduleSlug) {
-                   $module->addModuleController($controllerFromArray);
-                }
-            }
             $this->moduleCollection->addModule($module);
         }
 
@@ -121,11 +81,8 @@ class ModuleLoader {
 
     /**
      * This functions reads the modules live from the existing files
-     *
-     * @param string $rootPath
-     * @return ModuleCollection
      */
-    public function readModules() : ModuleCollection {
+    public function readModules(DatabaseConnection $connection) : ModuleCollection {
 
         /*
          * Stucture:
@@ -134,7 +91,7 @@ class ModuleLoader {
          * --- modulePath (snake-case)
          */
 
-        $moduleFolders = [];
+
         $moduleCount = 0;
         foreach($this->moduleRootPaths as $rootPath) {
             $currentPath = URIHelper::joinPaths(ROOT, $rootPath);
@@ -155,7 +112,7 @@ class ModuleLoader {
 
                         $slug = $this->moduleLocationToSlug($namespace, $moduleElement);
 
-                        $this->loadModule(basename($currentModulePath), $currentModulePath, $moduleCount, $slug);
+                        $this->loadModule($currentModulePath, $slug, $connection);
                         $moduleCount++;
                     }
                 }
@@ -181,81 +138,50 @@ class ModuleLoader {
     }
 
 
-    /**
-     * @param $moduleName
-     * @param $basePath
-     * @param $moduleId
-     */
-    private function loadModule($moduleName, $basePath, $moduleId, $slug) {
+    private function loadModule(string $basePath, string $slug, DatabaseConnection $connection) {
 
-        $module = new Module($moduleName);
+        $module = new Module($slug);
+        $module->setActive(false);
         $module->setBasePath(str_replace(ROOT, "", $basePath));
         $module->setSlug($slug);
 
-        /** @var $pluginXML SimpleXMLElement */
-        $pluginXML = (new XMLHelper())->readFile($basePath . self::REL_XML_PATH);
+        $moduleXML = (new XMLReader())->readFile($basePath . self::REL_XML_PATH);
+
+
 
 
         /*
-         * Set Module active
+         * Set Module Informations
          */
-        $module->setActive(((string)$pluginXML->attributes()->active == "true"));
-
-
-        /*
-         * Set Modle Informations
-         */
-        if(isset($pluginXML->info)) {
-            foreach($pluginXML->info->children() as $key => $info) {
-                $module->setInformation($key, trim($info));
+        /** @var XMLContentModel $moduleInfo */
+        $moduleInfo = $moduleXML->getChildrenByType("info")->first();
+        if($moduleInfo) {
+            foreach($moduleInfo->getChildren() as $childInfo) {
+                $module->setInformation($childInfo->getType(), trim($childInfo->getValue()));
             }
         }
 
-
-        /*
-         * Load Controllers
-         */
-        if(isset($pluginXML->controllerlist) && $module->isActive()) {
-            foreach($pluginXML->controllerlist->children() as $controller) {
-
-                $controllerActions = array();
-                foreach($controller->actions->action as $action) {
-                    $controllerActions[] = new ModuleAction(
-                        (string)$action->attributes()->id,
-                        (string)$action->url,
-                        (string)$action->method
-                    );
-
-                }
-
-
-                $moduleController = new ModuleController(
-                    (string)$controller["class"],
-                    (string)$controller["name"],
-                    $controllerActions
-                );
-                $module->addModuleController($moduleController);
-            }
-        }
 
 
         /*
          * Load Resources
          */
-        if(isset($pluginXML->resources)) {
-            $module->setResourceWeight((string)$pluginXML->resources->attributes()->weight);
+        /** @var XMLContentModel $moduleResources */
+        $moduleResources = $moduleXML->getChildrenByType("resources")->first();
+        if($moduleResources) {
 
-            $module->setResourcePath((string)$pluginXML->resources);
+            $module->setResourceWeight($moduleResources->getAttribute("weight"));
+            $module->setResourcePath($moduleResources->getValue());
+            $namespace = $moduleResources->getAttribute("namespace");
 
-            $namespace = (string)$pluginXML->resources->attributes()->namespace;
-
-            if($namespace == "") {
+            if(!$namespace) {
                 $namespace = ModuleNamespacer::getGlobalNamespaceRaw();
                 $namespaceHash = ModuleNamespacer::getGlobalNamespace();
             }
             else {
                 $namespaceHash = ModuleNamespacer::hashRawNamespace($namespace);
             }
+
             $module->setResourceNamespace($namespaceHash);
             $module->setResourceNamespaceRaw($namespace);
         }
@@ -264,24 +190,29 @@ class ModuleLoader {
         /*
          * Load "using"
          */
-        if(isset($pluginXML->using)) {
-            $using = (array)$pluginXML->using;
+        /** @var XMLContentModel $moduleUsing */
+        $moduleUsing = $moduleXML->getChildrenByType("using")->first();
+        if($moduleUsing) {
 
-            $module->setUsingNamespaces((array)$using["namespace"]);
-        }
-
-
-        /*
-         * Database tables
-         */
-        if(isset($pluginXML->tablelist)) {
-            foreach($pluginXML->tablelist->children() as $child) {
-                $module->addDatabaseTableClass((string)$child->attributes()->class);
+            $usingNamespaces = [];
+            foreach($moduleUsing->getChildrenByType("namespace") as $namespace) {
+                $usingNamespaces[] = $namespace->getValue();
             }
+
+            $module->setUsingNamespaces($usingNamespaces);
         }
 
 
-        $module->setId("$moduleId");
+        $moduleStorage = new ModuleStorage(
+            $module->getSlug(),
+            $module->getBasePath(),
+            $module->isActive(),
+            $module->getInformationsAsJson(),
+            $module->getResourceConfigJson()
+        );
+        $moduleStorage->save($connection);
+
+
         $this->moduleCollection->addModule($module);
     }
 

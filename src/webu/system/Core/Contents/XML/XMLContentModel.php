@@ -2,6 +2,8 @@
 
 namespace webu\system\Core\Contents;
 
+use webu\system\Core\Base\Custom\FileEditor;
+use webu\system\Core\Contents\Collection\Collection;
 use webu\system\Core\Helper\URIHelper;
 use webu\system\Core\Helper\XMLReader;
 
@@ -43,17 +45,24 @@ class XMLContentModel {
         return $this->type;
     }
 
-
+    /**
+     * @return XMLContentModel[]
+     */
     public function getChildren(): array
     {
         return $this->children;
     }
 
-    public function getChildrenByTag(string $key): array
+    public function getChildrenByType(string $key): Collection
     {
         $childrenWithTag = new Collection();
+        foreach($this->getChildren() as $child) {
+            if($child->type == $key) {
+                $childrenWithTag->add($child);
+            }
+        }
 
-        return $this->children;
+        return $childrenWithTag;
     }
 
     public function addChild(XMLContentModel $child): self
@@ -90,6 +99,7 @@ class XMLContentModel {
                 $relPath = $child->attributes()["file"];
 
                 $combinedPath = URIHelper::joinPaths(dirname($filePath), $relPath);
+
                 $childXML = XMLReader::readFile($combinedPath);
 
                 foreach($childXML->getChildren() as $cKey => $cChild) {

@@ -21,7 +21,11 @@ use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Helper\SessionHelper;
 use webu\system\Core\Helper\URIHelper;
+use webu\system\Core\Helper\XMLReader;
+use webu\system\Core\Services\Service;
+use webu\system\Core\Services\ServiceContainer;
 use webu\system\Core\Services\ServiceLoader;
+use webu\system\Core\Services\ServiceTags;
 use webu\system\Environment;
 use webu\system\Throwables\ModulesNotLoadedException;
 use webu\system\Throwables\NoModuleFoundException;
@@ -29,39 +33,24 @@ use webu\system\Throwables\NoModuleFoundException;
 class Request
 {
 
-    /** @var Environment */
-    private $environment = null;
-    /** @var array */
-    private $get = array();
-    /** @var array */
-    private $post = array();
-    /** @var CookieHelper */
-    private $cookies = null;
-    /** @var SessionHelper */
-    private $session = null;
-    /** @var DatabaseHelper */
-    private $database = null;
-    /** @var RoutingHelper  */
-    private $routingHelper = null;
-    /** @var string */
-    private $baseURI = '';
-    /** @var string */
-    private $requestURI = '';
-    /** @var array */
-    private $requestURIParams = array();
-    /** @var string */
-    private $requestController = 'index';
-    /** @var string */
-    private $requestActionPath = 'index';
-    /** @var Context */
-    private $context = null;
-    /** @var ModuleCollection  */
-    private $moduleCollection = null;
+    private ?Environment $environment = null;
+    private array $get = array();
+    private array $post = array();
+    private ?CookieHelper $cookies = null;
+    private ?SessionHelper $session = null;
+    private ?DatabaseHelper $database = null;
+    private ?RoutingHelper $routingHelper = null;
+    private string $baseURI = '';
+    private string $requestURI = '';
+    private array $requestURIParams = array();
+    private string $requestController = 'index';
+    private string $requestActionPath = 'index';
+    private ?Context $context = null;
+    private ?ModuleCollection $moduleCollection = null;
+    private ?ServiceContainer $serviceContainer = null;
 
-    /**
-     * Request constructor.
-     * @param Environment $environment
-     */
+
+
     public function __construct(Environment $environment)
     {
         $this->environment = $environment;
@@ -149,8 +138,124 @@ class Request
         $this->cookies = new CookieHelper();
         $this->session = new SessionHelper();
         $this->database = new DatabaseHelper();
-
         $this->context = new Context();
+
+        $moduleLoader = new ModuleLoader();
+        $moduleLoader->readModules();
+
+        $this->moduleCollection = $moduleLoader->loadModules($this->getDatabaseHelper()->getConnection());
+
+        dd($this->moduleCollection);
+
+        $serviceLoader = new ServiceLoader();
+        $this->serviceContainer = $serviceLoader->loadServices($this->moduleCollection);
+
+
+        $this->routingHelper = new RoutingHelper($this->moduleCollection);
+    }
+
+    public function addCoreServices() {
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.cookie.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\CookieHelper')
+                ->setInstance($this->getCookieHelper())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.session.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\SessionHelper')
+                ->setInstance($this->getSessionHelper())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.database.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\DatabaseHelper')
+                ->setInstance($this->getDatabaseHelper())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.database.connection')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Base\Database\DatabaseConnection')
+                ->setInstance($this->getDatabaseHelper()->getConnection())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.routing.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\RoutingHelper')
+                ->setInstance($this->getRoutingHelper())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.twig.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\TwigHelper')
+                ->setInstance($this->environment->response->getTwigHelper())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.scss.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\ScssHelper')
+                ->setInstance($this->environment->response->getScssHelper())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.xml.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\XMLReader')
+                ->setInstance(new XMLReader())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.curi.converter.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Helper\FrameworkHelper\CUriConverter')
+                ->setInstance(new CUriConverter())
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.file.editor.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Base\Custom\FileEditor')
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.logger.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Base\Custom\Logger')
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.string.converter.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Base\Custom\StringConverter')
+        );
+
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.query.builder.helper')
+                ->setStatic(true)
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Base\Database\Query\QueryBuilder')
+        );
+
 
     }
 
@@ -158,111 +263,40 @@ class Request
     public function loadController()
     {
 
-        $moduleLoader = new ModuleLoader();
-        $this->moduleCollection = $moduleLoader->loadModules($this->getDatabaseHelper()->getConnection());
+        $controller = $this->get["controller"] ?? "";
+        $action = $this->get["action"] ?? "";
 
-        /*
-        $serviceLoader = new ServiceLoader();
-        $serviceLoader->loadServices($this->moduleCollection);
-        */
-
-        //sort modules by resource Weight
-        $moduleList = $this->moduleCollection->getModuleList();
-        if(count($moduleList) < 1) {
-            throw new ModulesNotLoadedException();
+        //find service
+        $controllerService = $this->serviceContainer->getService($controller);
+        if(!$controllerService) {
+            //controller does not exist
+            $controllerService = $this->serviceContainer->getService('system.fallback.404');
+            $action = 'error404';
         }
-        ModuleCollection::sortModulesByWeight($moduleList);
 
-        $twigHelper = $this->environment->response->getTwigHelper();
-        /** @var Module $module */
-        foreach($moduleList as $module) {
-            $twigHelper->addTemplateDir(ROOT . $module->getResourcePath() . "/template");
+        $actionMethod =  $action."Action";
+        if(!method_exists($controllerService->getClass(), $actionMethod)) {
+            //action does not exist
+            $controllerService = $this->serviceContainer->getService('system.fallback.404');
+            $actionMethod = 'error404Action';
         }
 
 
-        $this->routingHelper = new RoutingHelper($this->moduleCollection);
-        $routingResult = $this->routingHelper->route($this->requestURI);
+        //$uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $routingResult["uri"]);
 
-        if($routingResult === false) {
-            $routingResult = $this->routingHelper->route("404");
-        }
-
-        if($routingResult === false) {
-            throw new NoModuleFoundException();
-        }
+        $controllerInstance = $controllerService->getInstance();
+        $controllerInstance->$actionMethod(); //pass uri parameters
 
 
-        $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $routingResult["uri"]);
-
-
-        /** @var Module $module */
-        $module = $routingResult["module"];
-        /** @var ModuleController $controller */
-        $controller = $routingResult["controller"];
-        /** @var string $method */
-        $method = $routingResult["method"];
-        /** @var string $actionId */
-        $actionId = $routingResult["id"];
 
         $this->environment->response->getTwigHelper()->assign("namespace", $module->getResourceNamespace());
         $this->environment->response->getTwigHelper()->assign("environment", MODE);
         $this->environment->response->getScssHelper()->setBaseVariable("assetsPath", URIHelper::createPath([
-            MAIN_ADDRESS_FULL,
-            CACHE_DIR,
-            "public",
-            $module->getResourceNamespace(),
-            "assets"
-        ], "/"));
-        $this->environment->response->getScssHelper()->setBaseVariable("defaultAssetsPath", URIHelper::createPath([
-            MAIN_ADDRESS_FULL,
-            CACHE_DIR,
-            "public",
-            ModuleNamespacer::getGlobalNamespace(),
-            "assets"
+            MAIN_ADDRESS_FULL,CACHE_DIR,"public",$module->getResourceNamespace(),"assets"
         ], "/"));
 
 
-        //prepare the params for the method
-        $params = [
-            $this,
-            $this->environment->response
-        ];
-        $params = array_merge($params, $uriParameters);
 
-
-        /* Insert gathered Information to Context */
-        $this->fillContext();
-        $this->getContext()->set("ModuleCollection", $this->moduleCollection);
-        $this->getContext()->set("Module", $module->getName());
-        $this->getContext()->set("ControllerClass", $controller->getClass());
-        $this->getContext()->set("Controller", $controller->getName());
-        $this->getContext()->set("Action", $method);
-        $this->getContext()->set("ActionId", $actionId);
-
-
-
-        $cls = $controller->getClass();
-        /** @var BaseController $ctrl */
-        $ctrl = new $cls();
-        $ctrl->init($this, $this->environment->response);
-
-        //stop execution immediately when stopped
-        if($ctrl->isExecutionStopped()) {
-            return;
-        }
-
-        //call the controller method
-        call_user_func_array(
-            [$ctrl,$method],
-            $params
-        );
-
-        //stop execution immediately when stopped
-        if($ctrl->isExecutionStopped()) {
-            return;
-        }
-
-        $ctrl->end($this, $this->environment->response);
     }
 
 
@@ -290,19 +324,19 @@ class Request
     }
 
     /** @return CookieHelper */
-    public function getCookieHelper(): CookieHelper
+    public function getCookieHelper(): ?CookieHelper
     {
         return $this->cookies;
     }
 
     /** @return SessionHelper */
-    public function getSessionHelper(): SessionHelper
+    public function getSessionHelper(): ?SessionHelper
     {
         return $this->session;
     }
 
     /** @return DatabaseHelper */
-    public function getDatabaseHelper() : DatabaseHelper
+    public function getDatabaseHelper() : ?DatabaseHelper
     {
         return $this->database;
     }
@@ -310,7 +344,7 @@ class Request
     /**
      * @return RoutingHelper
      */
-    public function getRoutingHelper() : RoutingHelper
+    public function getRoutingHelper() : ?RoutingHelper
     {
         return $this->routingHelper;
     }
@@ -354,10 +388,8 @@ class Request
         return $this->context;
     }
 
-    /**
-     * @return ModuleCollection
-     */
-    public function getModuleCollection() {
+
+    public function getModuleCollection() : ?ModuleCollection {
         return $this->moduleCollection;
     }
 
