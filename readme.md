@@ -16,4 +16,6 @@ Die Inhalte und Funktionen werden über sogenannte Module bereit gestellt. Diese
 1) Die neueste Version von https://github.com/F-H00/webuCreator in das gewünschte Web-Root Verzeichnis klonen
 2) Im Projekt-Root die composer Dependencies mit `composer install` installieren
 3) Auf Basis der .sample Dateien die `config.php` im Projekt-Root anlegen
-4) Im Projekt-Root den Cache erstmals mit `bin/console webu:build` aufbauen
+4) Im Projekt-Root über die CLI mit dem Befehl `bin/console migrations:execute` die Datenbank erstellen
+5) Im Projekt-Root über die CLI mit dem Befehl `bin/console modules:refresh` die Module erstmals laden
+6) Optional: Im Projekt-Root den Cache erstmals mit `bin/console webu:build` aufbauen

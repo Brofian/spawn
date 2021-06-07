@@ -149,7 +149,9 @@ class Request
         $this->cookies = new CookieHelper();
         $this->session = new SessionHelper();
         $this->database = new DatabaseHelper();
+
         $this->context = new Context();
+
     }
 
 
@@ -174,7 +176,7 @@ class Request
         $twigHelper = $this->environment->response->getTwigHelper();
         /** @var Module $module */
         foreach($moduleList as $module) {
-            $twigHelper->addTemplateDir($module->getResourcePath() . "/template");
+            $twigHelper->addTemplateDir(ROOT . $module->getResourcePath() . "/template");
         }
 
 

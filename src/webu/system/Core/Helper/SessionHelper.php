@@ -69,8 +69,11 @@ class SessionHelper
     private function startSession()
     {
         if ($this->isSessionActive() == false) {
-            session_start();
-            return true;
+            //$sessionStarted = session_start(['read_and_close'  => true]);
+            $_SESSION = [];
+
+            $sessionStarted = true;
+            return $sessionStarted;
         }
         return false;
     }

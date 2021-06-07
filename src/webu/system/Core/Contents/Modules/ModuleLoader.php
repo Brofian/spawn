@@ -177,17 +177,7 @@ class ModuleLoader {
 
     protected function isModuleDirectory($directory) : bool {
         $xmlFilePath = URIHelper::joinPaths($directory, "plugin.xml");
-        if(!file_exists($xmlFilePath) || !is_file($xmlFilePath)) {
-            return false;
-        }
-
-        $directoryName = StringConverter::snakeToPascalCase(basename($directory));
-        $moduleClassPath = URIHelper::joinPaths($directory, $directoryName.".php");
-        if(!file_exists($moduleClassPath) || !is_file($moduleClassPath)) {
-            return false;
-        }
-
-        return true;
+        return (file_exists($xmlFilePath) && is_file($xmlFilePath));
     }
 
 
@@ -199,7 +189,7 @@ class ModuleLoader {
     private function loadModule($moduleName, $basePath, $moduleId, $slug) {
 
         $module = new Module($moduleName);
-        $module->setBasePath($basePath);
+        $module->setBasePath(str_replace(ROOT, "", $basePath));
         $module->setSlug($slug);
 
         /** @var $pluginXML SimpleXMLElement */
