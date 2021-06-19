@@ -141,17 +141,13 @@ class Request
         $this->context = new Context();
 
         $moduleLoader = new ModuleLoader();
-        $moduleLoader->readModules();
-
+        //$moduleLoader->readModules();
         $this->moduleCollection = $moduleLoader->loadModules($this->getDatabaseHelper()->getConnection());
-
-        dd($this->moduleCollection);
 
         $serviceLoader = new ServiceLoader();
         $this->serviceContainer = $serviceLoader->loadServices($this->moduleCollection);
 
-
-        $this->routingHelper = new RoutingHelper($this->moduleCollection);
+        //$this->routingHelper = new RoutingHelper($this->moduleCollection);
     }
 
     public function addCoreServices() {
