@@ -19,14 +19,7 @@ $webpackDir = ROOT . "/src/npm";
 //javascript kompilieren
 IO::printLine("> compiling JavaScript", IO::YELLOW_TEXT);
 
-foreach($moduleCollection->getNamespaceList() as $namespace) {
-
-    WebpackConfigGenerator::rewriteConf($namespace, $moduleCollection->getNamespaceList());
-
-    $result = IO::execInDir("npx webpack --config webpack.config.js --progress", $webpackDir, false, $code);
-    $errorCodeSum += $code;
-    IO::printLine(IO::TAB . "Compiled " . $namespace);
-}
+$result = IO::execInDir("npx webpack --config webpack.config.js --progress", $webpackDir, false, $code);
 
 
 

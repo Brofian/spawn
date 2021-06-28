@@ -12,23 +12,22 @@ module.exports = {
     mode: "production", // "production" | "development" | "none"
 
     //entrypoint for compiling
-    entry: '../../var/cache/private/resources/{{namespace_current}}/js/index.js',
+    entry: '../../var/cache/private/resources/modules/js/index.js',
     //output folder and file
     output: {
         filename: 'index.js',
-        path: path.resolve(__dirname, '../../var/cache/public/{{namespace_current}}/js/'),
+        path: path.resolve(__dirname, '../../var/cache/public/js/'),
     },
     //folder to search for imported files
     resolve: {
-	modules: [
-	    {{namespace_module_list}}
-	    'node_modules',
-	],
-	alias: {
-	     PluginManager: path.resolve(__dirname, './plugin-system/PluginManager'),
-	     Plugin: path.resolve(__dirname, './plugin-system/Plugin'),
-     	     CookieManager: path.resolve(__dirname, './plugin-system/CookieManager')
-	}
+        modules: [
+            'node_modules',
+        ],
+        alias: {
+            PluginManager: path.resolve(__dirname, './plugin-system/PluginManager'),
+            Plugin: path.resolve(__dirname, './plugin-system/Plugin'),
+            CookieManager: path.resolve(__dirname, './plugin-system/CookieManager')
+        }
     },
 
     module: {
@@ -50,10 +49,10 @@ module.exports = {
     },
 
     plugins: [
-	new webpack.ProvidePlugin({
-	     $: require.resolve('jquery'),
-	     jQuery: require.resolve('jquery')
-	}),
+        new webpack.ProvidePlugin({
+             $: require.resolve('jquery'),
+             jQuery: require.resolve('jquery')
+        }),
      ],
 };
 

@@ -16,6 +16,7 @@ class ServiceContainer {
     }
 
     public function getService(string $key) : ?Service{
+
         //check if this key is decorated -> query and return the decorating service
         if(isset($this->decorations[$key])) {
             return $this->getService($this->decorations[$key]);

@@ -7,7 +7,7 @@ use \bin\webu\IO;
 if(!isset($moduleCollection)) {
     $dbHelper = new DatabaseHelper();
     $moduleLoader = new ModuleLoader();
-    $moduleCollection = $moduleLoader->readModules();
+    $moduleCollection = $moduleLoader->readModules($dbHelper->getConnection());
 
 }
 

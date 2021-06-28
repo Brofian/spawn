@@ -30,6 +30,7 @@ class Console {
     {
 
         $this->command = array_shift($arguments);
+
         $this->params = $arguments;
 
         $this->commandList = $this->findCommandFiles(self::COMMAND_ROOT);
@@ -38,6 +39,7 @@ class Console {
 
 
     private function runCommand() {
+
         if(count($this->params) < 1) {
             IO::printLine("Please enter a command!");
             $this->printAvailableCommands($this->commandList);

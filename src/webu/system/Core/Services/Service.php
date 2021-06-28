@@ -55,6 +55,7 @@ class Service extends Mutable {
             $this->instance = $myClassInstance;
         }
 
+
         return $myClassInstance;
     }
 
@@ -70,6 +71,7 @@ class Service extends Mutable {
         else {
             $arguments = $this->serviceContainer->getService($this->parent)->getCallArguments();
         }
+
 
         return $arguments;
     }
@@ -176,7 +178,7 @@ class Service extends Mutable {
 
     public function setStatic(bool $static): self
     {
-        $this->abstract = $static;
+        $this->static = $static;
         return $this;
     }
 

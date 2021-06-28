@@ -50,11 +50,7 @@ class CUriConverter {
     }
 
 
-    /**
-     * @param string $uri
-     * @param string $curi
-     * @return array
-     */
+
     public static function getParametersFromUri(string $uri, string $curi) : array {
         $uri = "/" . $uri;
 
@@ -67,6 +63,17 @@ class CUriConverter {
         }
 
         return $parameters;
+    }
+
+
+    public static function getParameterNames(string $c_uri): array {
+
+        $pattern = "/{([^}]*)}/m";
+        preg_match_all($pattern, $c_uri, $matches);
+
+        if(!isset($matches[1])) return [];
+
+        return $matches[1];
     }
 
 }

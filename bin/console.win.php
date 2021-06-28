@@ -7,7 +7,6 @@ if (PHP_VERSION_ID < 70400) {
 
 include __DIR__ . "/../src/webu/init.php";
 
-
 $console = new webu\bin\Console($argv);
 
 

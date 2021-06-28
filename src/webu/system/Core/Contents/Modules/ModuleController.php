@@ -10,20 +10,16 @@ class ModuleController {
     /** @var string  */
     private $name = "";
 
-    /** @var array  */
-    private $actions = array();
-
     /**
      * ModuleController constructor.
      * @param string $class
      * @param string $name
      * @param array $actions
      */
-    public function __construct(string $class, string $name, array $actions)
+    public function __construct(string $class, string $name)
     {
         $this->class = $class;
         $this->name = basename(str_replace("\\","/",$name));
-        $this->actions = $actions;
     }
 
 
@@ -50,32 +46,6 @@ class ModuleController {
     }
 
     /**
-     * @return array
-     */
-    public function getActions() {
-        return $this->actions;
-    }
-
-    /**
-     * @return array
-     */
-    public function getActionsAsArray() {
-
-        $actionArray = [];
-        /** @var ModuleAction $action */
-        foreach($this->actions as $action) {
-            $actionArray[] = [
-               "id" => $action->getId(),
-               "action" => $action->getAction(),
-               "c_url" => $action->getCustomUrl(),
-            ];
-        }
-
-
-        return $actionArray;
-    }
-
-    /**
      * @return mixed
      */
     public function getInstance() {
@@ -83,10 +53,4 @@ class ModuleController {
         return new $cls();
     }
 
-    /**
-     * @param ModuleAction $action
-     */
-    public function addAction(ModuleAction $action) {
-        $this->actions[] = $action;
-    }
 }

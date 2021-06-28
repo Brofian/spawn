@@ -7,10 +7,9 @@ abstract class Entity {
 
     protected ?string $id = null;
 
-
     public abstract function getRepositoryClass() : string;
 
-    public abstract function loadFromResultArray();
+    public abstract function loadFromResultArray($resultArray);
 
 
     /**

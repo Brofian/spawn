@@ -4,112 +4,89 @@ namespace webu\system\Core\Helper;
 
 
 
-use webu\system\Core\Base\Controller\BaseController;
 use webu\system\Core\Contents\Modules\Module;
-use webu\system\Core\Contents\Modules\ModuleAction;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Contents\Modules\ModuleController;
+use webu\system\Core\Contents\ValueBag;
 use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
+use webu\system\Core\Services\Service;
+use webu\system\Core\Services\ServiceContainer;
+use webuApp\Models\RewriteUrl;
 
 class RoutingHelper
 {
 
-    /** @var ModuleCollection */
-    private $moduleCollection;
+    protected ServiceContainer $serviceContainer;
 
-    /** @var ModuleCollection */
-    private $routeList;
 
-    /**
-     * RoutingHelper constructor.
-     * @param ModuleCollection $moduleCollection
-     */
-    public function __construct(ModuleCollection $moduleCollection)
+    public function __construct(ServiceContainer $serviceContainer)
     {
-        $this->moduleCollection = $moduleCollection;
-        $this->routeList = $this->generateRouteListByModuleCollection($moduleCollection);
+        $this->serviceContainer = $serviceContainer;
     }
 
 
-    /**
-     * @param ModuleCollection $moduleCollection
-     * @return array
-     */
-    private function generateRouteListByModuleCollection(ModuleCollection $moduleCollection) {
-        $routeList = array();
+    public function route(string $controller, string $action, ?Service &$controllerCls, ?string &$actionStr): void {
 
-        /** @var Module $module */
-        foreach($moduleCollection->getModuleList() as $module) {
+        if($controller == "" || $action == "") {
+            $controllerCls = $this->serviceContainer->getService('system.fallback.404');
+            $actionStr = 'error404Action';
+            return;
+        }
 
-            /** @var ModuleController $controller */
-            foreach($module->getModuleControllers() as $controller) {
 
-                /** @var ModuleAction $action */
-                foreach($controller->getActions() as $action) {
-                    $uriVars = [];
-                    $newUri = CUriConverter::cUriToRegex($action->getCustomUrl(), $uriVars);
+        //find service
+        $controllerCls = $this->serviceContainer->getService($controller);
+        if(!$controllerCls) {
+            //controller does not exist
+            $controllerCls = $this->serviceContainer->getService('system.fallback.404');
+            $actionStr = 'error404Action';
+            return;
+        }
 
-                    $routeList[$action->getId()] = [
-                        "id" => $action->getId(),
-                        "uri" => $newUri,
-                        "uri_vars" => $uriVars,
-                        "module" => $module,
-                        "controller" => $controller,
-                        "method" => $action->getAction()
-                    ];
+        $actionStr =  $action."Action";
+        if(!method_exists($controllerCls->getClass(), $actionStr)) {
+            //action does not exist
+            $controllerCls = $this->serviceContainer->getService('system.fallback.404');
+            $actionStr = 'error404Action';
+            return;
+        }
+
+
+        return;
+    }
+
+
+
+    public function rewriteURL(string $original, array $rewrite_urls, ValueBag &$values): string {
+
+        if($original == '' || strlen($original)) {
+            $original = '/' . $original;
+        }
+
+
+        /** @var RewriteUrl $rewrite_url */
+        foreach($rewrite_urls as $rewrite_url) {
+            $regex = CUriConverter::cUriToRegex($rewrite_url->getCUrl());
+
+            $matches = [];
+            $hasMatched = preg_match_all($regex, $original, $matches);
+
+            if($hasMatched) {
+
+                $parameterNameList = CUriConverter::getParameterNames($rewrite_url->getCUrl());
+
+                for($i = 1; $i < count($matches); $i++) {
+                    $values->set(
+                        $parameterNameList[$i-1],
+                        $matches[$i]
+                    );
                 }
+
+                return $rewrite_url->getRewriteUrl();
             }
         }
 
-        return $routeList;
-    }
-
-
-    /**
-     * @param string $path
-     * @return bool|mixed
-     */
-    public function route(string $path = "") {
-
-        $path = "/" . $path;
-
-        foreach($this->routeList as $routeItem) {
-            if(preg_match($routeItem["uri"], $path)) {
-                return $routeItem;
-            }
-        }
-
-        return false;
-    }
-
-
-
-
-    public function getLinkFromId($actionId, $parameters = []) {
-        return self::getLinkByIdFromCollection($actionId, $this->moduleCollection, $parameters);
-    }
-
-    public static function getLinkByIdFromCollection($actionId, ModuleCollection $moduleCollection, $parameters = []) {
-        if(!$actionId || !$moduleCollection) {
-            return MAIN_ADDRESS_FULL . "/";
-        }
-
-        /** @var Module $module */
-        foreach($moduleCollection->getModuleList() as $module) {
-            /** @var ModuleController $controller */
-            foreach($module->getModuleControllers() as $controller) {
-                /** @var ModuleAction $action */
-                foreach($controller->getActions() as $action) {
-
-                    if($action->getId() == $actionId) {
-                        return MAIN_ADDRESS_FULL . CUriConverter::cUriToUri($action->getCustomUrl(), $parameters);
-                    }
-
-                }
-            }
-        }
-
-        return MAIN_ADDRESS_FULL . "/";
+        return $original;
     }
 
 

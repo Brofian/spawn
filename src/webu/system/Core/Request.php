@@ -7,6 +7,7 @@ namespace webu\system\core;
  */
 
 use webu\system\Core\Base\Controller\BaseController;
+use webu\system\Core\Base\Controller\ControllerInterface;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Contents\ContentLoader;
 use webu\system\Core\Contents\Context;
@@ -15,6 +16,7 @@ use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Contents\Modules\ModuleNamespacer;
+use webu\system\Core\Contents\ValueBag;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\CookieHelper;
 use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
@@ -29,6 +31,7 @@ use webu\system\Core\Services\ServiceTags;
 use webu\system\Environment;
 use webu\system\Throwables\ModulesNotLoadedException;
 use webu\system\Throwables\NoModuleFoundException;
+use webuApp\Models\RewriteUrl;
 
 class Request
 {
@@ -42,18 +45,16 @@ class Request
     private ?RoutingHelper $routingHelper = null;
     private string $baseURI = '';
     private string $requestURI = '';
-    private array $requestURIParams = array();
-    private string $requestController = 'index';
-    private string $requestActionPath = 'index';
     private ?Context $context = null;
     private ?ModuleCollection $moduleCollection = null;
     private ?ServiceContainer $serviceContainer = null;
-
+    private ValueBag $curlValueBag;
 
 
     public function __construct(Environment $environment)
     {
         $this->environment = $environment;
+        $this->curlValueBag = new ValueBag();
     }
 
 
@@ -63,45 +64,40 @@ class Request
         $this->setParams();
         $this->setBaseURI();
         $this->setRequestURI();
-        $this->setRequestURIParams();
+        $this->checkRewriteURL();
     }
 
+    public function checkRewriteURL() {
+
+        $newURL = $this->getRoutingHelper()->rewriteURL(
+            $this->requestURI,
+            RewriteUrl::loadAll($this->getDatabaseHelper()),
+            $this->curlValueBag
+        );
+
+
+        $this->requestURI;
+
+        $parts = parse_url($newURL);
+        parse_str($parts['query'], $query);
+
+        foreach($query as $key => $value) {
+            $this->get[$key] = $value;
+        }
+    }
 
     public function addToAccessLog()
     {
         $text = 'Call to "';
         $text .= MAIN_ADDRESS . '/' . $this->requestURI;
-        if (sizeof($this->requestURIParams)) {
+        if (sizeof($this->get)) {
             $text .= '" with the params ';
-            $text .= implode(', ', $this->requestURIParams);
+            $text .= implode(', ', $this->get);
         }
 
         Logger::writeToAccessLog($text);
     }
 
-
-    private function setRequestURIParams()
-    {
-        $params = explode("/", $this->requestURI);
-        foreach ($params as &$param) {
-            $param = strtolower(trim($param));
-        }
-
-        //get the controller
-        if (sizeof($params) > 0) {
-            $this->requestController = array_shift($params);
-        }
-
-
-        /* Save the Action */
-        if (sizeof($params) > 0) {
-            $this->requestActionPath = array_shift($params);;
-        }
-
-        /* Save Params */
-        $this->requestURIParams = $params ?? [];
-
-    }
 
 
     private function setRequestURI()
@@ -147,7 +143,7 @@ class Request
         $serviceLoader = new ServiceLoader();
         $this->serviceContainer = $serviceLoader->loadServices($this->moduleCollection);
 
-        //$this->routingHelper = new RoutingHelper($this->moduleCollection);
+        $this->routingHelper = new RoutingHelper($this->serviceContainer);
     }
 
     public function addCoreServices() {
@@ -252,45 +248,42 @@ class Request
                 ->setClass('webu\system\Core\Base\Database\Query\QueryBuilder')
         );
 
+        $this->serviceContainer->addService(
+            (new Service())->setId('system.request.curi.valuebag')
+                ->setStatic(true)
+                ->setInstance($this->getCurlValueBag())
+                ->setTag(ServiceTags::BASE_SERVICE_STATIC)
+                ->setClass('webu\system\Core\Contents\ValueBag')
+        );
+
 
     }
 
 
     public function loadController()
     {
+        /** @var Service $controllerService */
+        $controllerService = null;
+        /** @var string $actionMethod */
+        $actionMethod = null;
 
-        $controller = $this->get["controller"] ?? "";
-        $action = $this->get["action"] ?? "";
-
-        //find service
-        $controllerService = $this->serviceContainer->getService($controller);
-        if(!$controllerService) {
-            //controller does not exist
-            $controllerService = $this->serviceContainer->getService('system.fallback.404');
-            $action = 'error404';
-        }
-
-        $actionMethod =  $action."Action";
-        if(!method_exists($controllerService->getClass(), $actionMethod)) {
-            //action does not exist
-            $controllerService = $this->serviceContainer->getService('system.fallback.404');
-            $actionMethod = 'error404Action';
-        }
-
-
-        //$uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $routingResult["uri"]);
+        $routingHelper = new RoutingHelper($this->serviceContainer);
+        $routingHelper->route(
+            $this->get["controller"] ?? "",
+            $this->get["action"] ?? "",
+            $controllerService,
+            $actionMethod
+        );
 
         $controllerInstance = $controllerService->getInstance();
         $controllerInstance->$actionMethod(); //pass uri parameters
 
 
 
-        $this->environment->response->getTwigHelper()->assign("namespace", $module->getResourceNamespace());
         $this->environment->response->getTwigHelper()->assign("environment", MODE);
         $this->environment->response->getScssHelper()->setBaseVariable("assetsPath", URIHelper::createPath([
-            MAIN_ADDRESS_FULL,CACHE_DIR,"public",$module->getResourceNamespace(),"assets"
+            MAIN_ADDRESS_FULL,CACHE_DIR,"public","assets"
         ], "/"));
-
 
 
     }
@@ -348,34 +341,11 @@ class Request
     /**
      * @return string
      */
-    public function getRequestController()
-    {
-        return $this->requestController;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRequestActionPath()
-    {
-        return $this->requestActionPath;
-    }
-
-    /**
-     * @return string
-     */
     public function getRequestURI()
     {
         return $this->requestURI;
     }
 
-    /**
-     * @return array
-     */
-    public function getRequestURIParams()
-    {
-        return $this->requestURIParams;
-    }
 
     /**
      * @return Context
@@ -388,6 +358,14 @@ class Request
     public function getModuleCollection() : ?ModuleCollection {
         return $this->moduleCollection;
     }
+
+    public function getCurlValueBag(): ?ValueBag
+    {
+        return $this->curlValueBag;
+    }
+
+
+
 
 
 }
