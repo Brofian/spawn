@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Contents\Collection;
 
@@ -73,5 +73,8 @@ class Collection extends AbstractCollectionBase {
         return $this->get($count-1);
     }
 
+    public function getArray(): array {
+        return $this->collection;
+    }
 
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Base\Database;
 
@@ -7,8 +7,7 @@ use PDO;
 class DatabaseConnection
 {
 
-    /** @var PDO | false */
-    private $connection = false;
+    private PDO $connection;
 
     /**
      * DatabaseConnection constructor.

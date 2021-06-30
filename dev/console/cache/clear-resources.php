@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use webu\system\Core\Helper\URIHelper;
 use bin\webu\IO;

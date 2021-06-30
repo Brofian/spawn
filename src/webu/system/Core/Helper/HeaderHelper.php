@@ -1,37 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Helper;
 
-use webu\system\core\Request;
-use webu\system\core\Response;
+use webu\system\Core\Request;
+use webu\system\Core\Response;
+use webu\system\Core\Services\ServiceContainerProvider;
 use webu\system\Throwables\HeadersSendByException;
 
 class HeaderHelper {
 
-    /** @var int  */
     public const RC_REDIRECT_TEMPORARILY = 307;
     public const RC_REDIRECT_SESSION = 302;
     public const RC_REDIRECT_FINAL = 301;
 
+    private bool $headersSendBy = false;
 
-    /** @var bool  */
-    private $headersSendBy = false;
 
-    /** @var $request Request */
-    private $request;
-
-    /** @var $response Response */
-    private $response;
-
-    /**
-     * HeaderHelper constructor.
-     * @param Request $request
-     * @param Response $response
-     */
-    public function __construct(Request $request, Response $response)
+    public function __construct()
     {
-        $this->request = $request;
-        $this->response = $response;
+
     }
 
     /**
@@ -42,8 +29,9 @@ class HeaderHelper {
      * @throws HeadersSendByException
      */
     public function redirect(string $targetId, array $parameters = [], int $responseCode = self::RC_REDIRECT_TEMPORARILY, bool $replaceExisting = false) {
-        $location = $this->request->getRoutingHelper()->getLinkFromId($targetId, $parameters);
-        $this->setHeader("Location: " . $location, $replaceExisting, $responseCode);
+        $routingHelper = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.routing.helper');
+        $location = $routingHelper->getLinkFromId($targetId, $parameters);
+        $this->setHeader("Location: " . $location, $responseCode, $replaceExisting);
     }
 
 

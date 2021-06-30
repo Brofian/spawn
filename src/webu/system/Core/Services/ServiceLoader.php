@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Services;
 
@@ -16,7 +16,8 @@ class ServiceLoader {
             return ServiceCache::readServiceCache();
         }
 
-        $serviceContainer = new ServiceContainer();
+        $serviceContainer = ServiceContainerProvider::getServiceContainer();
+
         foreach($moduleCollection->getModuleList() as $module) {
             $moduleId = $module->getId();
             $pluginXMLPath = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), "plugin.xml");

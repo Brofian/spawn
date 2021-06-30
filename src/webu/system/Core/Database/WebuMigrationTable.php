@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace webu\system\core\database;
+namespace webu\system\Core\database;
 
 use webu\system\Core\Base\Database\DatabaseColumn;
 use webu\system\Core\Base\Database\DatabaseTable;

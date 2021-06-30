@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Custom;
 
@@ -11,12 +11,16 @@ abstract class Mutable {
     }
 
     public function get(string $key) {
-        if(isset($this->$key)) {
+        if($this->has($key)) {
             return $this->$key;
         }
         else {
             return null;
         }
+    }
+
+    public function has(string $key): bool {
+        return isset($this->$key);
     }
 
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Services;
 
@@ -10,9 +10,37 @@ class ServiceContainer {
     /** @var String[]  */
     protected array $decorations = array();
 
+
+
     public function addService(Service $service) : self{
         $this->services[$service->getId()] = $service->setServiceContainer($this);
         return $this;
+    }
+
+    public function defineService(
+        string $id,
+        ?string $class = null,
+        ?string $tag = null,
+        bool $static = false,
+        bool $abstract = false,
+        ?string $decorates = null,
+        ?string $parent = null,
+        ?int $moduleId = null,
+        $instance = null
+    ): void {
+
+        $service = new Service();
+        $service->setId($id);
+        if($class)      $service->setClass($class);
+        if($moduleId)   $service->setModuleId($moduleId);
+        if($tag)        $service->setTag($tag);
+        if($abstract)   $service->setAbstract($abstract);
+        if($static)     $service->setStatic($static);
+        if($decorates)  $service->setDecorates($decorates);
+        if($parent)     $service->setParent($parent);
+        if($instance)   $service->setInstance($instance);
+
+        $this->services[$service->getId()] = $service->setServiceContainer($this);
     }
 
     public function getService(string $key) : ?Service{
@@ -31,6 +59,9 @@ class ServiceContainer {
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getServiceInstance(string $key) {
 
         $service = $this->getService($key);

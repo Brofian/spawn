@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace webu\system\core\base;
+namespace webu\system\Core\base;
 
 use webu\system\Core\Base\Helper\DatabaseHelper;
 

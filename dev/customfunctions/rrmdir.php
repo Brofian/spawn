@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 function rrmdir($dir, $followSymlinks=false) {
     if(!file_exists($dir) || !is_dir($dir)) return false;

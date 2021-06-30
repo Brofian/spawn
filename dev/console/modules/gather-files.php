@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use bin\webu\IO;
 use webu\system\Core\Contents\Modules\Module;

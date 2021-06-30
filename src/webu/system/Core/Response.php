@@ -1,12 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace webu\system\core;
+namespace webu\system\Core;
 
 
 /*
  *  The Main Class to store all Response informations
  */
 
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Contents\Context;
 use webu\system\Core\Contents\Modules\ModuleCollection;
@@ -14,116 +17,62 @@ use webu\system\Core\Helper\FrameworkHelper\ResourceCollector;
 use webu\system\Core\Helper\HeaderHelper;
 use webu\system\Core\Helper\ScssHelper;
 use webu\system\Core\Helper\TwigHelper;
+use webu\system\Core\Helper\URIHelper;
+use webu\system\Core\Services\ServiceContainerProvider;
 use webu\system\Environment;
 
 class Response
 {
 
-    /** @var Environment  */
-    private $environment = null;
+    protected string $html = '';
+    protected TwigHelper $twigHelper;
+    protected ScssHelper $scssHelper;
+    protected ModuleCollection $moduleCollection;
 
-    /** @var string */
-    private $html = '';
-    /** @var int */
-    private $responseCode = 200;
-    /** @var TwigHelper  */
-    private $twigHelper = null;
-    /** @var ScssHelper  */
-    private $scssHelper = null;
-    /** @var HeaderHelper  */
-    private $headerHelper = null;
 
-    /**
-     * Response constructor.
-     * @param Environment $environment
-     */
-    public function __construct(Environment $environment)
+    public function __construct()
     {
-        $this->environment = $environment;
+        $serviceContainer = ServiceContainerProvider::getServiceContainer();
+        $this->twigHelper = $serviceContainer->getServiceInstance('system.twig.helper');
+        $this->scssHelper = $serviceContainer->getServiceInstance('system.scss.helper');
+        $this->moduleCollection = $serviceContainer->getServiceInstance('system.modules.collection');
 
-        $this->headerHelper = new HeaderHelper($environment->request, $this);
-        $this->twigHelper = new TwigHelper();
-        $this->scssHelper = new ScssHelper();
+        $this->fillBaseContextData();
+    }
+
+    protected function fillBaseContextData() {
+        $this->twigHelper->assign("environment", MODE);
+        $this->scssHelper->setBaseVariable("assetsPath", URIHelper::createPath([
+            CACHE_DIR,"public","assets"
+        ], "/"));
     }
 
 
-
-    public function prepare() {
+    public function prepareFiles() {
 
         //gather resources from the modules
         if(ResourceCollector::isGatheringNeeded() || MODE == 'dev') {
             $resourceCollector = new ResourceCollector();
-            $resourceCollector->gatherModuleData($this->environment->request->getModuleCollection());
+            $resourceCollector->gatherModuleData($this->moduleCollection);
         }
-
-    }
-
-
-    /**
-     * @param Context $context
-     * @param ModuleCollection $moduleCollection
-     * @return void
-     */
-    public function finish(ModuleCollection $moduleCollection, Context $context) {
 
         /* Render Scss */
         if (!$this->scssHelper->cacheExists() || MODE == 'dev') {
-            $this->scssHelper->createCss($moduleCollection);
+            $this->scssHelper->createCss($this->moduleCollection);
         }
 
-
-        /* set headers send by before sending actual html to prevent problems */
-        $this->headerHelper->setHeadersSentBy();
-
-        /* Render twig */
-        $this->getTwigHelper()->assign('context', $context->getContext());
-        $pageHtml = $this->getTwigHelper()->finish();
-
-        $this->html = $pageHtml;
-    }
-
-
-
-
-
-
-
-    /**
-     * @return TwigHelper
-     */
-    public function getTwigHelper() {
-        return $this->twigHelper;
-    }
-
-    /**
-     * @return ScssHelper
-     */
-    public function getScssHelper() {
-        return $this->scssHelper;
-    }
-
-    /**
-     * @return HeaderHelper
-     */
-    public function getHeaderHelper() {
-        return $this->headerHelper;
     }
 
 
     /**
      * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function getHtml()
-    {
-        return $this->html;
-    }
-
-    /**
-     * @param string
-     */
-    public function setHtml(string $html)
-    {
-        $this->html = $html;
+    public function finish(): string {
+        /* Render twig */
+        return $this->twigHelper->finish();
     }
 
 

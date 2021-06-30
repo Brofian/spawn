@@ -1,12 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system;
 
 use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\RoutingHelper2;
-use webu\system\core\Request;
-use webu\system\core\Response;
+use webu\system\Core\Kernel;
+use webu\system\Core\Request;
+use webu\system\Core\Response;
 
 /*
  * The Main Environment to handle the system
@@ -15,48 +16,26 @@ use webu\system\core\Response;
 class Environment
 {
 
-    /** @var Request */
-    public $request;
-    /** @var Response */
-    public $response;
+    protected Kernel $kernel;
 
 
-    /**
-     * Environment constructor.
-     */
     public function __construct()
     {
-        $this->request = new Request($this);
-        $this->response = new Response($this);
+        $this->kernel = new Kernel();
+    }
 
-
+    public function handle() {
         try {
-            $this->init();
+            $this->kernel->handle();
+            return $this->kernel->getAnswer();
+
         } catch (\Throwable $exception) {
             $this->handleException($exception);
+            return "This can never be reached, because handleException ends with a die()";
         }
-
     }
 
 
-    public function init()
-    {
-        $this->request->gatherInformationsFromRequest();
-
-        $this->request->addToAccessLog();
-
-        $this->request->addCoreServices();
-
-        $this->request->loadController();
-
-        $this->response->prepare();
-
-        $this->response->finish($this->request->getModuleCollection(), $this->request->getContext());
-    }
-
-    /**
-     * @param \Throwable $e
-     */
     private function handleException(\Throwable $exception)
     {
 
@@ -81,13 +60,8 @@ class Environment
             echo "Leider ist etwas schief gelaufen :(";
         }
 
+        die();
     }
 
 
-    /**
-     * @return string
-     */
-    public function finish() {
-        return $this->response->getHtml();
-    }
 }

@@ -1,71 +1,69 @@
-<?php
+<?php declare(strict_types=1);
 
 
 namespace webu\system\Core\Helper;
 
 
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use webu\system\Core\Contents\Collection\Collection;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Extensions\ExtensionLoader;
+use webu\system\Core\Services\ServiceContainerProvider;
 
 class TwigHelper
 {
+    const CACHE_FOLDER_PATH = ROOT . '/var/cache/private/twig';
 
-    /** @var array  */
-    private $variables = array();
+    protected string $targetFile = 'base.html.twig';
+    protected array $templateDirs = array();
+    protected ?string $customoutput = null;
+    protected Environment $twig;
+    protected Collection $context;
 
-    /** @var string  */
-    private $targetFile = 'base.html.twig';
-
-    /** @var array  */
-    private $templateDirs = [
-        //default template dir
-    ];
-
-    /** @var string|null  */
-    private $customoutput = null;
-
-    /** @var bool  */
-    private $twig = false;
-
-    /** @var string  */
-    private $cacheFolderPath = ROOT . '/var/cache/private/twig';
 
     /**
-     * TwigHelper constructor.
+     * @param string $filePath
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function __construct()
-    {
-        $this->alwaysReload = (MODE == 'dev');
+    public function renderFile(string $filePath): string {
+        if(!isset($this->twig)) {
+            $this->loadTwig();
+        }
+        $this->twig->render($filePath, $this->context->getArray());
     }
 
+
     /**
-     * This function is called after executing the controllers
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      * @return string
      */
     public function finish() : string {
-
-        $this->loadTwig();
-        try {
-            return $this->startRendering();
-        } catch (\Exception $e) {
-            return $e;
+        if(!isset($this->twig)) {
+            $this->loadTwig();
         }
+
+        return $this->startRendering();
     }
 
-    /**
-     * Load the Twig Instance with the registeres templateDirs
-     * @return void
-     */
-    private function loadTwig() {
+    protected function loadTwig() {
+        $moduleCollection = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.modules.collection');
+        $this->loadTemplateDirFromModuleCollection($moduleCollection);
 
         $loader = new FilesystemLoader($this->templateDirs);
         $twig = new Environment($loader, [
             'debug' => (MODE == "dev"),
-            'cache' => $this->cacheFolderPath,
+            'cache' => self::CACHE_FOLDER_PATH,
         ]); //<- Twig environment
 
 
@@ -82,9 +80,9 @@ class TwigHelper
     /**
      * Executes the twig rendering
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     private function startRendering() : string {
 
@@ -93,45 +91,37 @@ class TwigHelper
             return $this->customoutput;
         }
 
-        /** @var Environment $twig */
-        $twig = $this->twig;
-        return $twig->render($this->targetFile, $this->variables);
+        return $this->twig->render($this->targetFile, $this->context->getArray());
     }
 
-    /**
-     * @param string $file
-     */
-    public function setRenderFile(string $file) {
+
+    public function setRenderFile(string $file): self {
         $this->targetFile = $file;
+        return $this;
     }
 
-    /**
-     * @param string $path
-     */
-    public function addTemplateDir(string $path) {
+
+    public function addTemplateDir(string $path): self {
         $this->templateDirs[] = URIHelper::pathifie($path);
+        return $this;
     }
 
 
-    /**
-     * Stores the variables for assigning them to the twig template
-     * @param string $key
-     * @param mixed $value
-     */
-    public function assign(string $key, $value) {
-        $this->variables[$key] = $value;
+    public function assign(string $key, $value): self {
+        $this->context->set($key, $value);
+        return $this;
     }
 
-    /**
-     * @param $value
-     */
-    public function setOutput($value) {
+
+    public function setOutput($value): self {
         if(is_string($value)) {
             $this->customoutput = $value;
         }
         else {
             $this->customoutput = json_encode($value);
         }
+
+        return $this;
     }
 
 

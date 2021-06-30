@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Contents;
 
@@ -11,7 +11,7 @@ use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Database\Models\AuthUser;
 use webu\system\Core\Helper\UserHelper;
-use webu\system\core\Request;
+use webu\system\Core\Request;
 
 class ContentLoader {
 

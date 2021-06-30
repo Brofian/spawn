@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace webu\system\Core\Contents\Collection;
 
@@ -91,5 +91,9 @@ class AssociativeCollection extends AbstractCollectionBase {
         }
 
         return count($this->keys);
+    }
+
+    public function getArray(): array {
+        return $this->collection;
     }
 }
