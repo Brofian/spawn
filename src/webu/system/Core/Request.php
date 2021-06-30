@@ -120,6 +120,7 @@ class Request
     }
 
 
+
     /*
     public function checkRewriteURL() {
 
@@ -142,4 +143,20 @@ class Request
 
 
     */
+
+
+
+    public function getGet(): AssociativeCollection {
+        return $this->get;
+    }
+
+    public function getCookies(): AssociativeCollection {
+        return $this->cookies;
+    }
+
+    public function getPost(): AssociativeCollection {
+        return $this->post;
+    }
+
+
 }

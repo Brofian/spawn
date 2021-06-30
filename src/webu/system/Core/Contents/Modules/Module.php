@@ -6,7 +6,7 @@ use webu\system\Core\Helper\URIHelper;
 
 class Module {
 
-    protected ?int $id = null;
+    protected string $id;
     protected bool $active = false;
     protected array $informations = array();
     protected string $moduleName;

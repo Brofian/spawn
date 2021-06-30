@@ -88,7 +88,7 @@ class XMLContentModel {
         foreach($simpleXMLElement->attributes() as $attribute) {
             $this->addAttribute(
                 $attribute->getName(),
-                $attribute
+                (string)$attribute[0]
             );
         }
 
@@ -113,7 +113,7 @@ class XMLContentModel {
                 $childXML->loadFromSimpleXMLElement($child, $filePath);
 
                 if(count($childXML->getChildren()) < 1) {
-                    $childXML->setValue($child[0]);
+                    $childXML->setValue((string)$child[0]);
                 }
 
                 $this->addChild($childXML);

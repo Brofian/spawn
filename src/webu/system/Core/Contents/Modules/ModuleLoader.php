@@ -53,7 +53,7 @@ class ModuleLoader {
             $module = new Module($moduleEntry->getSlug());
 
             $module
-                ->setId($moduleEntry->getId())
+                ->setId((string)$moduleEntry->getId())
                 ->setActive($moduleEntry->isActive())
                 ->setSlug($moduleEntry->getSlug())
                 ->setBasePath($moduleEntry->getPath());

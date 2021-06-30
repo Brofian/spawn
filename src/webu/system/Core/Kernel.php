@@ -5,10 +5,12 @@ namespace webu\system\Core;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Services\ServiceContainer;
 use webu\system\Core\Services\ServiceContainerProvider;
+use webu\system\Core\Services\ServiceLoader;
 use webu\system\Core\Services\ServiceTags;
 
 class Kernel {
@@ -19,7 +21,13 @@ class Kernel {
 
     public function __construct()
     {
-        $serviceContainer = ServiceContainerProvider::getServiceContainer();
+        $moduleLoader = new ModuleLoader();
+        $this->moduleCollection = $moduleLoader->loadModules(
+            new DatabaseConnection(DB_HOST, DB_DATABASE, DB_PORT, DB_USERNAME, DB_PASSWORD)
+        );
+
+        $serviceLoader = new ServiceLoader();
+        $serviceContainer = $serviceLoader->loadServices($this->moduleCollection);
 
         $this->defineModuleCollection($serviceContainer);
         $this->defineRequest($serviceContainer);
@@ -79,13 +87,9 @@ class Kernel {
     }
 
     protected function defineModuleCollection(ServiceContainer $serviceContainer): ModuleCollection {
-        $moduleLoader = new ModuleLoader();
-        $databaseConnection = $serviceContainer->getServiceInstance('system.database.connection');
-        $this->moduleCollection = $moduleLoader->loadModules($databaseConnection);
-
         $serviceContainer->defineService(
             'system.modules.collection',
-            Request::class,
+            ModuleCollection::class,
             ServiceTags::BASE_SERVICE_STATIC,
             true,
             false,

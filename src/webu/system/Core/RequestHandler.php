@@ -10,8 +10,8 @@ use webu\system\Core\Services\ServiceContainerProvider;
 class RequestHandler {
 
     protected ServiceContainer $serviceContainer;
-    protected Service $controllerService;
-    protected string $actionMethod;
+    protected ?Service $controllerService;
+    protected ?string $actionMethod;
 
     public function __construct()
     {
@@ -29,13 +29,20 @@ class RequestHandler {
     protected function findRouting() {
         /** @var RoutingHelper $routingHelper */
         $routingHelper = $this->serviceContainer->getServiceInstance('system.routing.helper');
+        /** @var Request $request */
+        $request = $this->serviceContainer->getServiceInstance('system.kernel.request');
+        $getBag = $request->getGet();
 
         $routingHelper->route(
-            $this->get["controller"] ?? "",
-            $this->get["action"] ?? "",
-            $controllerService,
-            $actionMethod
+            $getBag->get('controller') ?? "",
+            $getBag->get('action') ?? "",
+            $this->controllerService,
+            $this->actionMethod
         );
+
+        if(!$this->controllerService) {
+            dd("kein controller gefunden");
+        }
     }
 
     protected function callControllerMethod() {

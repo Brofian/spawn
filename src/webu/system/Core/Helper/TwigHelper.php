@@ -10,6 +10,7 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use webu\system\Core\Contents\Collection\AssociativeCollection;
 use webu\system\Core\Contents\Collection\Collection;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Custom\Debugger;
@@ -24,8 +25,13 @@ class TwigHelper
     protected array $templateDirs = array();
     protected ?string $customoutput = null;
     protected Environment $twig;
-    protected Collection $context;
+    protected AssociativeCollection $context;
 
+
+    public function __construct()
+    {
+        $this->context = new AssociativeCollection();
+    }
 
     /**
      * @param string $filePath
@@ -38,7 +44,7 @@ class TwigHelper
         if(!isset($this->twig)) {
             $this->loadTwig();
         }
-        $this->twig->render($filePath, $this->context->getArray());
+        return $this->twig->render($filePath, $this->context->getArray());
     }
 
 

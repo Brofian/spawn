@@ -13,6 +13,7 @@ class ServiceProperties {
     const _ABSTRACT = 'abstract';
     const _TAG = 'tag';
     const _MODULE_ID = 'module_id';
+    const _ARGUMENTS = 'arguments';
 
     public static function getPropertyList(): array {
         $oClass = new \ReflectionClass(static::class);

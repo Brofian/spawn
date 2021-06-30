@@ -11,6 +11,7 @@ use webu\system\Core\Contents\ValueBag;
 use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Services\Service;
 use webu\system\Core\Services\ServiceContainer;
+use webu\system\Core\Services\ServiceContainerProvider;
 use webuApp\Models\RewriteUrl;
 
 class RoutingHelper
@@ -19,13 +20,14 @@ class RoutingHelper
     protected ServiceContainer $serviceContainer;
 
 
-    public function __construct(ServiceContainer $serviceContainer)
+    public function __construct()
     {
-        $this->serviceContainer = $serviceContainer;
+        $this->serviceContainer = ServiceContainerProvider::getServiceContainer();
     }
 
 
     public function route(string $controller, string $action, ?Service &$controllerCls, ?string &$actionStr): void {
+
 
         if($controller == "" || $action == "") {
             $controllerCls = $this->serviceContainer->getService('system.fallback.404');
