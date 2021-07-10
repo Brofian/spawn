@@ -45,6 +45,7 @@ class RoutingHelper
         }
 
         $actionStr =  $action."Action";
+
         if(!method_exists($controllerCls->getClass(), $actionStr)) {
             //action does not exist
             $controllerCls = $this->serviceContainer->getService(self::FALLBACK_SERVICE);

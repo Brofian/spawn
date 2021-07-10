@@ -197,7 +197,7 @@ class ModuleLoader {
             $module->getInformationsAsJson(),
             $module->getResourceConfigJson()
         );
-        //$moduleStorage->save($connection);
+        $moduleStorage->save($connection);
 
 
         $this->moduleCollection->addModule($module);

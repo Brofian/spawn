@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52cc9a94e07bf4345422faaba0f90cea",
+    "content-hash": "1659cea391bf995fb4c1b6c0e1f03301",
     "packages": [
         {
             "name": "composer/installers",
@@ -155,187 +155,6 @@
                 }
             ],
             "time": "2021-04-28T06:42:17+00:00"
-        },
-        {
-            "name": "fh00-webu/backend",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:F-H00/webu-backend-module.git",
-                "reference": "4ae6f4f76cc84fdaafd26d20764d0b13c4207c90"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-backend-module/zipball/4ae6f4f76cc84fdaafd26d20764d0b13c4207c90",
-                "reference": "4ae6f4f76cc84fdaafd26d20764d0b13c4207c90",
-                "shasum": ""
-            },
-            "require": {
-                "fh00-webu/base": "*"
-            },
-            "type": "webu-module",
-            "autoload": {
-                "psr-4": {
-                    "webuBackend\\": "src/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Fabian Holzwarth"
-                }
-            ],
-            "description": "Spawn Modul - Basis Backend",
-            "support": {
-                "source": "https://github.com/F-H00/webu-backend-module/tree/develop",
-                "issues": "https://github.com/F-H00/webu-backend-module/issues"
-            },
-            "time": "2021-05-25T16:42:50+00:00"
-        },
-        {
-            "name": "fh00-webu/base",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/F-H00/webu-base-module.git",
-                "reference": "de31817eca19cad89a47dd89ce67dd44d8723553"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-base-module/zipball/de31817eca19cad89a47dd89ce67dd44d8723553",
-                "reference": "de31817eca19cad89a47dd89ce67dd44d8723553",
-                "shasum": ""
-            },
-            "type": "webu-module",
-            "autoload": {
-                "psr-4": {
-                    "webuBase\\": "src/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Fabian Holzwarth"
-                }
-            ],
-            "description": "Spawn Modul - Basis Modul",
-            "support": {
-                "source": "https://github.com/F-H00/webu-base-module/tree/develop",
-                "issues": "https://github.com/F-H00/webu-base-module/issues"
-            },
-            "time": "2021-05-24T20:54:37+00:00"
-        },
-        {
-            "name": "fh00-webu/homepage",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:F-H00/webu-homepage-module.git",
-                "reference": "b3a5e5c22667b6b5e6469c7606c59c8b21db08bc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-homepage-module/zipball/b3a5e5c22667b6b5e6469c7606c59c8b21db08bc",
-                "reference": "b3a5e5c22667b6b5e6469c7606c59c8b21db08bc",
-                "shasum": ""
-            },
-            "require": {
-                "fh00-webu/backend": "*",
-                "fh00-webu/base": "*"
-            },
-            "type": "webu-module",
-            "autoload": {
-                "psr-4": {
-                    "fh00SpawnHomepage\\": "src/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Fabian Holzwarth"
-                }
-            ],
-            "description": "Spawn Modul - Private Homepage",
-            "support": {
-                "source": "https://github.com/F-H00/webu-homepage-module/tree/develop",
-                "issues": "https://github.com/F-H00/webu-homepage-module/issues"
-            },
-            "time": "2021-05-24T20:56:45+00:00"
-        },
-        {
-            "name": "fh00-webu/manual",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:F-H00/webu-manual-module.git",
-                "reference": "4b2348da125e1c84b51f9340a34352ada8a8d425"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-manual-module/zipball/4b2348da125e1c84b51f9340a34352ada8a8d425",
-                "reference": "4b2348da125e1c84b51f9340a34352ada8a8d425",
-                "shasum": ""
-            },
-            "require": {
-                "fh00-webu/base": "*"
-            },
-            "type": "webu-module",
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Fabian Holzwarth"
-                }
-            ],
-            "description": "Spawn Modul - Private Homepage",
-            "support": {
-                "source": "https://github.com/F-H00/webu-manual-module/tree/develop",
-                "issues": "https://github.com/F-H00/webu-manual-module/issues"
-            },
-            "time": "2021-03-22T14:00:08+00:00"
-        },
-        {
-            "name": "fh00/tribal",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:F-H00/webu_tb.git",
-                "reference": "0bed831750149038f7ed88dc5cbc78540a016004"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu_tb/zipball/0bed831750149038f7ed88dc5cbc78540a016004",
-                "reference": "0bed831750149038f7ed88dc5cbc78540a016004",
-                "shasum": ""
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "webuTribal\\": "src/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Fabian Holzwarth"
-                }
-            ],
-            "description": "Spawn Application Module",
-            "support": {
-                "source": "https://github.com/F-H00/webu_tb/tree/master",
-                "issues": "https://github.com/F-H00/webu_tb/issues"
-            },
-            "time": "2021-05-26T17:44:14+00:00"
         },
         {
             "name": "mouf/nodejs-installer",
@@ -627,6 +446,41 @@
                 "source": "https://github.com/scssphp/scssphp/tree/v1.5.2"
             },
             "time": "2021-05-18T00:05:58+00:00"
+        },
+        {
+            "name": "spawn/app",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Brosterios/spawn-app.git",
+                "reference": "74391000b88bbf0818ff01005be42d9e541a1512"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Brosterios/spawn-app/zipball/74391000b88bbf0818ff01005be42d9e541a1512",
+                "reference": "74391000b88bbf0818ff01005be42d9e541a1512",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "spawnApp\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Fabian Holzwarth"
+                }
+            ],
+            "description": "S.P.A.W.N. Application Module",
+            "support": {
+                "source": "https://github.com/Brosterios/spawn-app/tree/develop",
+                "issues": "https://github.com/Brosterios/spawn-app/issues"
+            },
+            "time": "2021-07-10T13:58:30+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2020,77 +1874,12 @@
                 }
             ],
             "time": "2021-05-16T12:14:13+00:00"
-        },
-        {
-            "name": "webu/app",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/F-H00/webu-app.git",
-                "reference": "22ff2930cd2a77bb02afb5a30a74cb1614f3f3eb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/F-H00/webu-app/zipball/22ff2930cd2a77bb02afb5a30a74cb1614f3f3eb",
-                "reference": "22ff2930cd2a77bb02afb5a30a74cb1614f3f3eb",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "webuApp\\": "src/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Fabian Holzwarth"
-                }
-            ],
-            "description": "Spawn Application Module",
-            "support": {
-                "source": "https://github.com/F-H00/webu-app/tree/develop",
-                "issues": "https://github.com/F-H00/webu-app/issues"
-            },
-            "time": "2021-05-24T21:26:15+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [
         {
-            "package": "fh00-webu/backend",
-            "version": "dev-develop",
-            "alias": "0.0.1",
-            "alias_normalized": "0.0.1.0"
-        },
-        {
-            "package": "fh00-webu/base",
-            "version": "dev-develop",
-            "alias": "0.0.1",
-            "alias_normalized": "0.0.1.0"
-        },
-        {
-            "package": "fh00-webu/homepage",
-            "version": "dev-develop",
-            "alias": "0.0.1",
-            "alias_normalized": "0.0.1.0"
-        },
-        {
-            "package": "fh00-webu/manual",
-            "version": "dev-develop",
-            "alias": "0.0.1",
-            "alias_normalized": "0.0.1.0"
-        },
-        {
-            "package": "fh00/tribal",
-            "version": "9999999-dev",
-            "alias": "0.0.1",
-            "alias_normalized": "0.0.1.0"
-        },
-        {
-            "package": "webu/app",
+            "package": "spawn/app",
             "version": "dev-develop",
             "alias": "0.0.1",
             "alias_normalized": "0.0.1.0"
@@ -2098,12 +1887,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "webu/app": 20,
-        "fh00-webu/homepage": 20,
-        "fh00-webu/backend": 20,
-        "fh00-webu/manual": 20,
-        "fh00-webu/base": 20,
-        "fh00/tribal": 20
+        "spawn/app": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
