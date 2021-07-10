@@ -6,6 +6,8 @@ use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Services\Service;
 use webu\system\Core\Services\ServiceContainer;
 use webu\system\Core\Services\ServiceContainerProvider;
+use webu\system\Throwables\NoActionFoundInControllerException;
+use webu\system\Throwables\NoControllerFoundException;
 
 class RequestHandler {
 
@@ -41,14 +43,19 @@ class RequestHandler {
         );
 
         if(!$this->controllerService) {
-            dd("kein controller gefunden");
+            throw new NoControllerFoundException($getBag->get('controller'));
+        }
+
+        if(!$this->actionMethod) {
+            throw new NoActionFoundInControllerException($getBag->get('controller'), $getBag->get('action'));
         }
     }
 
     protected function callControllerMethod() {
         $controllerInstance = $this->controllerService->getInstance();
         $actionMethod = $this->actionMethod;
-        $controllerInstance->$actionMethod(); //TODO: pass uri parameters
+
+        $controllerInstance->$actionMethod();
     }
 
 }
