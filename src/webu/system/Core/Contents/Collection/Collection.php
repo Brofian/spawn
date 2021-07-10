@@ -3,8 +3,6 @@
 namespace webu\system\Core\Contents\Collection;
 
 
-use webu\system\Core\Contents\Collection\AbstractCollectionBase;
-
 class Collection extends AbstractCollectionBase {
 
     protected array $collection = array();

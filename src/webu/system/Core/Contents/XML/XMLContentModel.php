@@ -2,7 +2,6 @@
 
 namespace webu\system\Core\Contents;
 
-use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Contents\Collection\Collection;
 use webu\system\Core\Helper\URIHelper;
 use webu\system\Core\Helper\XMLReader;
@@ -98,7 +97,7 @@ class XMLContentModel {
 
                 $relPath = $child->attributes()["file"];
 
-                $combinedPath = URIHelper::joinPaths(dirname($filePath), $relPath);
+                $combinedPath = URIHelper::joinPaths(dirname($filePath), (string)$relPath);
 
                 $childXML = XMLReader::readFile($combinedPath);
 

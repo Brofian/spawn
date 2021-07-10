@@ -2,17 +2,11 @@
 
 namespace webu\system\Core\Contents\Modules;
 
-use SimpleXMLElement;
-use webu\Database\StructureTables\WebuModuleActions;
-use webu\Database\StructureTables\WebuModules;
 use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Contents\XMLContentModel;
-use webu\system\Core\Custom\StringConverter;
+use webu\system\Core\Helper\Slugifier;
 use webu\system\Core\Helper\URIHelper;
-use webu\system\Core\Helper\XMLHelper;
 use webu\system\Core\Helper\XMLReader;
-use webuApp\Database\ModuleTable;
-use webuApp\Models\ModuleActionStorage;
 use webuApp\Models\ModuleStorage;
 
 class ModuleLoader {
@@ -61,7 +55,7 @@ class ModuleLoader {
             $resourceConfig = json_decode($moduleEntry->getResourceConfig());
             $module
                 ->setUsingNamespaces($resourceConfig->using??[])
-                ->setResourceWeight($resourceConfig->weight??1)
+                ->setResourceWeight((int)$resourceConfig->weight??1)
                 ->setResourceNamespace($resourceConfig->namespace??ModuleNamespacer::getGlobalNamespace())
                 ->setResourceNamespaceRaw($resourceConfig->namespace_raw??ModuleNamespacer::getGlobalNamespaceRaw())
                 ->setResourcePath($resourceConfig->path??"");
@@ -110,7 +104,7 @@ class ModuleLoader {
                     $currentModulePath = URIHelper::joinPaths($currentNamespacePath, $moduleElement);
                     if($this->isModuleDirectory($currentModulePath)) {
 
-                        $slug = $this->moduleLocationToSlug($namespace, $moduleElement);
+                        $slug = Slugifier::slugify($namespace.$moduleElement);
 
                         $this->loadModule($currentModulePath, $slug, $connection);
                         $moduleCount++;
@@ -121,13 +115,6 @@ class ModuleLoader {
 
 
         return $this->moduleCollection;
-    }
-
-
-    public static function moduleLocationToSlug($namespace, $module) {
-        $namespace = StringConverter::snakeToPascalCase($namespace);
-        $module = StringConverter::snakeToPascalCase($module);
-        return ($namespace . $module);
     }
 
 
@@ -170,7 +157,7 @@ class ModuleLoader {
         $moduleResources = $moduleXML->getChildrenByType("resources")->first();
         if($moduleResources) {
 
-            $module->setResourceWeight($moduleResources->getAttribute("weight"));
+            $module->setResourceWeight((int)$moduleResources->getAttribute("weight"));
             $module->setResourcePath($moduleResources->getValue());
             $namespace = $moduleResources->getAttribute("namespace");
 

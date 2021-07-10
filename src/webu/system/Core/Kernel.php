@@ -9,7 +9,6 @@ use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Services\ServiceContainer;
-use webu\system\Core\Services\ServiceContainerProvider;
 use webu\system\Core\Services\ServiceLoader;
 use webu\system\Core\Services\ServiceTags;
 

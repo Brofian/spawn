@@ -2,8 +2,8 @@
 
 namespace webu\system\Core\Contents\Collection;
 
-use Iterator;
 use Countable;
+use Iterator;
 
 abstract class AbstractCollectionBase implements Iterator, Countable {
 

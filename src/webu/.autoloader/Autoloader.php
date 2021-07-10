@@ -2,8 +2,6 @@
 
 namespace webu\autoloader;
 
-use Symfony\Component\ErrorHandler\Error\ClassNotFoundError;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use webu\system\Core\Base\Custom\FileCrawler;
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Helper\URIHelper;

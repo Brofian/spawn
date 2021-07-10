@@ -2,8 +2,6 @@
 
 namespace webu\system\Core\Helper;
 
-use webu\system\Core\Custom\Debugger;
-
 class CookieHelper
 {
 

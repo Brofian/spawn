@@ -2,8 +2,6 @@
 
 namespace webu\system\Core\Helper;
 
-use webu\system\Core\Request;
-use webu\system\Core\Response;
 use webu\system\Core\Services\ServiceContainerProvider;
 use webu\system\Throwables\HeadersSendByException;
 

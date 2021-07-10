@@ -3,10 +3,6 @@
 namespace webu\system\Core\Helper;
 
 
-
-use webu\system\Core\Contents\Modules\Module;
-use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Contents\Modules\ModuleController;
 use webu\system\Core\Contents\ValueBag;
 use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Services\Service;
@@ -16,6 +12,9 @@ use webuApp\Models\RewriteUrl;
 
 class RoutingHelper
 {
+    const FALLBACK_SERVICE = 'system.fallback.404';
+    const FALLBACK_ACTION = 'error404Action';
+
 
     protected ServiceContainer $serviceContainer;
 
@@ -30,8 +29,8 @@ class RoutingHelper
 
 
         if($controller == "" || $action == "") {
-            $controllerCls = $this->serviceContainer->getService('system.fallback.404');
-            $actionStr = 'error404Action';
+            $controllerCls = $this->serviceContainer->getService(self::FALLBACK_SERVICE);
+            $actionStr = self::FALLBACK_ACTION;
             return;
         }
 
@@ -40,16 +39,16 @@ class RoutingHelper
         $controllerCls = $this->serviceContainer->getService($controller);
         if(!$controllerCls) {
             //controller does not exist
-            $controllerCls = $this->serviceContainer->getService('system.fallback.404');
-            $actionStr = 'error404Action';
+            $controllerCls = $this->serviceContainer->getService(self::FALLBACK_SERVICE);
+            $actionStr = self::FALLBACK_ACTION;
             return;
         }
 
         $actionStr =  $action."Action";
         if(!method_exists($controllerCls->getClass(), $actionStr)) {
             //action does not exist
-            $controllerCls = $this->serviceContainer->getService('system.fallback.404');
-            $actionStr = 'error404Action';
+            $controllerCls = $this->serviceContainer->getService(self::FALLBACK_SERVICE);
+            $actionStr = self::FALLBACK_ACTION;
             return;
         }
 
@@ -61,10 +60,11 @@ class RoutingHelper
 
     public function rewriteURL(string $original, array $rewrite_urls, ValueBag &$values): string {
 
+        $original = trim($original, '/? ');
+
         if($original == '' || strlen($original)) {
             $original = '/' . $original;
         }
-
 
         /** @var RewriteUrl $rewrite_url */
         foreach($rewrite_urls as $rewrite_url) {
@@ -88,7 +88,8 @@ class RoutingHelper
             }
         }
 
-        return $original;
+        $fallbackPath = "/?controller=system.fallback.404&action=error404";
+        return $fallbackPath;
     }
 
 

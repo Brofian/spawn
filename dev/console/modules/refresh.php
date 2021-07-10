@@ -5,9 +5,6 @@ use webu\system\Core\Base\Helper\DatabaseHelper;
 use webuApp\Models\ModuleStorage;
 use webu\system\Core\Contents\Modules\Module;
 use bin\webu\IO;
-use webu\system\Core\Contents\Modules\ModuleController;
-use webu\system\Core\Contents\Modules\ModuleAction;
-use webuApp\Models\ModuleActionStorage;
 use webu\system\Core\Contents\Modules\ModuleLoader;
 
 $dbHelper = new DatabaseHelper();

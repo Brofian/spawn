@@ -4,6 +4,7 @@
 //set some default values
 define('ROOT', dirname(dirname(__DIR__)) );
 define('CACHE_DIR', '/var/cache');
+define('IS_TERMINAL', defined('STDIN'));
 
 
 //load config

@@ -4,12 +4,6 @@
 namespace webu\system\Core\Base\Database\Query;
 
 
-use webu\system\Core\Base\Database\DatabaseConnection;
-use webu\system\Core\Base\Database\Query\Types\QueryDelete;
-use webu\system\Core\Base\Database\Query\Types\QueryInsert;
-use webu\system\Core\Base\Database\Query\Types\QuerySelect;
-use webu\system\Core\Base\Database\Query\Types\QueryUpdate;
-
 class QueryCondition
 {
     /** @var array  */

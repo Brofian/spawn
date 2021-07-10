@@ -2,10 +2,6 @@
 
 namespace webu\system\Core\Contents\Collection;
 
-use Iterator;
-use Countable;
-use webu\system\Core\Contents\Collection\AbstractCollectionBase;
-
 class AssociativeCollection extends AbstractCollectionBase {
 
     protected array $collection = array();

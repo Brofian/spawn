@@ -23,7 +23,7 @@ class Service extends Mutable {
     //free string, that is used to separate services by their functionality
     protected ?string $tag = ServiceTags::BASE_SERVICE;
     //the id of the module, this service belongs to
-    protected ?int $moduleId = null;
+    protected ?string $moduleId = null;
     //the arguments, that are given when the class of this service is instanciated. Can either be a fixed value or another service
     /** @var string[]  */
     protected array $arguments = array();
@@ -218,11 +218,11 @@ class Service extends Mutable {
         return $this;
     }
 
-    public function getModuleId() : ?int {
+    public function getModuleId() : ?string {
         return $this->moduleId;
     }
 
-    public function setModuleId(int $moduleId) : self {
+    public function setModuleId(string $moduleId) : self {
         $this->moduleId = $moduleId;
         return $this;
     }

@@ -12,7 +12,7 @@ class Module {
     protected string $moduleName;
     protected string $basePath;
     protected string $resourcePath;
-    protected string $resourceWeight;
+    protected int $resourceWeight;
     protected string $resourceNamespace;
     protected string $resourceNamespaceRaw;
     protected array $databaseTableClasses = array();
@@ -53,7 +53,7 @@ class Module {
         return $this;
     }
 
-    public function setResourceWeight(string $resourceWeight) : self {
+    public function setResourceWeight(int $resourceWeight) : self {
         $this->resourceWeight = $resourceWeight;
         return $this;
     }
@@ -119,47 +119,30 @@ class Module {
         return URIHelper::joinPaths($this->basePath, $this->resourcePath);
     }
 
-    /**
-     * @return string
-     */
     public function getRelativeResourcePath() : string {
         return $this->resourcePath;
     }
 
-    /**
-     * @return string
-     */
-    public function getResourceWeight() : string {
+    public function getResourceWeight() : int {
         return $this->resourceWeight;
     }
 
-    /**
-     * @return string
-     */
     public function getResourceNamespace() : string {
         return $this->resourceNamespace;
     }
 
-    /**
-     * @return string
-     */
     public function getResourceNamespaceRaw() : string {
         return $this->resourceNamespaceRaw;
     }
-
 
     public function getDatabaseTableClasses() : array {
         return $this->databaseTableClasses;
     }
 
-    /**
-     * @return array
-     */
     public function getUsingNamespaces(): array
     {
         return $this->usingNamespaces;
     }
-
 
     public function setUsingNamespaces(array $usingNamespaces): self
     {
@@ -178,34 +161,22 @@ class Module {
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->active;
     }
 
-    /**
-     * @param bool $active
-     */
     public function setActive(bool $active): self
     {
         $this->active = $active;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $moduleSlug
-     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;

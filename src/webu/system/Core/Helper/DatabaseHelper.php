@@ -2,14 +2,12 @@
 
 namespace webu\system\Core\Base\Helper;
 
-use PDO;
 use PDOException;
 use webu\system\Core\Base\Database\DatabaseConnection;
 use webu\system\Core\Custom\Debugger;
 
 class DatabaseHelper
 {
-
     /** @var string */
     private $host = '';
     /** @var string */

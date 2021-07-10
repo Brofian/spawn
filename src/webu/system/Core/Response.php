@@ -10,16 +10,12 @@ namespace webu\system\Core;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use webu\system\Core\Base\Custom\FileEditor;
-use webu\system\Core\Contents\Context;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Helper\FrameworkHelper\ResourceCollector;
-use webu\system\Core\Helper\HeaderHelper;
 use webu\system\Core\Helper\ScssHelper;
 use webu\system\Core\Helper\TwigHelper;
 use webu\system\Core\Helper\URIHelper;
 use webu\system\Core\Services\ServiceContainerProvider;
-use webu\system\Environment;
 
 class Response
 {

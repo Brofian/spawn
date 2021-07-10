@@ -4,11 +4,7 @@ namespace webu\system\Core\Extensions\Twig;
 
 
 use webu\system\Core\Base\Extensions\Twig\FilterExtension;
-use webu\system\Core\Contents\Modules\Module;
-use webu\system\Core\Contents\Modules\ModuleAction;
 use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Contents\Modules\ModuleController;
-use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Helper\RoutingHelper;
 
 class LinkFilterExtension extends FilterExtension

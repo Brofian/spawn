@@ -3,11 +3,9 @@
 namespace webu\system\Core\Helper\FrameworkHelper;
 
 use RecursiveIteratorIterator;
-use webu\system\Core\Base\Custom\FileCrawler;
 use webu\system\Core\Base\Custom\FileEditor;
 use webu\system\Core\Contents\Modules\Module;
 use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Contents\Modules\ModuleNamespacer;
 use webu\system\Core\Helper\URIHelper;
 
 

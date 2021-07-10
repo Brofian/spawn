@@ -11,7 +11,6 @@ use Twig\Error\SyntaxError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 use webu\system\Core\Contents\Collection\AssociativeCollection;
-use webu\system\Core\Contents\Collection\Collection;
 use webu\system\Core\Contents\Modules\ModuleCollection;
 use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Extensions\ExtensionLoader;

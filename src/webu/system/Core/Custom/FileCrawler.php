@@ -3,7 +3,6 @@
 
 namespace webu\system\Core\Base\Custom;
 
-use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Helper\URIHelper;
 
 /**

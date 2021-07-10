@@ -6,41 +6,20 @@ namespace webu\system\Core;
  *  The default Class to store all Request Information
  */
 
-use webu\system\Core\Base\Controller\BaseController;
-use webu\system\Core\Base\Controller\ControllerInterface;
 use webu\system\Core\Base\Helper\DatabaseHelper;
 use webu\system\Core\Contents\Collection\AssociativeCollection;
-use webu\system\Core\Contents\Collection\Collection;
-use webu\system\Core\Contents\ContentLoader;
-use webu\system\Core\Contents\Context;
-use webu\system\Core\Contents\Modules\Module;
-use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Contents\Modules\ModuleController;
-use webu\system\Core\Contents\Modules\ModuleLoader;
-use webu\system\Core\Contents\Modules\ModuleNamespacer;
 use webu\system\Core\Contents\ValueBag;
 use webu\system\Core\Custom\Logger;
-use webu\system\Core\Helper\CookieHelper;
-use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Helper\RoutingHelper;
-use webu\system\Core\Helper\SessionHelper;
-use webu\system\Core\Helper\URIHelper;
-use webu\system\Core\Helper\XMLReader;
-use webu\system\Core\Services\Service;
-use webu\system\Core\Services\ServiceContainer;
-use webu\system\Core\Services\ServiceLoader;
-use webu\system\Core\Services\ServiceTags;
-use webu\system\Environment;
-use webu\system\Throwables\ModulesNotLoadedException;
-use webu\system\Throwables\NoModuleFoundException;
+use webu\system\Core\Services\ServiceContainerProvider;
 use webuApp\Models\RewriteUrl;
 
 class Request
 {
-
     protected AssociativeCollection $get;
     protected AssociativeCollection $post;
     protected AssociativeCollection $cookies;
+    protected ValueBag $curl_values;
 
     protected string $requestURI;
     protected string $requestHostName;
@@ -51,6 +30,8 @@ class Request
 
     public function __construct()
     {
+        $this->curl_values = new ValueBag();
+
         $this->enrichGetValueBag();
         $this->enrichPostValueBag();
         $this->enrichCookieValueBag();
@@ -60,6 +41,8 @@ class Request
         $this->enrichRequestPath();
         $this->enrichRequestURI();
         $this->enrichRequestMethod();
+
+        $this->checkForRewriteUrl();
 
         if(MODE == 'dev') {
             $this->writeAccessLogEntry();
@@ -112,38 +95,31 @@ class Request
         $this->requestMethod = $_SERVER['REQUEST_METHOD'];
     }
 
+    protected function checkForRewriteUrl() {
+        /** @var RoutingHelper $routingHelper */
+        $routingHelper = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.routing.helper');
+        /** @var DatabaseHelper $databaseHelper */
+        $databaseHelper = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.database.helper');
+
+        $newURL = $routingHelper->rewriteURL(
+            $this->requestPath,
+            RewriteUrl::loadAll($databaseHelper),
+            $this->curl_values
+        );
+
+        $parts = parse_url($newURL);
+        parse_str($parts['query'], $query);
+
+        foreach($query as $key => $value) {
+            $this->get->set($key, $value);
+        }
+    }
 
 
     public function writeAccessLogEntry()
     {
         Logger::writeToAccessLog("Call to \"{$this->requestURI}\"");
     }
-
-
-
-    /*
-    public function checkRewriteURL() {
-
-        $newURL = $this->getRoutingHelper()->rewriteURL(
-            $this->requestURI,
-            RewriteUrl::loadAll($this->getDatabaseHelper()),
-            $this->curlValueBag
-        );
-
-
-        $this->requestURI;
-
-        $parts = parse_url($newURL);
-        parse_str($parts['query'], $query);
-
-        foreach($query as $key => $value) {
-            $this->get[$key] = $value;
-        }
-    }
-
-
-    */
-
 
 
     public function getGet(): AssociativeCollection {
@@ -157,6 +133,17 @@ class Request
     public function getPost(): AssociativeCollection {
         return $this->post;
     }
+
+    public function getCurlValues(): ValueBag {
+        return $this->curl_values;
+    }
+
+    public function getRequestURI(): string {
+        return $this->requestURI;
+    }
+
+
+
 
 
 }

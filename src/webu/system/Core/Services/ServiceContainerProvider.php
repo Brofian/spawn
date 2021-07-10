@@ -2,10 +2,6 @@
 
 namespace webu\system\Core\Services;
 
-use webu\system\Core\Base\Database\DatabaseConnection;
-use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Contents\Modules\ModuleLoader;
-
 class ServiceContainerProvider {
 
     const CORE_SERVICE_LIST = [
@@ -22,7 +18,7 @@ class ServiceContainerProvider {
         'system.database.helper' => [
             ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
             ServiceProperties::_STATIC => true,
-            ServiceProperties::_CLASS => 'webu\system\Core\Helper\DatabaseHelper',
+            ServiceProperties::_CLASS => 'webu\system\Core\Base\Helper\DatabaseHelper',
         ],
         'system.header.helper' => [
             ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,

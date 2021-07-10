@@ -5,7 +5,6 @@ namespace webu\system\Core\Helper;
 
 use webu\cache\database\table\WebuAuth;
 use webu\system\Core\Base\Helper\DatabaseHelper;
-use webu\system\Core\Custom\Debugger;
 use webu\system\Core\Database\Models\AuthUser;
 
 class UserHelper

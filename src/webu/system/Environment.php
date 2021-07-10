@@ -2,12 +2,9 @@
 
 namespace webu\system;
 
-use webu\system\Core\Contents\Modules\ModuleLoader;
 use webu\system\Core\Custom\Logger;
 use webu\system\Core\Helper\RoutingHelper2;
 use webu\system\Core\Kernel;
-use webu\system\Core\Request;
-use webu\system\Core\Response;
 
 /*
  * The Main Environment to handle the system

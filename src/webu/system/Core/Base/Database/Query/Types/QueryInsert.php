@@ -3,7 +3,6 @@
 namespace webu\system\Core\Base\Database\Query\Types;
 
 
-use MongoDB\Driver\Query;
 use webu\system\Core\Base\Database\DatabaseConnection;
 
 class QueryInsert extends QueryBase
