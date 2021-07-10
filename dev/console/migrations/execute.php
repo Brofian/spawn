@@ -1,12 +1,12 @@
 <?php
 
-use webu\system\core\base\Migration;
-use bin\webu\IO;
-use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Helper\URIHelper;
-use webu\system\Core\Contents\Modules\Module;
-use webu\system\Core\Base\Custom\FileEditor;
-use webu\system\Core\Base\Helper\DatabaseHelper;
+use spawn\system\Core\base\Migration;
+use bin\spawn\IO;
+use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Helper\URIHelper;
+use spawn\system\Core\Contents\Modules\Module;
+use spawn\system\Core\Base\Custom\FileEditor;
+use spawn\system\Core\Base\Helper\DatabaseHelper;
 
 
 /*
@@ -74,12 +74,12 @@ usort($migrations, function($a, $b) {
 
 
 $dbHelper = new DatabaseHelper();
-$migrationTableExists = $dbHelper->doesTableExist('webu_migrations');
+$migrationTableExists = $dbHelper->doesTableExist('spawn_migrations');
 
 $executedMigrations = [];
 if($migrationTableExists) {
     //load executed migrations
-    $erg = $dbHelper->query("SELECT * FROM webu_migrations");
+    $erg = $dbHelper->query("SELECT * FROM spawn_migrations");
 
     foreach($erg as $item) {
         $executedMigrations[] = $item["class"] . "-" . $item["timestamp"];
@@ -117,6 +117,11 @@ foreach($migrations as $migration) {
         IO::printLine("> executed Migration \"$migrationClass\"", IO::GREEN_TEXT);
     }
     catch(Exception $e) {
+        if($e instanceof \spawn\system\Throwables\ClassNotFoundException) {
+            throw $e;
+        }
+
+
         IO::endLine();
         IO::print("An error occured while running Migration ", IO::RED_TEXT);
         IO::print($migrationClass, IO::YELLOW_TEXT);
@@ -135,7 +140,7 @@ foreach($migrations as $migration) {
  * Save new Migrations
  *
  */
-$sql = "INSERT INTO `webu_migrations` (`class`,`timestamp`) VALUES ";
+$sql = "INSERT INTO `spawn_migrations` (`class`,`timestamp`) VALUES ";
 $isFirst = true;
 foreach($newMigrations as $newMigration) {
 

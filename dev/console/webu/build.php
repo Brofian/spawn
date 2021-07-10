@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 
-include(__DIR__ . "/callable/print-webu.php");
+include(__DIR__ . "/callable/print-spawn.php");
 
 //clear all caches
 include(__DIR__ . "/../cache/clear.php");

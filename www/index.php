@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
 
-    require_once("../src/webu/init.php");
+    require_once("../src/spawn/init.php");
 
     //load environment
-    $environment = new \webu\system\Environment();
+    $environment = new \spawn\system\Environment();
 
     echo $environment->handle();
 

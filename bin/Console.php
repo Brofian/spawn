@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
 
-namespace webu\bin;
+namespace spawn\bin;
 
-use bin\webu\IO;
+use bin\spawn\IO;
 
-use webu\system\Core\Helper\URIHelper;
+use spawn\system\Core\Helper\URIHelper;
 
 class Console {
 
@@ -105,7 +105,7 @@ class Console {
                 if($cmd == "")  {
                     $command = $key;
                 }
-                else if(substr($cmd, "-1","1") == ":") {
+                else if(substr($cmd, -1,1) == ":") {
                     $command = $cmd . $key;
                     $nestingLevel++;
                 }

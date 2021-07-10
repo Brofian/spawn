@@ -1,14 +1,14 @@
 <?php
 
-use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Base\Helper\DatabaseHelper;
-use webuApp\Models\ModuleStorage;
-use webu\system\Core\Contents\Modules\Module;
-use bin\webu\IO;
-use webu\system\Core\Contents\Modules\ModuleLoader;
+use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Base\Helper\DatabaseHelper;
+use spawnApp\Models\ModuleStorage;
+use spawn\system\Core\Contents\Modules\Module;
+use bin\spawn\IO;
+use spawn\system\Core\Contents\Modules\ModuleLoader;
 
 $dbHelper = new DatabaseHelper();
-$migrationTableExists = $dbHelper->doesTableExist('webu_migrations');
+$migrationTableExists = $dbHelper->doesTableExist('spawn_migrations');
 
 
 

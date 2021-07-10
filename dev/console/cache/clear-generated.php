@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use \webu\system\Core\Helper\URIHelper;
-use \bin\webu\IO;
+use \spawn\system\Core\Helper\URIHelper;
+use \bin\spawn\IO;
 
 $cacheDir = ROOT.CACHE_DIR;
 URIHelper::pathifie($cacheDir, DIRECTORY_SEPARATOR);

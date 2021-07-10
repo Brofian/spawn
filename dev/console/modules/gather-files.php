@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-use bin\webu\IO;
-use webu\system\Core\Contents\Modules\Module;
-use webu\system\Core\Helper\FrameworkHelper\ResourceCollector;
+use bin\spawn\IO;
+use spawn\system\Core\Contents\Modules\Module;
+use spawn\system\Core\Helper\FrameworkHelper\ResourceCollector;
 
 
 $moduleCollection = include(__DIR__ . "/callable/list-modules.php");

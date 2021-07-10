@@ -187,7 +187,7 @@
                     "name": "Fabian Holzwarth"
                 }
             ],
-            "description": "Webu Modul - Basis Backend",
+            "description": "Spawn Modul - Basis Backend",
             "support": {
                 "source": "https://github.com/F-H00/webu-backend-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-backend-module/issues"
@@ -222,7 +222,7 @@
                     "name": "Fabian Holzwarth"
                 }
             ],
-            "description": "Webu Modul - Basis Modul",
+            "description": "Spawn Modul - Basis Modul",
             "support": {
                 "source": "https://github.com/F-H00/webu-base-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-base-module/issues"
@@ -250,7 +250,7 @@
             "type": "webu-module",
             "autoload": {
                 "psr-4": {
-                    "fh00WebuHomepage\\": "src/"
+                    "fh00SpawnHomepage\\": "src/"
                 }
             },
             "license": [
@@ -261,7 +261,7 @@
                     "name": "Fabian Holzwarth"
                 }
             ],
-            "description": "Webu Modul - Private Homepage",
+            "description": "Spawn Modul - Private Homepage",
             "support": {
                 "source": "https://github.com/F-H00/webu-homepage-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-homepage-module/issues"
@@ -294,7 +294,7 @@
                     "name": "Fabian Holzwarth"
                 }
             ],
-            "description": "Webu Modul - Private Homepage",
+            "description": "Spawn Modul - Private Homepage",
             "support": {
                 "source": "https://github.com/F-H00/webu-manual-module/tree/develop",
                 "issues": "https://github.com/F-H00/webu-manual-module/issues"
@@ -330,7 +330,7 @@
                     "name": "Fabian Holzwarth"
                 }
             ],
-            "description": "Webu Application Module",
+            "description": "Spawn Application Module",
             "support": {
                 "source": "https://github.com/F-H00/webu_tb/tree/master",
                 "issues": "https://github.com/F-H00/webu_tb/issues"
@@ -2049,7 +2049,7 @@
                     "name": "Fabian Holzwarth"
                 }
             ],
-            "description": "Webu Application Module",
+            "description": "Spawn Application Module",
             "support": {
                 "source": "https://github.com/F-H00/webu-app/tree/develop",
                 "issues": "https://github.com/F-H00/webu-app/issues"

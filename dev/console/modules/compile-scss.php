@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
 
-use bin\webu\IO;
-use webu\system\Core\Helper\ScssHelper;
-use webu\system\Core\Helper\URIHelper;
+use bin\spawn\IO;
+use spawn\system\Core\Helper\ScssHelper;
+use spawn\system\Core\Helper\URIHelper;
 
 
 //load resources from modules

@@ -1,10 +1,10 @@
 <?php
 
-use bin\webu\IO;
-use webu\system\Core\Base\Custom\FileEditor;
-use webu\system\Core\Helper\URIHelper;
-use webu\system\Core\Contents\Modules\ModuleLoader;
-use webu\system\Core\Custom\StringConverter;
+use bin\spawn\IO;
+use spawn\system\Core\Base\Custom\FileEditor;
+use spawn\system\Core\Helper\URIHelper;
+use spawn\system\Core\Contents\Modules\ModuleLoader;
+use spawn\system\Core\Custom\StringConverter;
 
 $moduleFolder = ROOT . "/custom/modules";
 $existingModules = scandir($moduleFolder);
@@ -59,7 +59,7 @@ FileEditor::createFile(URIHelper::joinMultiplePaths($newModulePath, $moduleClass
     
 namespace ".$slug.";
 
-use webu\system\Core\Base\Module\BaseModule;
+use spawn\system\Core\Base\Module\BaseModule;
 
 class ".$moduleClassName." extends BaseModule {
 }   

@@ -5,9 +5,9 @@ if (PHP_VERSION_ID < 70400) {
     exit();
 }
 
-include __DIR__ . "/../src/webu/init.php";
+include __DIR__ . "/../src/spawn/init.php";
 
-$console = new webu\bin\Console($argv);
+$console = new spawn\bin\Console($argv);
 
 
 
