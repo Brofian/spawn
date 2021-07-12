@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-use bin\webu\IO;
+use bin\spawn\IO;
 
 IO::execInDir('composer run-script download-nodejs', ROOT);
 

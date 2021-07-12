@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 
-use bin\webu\IO;
+use bin\spawn\IO;
 
 $background = IO::BLUE_BG;
 $text = IO::LIGHT_CYAN_TEXT;

@@ -1,10 +1,10 @@
 <?php
 
 
-use \webu\system\Core\Contents\Modules\Module;
-use \bin\webu\IO;
-use \webu\system\Core\Base\Custom\FileEditor;
-use \webu\system\Core\Helper\URIHelper;
+use \spawn\system\Core\Contents\Modules\Module;
+use \bin\spawn\IO;
+use \spawn\system\Core\Base\Custom\FileEditor;
+use \spawn\system\Core\Helper\URIHelper;
 
 $moduleCollection = include(__DIR__ . "/../modules/callable/list-modules.php");
 
@@ -61,8 +61,8 @@ FileEditor::createFile($filePath, "<?php
 
 namespace ".$slug."\\Database\\Migrations;
 
-use webu\system\Core\Base\Helper\DatabaseHelper;
-use webu\system\core\base\Migration;
+use spawn\system\Core\Base\Helper\DatabaseHelper;
+use spawn\system\Core\base\Migration;
 
 class ".$className." extends Migr"."ation {
     
