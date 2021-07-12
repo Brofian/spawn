@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace src\npm;
 
-use webu\system\Core\Base\Custom\FileEditor;
+use spawn\system\Core\Base\Custom\FileEditor;
 
 class WebpackConfigGenerator {
 

@@ -1,8 +1,8 @@
 <?php
 
-use bin\webu\IO;
-use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Contents\Modules\Module;
+use bin\spawn\IO;
+use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Contents\Modules\Module;
 
 /** @var ModuleCollection $moduleCollection */
 $moduleCollection = include(__DIR__ . "/callable/list-modules.php");

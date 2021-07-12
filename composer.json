@@ -2,12 +2,12 @@
   "name": "webu-creator/project",
   "type": "project",
   "version": "0.1",
-  "description": "The Basic Webu Creator Framework",
+  "description": "The Basic Spawn Creator Framework",
 
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:F-H00/webu-app.git"
+      "url": "git@github.com:Brosterios/spawn-app.git"
     },
     {
       "type": "vcs",
@@ -16,18 +16,6 @@
     {
       "type": "vcs",
       "url":  "git@github.com:F-H00/webu-backend-module.git"
-    },
-    {
-      "type": "vcs",
-      "url":  "git@github.com:F-H00/webu-base-module.git"
-    },
-    {
-      "type": "vcs",
-      "url":  "git@github.com:F-H00/webu-manual-module.git"
-    },
-    {
-      "type": "vcs",
-      "url":  "git@github.com:F-H00/webu_tb.git"
     }
   ],
 
@@ -44,12 +32,7 @@
     "ext-dom": "*",
     "mouf/nodejs-installer": "~1.0",
     "oomphinc/composer-installers-extender": "*",
-    "webu/app" : "dev-develop as 0.0.1",
-    "fh00-webu/homepage": "dev-develop as 0.0.1",
-    "fh00-webu/backend": "dev-develop as 0.0.1",
-    "fh00-webu/manual": "dev-develop as 0.0.1",
-    "fh00-webu/base": "dev-develop as 0.0.1",
-    "fh00/tribal":  "dev-master as 0.0.1"
+    "spawn/app" : "dev-develop as 0.0.1"
   }
 
 }

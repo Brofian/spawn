@@ -1,24 +1,21 @@
 <?php
 
-use webu\system\Core\Contents\Modules\ModuleCollection;
-use webu\system\Core\Base\Helper\DatabaseHelper;
-use webuApp\Models\ModuleStorage;
-use webu\system\Core\Contents\Modules\Module;
-use bin\webu\IO;
-use webu\system\Core\Contents\Modules\ModuleController;
-use webu\system\Core\Contents\Modules\ModuleAction;
-use webuApp\Models\ModuleActionStorage;
-use webu\system\Core\Contents\Modules\ModuleLoader;
+use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Base\Helper\DatabaseHelper;
+use spawnApp\Models\ModuleStorage;
+use spawn\system\Core\Contents\Modules\Module;
+use bin\spawn\IO;
+use spawn\system\Core\Contents\Modules\ModuleLoader;
 
 $dbHelper = new DatabaseHelper();
-$migrationTableExists = $dbHelper->doesTableExist('webu_migrations');
+$migrationTableExists = $dbHelper->doesTableExist('spawn_migrations');
 
 
 
 /** @var ModuleLoader $moduleLoader */
 $moduleLoader = new ModuleLoader();
 /** @var ModuleCollection $moduleCollection */
-$moduleCollection = $moduleLoader->readModules();
+$moduleCollection = $moduleLoader->readModules($dbHelper->getConnection());
 $existingModules = ModuleStorage::findAll($dbHelper->getConnection());
 
 
@@ -69,22 +66,6 @@ foreach($newModules as $module) {
     $moduleStorage->save($dbHelper->getConnection());
     $moduleId = $moduleStorage->getId();
     $count++;
-
-    //save actions
-    /** @var ModuleController $controller */
-    foreach($module->getModuleControllers() as $controller) {
-        /** @var ModuleAction $action */
-        foreach($controller->getActions() as $action) {
-            $moduleAction = new ModuleActionStorage(
-                $controller->getClass(),
-                $action->getAction(),
-                $action->getCustomUrl(),
-                $action->getId(),
-                $moduleId
-            );
-            $moduleAction->save($dbHelper->getConnection());
-        }
-    }
 }
 
 IO::printLine("> Deleting old modules", IO::YELLOW_TEXT);
@@ -98,109 +79,5 @@ foreach($existingModules as $module) {
     }
 }
 
-
-//update actions
-/** @var ModuleStorage $module */
-foreach($existingModules as $module) {
-    if($module->getId() === null) continue;
-
-    IO::printLine("> Checking Module \"".$module->getSlug()."\"", IO::YELLOW_TEXT);
-
-
-    $existingActions = ModuleActionStorage::findAll($dbHelper->getConnection(),$module->getId());
-    $checkedActions = [];
-    $newActions = 0;
-    $updatedActions = 0;
-
-    /** @var Module $moduleObj */
-    foreach($moduleCollection->getModuleList() as $moduleObj) {
-        if($moduleObj->getSlug() != $module->getSlug() ) {
-            continue;
-        }
-
-        /** @var ModuleController $moduleObjController */
-        foreach($moduleObj->getModuleControllers() as $moduleObjController) {
-
-            /** @var ModuleAction $moduleObjAction */
-            foreach($moduleObjController->getActions() as $moduleObjAction) {
-
-                //search for this class-action combination in the existing
-                $foundActionInDatabase = false;
-                /** @var ModuleActionStorage $existingAction */
-                foreach($existingActions as $existingAction) {
-                    if(
-                        $existingAction->getClass()     == $moduleObjController->getClass() &&
-                        $existingAction->getAction()    == $moduleObjAction->getAction() &&
-                        $existingAction->getIdentifier() == $moduleObjAction->getId()
-                    ) {
-                        //this action is saved in the database
-                        $foundActionInDatabase = true;
-
-                        if(!isset($checkedActions[$existingAction->getIdentifier()])) {
-                            $checkedActions[$existingAction->getIdentifier()] = $existingAction;
-                        }
-
-                        if($existingAction->getCustomUrl() != $moduleObjAction->getCustomUrl()) {
-                            $existingAction->setCustomUrl($moduleObjAction->getCustomUrl());
-                            $existingAction->save($dbHelper->getConnection());
-                            $updatedActions++;
-                        }
-                    }
-                }
-
-                if(!$foundActionInDatabase) {
-                    //save action to database
-                    $actionStrg = new ModuleActionStorage(
-                        $moduleObjController->getClass(),
-                        $moduleObjAction->getAction(),
-                        $moduleObjAction->getCustomUrl(),
-                        $moduleObjAction->getId(),
-                        $module->getId()
-                    );
-                    $actionStrg->save($dbHelper->getConnection());
-                    $newActions++;
-                }
-            }
-        }
-    }
-
-    if($updatedActions > 0) {
-        IO::printLine(IO::TAB . "> Updated $updatedActions existing actions");
-    }
-    if($newActions > 0) {
-        IO::printLine(IO::TAB . "> Added $newActions new Actions");
-    }
-
-
-
-    $numExisting = count($existingActions); // Datenbank Einträge
-    $numTotal = count($checkedActions); // Datenbank Einträge, die auch existieren
-
-    if($numExisting <= $numTotal) {
-        continue;
-    }
-
-
-    IO::printLine(IO::TAB . "> Deleting ".($numExisting-$numTotal)." old actions");
-
-    //delete not found actions
-    /** @var ModuleActionStorage $existingAction */
-    foreach($existingActions as $existingAction) {
-        $keepAction = false;
-        /** @var ModuleActionStorage $checkedAction */
-        foreach($checkedActions as $checkedAction) {
-            if($checkedAction->equals($existingAction)) {
-                $keepAction = true;
-                break;
-            }
-        }
-
-        if(!$keepAction) {
-            //delete action
-            $existingAction->delete($dbHelper->getConnection());
-        }
-    }
-
-}
 
 IO::printLine("> - Successfully refreshed Modules", IO::GREEN_TEXT);

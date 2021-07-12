@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-use bin\webu\IO;
+use bin\spawn\IO;
 
 const DS = DIRECTORY_SEPARATOR;
 $newPathVars = [
