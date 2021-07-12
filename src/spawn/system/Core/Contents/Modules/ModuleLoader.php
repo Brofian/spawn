@@ -76,7 +76,7 @@ class ModuleLoader {
     /**
      * This functions reads the modules live from the existing files
      */
-    public function readModules(DatabaseConnection $connection) : ModuleCollection {
+    public function readModules(DatabaseConnection $connection, bool $saveModulesToDB = true) : ModuleCollection {
 
         /*
          * Stucture:
@@ -106,7 +106,7 @@ class ModuleLoader {
 
                         $slug = Slugifier::slugify($namespace.$moduleElement);
 
-                        $this->loadModule($currentModulePath, $slug, $connection);
+                        $this->loadModule($currentModulePath, $slug, $connection, $saveModulesToDB);
                         $moduleCount++;
                     }
                 }
@@ -125,7 +125,7 @@ class ModuleLoader {
     }
 
 
-    private function loadModule(string $basePath, string $slug, DatabaseConnection $connection) {
+    private function loadModule(string $basePath, string $slug, DatabaseConnection $connection, bool $saveModule = true) {
 
         $module = new Module($slug);
         $module->setActive(false);
@@ -190,14 +190,17 @@ class ModuleLoader {
         }
 
 
-        $moduleStorage = new ModuleStorage(
-            $module->getSlug(),
-            $module->getBasePath(),
-            $module->isActive(),
-            $module->getInformationsAsJson(),
-            $module->getResourceConfigJson()
-        );
-        $moduleStorage->save($connection);
+        if($saveModule) {
+            $moduleStorage = new ModuleStorage(
+                $module->getSlug(),
+                $module->getBasePath(),
+                $module->isActive(),
+                $module->getInformationsAsJson(),
+                $module->getResourceConfigJson()
+            );
+            $moduleStorage->save($connection);
+        }
+
 
 
         $this->moduleCollection->addModule($module);

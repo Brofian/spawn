@@ -7,7 +7,7 @@ use \bin\spawn\IO;
 if(!isset($moduleCollection)) {
     $dbHelper = new DatabaseHelper();
     $moduleLoader = new ModuleLoader();
-    $moduleCollection = $moduleLoader->readModules($dbHelper->getConnection());
+    $moduleCollection = $moduleLoader->readModules($dbHelper->getConnection(), false);
 
 }
 
