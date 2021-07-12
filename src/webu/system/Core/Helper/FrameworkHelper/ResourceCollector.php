@@ -135,11 +135,12 @@ class ResourceCollector {
 
         FileEditor::createFolder($dest);
 
+        /** @var RecursiveIteratorIterator $iterator */
         foreach (
-            /** @var RecursiveIteratorIterator $iterator */
             $iterator = new RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator($source, \RecursiveDirectoryIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST) as $item
+                \RecursiveIteratorIterator::SELF_FIRST)
+            as $item
         ) {
             if ($item->isDir()) {
                 if(!file_exists($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName())) {

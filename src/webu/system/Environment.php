@@ -42,6 +42,7 @@ class Environment
     public function init()
     {
         $this->request->gatherInformationsFromRequest();
+
         $this->request->addToAccessLog();
 
         $this->request->loadController();

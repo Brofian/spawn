@@ -149,7 +149,7 @@ class QuerySelect extends QueryBase
                 $j .= 'INNER JOIN ';
                 break;
             case 4:
-                $j .= 'OUTER JOIN ';
+                $j .= 'FULL OUTER JOIN ';
                 break;
             case 0:
             default:
@@ -214,7 +214,6 @@ class QuerySelect extends QueryBase
 
         $this->where[] = $prefix . $column . " " . $operator . " " . $placeholder;
         $this->bindValue($placeholder, $value);
-
 
         return $this;
     }

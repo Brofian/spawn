@@ -108,7 +108,7 @@ class TwigHelper
      * @param string $path
      */
     public function addTemplateDir(string $path) {
-        $this->templateDirs[] = $path;
+        $this->templateDirs[] = URIHelper::pathifie($path);
     }
 
 

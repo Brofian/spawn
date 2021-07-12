@@ -22,7 +22,7 @@ class ModuleController {
     public function __construct(string $class, string $name, array $actions)
     {
         $this->class = $class;
-        $this->name = $name;
+        $this->name = basename(str_replace("\\","/",$name));
         $this->actions = $actions;
     }
 
@@ -83,4 +83,10 @@ class ModuleController {
         return new $cls();
     }
 
+    /**
+     * @param ModuleAction $action
+     */
+    public function addAction(ModuleAction $action) {
+        $this->actions[] = $action;
+    }
 }

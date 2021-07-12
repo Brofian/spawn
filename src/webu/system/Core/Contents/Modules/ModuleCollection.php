@@ -25,7 +25,7 @@ class ModuleCollection {
 
 
     /**
-     * @return array
+     * @return Module[]
      */
     public function getModuleList() {
         return $this->modules;
@@ -39,6 +39,7 @@ class ModuleCollection {
 
         /** @var Module $module */
         foreach($this->getModuleList() as $module) {
+
             if(!$module->isActive()) continue;
 
             $namespace = ($module->getResourceNamespace() == "") ? "DEFAULT_NAMESPACE" : $module->getResourceNamespace();

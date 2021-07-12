@@ -21,7 +21,10 @@ use webu\system\Core\Helper\FrameworkHelper\CUriConverter;
 use webu\system\Core\Helper\RoutingHelper;
 use webu\system\Core\Helper\SessionHelper;
 use webu\system\Core\Helper\URIHelper;
+use webu\system\Core\Services\ServiceLoader;
 use webu\system\Environment;
+use webu\system\Throwables\ModulesNotLoadedException;
+use webu\system\Throwables\NoModuleFoundException;
 
 class Request
 {
@@ -146,33 +149,48 @@ class Request
         $this->cookies = new CookieHelper();
         $this->session = new SessionHelper();
         $this->database = new DatabaseHelper();
+
         $this->context = new Context();
+
     }
 
 
     public function loadController()
     {
+
         $moduleLoader = new ModuleLoader();
-        $this->moduleCollection = $moduleLoader->loadModules(ROOT . "/modules");
+        $this->moduleCollection = $moduleLoader->loadModules($this->getDatabaseHelper()->getConnection());
+
+        /*
+        $serviceLoader = new ServiceLoader();
+        $serviceLoader->loadServices($this->moduleCollection);
+        */
 
         //sort modules by resource Weight
         $moduleList = $this->moduleCollection->getModuleList();
+        if(count($moduleList) < 1) {
+            throw new ModulesNotLoadedException();
+        }
         ModuleCollection::sortModulesByWeight($moduleList);
 
         $twigHelper = $this->environment->response->getTwigHelper();
         /** @var Module $module */
         foreach($moduleList as $module) {
-            $twigHelper->addTemplateDir($module->getResourcePath() . "/template");
+            $twigHelper->addTemplateDir(ROOT . $module->getResourcePath() . "/template");
         }
 
 
         $this->routingHelper = new RoutingHelper($this->moduleCollection);
         $routingResult = $this->routingHelper->route($this->requestURI);
 
-
         if($routingResult === false) {
             $routingResult = $this->routingHelper->route("404");
         }
+
+        if($routingResult === false) {
+            throw new NoModuleFoundException();
+        }
+
 
         $uriParameters = CUriConverter::getParametersFromUri($this->requestURI, $routingResult["uri"]);
 

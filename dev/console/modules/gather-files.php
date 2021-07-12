@@ -21,10 +21,10 @@ if(!isset($filesGathered) || !$filesGathered) {
 
         $filesGathered = true;
 
-        IO::printLine("> - successfully gathered files", IO::GREEN_TEXT);
+        IO::printLine("> - Successfully gathered files", IO::GREEN_TEXT);
     }
     catch(Exception $e) {
-        IO::printLine("> - failed gathering files! There is probably more output above", IO::RED_TEXT);
+        IO::printLine("> - Failed gathering files! There is probably more output above", IO::RED_TEXT);
         die();
     }
 
