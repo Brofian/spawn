@@ -51,7 +51,7 @@ foreach($newModules as $module) {
         "namespace" => $module->getResourceNamespace(),
         "namespace_raw" => $module->getResourceNamespaceRaw(),
         "using" => $module->getUsingNamespaces(),
-        "path" => $module->getRelativeResourcePath(),
+        "path" => $module->getResourcePath(),
         "weight" => $module->getResourceWeight()
     ]);
     $informations = json_encode($module->getInformation());

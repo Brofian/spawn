@@ -116,10 +116,6 @@ class Module {
     }
 
     public function getResourcePath() : string {
-        return URIHelper::joinPaths($this->basePath, $this->resourcePath);
-    }
-
-    public function getRelativeResourcePath() : string {
         return $this->resourcePath;
     }
 

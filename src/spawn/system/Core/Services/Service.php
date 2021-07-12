@@ -18,7 +18,7 @@ class Service extends Mutable {
     protected $instance = null;
     //this service can decorate another. When the other service is called, it will be replaced by this automatically
     protected ?string $decorates = null;
-    //if set, this service uses the arguments of its parent instead of its own
+    //if set, this service uses the arguments of its parent before of its own
     protected ?string $parent = null;
     //free string, that is used to separate services by their functionality
     protected ?string $tag = ServiceTags::BASE_SERVICE;
@@ -63,14 +63,15 @@ class Service extends Mutable {
     public function getCallArguments() : array {
         $arguments = [];
 
-        if($this->getParent() === null) {
-            foreach($this->arguments as $argument) {
-                $arguments[] = $this->getValueFromArgument($argument);
-            }
-        }
-        else {
+        if($this->getParent() !== null) {
+            //if this service has a parent, include the parents arguments first
             $arguments = $this->serviceContainer->getService($this->parent)->getCallArguments();
         }
+
+        foreach($this->arguments as $argument) {
+            $arguments[] = $this->getValueFromArgument($argument);
+        }
+
 
 
         return $arguments;

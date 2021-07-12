@@ -108,11 +108,18 @@ class Request
         );
 
         $parts = parse_url($newURL);
-        parse_str($parts['query'], $query);
+        if(isset($parts['query'])) {
+            //read and add get parameters
+            parse_str($parts['query'], $query);
 
-        foreach($query as $key => $value) {
-            $this->get->set($key, $value);
+            foreach($query as $key => $value) {
+                $this->get->set($key, $value);
+            }
         }
+
+
+
+
     }
 
 
