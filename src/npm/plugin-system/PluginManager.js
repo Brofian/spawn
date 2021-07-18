@@ -1,12 +1,12 @@
 import PluginManagerSubject from "./PluginManagerSubject";
+import EventManager from "./EventManager";
 
 export const PluginManagerInstance = new PluginManagerSubject();
 
 
 export default class PluginManager {
 
-    constructor() {
-    }
+    constructor() {}
 
 
     static register(plugin, pluginClass, binding) {
@@ -36,3 +36,11 @@ document.addEventListener('readystatechange', (event) => {
         PluginManager.initializePlugins(document);
     }
 }, false);
+
+EventManager.subscribe('pluginmanager.startInitializeScope', function(args) {
+    if(args.length < 1 || typeof args[0] == 'string') {
+        return;
+    }
+
+    PluginManager.initializePlugins(args[0]);
+});

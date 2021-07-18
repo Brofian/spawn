@@ -54,7 +54,6 @@ export default class PluginManagerSubject {
 
 
 
-
     initializePlugins(scope) {
         var me = this;
 
