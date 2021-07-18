@@ -23,17 +23,11 @@ class IconFilterExtension extends FilterExtension
      */
     protected function getFilterFunction(): callable
     {
-        return function($context, $icon, $additionalClasses = "") {
-
-            $namespace = ModuleNamespacer::getGlobalNamespace();
-            if(isset($context["namespace"])) {
-                $namespace = $context["namespace"];
-            }
+        return function($icon, $additionalClasses = "") {
 
             $iconPath = URIHelper::createPath([
                 ROOT . CACHE_DIR,
                 "public",
-                $namespace,
                 "assets",
                 "icons",
                 $icon.".svg"
@@ -57,7 +51,7 @@ class IconFilterExtension extends FilterExtension
     protected function getFilterOptions(): array
     {
         return [
-            'needs_context' => true,
+            'needs_context' => false,
             'is_safe' => ['html']
         ];
     }

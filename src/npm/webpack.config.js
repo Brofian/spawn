@@ -12,7 +12,7 @@ module.exports = {
     mode: "production", // "production" | "development" | "none"
 
     //entrypoint for compiling
-    entry: '../../var/cache/private/resources/modules/js/index.js',
+    entry: path.resolve(__dirname, '../../var/cache/private/resources/modules/js/index.js'),
     //output folder and file
     output: {
         filename: 'index.js',

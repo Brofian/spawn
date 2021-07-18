@@ -18,8 +18,8 @@ class ScssHelper
 
     private $baseVariables = array();
 
-    public $cacheFilePath = ROOT . CACHE_DIR . '/public/{namespace}/css';
-    public $baseFolder = ROOT . CACHE_DIR . '/private/resources';
+    public $cacheFilePath = ROOT . CACHE_DIR . '/public/css';
+    public $baseFolder = ROOT . CACHE_DIR . '/private/resources/modules';
     public $baseFileName = 'scss/index.scss';
 
 
@@ -46,7 +46,6 @@ class ScssHelper
         //set Base path for files
         $scss->setImportPaths([dirname($baseFile)]);
 
-
         try {
             $css = $scss->compile('
               ' . $baseVariables . '
@@ -67,9 +66,6 @@ class ScssHelper
     private function compileBaseVariables()
     {
         $result = "";
-        foreach (BRAND_COLORS as $name => $color) {
-            $result .= '$' . $name . ' : ' . $color . ';' . PHP_EOL;
-        }
 
         foreach ($this->baseVariables as $name => $value) {
             $result .= '$' . $name . ' : "' . $value . '";' . PHP_EOL;
@@ -87,22 +83,21 @@ class ScssHelper
     public function createCss(ModuleCollection $moduleCollection)
     {
 
-        foreach ($moduleCollection->getNamespaceList() as $namespace) {
-
-            $baseFile = $this->baseFolder . DIRECTORY_SEPARATOR . $namespace . DIRECTORY_SEPARATOR . $this->baseFileName;
+        $baseFile = URIHelper::joinMultiplePaths($this->baseFolder, $this->baseFileName);
 
 
-            $css = $this->compile($baseFile);
-            $cssMinified = $this->compile($baseFile, true);
+        $css = $this->compile($baseFile);
+        $cssMinified = $this->compile($baseFile, true);
 
-            $targetFolder = str_replace("{namespace}", $namespace, $this->cacheFilePath);
 
-            /** @var FileEditor $fileWriter */
-            $fileWriter = new FileEditor();
-            $fileWriter->createFolder($targetFolder);
-            $fileWriter->createFile($targetFolder . DIRECTORY_SEPARATOR . "all.css", $css);
-            $fileWriter->createFile($targetFolder . DIRECTORY_SEPARATOR . "all.min.css", $cssMinified);
-        }
+        /** @var FileEditor $fileWriter */
+        $fileWriter = new FileEditor();
+        $fileWriter->createFolder($this->cacheFilePath);
+
+        $filePath = URIHelper::joinPaths($this->cacheFilePath, 'all.css');
+        $fileWriter->createFile($filePath, $css);
+        $minifiedFilePath = URIHelper::joinPaths($this->cacheFilePath, 'all.min.css');
+        $fileWriter->createFile($minifiedFilePath, $cssMinified);
 
 
     }

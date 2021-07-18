@@ -34,7 +34,7 @@ class ResourceCollector {
 
         $entryPointCss = URIHelper::joinMultiplePaths(   self::RESOURCE_CACHE_FOLDER, 'modules', 'scss', 'index.scss');
         $entryPointJs = URIHelper::joinMultiplePaths(    self::RESOURCE_CACHE_FOLDER, 'modules', 'js',   'index.js');
-        $entryPointAssets = URIHelper::joinMultiplePaths(self::RESOURCE_CACHE_FOLDER, 'modules', "assets");
+        $entryPointAssets = URIHelper::joinMultiplePaths(self::RESOURCE_CACHE_FOLDER_PUBLIC, "assets");
 
         foreach($moduleCollection->getModuleList() as $module) {
 
@@ -54,7 +54,7 @@ class ResourceCollector {
         /*
          * SCSS
          */
-        $scssFolder = URIHelper::joinMultiplePaths(ROOT, $module->getResourcePath(), "public", "scss");
+        $scssFolder = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), $module->getResourcePath(), "public", "scss");
 
         if(file_exists($scssFolder . "/base.scss")) {
             $scssIndexFile .= "@import \"{$module->getName()}/base\";" . PHP_EOL;
@@ -68,7 +68,7 @@ class ResourceCollector {
         /*
          * Javascript
          */
-        $jsFolder = URIHelper::joinMultiplePaths(ROOT, $module->getResourcePath(), "public", "js");
+        $jsFolder = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), $module->getResourcePath(), "public", "js");
 
         if(file_exists($jsFolder . "/main.js")) {
             $jsIndexFile .= "import \"./{$module->getName()}/main.js\";\n";
@@ -82,7 +82,7 @@ class ResourceCollector {
         /*
          * Assets
          */
-        $assetsFolder = URIHelper::joinMultiplePaths(ROOT, $module->getResourcePath(), "public", "assets");
+        $assetsFolder = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), $module->getResourcePath(), "public", "assets");
         self::copyFolderRecursive($assetsFolder, $entryPointAssets);
 
     }

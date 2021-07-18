@@ -6,6 +6,7 @@ export default class Plugin {
     _$element = null;
     _pluginName = "";
     _selector = "";
+    _isTouchDevice = false;
 
     _initialized = false;
 
@@ -21,6 +22,12 @@ export default class Plugin {
         this._$element = $element;
         this._pluginName = pluginName;
         this._selector = selector;
+
+        this._isTouchDevice = (
+            ('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0)
+        );
 
         if(!this._initialized) {
             this.init();

@@ -135,7 +135,7 @@ class TwigHelper
         ModuleCollection::sortModulesByWeight($moduleList);
 
         foreach($moduleList as $module) {
-            $this->addTemplateDir(ROOT . $module->getResourcePath() . "/template");
+            $this->addTemplateDir(ROOT . $module->getBasePath() . $module->getResourcePath() . "/template");
         }
     }
 }
