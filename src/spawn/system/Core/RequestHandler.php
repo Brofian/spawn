@@ -3,6 +3,7 @@
 namespace spawn\system\Core;
 
 use spawn\system\Core\Helper\RoutingHelper;
+use spawn\system\Core\Helper\TwigHelper;
 use spawn\system\Core\Services\Service;
 use spawn\system\Core\Services\ServiceContainer;
 use spawn\system\Core\Services\ServiceContainerProvider;
@@ -56,6 +57,7 @@ class RequestHandler {
         $actionMethod = $this->actionMethod;
 
         $controllerInstance->$actionMethod();
+
     }
 
 }

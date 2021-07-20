@@ -50,7 +50,7 @@ abstract class QueryBase {
     public function execute(bool $preventFetching = false) {
 
         /** @var PDOStatement $stmt */
-        $stmt = $this->connection->getConnection()->prepare($this->getSql());
+        $stmt = $this->connection::getConnection()->prepare($this->getSql());
 
         foreach($this->boundValues as $key => $boundValue) {
             $stmt->bindValue($key, $boundValue);

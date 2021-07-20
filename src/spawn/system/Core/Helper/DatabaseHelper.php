@@ -8,20 +8,14 @@ use spawn\system\Core\Custom\Debugger;
 
 class DatabaseHelper
 {
-    /** @var string */
-    private $host = '';
-    /** @var string */
-    private $username = '';
-    /** @var string */
-    private $password = '';
-    /** @var string */
-    private $database = '';
-    /** @var string */
-    private $port = '';
-    /** @var string */
-    private $dbUrl = '';
-    /** @var DatabaseConnection */
-    private $connection;
+
+    private string $host = '';
+    private string $username = '';
+    private string $password = '';
+    private string $database = '';
+    private string $port = '';
+    private string $dbUrl = '';
+    private ?DatabaseConnection $connection;
 
     /**
      * DatabaseHelper constructor.
@@ -46,9 +40,9 @@ class DatabaseHelper
     private function createConnection()
     {
         try {
-            $this->connection = new DatabaseConnection($this->host, $this->database, $this->port, $this->username, $this->password);
+            $this->connection = new DatabaseConnection();
         } catch (PDOException $pdoException) {
-            $this->connection = false;
+            $this->connection = null;
 
             Debugger::ddump('Cant connect to the database! Please check the credentials in the config.php file');
         }
@@ -61,7 +55,7 @@ class DatabaseHelper
      */
     public function query($sql, bool $preventFetchAll = false) {
         try {
-            $result = $this->connection->getConnection()->query($sql);
+            $result = $this->connection::getConnection()->query($sql);
         }
         catch(\Exception $e) {
             return false;

@@ -7,30 +7,37 @@ use PDO;
 class DatabaseConnection
 {
 
-    private PDO $connection;
+    protected static ?PDO $connection = null;
 
     /**
-     * DatabaseConnection constructor.
      * @param string $host
      * @param string $database
      * @param string $port
      * @param string $username
      * @param string $password
-     */
-    public function __construct(string $host, string $database, string $port, string $username = '', string $password = '')
-    {
-        $this->connection = new PDO("mysql:host=$host;dbname=$database;port=$port", $username, $password);
-        if(MODE == 'dev') {
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
-    }
-
-    /**
      * @return PDO
      */
-    public function getConnection()
+    public static function createNewConnection(string $host, string $database, string $port, string $username, string $password): PDO
     {
-        return $this->connection;
+        $pdo = new PDO("mysql:host=$host;dbname=$database;port=$port", $username, $password);
+        if(MODE == 'dev') {
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+
+        return $pdo;
+    }
+
+
+
+    public static function getConnection(): PDO
+    {
+        if(self::$connection == null) {
+            self::$connection = self::createNewConnection(
+                DB_HOST, DB_DATABASE, DB_PORT, DB_USERNAME, DB_PASSWORD
+            );
+        }
+
+        return self::$connection;
     }
 
 

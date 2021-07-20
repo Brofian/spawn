@@ -28,7 +28,7 @@ class Service extends Mutable {
     /** @var string[]  */
     protected array $arguments = array();
 
-    protected ?ServiceContainer $serviceContainer;
+    private ?ServiceContainer $serviceContainer;
 
 
     public function getInstance() {
@@ -214,7 +214,7 @@ class Service extends Mutable {
         return $this->serviceContainer;
     }
 
-    public function setServiceContainer(ServiceContainer $serviceContainer) : self {
+    public function setServiceContainer(?ServiceContainer $serviceContainer) : self {
         $this->serviceContainer = $serviceContainer;
         return $this;
     }
@@ -259,7 +259,7 @@ class Service extends Mutable {
     }
 
     public static function __fromArray(array $serviceArray, ServiceContainer $serviceContainer) : self {
-        $service = new self($serviceContainer);
+        $service = new self();
 
         if($serviceArray["id"]) $service->setId($serviceArray["id"]);
         if($serviceArray["class"]) $service->setClass($serviceArray["class"]);

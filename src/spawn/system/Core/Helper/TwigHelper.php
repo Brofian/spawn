@@ -25,11 +25,13 @@ class TwigHelper
     protected ?string $customoutput = null;
     protected Environment $twig;
     protected AssociativeCollection $context;
+    protected bool $isDevEnvironment = false;
 
 
     public function __construct()
     {
         $this->context = new AssociativeCollection();
+        $this->isDevEnvironment = (MODE == 'dev');
     }
 
     /**
@@ -43,9 +45,54 @@ class TwigHelper
         if(!isset($this->twig)) {
             $this->loadTwig();
         }
-        return $this->twig->render($filePath, $this->context->getArray());
+
+        try {
+            return $this->twig->render($filePath, $this->context->getArray());
+        }
+        catch(LoaderError $loaderError) {
+            if($this->isDevEnvironment) throw $loaderError;
+            return "";
+        }
+        catch(RuntimeError $runtimeError) {
+            if($this->isDevEnvironment) throw $runtimeError;
+            return "";
+        }
+        catch (SyntaxError $syntaxError) {
+            if($this->isDevEnvironment) throw $syntaxError;
+            return "";
+        }
+
     }
 
+    /**
+     * @param string $filePath
+     * @param array $context
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function renderFileWithContext(string $filePath, array $context) : string {
+        if(!isset($this->twig)) {
+            $this->loadTwig();
+        }
+
+        try {
+            return $this->twig->render($filePath, $context);
+        }
+        catch(LoaderError $loaderError) {
+            if($this->isDevEnvironment) throw $loaderError;
+            return "";
+        }
+        catch(RuntimeError $runtimeError) {
+            if($this->isDevEnvironment) throw $runtimeError;
+            return "";
+        }
+        catch (SyntaxError $syntaxError) {
+            if($this->isDevEnvironment) throw $syntaxError;
+            return "";
+        }
+    }
 
     /**
      * @throws LoaderError

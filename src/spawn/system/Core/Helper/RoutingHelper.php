@@ -28,6 +28,7 @@ class RoutingHelper
     public function route(string $controller, string $action, ?Service &$controllerCls, ?string &$actionStr): void {
 
 
+
         if($controller == "" || $action == "") {
             $controllerCls = $this->serviceContainer->getService(self::FALLBACK_SERVICE);
             $actionStr = self::FALLBACK_ACTION;
@@ -44,7 +45,13 @@ class RoutingHelper
             return;
         }
 
-        $actionStr =  $action."Action";
+
+        if(!preg_match('/^.*Action$/m', $action)) {
+            $actionStr =  $action."Action";
+        }
+        else {
+            $actionStr = $action;
+        }
 
         if(!method_exists($controllerCls->getClass(), $actionStr)) {
             //action does not exist

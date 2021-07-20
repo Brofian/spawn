@@ -96,6 +96,11 @@ class Request
     }
 
     protected function checkForRewriteUrl() {
+
+        if($this->get->get('controller') != null && $this->get->get('action') != null) {
+            return;
+        }
+
         /** @var RoutingHelper $routingHelper */
         $routingHelper = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.routing.helper');
         /** @var DatabaseHelper $databaseHelper */

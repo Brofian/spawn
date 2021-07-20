@@ -16,7 +16,7 @@ class ServiceLoader {
             return ServiceCache::readServiceCache();
         }
 
-        $serviceContainer = ServiceContainerProvider::getServiceContainer();
+        $serviceContainer = new ServiceContainer();
 
         foreach($moduleCollection->getModuleList() as $module) {
             $moduleId = $module->getId();

@@ -14,6 +14,5 @@ $autoloadClass->alwaysReload = (MODE == "dev");
 spl_autoload_register(
     function ($className) use ($autoloadClass) {
         $autoloadClass->autoload($className);
-    },
-    (MODE == "dev")
+    }
 );

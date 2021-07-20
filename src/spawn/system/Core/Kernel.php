@@ -2,6 +2,7 @@
 
 namespace spawn\system\Core;
 
+use spawn\system\Core\Services\ServiceContainerProvider;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -20,17 +21,17 @@ class Kernel {
 
     public function __construct()
     {
-        $moduleLoader = new ModuleLoader();
-        $this->moduleCollection = $moduleLoader->loadModules(
-            new DatabaseConnection(DB_HOST, DB_DATABASE, DB_PORT, DB_USERNAME, DB_PASSWORD)
-        );
 
-        $serviceLoader = new ServiceLoader();
-        $serviceContainer = $serviceLoader->loadServices($this->moduleCollection);
+        $moduleLoader = new ModuleLoader();
+        $this->moduleCollection = $moduleLoader->loadModules();
+
+        $serviceContainer = ServiceContainerProvider::getServiceContainer();
 
         $this->defineModuleCollection($serviceContainer);
         $this->defineRequest($serviceContainer);
         $this->defineResponse($serviceContainer);
+
+
     }
 
     public function handle(): void {
@@ -50,7 +51,6 @@ class Kernel {
 
         return $this->response->finish();
     }
-
 
 
     protected function defineRequest(ServiceContainer $serviceContainer): Request {

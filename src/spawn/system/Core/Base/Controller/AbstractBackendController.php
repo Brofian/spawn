@@ -19,7 +19,6 @@ abstract class AbstractBackendController extends AbstractController {
 
         //set base twig entry point for backend
         $this->twig->setRenderFile('backend/index.html.twig');
-
     }
 
     public final function gatherSidebarLinks(): array {

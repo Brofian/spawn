@@ -32,7 +32,8 @@ class ModuleLoader {
     }
 
 
-    public function loadModules(DatabaseConnection $connection) : ModuleCollection {
+    public function loadModules() : ModuleCollection {
+        $connection = new DatabaseConnection();
 
         $moduleEntries = ModuleStorage::findAll($connection);
 

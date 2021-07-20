@@ -2,6 +2,9 @@
 
 namespace spawn\system\Core\Services;
 
+use spawn\system\Core\Base\Database\DatabaseConnection;
+use spawn\system\Core\Contents\Modules\ModuleLoader;
+
 class ServiceContainerProvider {
 
     const CORE_SERVICE_LIST = [
@@ -29,13 +32,6 @@ class ServiceContainerProvider {
             ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Base\Database\DatabaseConnection',
-            ServiceProperties::_ARGUMENTS => [
-                ['type' => 'value', 'value' => DB_HOST],
-                ['type' => 'value', 'value' => DB_DATABASE],
-                ['type' => 'value', 'value' => DB_PORT],
-                ['type' => 'value', 'value' => DB_USERNAME],
-                ['type' => 'value', 'value' => DB_PASSWORD],
-            ]
         ],
         'system.routing.helper' => [
             ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
@@ -91,9 +87,14 @@ class ServiceContainerProvider {
 
     protected static ServiceContainer $serviceContainer;
 
-    public static function getServiceContainer(bool $preventModuleServiceLoading = false): ServiceContainer {
+    public static function getServiceContainer(): ServiceContainer {
         if(!isset(self::$serviceContainer)) {
-            self::$serviceContainer = new ServiceContainer();
+            $serviceLoader = new ServiceLoader();
+            $moduleLoader = new ModuleLoader();
+
+            $modules = $moduleLoader->loadModules();
+            self::$serviceContainer = $serviceLoader->loadServices($modules);
+
             self::addCoreServices();
         }
 
