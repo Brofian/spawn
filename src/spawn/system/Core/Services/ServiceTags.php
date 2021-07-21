@@ -10,4 +10,6 @@ class ServiceTags {
     const BACKEND_CONTROLLER = 'backend.controller';
     const TECHNICAL_SERVICE = 'technical.service';
 
+    const EXTENSION_TWIG = 'extension.twig';
+
 }

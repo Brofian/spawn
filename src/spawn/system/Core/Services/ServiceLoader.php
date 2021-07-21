@@ -68,6 +68,9 @@ class ServiceLoader {
             if($serviceTag->getAttribute("abstract")) {
                 $service->setAbstract($serviceTag->getAttribute("abstract") != "");
             }
+            if($serviceTag->getAttribute("static")) {
+                $service->setStatic($serviceTag->getAttribute("static") != "");
+            }
 
             /** @var XMLContentModel $tagElement */
             $tagElement = $serviceTag->getChildrenByType("tag")->first();

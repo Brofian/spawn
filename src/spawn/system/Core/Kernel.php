@@ -6,11 +6,9 @@ use spawn\system\Core\Services\ServiceContainerProvider;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use spawn\system\Core\Base\Database\DatabaseConnection;
 use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 use spawn\system\Core\Services\ServiceContainer;
-use spawn\system\Core\Services\ServiceLoader;
 use spawn\system\Core\Services\ServiceTags;
 
 class Kernel {
