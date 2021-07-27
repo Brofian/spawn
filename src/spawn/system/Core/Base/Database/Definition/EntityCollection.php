@@ -17,11 +17,19 @@ class EntityCollection extends Collection {
         return $this->getContainedEntityType();
     }
 
-    //TODO: test this
     public function add($value) {
         if($value instanceof $this->containedEntityType) {
             $this->collection[] = $value;
         }
     }
+
+    public function addBulk(...$values) {
+        foreach($values as $value) {
+            if($value instanceof $this->containedEntityType) {
+                $this->collection[] = $value;
+            }
+        }
+    }
+
 
 }

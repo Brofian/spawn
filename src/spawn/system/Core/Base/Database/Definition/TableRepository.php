@@ -4,10 +4,15 @@ namespace spawn\system\Core\Base\Database\Definition;
 
 use spawn\system\Core\Base\Database\DatabaseTable;
 use spawn\system\Core\Base\Database\DBAL\Criteria;
+use spawn\system\Core\Base\Database\Definition\TableDefinition\AbstractTable;
 
 abstract class TableRepository {
 
+    const TABLE_NAME = 'undefined';
+
     abstract public function getEntityClass() : string;
+
+    abstract public function getTableDefinition(): AbstractTable;
 
     public function __construct(DatabaseTable $databaseTableDefinition)
     {

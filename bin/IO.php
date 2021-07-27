@@ -24,8 +24,6 @@ class IO {
 
 
 
-
-
     const BLACK_BG = "\e[40m";
     const RED_BG = "\e[41m";
     const GREEN_BG = "\e[42m";
@@ -37,25 +35,33 @@ class IO {
 
     const TAB = "   ";
 
-
+    public static $onCommandLine = false;
 
 
     public static function print(string $text, string $flag = "") : bool {
+        if(!self::$onCommandLine) return false;
+
         echo $flag . $text . self::DEFAULT_TEXT;
         return true;
     }
 
     public static function printLine(string $text, string $flag = "") : bool {
+        if(!self::$onCommandLine) return false;
+
         echo $flag . $text . PHP_EOL . self::DEFAULT_TEXT;
         return true;
     }
 
     public static function endLine(string $flag = "") : bool {
+        if(!self::$onCommandLine) return false;
+
         echo $flag . PHP_EOL . self::DEFAULT_TEXT;
         return true;
     }
 
     public static function printObject($object) {
+        if(!self::$onCommandLine) return false;
+
         echo self::YELLOW_TEXT;
         var_dump($object);
         echo self::DEFAULT_TEXT;
@@ -84,17 +90,15 @@ class IO {
         }
 
         chdir($dir);
-
         $output = self::exec($cmd, $simplified, $errorCode);
-
         chdir($currentDir);
-
 
         return $output;
     }
 
 
     public static function readLine(string $text = "", callable $validationFunc = null, $errorMessage = "Invalid input! Try again! ") {
+        if(!self::$onCommandLine) return false;
 
         $isFirstQuery = true;
         do {
@@ -107,14 +111,13 @@ class IO {
         }
         while($validationFunc != null && !$validationFunc($answer));
 
-
-
         return $answer;
     }
 
 
 
     public static function printAsTable(array $lines, bool $underlineFirst = false) {
+        if(!self::$onCommandLine) return;
 
         //find the required length for each column
         $colLenghts = [];

@@ -103,7 +103,7 @@ abstract class DatabaseTable
      * @return bool
      */
     protected function createIdColumn() {
-        $col = new DatabaseColumn('id', DatabaseType::INT);
+        $col = new DatabaseColumn('id', DatabaseType::VARBINARY);
         $col->setAutoIncrement(true)
             ->setCanBeNull(true)
             ->setIndex(DatabaseIndex::PRIMARY);
