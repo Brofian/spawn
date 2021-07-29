@@ -3,6 +3,8 @@
 namespace spawn\system\Core\Base\Database\Definition\TableDefinition;
 
 use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnAttributes;
+use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnForeignKey;
+use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnTypeOptions;
 use spawn\system\Core\Helper\Slugifier;
 use system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnDefaults;
 
@@ -12,53 +14,75 @@ abstract class AbstractColumn {
 
     abstract public function getType(): string;
 
-    public function getLength(): ?int {
-        return null;
-    }
 
-    public function getDefault(): string {
+    /**
+     * @return string|int
+     */
+    public function getDefault() {
         return ColumnDefaults::NONE;
     }
 
-    public function getAttribute(): string {
-        return ColumnAttributes::NONE;
-    }
-
-    public function canBeNull(): bool {
-        return true;
-    }
-
-    public function getIndex(): ?string {
-        return null;
-    }
-
-    public function isAutoIncrement(): bool {
+    public function isUnique(): bool {
         return false;
     }
 
-    public function getColumnDefinition(): string {
-        $name = Slugifier::slugify($this->getName());
-        $type = $this->getType();
-        $length = ($this->getLength() !== null) ? '('.$this->getLength().')' : '';
-        $attribute = $this->getAttribute();
-        $null = $this->canBeNull() ? 'NULL' : 'NOT NULL';
-        $default = $this->getDefault();
-        $autoIncrement = $this->isAutoIncrement() ? 'AUTO_INCREMENT' : '';
-
-        return "`$name` $type$length $attribute $null $default $autoIncrement";
+    public function isPrimaryKey(): bool {
+        return false;
     }
 
-    public function getIndexDefinition(): string {
-        $index = $this->getIndex();
+    public function getForeignKeyConstraint(): ?array {
+        return ColumnForeignKey::NONE;
+    }
 
-        if($index === null) {
-            return '';
+    protected function canBeNull(): ?bool {
+        return null;
+    }
+
+    protected function isUnsigned(): ?bool {
+        return null;
+    }
+
+    protected function isAutoIncrement(): ?bool {
+        return null;
+    }
+
+    protected function getLength(): ?int {
+        return null;
+    }
+
+    protected function hasFixedLength(): ?bool {
+        return null;
+    }
+
+    protected function getPrecision(): ?int {
+        return null;
+    }
+
+    protected function getScale(): ?int {
+        return null;
+    }
+
+    public function getOptions(): array {
+        $givenOptions = [
+            'notnull' => $this->canBeNull(),
+            'length' => $this->getLength(),
+            'unsigned' => $this->isUnsigned(),
+            'default' => $this->getDefault(),
+            'autoincrement' => $this->isAutoIncrement(),
+            'fixed' => $this->hasFixedLength(),
+            'precision' => $this->getPrecision(),
+            'scale' => $this->getScale()
+        ];
+        $requiredOptions = ColumnTypeOptions::getOptionsForType($this->getType());
+
+        $options = [];
+        foreach($requiredOptions as $optionKey) {
+            if(isset($givenOptions[$optionKey]) && $givenOptions[$optionKey] !== null) {
+                $options[$optionKey] = $givenOptions[$optionKey];
+            }
         }
 
-        $name = $this->getName();
-
-        return "$index ($name)";
+        return $options;
     }
-
 
 }

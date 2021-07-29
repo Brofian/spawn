@@ -2,6 +2,10 @@
 
 namespace spawn\system\Core\Base\Database\Query\Types;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Result;
+use Doctrine\DBAL\Statement;
 use PDOStatement;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 use spawn\system\Core\Base\Database\Query\QueryCondition;
@@ -45,28 +49,37 @@ abstract class QueryBase {
      * Executes the query and returns the result
      *
      * @param bool $preventFetching
-     * @return array|PDOStatement
+     * @return array|Result
      */
     public function execute(bool $preventFetching = false) {
+        try {
 
-        /** @var PDOStatement $stmt */
-        $stmt = $this->connection::getConnection()->prepare($this->getSql());
+            /** @var Connection $connection */
+            $connection = $this->connection::getConnection();
+            /** @var Statement $stmt */
+            $stmt = $connection->prepare($this->getSql());
 
-        foreach($this->boundValues as $key => $boundValue) {
-            $stmt->bindValue($key, $boundValue);
+            foreach($this->boundValues as $key => $boundValue) {
+                $stmt->bindValue($key, $boundValue);
+            }
+
+            $resultSet = $stmt->executeQuery();
+
+
+            if($preventFetching) {
+                return $resultSet;
+            }
+            else {
+                return $resultSet->fetchAllAssociative();
+            }
+
+        }
+        catch (\Doctrine\DBAL\Driver\Exception $e) {
+        }
+        catch(\Exception $e) {
         }
 
-
-        $stmt->execute();
-
-        if($preventFetching) {
-            $return = $stmt;
-        }
-        else {
-            $return = $stmt->fetchAll();
-        }
-
-        return $return;
+        return [];
     }
 
 

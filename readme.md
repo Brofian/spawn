@@ -10,7 +10,7 @@ Die Inhalte und Funktionen werden über sogenannte Module bereit gestellt. Diese
 
 #### Vorraussetzungen
 - Ein Webserver mit mindestens PHP 7.2
-- Eine möglichst moderne SQL Datenbank
+- Eine möglichst moderne SQL Datenbank auf MySql
 - composer 2.*
 - (Wenn möglich: NodeJS, npm und npx. Wird über composer hinzugefügt, wenn nicht vorhanden)
 

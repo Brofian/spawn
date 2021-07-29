@@ -15,7 +15,7 @@ class DatabaseHelper
     private string $database = '';
     private string $port = '';
     private string $dbUrl = '';
-    private ?DatabaseConnection $connection;
+    private DatabaseConnection $connection;
 
     /**
      * DatabaseHelper constructor.
@@ -39,13 +39,7 @@ class DatabaseHelper
 
     private function createConnection()
     {
-        try {
-            $this->connection = new DatabaseConnection();
-        } catch (PDOException $pdoException) {
-            $this->connection = null;
-
-            Debugger::ddump('Cant connect to the database! Please check the credentials in the config.php file');
-        }
+        $this->connection = new DatabaseConnection();
     }
 
     /**

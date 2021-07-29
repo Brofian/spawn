@@ -2,39 +2,55 @@
 
 namespace spawn\system\Core\Base\Database;
 
-use PDO;
+use Doctrine\DBAL\Connection as DBALConnection;
+use Doctrine\DBAL\DriverManager;
+use spawn\system\Throwables\DatabaseConnectionException;
 
 class DatabaseConnection
 {
 
-    protected static ?PDO $connection = null;
+    protected static ?DBALConnection $connection = null;
 
-    /**
-     * @param string $host
-     * @param string $database
-     * @param string $port
-     * @param string $username
-     * @param string $password
-     * @return PDO
-     */
-    public static function createNewConnection(string $host, string $database, string $port, string $username, string $password): PDO
+    public static function createNewConnection(
+        string $host = DB_HOST,
+        string $database = DB_DATABASE,
+        string $port = DB_PORT,
+        string $username = DB_USERNAME,
+        string $password = DB_PASSWORD,
+        string $driver = DB_DRIVER,
+        bool $persistConnection = true
+   ): DBALConnection
     {
-        $pdo = new PDO("mysql:host=$host;dbname=$database;port=$port", $username, $password);
-        if(MODE == 'dev') {
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $connection = null;
+        try {
+            $connectionParams = array(
+                'dbname' => $database,
+                'user' => $username,
+                'password' => $password,
+                'host' => $host,
+                'driver' => $driver,
+                'port' => (int)$port,
+            );
+
+            //https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#driver
+            $connection = DriverManager::getConnection($connectionParams);
+        }
+        catch(\Exception $exception) {
+            throw new DatabaseConnectionException($host, $database, $port, $driver, $username, $password);
         }
 
-        return $pdo;
+        if($persistConnection) {
+            self::$connection = $connection;
+        }
+
+        return $connection;
     }
 
 
-
-    public static function getConnection(): PDO
+    public static function getConnection(): DBALConnection
     {
         if(self::$connection == null) {
-            self::$connection = self::createNewConnection(
-                DB_HOST, DB_DATABASE, DB_PORT, DB_USERNAME, DB_PASSWORD
-            );
+            return self::createNewConnection();
         }
 
         return self::$connection;

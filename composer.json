@@ -32,6 +32,7 @@
     "ext-dom": "*",
     "mouf/nodejs-installer": "~1.0",
     "oomphinc/composer-installers-extender": "*",
+    "doctrine/dbal": "3.1.1",
     "spawn/app" : "dev-develop as 0.0.1"
   }
 

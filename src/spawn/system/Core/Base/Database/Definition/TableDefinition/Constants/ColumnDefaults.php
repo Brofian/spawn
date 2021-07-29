@@ -2,16 +2,26 @@
 
 namespace system\Core\Base\Database\Definition\TableDefinition\Constants;
 
-class ColumnDefaults {
+class ColumnDefaults
+{
 
-    public const NONE = '';
+    public const NONE = null;
 
-    public const CURRENT_TIMESTAMP = 'DEFAULT CURRENT_TIMESTAMP';
+    public const CURRENT_TIMESTAMP = 'CURRENT_TIMESTAMP';
 
-    public const NULL = 'DEFAULT NULL';
+    public const NULL = 'NULL';
 
-    public static function VALUE($value): string {
-        return "DEFAULT '$value'";
+    /**
+     * @param string|int $value
+     * @return mixed
+     */
+    public static function VALUE($value)
+    {
+        if (is_integer($value) || is_string($value)) {
+            return $value;
+        }
+
+        return null;
     }
 
 

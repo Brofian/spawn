@@ -3,41 +3,31 @@
 namespace spawn\system\Core\Helper\FrameworkHelper;
 
 
-use spawn\system\Core\Base\Custom\FileEditor;
-use spawn\system\Core\Base\Database\DatabaseTable;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Types\Type;
+use spawn\system\Core\Base\Database\DatabaseConnection;
+use spawn\system\Core\Base\Database\Definition\TableDefinition\AbstractTable;
+use spawn\system\Core\Services\ServiceContainerProvider;
+use spawn\system\Core\Services\ServiceTags;
 
 class DatabaseStructureHelper {
 
-    const STRUCTURE_FILE_NAMESPACE = "spawn\\Database\\StructureTables";
-    const CACHE_DIRECTORY = ROOT . "\\dev\\database\\tables\\";
-
-    /**
-     * Creates classes for the given tables
-     * @param DatabaseTable $table
-     */
-    public static function createDatabaseStructure(DatabaseTable $table)
+    public static function createDatabaseStructure()
     {
-        $folderName = self::CACHE_DIRECTORY;
+        $serviceContainer = ServiceContainerProvider::getServiceContainer();
 
-        $tablename = $table->getTableName();
+        $dbTableServices = $serviceContainer->getServicesByTag(ServiceTags::DATABASE_TABLE);
 
-        $filecontent =
-            "<?php" . PHP_EOL . PHP_EOL .
-            "namespace " . self::STRUCTURE_FILE_NAMESPACE . ";" . PHP_EOL . PHP_EOL .
-            "class " . toClassnameFormat($tablename) . " {" . PHP_EOL . PHP_EOL .
-            "\tconst _TABLENAME_RAW = '" . $tablename . "';" . PHP_EOL .
-            "\tconst TABLENAME = '`" . $tablename . "`';" . PHP_EOL;
+        foreach($dbTableServices as $tableService) {
+            /** @var AbstractTable $table */
+            $table = $tableService->getInstance();
 
-        foreach ($table->getColumnNames() as $columnName) {
-            $filecontent .= "\tconst RAW_COL_" . strtoupper($columnName) . " = '" . $columnName . "';" . PHP_EOL;
-            $filecontent .= "\tconst COL_" . strtoupper($columnName) . " = '`" . $tablename . "`.`" . $columnName . "`';" . PHP_EOL;
+            $table->upsertTable();
         }
 
-        $filecontent .= '}';
+        dd("finished");
 
-        $fileName = $folderName . toClassnameFormat($tablename) . '.php';
-        FileEditor::createFolder(dirname($fileName));
-        FileEditor::createFile($fileName, $filecontent);
     }
 
 
