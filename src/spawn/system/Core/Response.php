@@ -7,15 +7,15 @@ namespace spawn\system\Core;
  *  The Main Class to store all Response informations
  */
 
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Helper\FrameworkHelper\ResourceCollector;
 use spawn\system\Core\Helper\ScssHelper;
 use spawn\system\Core\Helper\TwigHelper;
 use spawn\system\Core\Helper\URIHelper;
 use spawn\system\Core\Services\ServiceContainerProvider;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class Response
 {

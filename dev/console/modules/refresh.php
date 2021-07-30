@@ -1,11 +1,11 @@
 <?php
 
-use spawn\system\Core\Contents\Modules\ModuleCollection;
-use spawn\system\Core\Base\Helper\DatabaseHelper;
-use spawnApp\Models\ModuleStorage;
-use spawn\system\Core\Contents\Modules\Module;
 use bin\spawn\IO;
+use spawn\system\Core\Base\Helper\DatabaseHelper;
+use spawn\system\Core\Contents\Modules\Module;
+use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
+use spawnApp\Models\ModuleStorage;
 
 $dbHelper = new DatabaseHelper();
 $migrationTableExists = $dbHelper->doesTableExist('spawn_migrations');

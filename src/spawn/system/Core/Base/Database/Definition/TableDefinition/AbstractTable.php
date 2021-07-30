@@ -31,15 +31,16 @@ abstract class AbstractTable {
         try {
             $schema = $connection->createSchemaManager()->createSchema();
             $oldSchema = clone $schema;
+            $tableName = $this->toDatabaseTableName($this->getTableName());
 
-            if($schema->hasTable($this->getTableName())) {
+            if($schema->hasTable($tableName)) {
                 //update
-                IO::printLine(IO::TAB.':: Updating Table '. $this->getTableName() .' ::', IO::YELLOW_TEXT);
+                IO::printLine(IO::TAB.":: Updating Table \"$tableName\" ::", IO::YELLOW_TEXT);
                 $this->updateTable($schema);
             }
             else {
                 //create
-                IO::printLine(IO::TAB.':: Creating Table '. $this->getTableName() .' ::', IO::YELLOW_TEXT);
+                IO::printLine(IO::TAB.":: Creating Table \"$tableName\" ::", IO::YELLOW_TEXT);
                 $this->createTable($schema);
             }
 
@@ -50,10 +51,12 @@ abstract class AbstractTable {
             foreach($schemaDiffSql as $sqlQuery) {
                 $connection->executeQuery($sqlQuery);
             }
+            $steps = count($schemaDiffSql);
+            IO::printLine(IO::TAB.":: Updated table \"$tableName\" in $steps Steps! ::", IO::RED_TEXT);
 
         }
         catch(Exception $e) {
-            IO::printLine(IO::TAB.':: Error! Could mot create or update table "'. $this->getTableName() .'"! ::', IO::RED_TEXT);
+            IO::printLine(IO::TAB.":: Error! Could not create or update table \"$tableName\"! ::", IO::RED_TEXT);
             throw $e;
         }
 
@@ -63,11 +66,11 @@ abstract class AbstractTable {
 
     protected final function updateTable(Schema $schema) {
         try {
-            $table = $schema->getTable($this->getTableName());
+            $table = $schema->getTable($this->toDatabaseTableName($this->getTableName()));
 
             $columnNames = [];
             foreach($this->getTableColumns() as $column) {
-                $columnName = Slugifier::slugify($column->getName());
+                $columnName = $this->toDatabaseColumnName($column->getName());
                 $columnNames[] = $columnName;
 
                 if($table->hasColumn($columnName)) {
@@ -102,6 +105,10 @@ abstract class AbstractTable {
                         $table->dropIndex(self::UNIQUE_INDEX_PREFIX.$currentColumnName);
                     }
 
+                    if(in_array($currentColumnName, $table->getPrimaryKeyColumns())) {
+                        $table->dropPrimaryKey();
+                    }
+
                     $table->dropColumn($currentColumnName);
                 }
             }
@@ -120,7 +127,7 @@ abstract class AbstractTable {
             $newTable = $schema->getTable($this->getTableName());
 
             foreach($this->getTableColumns() as $column) {
-                IO::printLine(IO::TAB.IO::TAB.':: Creating Column '. Slugifier::slugify($column->getName()) .' ::', IO::YELLOW_TEXT, 1);
+                IO::printLine(IO::TAB.IO::TAB.':: Creating Column '. $this->toDatabaseColumnName($column->getName()) .' ::', IO::YELLOW_TEXT, 1);
                 $this->createColumnInTable($schema, $newTable, $column);
             }
         }
@@ -132,7 +139,7 @@ abstract class AbstractTable {
 
     protected final function createColumnInTable(Schema $schema, Table $table, AbstractColumn $column) {
         try {
-            $columnName = Slugifier::slugify($column->getName());
+            $columnName = $this->toDatabaseColumnName($column->getName());
 
             $table->addColumn($columnName, $column->getType(), $column->getOptions());
 
@@ -149,9 +156,9 @@ abstract class AbstractTable {
                 IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Foreign Key Constraint for '. $columnName .' ::', IO::YELLOW_TEXT, 2);
 
                 $foreignKeyConstraintData = $column->getForeignKeyConstraint();
-                $remoteTableName = $foreignKeyConstraintData['table'];
-                $remoteColumnName = $foreignKeyConstraintData['column'];
-                $foreignKeyOptions = $foreignKeyConstraintData['options'];
+                $remoteTableName = $foreignKeyConstraintData->getForeignTableName();
+                $remoteColumnName = $foreignKeyConstraintData->getForeignColumnName();
+                $foreignKeyOptions = $foreignKeyConstraintData->getOptions();
 
                 if($schema->hasTable($remoteTableName)) {
                     $remoteTable = $schema->getTable($remoteTableName);
@@ -159,9 +166,10 @@ abstract class AbstractTable {
                     if ($remoteTable->hasColumn($remoteColumnName)) {
                         $table->addForeignKeyConstraint(
                             $remoteTable,
-                            [$column->getName()],
+                            [$columnName],
                             [$remoteColumnName],
-                            $foreignKeyOptions
+                            $foreignKeyOptions,
+                            self::FOREIGN_KEY_PREFIX.$columnName
                         );
                     }
                 }
@@ -173,5 +181,12 @@ abstract class AbstractTable {
 
     }
 
+    protected function toDatabaseTableName(string $string): string {
+        return Slugifier::toSnakeCase($string);
+    }
+
+    protected function toDatabaseColumnName(string $string): string {
+        return Slugifier::toCamelCase($string);
+    }
 
 }

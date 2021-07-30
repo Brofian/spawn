@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use spawn\system\Core\Helper\URIHelper;
 use bin\spawn\IO;
+use spawn\system\Core\Helper\URIHelper;
 
 $cacheDir = ROOT.CACHE_DIR;
 URIHelper::pathifie($cacheDir, DIRECTORY_SEPARATOR);

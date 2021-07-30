@@ -2,7 +2,6 @@
 
 namespace spawn\system\Throwables;
 
-use spawn\system\Throwables\AbstractException;
 use Throwable;
 
 class DatabaseConnectionException extends AbstractException

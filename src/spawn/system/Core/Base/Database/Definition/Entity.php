@@ -3,7 +3,6 @@
 namespace spawn\system\Core\Base\Database\Definition;
 
 
-use MongoDB\Driver\Query;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 use spawn\system\Core\Base\Database\Query\QueryBuilder;
 

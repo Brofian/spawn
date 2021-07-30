@@ -2,8 +2,6 @@
 
 
 use bin\spawn\IO;
-use src\npm\WebpackConfigGenerator;
-use spawn\system\Core\Contents\Modules\ModuleLoader;
 
 //load resources from modules
 include(__DIR__ . "/gather-files.php");

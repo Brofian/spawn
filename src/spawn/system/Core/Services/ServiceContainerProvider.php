@@ -2,7 +2,6 @@
 
 namespace spawn\system\Core\Services;
 
-use spawn\system\Core\Base\Database\DatabaseConnection;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 
 class ServiceContainerProvider {

@@ -2,9 +2,9 @@
 
 use bin\spawn\IO;
 use spawn\system\Core\Base\Custom\FileEditor;
-use spawn\system\Core\Helper\URIHelper;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 use spawn\system\Core\Custom\StringConverter;
+use spawn\system\Core\Helper\URIHelper;
 
 $moduleFolder = ROOT . "/custom/modules";
 $existingModules = scandir($moduleFolder);

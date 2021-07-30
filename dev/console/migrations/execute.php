@@ -1,12 +1,12 @@
 <?php
 
-use spawn\system\Core\base\Migration;
 use bin\spawn\IO;
-use spawn\system\Core\Contents\Modules\ModuleCollection;
-use spawn\system\Core\Helper\URIHelper;
-use spawn\system\Core\Contents\Modules\Module;
 use spawn\system\Core\Base\Custom\FileEditor;
 use spawn\system\Core\Base\Helper\DatabaseHelper;
+use spawn\system\Core\base\Migration;
+use spawn\system\Core\Contents\Modules\Module;
+use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Helper\URIHelper;
 
 
 /*

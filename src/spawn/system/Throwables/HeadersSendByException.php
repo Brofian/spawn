@@ -2,8 +2,6 @@
 
 namespace spawn\system\Throwables;
 
-use spawn\system\Throwables\AbstractException;
-
 class HeadersSendByException extends AbstractException
 {
 

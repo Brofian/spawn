@@ -7,30 +7,18 @@ use spawn\system\Core\Base\Database\Definition\TableDefinition\AbstractColumn;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnTypes;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\ForeignKey;
 
-class StringColumn extends AbstractColumn {
+class UuidColumn extends AbstractColumn {
 
     protected string $columnName;
-    protected ?bool $canBeNull;
-    protected ?string $default;
-    protected ?int $length;
-    protected ?bool $hasFixedLength;
     protected ?ForeignKey $foreignKey;
 
 
     public function __construct(
         string $columnName,
-        ?bool $canBeNull = null,
-        ?string $default = null,
-        ?int $maxLength = null,
-        ?bool $hasFixedLength = false,
         ?ForeignKey $foreignKey = null
     )
     {
         $this->columnName = $columnName;
-        $this->canBeNull = $canBeNull;
-        $this->default = $default;
-        $this->hasFixedLength = $hasFixedLength;
-        $this->length = $maxLength;
         $this->foreignKey = $foreignKey;
     }
 
@@ -42,26 +30,22 @@ class StringColumn extends AbstractColumn {
 
     public function getType(): string
     {
-        return ($this->length !== null) ? ColumnTypes::STRING : ColumnTypes::TEXT;
+        return ColumnTypes::BINARY;
+    }
+
+    public function getLength(): ?int
+    {
+        return 24;
     }
 
     public function hasFixedLength(): ?bool
     {
-        return $this->hasFixedLength;
-    }
-
-    public function getDefault()
-    {
-        return $this->default;
+        return true;
     }
 
     public function canBeNull(): ?bool
     {
-        return $this->canBeNull;
-    }
-
-    public function getLength(): ?int {
-        return $this->length;
+        return false;
     }
 
     public function getForeignKeyConstraint(): ?ForeignKey
@@ -69,5 +53,9 @@ class StringColumn extends AbstractColumn {
         return $this->foreignKey;
     }
 
+    public function isPrimaryKey(): bool
+    {
+        return true;
+    }
 
 }

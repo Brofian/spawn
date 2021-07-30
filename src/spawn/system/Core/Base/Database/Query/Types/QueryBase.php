@@ -3,10 +3,8 @@
 namespace spawn\system\Core\Base\Database\Query\Types;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Result;
 use Doctrine\DBAL\Statement;
-use PDOStatement;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 use spawn\system\Core\Base\Database\Query\QueryCondition;
 

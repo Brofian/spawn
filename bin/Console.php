@@ -4,7 +4,6 @@
 namespace spawn\bin;
 
 use bin\spawn\IO;
-
 use spawn\system\Core\Helper\URIHelper;
 
 class Console {

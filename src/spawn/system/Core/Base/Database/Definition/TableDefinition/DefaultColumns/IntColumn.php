@@ -5,6 +5,7 @@ namespace spawn\Core\Base\Database\Definition\TableDefinition\DefaultColumns;
 
 use spawn\system\Core\Base\Database\Definition\TableDefinition\AbstractColumn;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnTypes;
+use spawn\system\Core\Base\Database\Definition\TableDefinition\ForeignKey;
 
 class IntColumn extends AbstractColumn {
 
@@ -18,6 +19,7 @@ class IntColumn extends AbstractColumn {
     protected int $intType;
     protected ?bool $autoIncrement;
     protected ?bool $unsigned;
+    protected ?ForeignKey $foreignKey;
 
 
     public function __construct(
@@ -26,7 +28,8 @@ class IntColumn extends AbstractColumn {
         ?bool $canBeNull = null,
         ?int $default = null,
         ?bool $autoIncrement = null,
-        ?bool $unsigned = null
+        ?bool $unsigned = null,
+        ?ForeignKey $foreignKey = null
     )
     {
         $this->columnName = $columnName;
@@ -35,6 +38,7 @@ class IntColumn extends AbstractColumn {
         $this->intType = $intType;
         $this->autoIncrement = $autoIncrement;
         $this->unsigned = $unsigned;
+        $this->foreignKey = $foreignKey;
     }
 
 
@@ -78,6 +82,11 @@ class IntColumn extends AbstractColumn {
     public function isUnsigned(): ?bool
     {
         return $this->unsigned;
+    }
+
+    public function getForeignKeyConstraint(): ?ForeignKey
+    {
+        return $this->foreignKey;
     }
 
 

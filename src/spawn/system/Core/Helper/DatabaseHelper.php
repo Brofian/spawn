@@ -2,9 +2,7 @@
 
 namespace spawn\system\Core\Base\Helper;
 
-use PDOException;
 use spawn\system\Core\Base\Database\DatabaseConnection;
-use spawn\system\Core\Custom\Debugger;
 
 class DatabaseHelper
 {

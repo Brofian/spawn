@@ -2,10 +2,7 @@
 
 namespace spawn\system\Core\Base\Database\Definition\TableDefinition;
 
-use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnAttributes;
-use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnForeignKey;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnTypeOptions;
-use spawn\system\Core\Helper\Slugifier;
 use system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnDefaults;
 
 abstract class AbstractColumn {
@@ -30,8 +27,8 @@ abstract class AbstractColumn {
         return false;
     }
 
-    public function getForeignKeyConstraint(): ?array {
-        return ColumnForeignKey::NONE;
+    public function getForeignKeyConstraint(): ?ForeignKey {
+        return null;
     }
 
     protected function canBeNull(): ?bool {

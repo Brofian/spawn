@@ -4,16 +4,15 @@ namespace spawn\system\Core\Extensions;
 
 use spawn\system\Core\Base\Extensions\Twig\FilterExtension;
 use spawn\system\Core\Base\Extensions\Twig\FunctionExtension;
-use spawn\system\Core\Services\ServiceContainerProvider;
-use spawn\system\Core\Services\ServiceTags;
-use Twig\Environment;
 use spawn\system\Core\Extensions\Twig\AssetFunctionExtension;
 use spawn\system\Core\Extensions\Twig\DumpFunctionExtension;
 use spawn\system\Core\Extensions\Twig\HashFilterExtension;
 use spawn\system\Core\Extensions\Twig\IconFilterExtension;
 use spawn\system\Core\Extensions\Twig\LinkFilterExtension;
 use spawn\system\Core\Extensions\Twig\PreviewFilterExtension;
-use Twig\Extension\AbstractExtension;
+use spawn\system\Core\Services\ServiceContainerProvider;
+use spawn\system\Core\Services\ServiceTags;
+use Twig\Environment;
 
 
 class ExtensionLoader {

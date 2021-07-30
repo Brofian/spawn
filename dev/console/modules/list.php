@@ -1,8 +1,8 @@
 <?php
 
 use bin\spawn\IO;
-use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Contents\Modules\Module;
+use spawn\system\Core\Contents\Modules\ModuleCollection;
 
 /** @var ModuleCollection $moduleCollection */
 $moduleCollection = include(__DIR__ . "/callable/list-modules.php");

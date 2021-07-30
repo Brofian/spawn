@@ -2,8 +2,6 @@
 
 namespace spawn\system\Core\Contents\Modules;
 
-use spawn\system\Core\Helper\URIHelper;
-
 class Module {
 
     protected ?string $id = null;

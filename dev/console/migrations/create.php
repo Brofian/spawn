@@ -1,10 +1,10 @@
 <?php
 
 
-use \spawn\system\Core\Contents\Modules\Module;
-use \bin\spawn\IO;
-use \spawn\system\Core\Base\Custom\FileEditor;
-use \spawn\system\Core\Helper\URIHelper;
+use bin\spawn\IO;
+use spawn\system\Core\Base\Custom\FileEditor;
+use spawn\system\Core\Contents\Modules\Module;
+use spawn\system\Core\Helper\URIHelper;
 
 $moduleCollection = include(__DIR__ . "/../modules/callable/list-modules.php");
 
