@@ -5,9 +5,10 @@ if (PHP_VERSION_ID < 70400) {
     exit();
 }
 
-\bin\spawn\IO::$onCommandLine = true;
 
 include __DIR__ . "/../src/spawn/init.php";
+
+\bin\spawn\IO::$onCommandLine = true;
 
 $console = new spawn\bin\Console($argv);
 

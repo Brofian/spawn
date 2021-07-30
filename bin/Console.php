@@ -27,6 +27,9 @@ class Console {
 
     public function __construct($arguments)
     {
+        if(in_array('-v',$arguments)) IO::$verboseLevel = 1;
+        else if(in_array('-vv',$arguments)) IO::$verboseLevel = 2;
+        else if(in_array('-vvv',$arguments)) IO::$verboseLevel = 3;
 
         $this->command = array_shift($arguments);
 

@@ -22,8 +22,6 @@ class DatabaseStructureHelper {
             $table->upsertTable();
         }
 
-        dd("finished");
-
     }
 
 

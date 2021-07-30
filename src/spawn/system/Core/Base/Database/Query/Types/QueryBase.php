@@ -27,11 +27,11 @@ abstract class QueryBase {
 
     protected $conditions = [];
 
-    /** @var DatabaseConnection  */
+    /** @var Connection  */
     protected $connection = null;
 
 
-    public function __construct(DatabaseConnection $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }
@@ -53,7 +53,7 @@ abstract class QueryBase {
         try {
 
             /** @var Connection $connection */
-            $connection = $this->connection::getConnection();
+            $connection = $this->connection;
             /** @var Statement $stmt */
             $stmt = $connection->prepare($this->getSql());
 

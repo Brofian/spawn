@@ -3,6 +3,7 @@
 namespace spawn\system\Core\Base\Database\Query\Types;
 
 
+use Doctrine\DBAL\Connection;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 
 class QueryInsert extends QueryBase
@@ -19,9 +20,9 @@ class QueryInsert extends QueryBase
 
     /**
      * QueryInsert constructor.
-     * @param DatabaseConnection $connection
+     * @param Connection $connection
      */
-    public function __construct(DatabaseConnection $connection)
+    public function __construct(Connection $connection)
     {
         parent::__construct($connection);
 

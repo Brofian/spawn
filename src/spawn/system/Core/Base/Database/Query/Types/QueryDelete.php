@@ -3,6 +3,7 @@
 namespace spawn\system\Core\Base\Database\Query\Types;
 
 
+use Doctrine\DBAL\Connection;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 
 class QueryDelete extends QueryBase
@@ -20,10 +21,10 @@ class QueryDelete extends QueryBase
 
     /**
      * QueryDelete constructor.
-     * @param DatabaseConnection $connection
+     * @param Connection $connection
      * @return QueryDelete
      */
-    public function __construct(DatabaseConnection $connection)
+    public function __construct(Connection $connection)
     {
         parent::__construct($connection);
         return $this;

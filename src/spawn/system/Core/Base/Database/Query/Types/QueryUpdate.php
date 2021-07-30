@@ -3,6 +3,7 @@
 namespace spawn\system\Core\Base\Database\Query\Types;
 
 
+use Doctrine\DBAL\Connection;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 
 class QueryUpdate extends QueryBase
@@ -20,10 +21,10 @@ class QueryUpdate extends QueryBase
 
     /**
      * QueryUpdate constructor.
-     * @param DatabaseConnection $connection
+     * @param Connection $connection
      * @param string $table
      */
-    public function __construct(DatabaseConnection $connection, string $table)
+    public function __construct(Connection $connection, string $table)
     {
         parent::__construct($connection);
 

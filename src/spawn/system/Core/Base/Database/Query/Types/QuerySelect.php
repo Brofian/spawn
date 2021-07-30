@@ -3,6 +3,7 @@
 namespace spawn\system\Core\Base\Database\Query\Types;
 
 
+use Doctrine\DBAL\Connection;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 
 class QuerySelect extends QueryBase
@@ -33,7 +34,7 @@ class QuerySelect extends QueryBase
      * @param mixed $columns
      * @return QuerySelect
      */
-    public function __construct(DatabaseConnection $connection, $columns = null)
+    public function __construct(Connection $connection, $columns = null)
     {
         parent::__construct($connection);
 

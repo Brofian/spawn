@@ -36,31 +36,31 @@ class IO {
     const TAB = "   ";
 
     public static $onCommandLine = false;
-    public static $verboseLevel = 3; //default: 0
+    public static $verboseLevel = 0; //default: 0
 
     public static function print(string $text, string $flag = "", int $minVerboseLevel = 0) : bool {
-        if(!self::$onCommandLine || $minVerboseLevel <= self::$verboseLevel) return false;
+        if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
         echo $flag . $text . self::DEFAULT_TEXT;
         return true;
     }
 
     public static function printLine(string $text, string $flag = "", int $minVerboseLevel = 0) : bool {
-        if(!self::$onCommandLine || $minVerboseLevel <= self::$verboseLevel) return false;
+        if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
         echo $flag . $text . PHP_EOL . self::DEFAULT_TEXT;
         return true;
     }
 
     public static function endLine(string $flag = "", int $minVerboseLevel = 0) : bool {
-        if(!self::$onCommandLine || $minVerboseLevel <= self::$verboseLevel) return false;
+        if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
         echo $flag . PHP_EOL . self::DEFAULT_TEXT;
         return true;
     }
 
     public static function printObject($object, int $minVerboseLevel = 0) {
-        if(!self::$onCommandLine || $minVerboseLevel <= self::$verboseLevel) return false;
+        if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
         echo self::YELLOW_TEXT;
         var_dump($object);
@@ -117,7 +117,7 @@ class IO {
 
 
     public static function printAsTable(array $lines, bool $underlineFirst = false, int $minVerboseLevel = 0) {
-        if(!self::$onCommandLine || $minVerboseLevel <= self::$verboseLevel) return;
+        if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return;
 
         //find the required length for each column
         $colLenghts = [];

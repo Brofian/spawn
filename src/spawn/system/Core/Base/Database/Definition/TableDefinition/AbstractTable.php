@@ -4,6 +4,7 @@ namespace spawn\system\Core\Base\Database\Definition\TableDefinition;
 
 use bin\spawn\IO;
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
@@ -76,7 +77,7 @@ abstract class AbstractTable {
                 if($table->hasColumn($columnName)) {
                     //update column (^= remove and add the column again)
                     IO::printLine(IO::TAB.IO::TAB.':: Updating Column '. $columnName .' ::', IO::YELLOW_TEXT, 1);
-                    $table->dropColumn($columnName);
+                    $this->dropColumnFromTable($table, $table->getColumn($columnName));
                     $this->createColumnInTable($schema, $table, $column);
                 }
                 else {
@@ -95,21 +96,7 @@ abstract class AbstractTable {
                 if(!in_array($currentColumnName, $columnNames)) {
                     IO::printLine(IO::TAB.IO::TAB.':: Removing Column '. $currentColumnName .' ::', IO::YELLOW_TEXT, 1);
 
-                    //drop foreign key
-                    if($table->hasForeignKey(self::FOREIGN_KEY_PREFIX.$currentColumnName)) {
-                        $table->removeForeignKey(self::FOREIGN_KEY_PREFIX.$currentColumnName);
-                    }
-
-                    //drop indices
-                    if($table->hasIndex(self::UNIQUE_INDEX_PREFIX.$currentColumnName)) {
-                        $table->dropIndex(self::UNIQUE_INDEX_PREFIX.$currentColumnName);
-                    }
-
-                    if(in_array($currentColumnName, $table->getPrimaryKeyColumns())) {
-                        $table->dropPrimaryKey();
-                    }
-
-                    $table->dropColumn($currentColumnName);
+                    $this->dropColumnFromTable($table, $currentColumn);
                 }
             }
         }
@@ -136,6 +123,38 @@ abstract class AbstractTable {
         }
     }
 
+    protected final function dropColumnFromTable(Table $table, Column $column) {
+        $currentColumnName = $column->getName();
+
+        try {
+            //drop foreign key
+            $foreignKey = $this->toForeignKey($table->getName(), $currentColumnName);
+            if($table->hasForeignKey($foreignKey)) {
+                $table->removeForeignKey($foreignKey);
+            }
+
+            //drop indices
+            $uniqueIndex = $this->toUniqueIndex($table->getName(), $currentColumnName);
+            if($table->hasIndex($uniqueIndex)) {
+                $table->dropIndex($uniqueIndex);
+            }
+
+            //drop primary key and primary key index
+            if(in_array($currentColumnName, $table->getPrimaryKeyColumns())) {
+                $table->dropPrimaryKey();
+            }
+
+
+            $table->dropColumn($currentColumnName);
+        }
+        catch (SchemaException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+
+    }
+
 
     protected final function createColumnInTable(Schema $schema, Table $table, AbstractColumn $column) {
         try {
@@ -143,13 +162,13 @@ abstract class AbstractTable {
 
             $table->addColumn($columnName, $column->getType(), $column->getOptions());
 
-            if($column->isPrimaryKey()) {
+            if($column->isPrimaryKey() && $table->hasPrimaryKey() == false) {
                 IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Primary Key for '. $columnName .' ::', IO::YELLOW_TEXT, 2);
-                $table->setPrimaryKey([$columnName], self::PRIMARY_KEY_PREFIX.$columnName);
+                $table->setPrimaryKey([$columnName]);
             }
             else if($column->isUnique()) {
                 IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Unique Index for '. $columnName .' ::', IO::YELLOW_TEXT, 2);
-                $table->addUniqueIndex([$columnName], self::UNIQUE_INDEX_PREFIX.$columnName);
+                $table->addUniqueIndex([$columnName], $this->toUniqueIndex($table->getName(), $columnName));
             }
 
             if($column->getForeignKeyConstraint()) {
@@ -169,7 +188,7 @@ abstract class AbstractTable {
                             [$columnName],
                             [$remoteColumnName],
                             $foreignKeyOptions,
-                            self::FOREIGN_KEY_PREFIX.$columnName
+                            $this->toForeignKey($table->getName(), $columnName)
                         );
                     }
                 }
@@ -179,6 +198,7 @@ abstract class AbstractTable {
             throw $schemaException;
         }
 
+
     }
 
     protected function toDatabaseTableName(string $string): string {
@@ -187,6 +207,18 @@ abstract class AbstractTable {
 
     protected function toDatabaseColumnName(string $string): string {
         return Slugifier::toCamelCase($string);
+    }
+
+    protected function toPrimaryKey(string $table, string $column): string {
+        return self::PRIMARY_KEY_PREFIX.$table.'_'.$column;
+    }
+
+    protected function toForeignKey(string $table, string $column): string {
+        return self::FOREIGN_KEY_PREFIX.$table.'_'.$column;
+    }
+
+    protected function toUniqueIndex(string $table, string $column): string {
+        return self::UNIQUE_INDEX_PREFIX.$table.'_'.$column;
     }
 
 }

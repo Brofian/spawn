@@ -4,6 +4,7 @@
 namespace spawn\system\Core\Base\Database\Query;
 
 
+use Doctrine\DBAL\Connection;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 use spawn\system\Core\Base\Database\Query\Types\QueryDelete;
 use spawn\system\Core\Base\Database\Query\Types\QueryInsert;
@@ -13,14 +14,13 @@ use spawn\system\Core\Base\Database\Query\Types\QueryUpdate;
 class QueryBuilder
 {
 
-    /** @var DatabaseConnection $connection */
+    /** @var Connection $connection */
     public $connection;
 
     /**
-     * QueryBuilder constructor.
-     * @param DatabaseConnection $connection
+     * @param Connection $connection
      */
-    public function __construct(DatabaseConnection $connection)
+    public function __construct(Connection $connection)
     {
         $this->connection = $connection;
     }

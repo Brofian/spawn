@@ -76,7 +76,7 @@ class IntColumn extends AbstractColumn {
 
     public function isPrimaryKey(): bool
     {
-        return $this->autoIncrement;
+        return !!$this->autoIncrement;
     }
 
     public function isUnsigned(): ?bool
