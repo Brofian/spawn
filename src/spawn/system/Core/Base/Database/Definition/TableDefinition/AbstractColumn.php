@@ -2,8 +2,8 @@
 
 namespace spawn\system\Core\Base\Database\Definition\TableDefinition;
 
+use Doctrine\DBAL\Schema\Column;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnTypeOptions;
-use system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnDefaults;
 
 abstract class AbstractColumn {
 
@@ -11,13 +11,10 @@ abstract class AbstractColumn {
 
     abstract public function getType(): string;
 
-
     /**
      * @return string|int
      */
-    public function getDefault() {
-        return ColumnDefaults::NONE;
-    }
+    abstract public function getTypeIdentifier();
 
     public function isUnique(): bool {
         return false;
@@ -31,50 +28,67 @@ abstract class AbstractColumn {
         return null;
     }
 
+    /**
+     * @return string|int|null
+     */
+    public function getDefault() {
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::DEFAULT];
+    }
+
     protected function canBeNull(): ?bool {
-        return null;
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::NOTNULL];
     }
 
     protected function isUnsigned(): ?bool {
-        return null;
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::UNSIGNED];
     }
 
     protected function isAutoIncrement(): ?bool {
-        return null;
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::AUTOINCREMENT];
     }
 
     protected function getLength(): ?int {
-        return null;
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::LENGTH];
     }
 
     protected function hasFixedLength(): ?bool {
-        return null;
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::FIXED];
     }
 
     protected function getPrecision(): ?int {
-        return null;
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::PRECISION];
     }
 
     protected function getScale(): ?int {
-        return null;
+        return ColumnTypeOptions::OPTION_DEFAULTS[ColumnTypeOptions::SCALE];
     }
 
-    public function getOptions(): array {
+    public function getOptions(bool $keepNullValues = false): array {
+
+        $default = $this->getDefault();
+        if(is_string($default)) {
+            $default = "'$default'";
+        }
+
         $givenOptions = [
             'notnull' => $this->canBeNull(),
             'length' => $this->getLength(),
             'unsigned' => $this->isUnsigned(),
-            'default' => $this->getDefault(),
+            'default' => $default,
             'autoincrement' => $this->isAutoIncrement(),
             'fixed' => $this->hasFixedLength(),
             'precision' => $this->getPrecision(),
             'scale' => $this->getScale()
         ];
+
         $requiredOptions = ColumnTypeOptions::getOptionsForType($this->getType());
 
         $options = [];
         foreach($requiredOptions as $optionKey) {
-            if(isset($givenOptions[$optionKey]) && $givenOptions[$optionKey] !== null) {
+            if(
+                isset($givenOptions[$optionKey]) &&
+                ($keepNullValues || $givenOptions[$optionKey] !== null)
+            ) {
                 $options[$optionKey] = $givenOptions[$optionKey];
             }
         }

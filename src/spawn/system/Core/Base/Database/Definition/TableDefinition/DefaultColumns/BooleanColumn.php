@@ -42,4 +42,8 @@ class BooleanColumn extends AbstractColumn {
         return ($this->default) ? 1 : 0;
     }
 
+    public function getTypeIdentifier()
+    {
+        return \PDO::PARAM_BOOL;
+    }
 }

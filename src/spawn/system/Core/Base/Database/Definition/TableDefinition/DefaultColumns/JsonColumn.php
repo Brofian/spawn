@@ -37,4 +37,8 @@ class JsonColumn extends AbstractColumn {
     }
 
 
+    public function getTypeIdentifier()
+    {
+        return \PDO::PARAM_STR;
+    }
 }

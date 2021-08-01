@@ -90,4 +90,8 @@ class IntColumn extends AbstractColumn {
     }
 
 
+    public function getTypeIdentifier()
+    {
+        return \PDO::PARAM_INT;
+    }
 }

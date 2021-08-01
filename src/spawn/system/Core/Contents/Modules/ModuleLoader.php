@@ -105,7 +105,7 @@ class ModuleLoader {
                     $currentModulePath = URIHelper::joinPaths($currentNamespacePath, $moduleElement);
                     if($this->isModuleDirectory($currentModulePath)) {
 
-                        $slug = Slugifier::slugify($namespace.$moduleElement);
+                        $slug = Slugifier::slugify($namespace.'-'.$moduleElement);
 
                         $this->loadModule($currentModulePath, $slug, $connection, $saveModulesToDB);
                         $moduleCount++;

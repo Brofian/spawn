@@ -25,4 +25,8 @@ class CreatedAtColumn extends AbstractColumn {
     }
 
 
+    public function getTypeIdentifier()
+    {
+        return 'datetime'; //php´s \DateTime()
+    }
 }

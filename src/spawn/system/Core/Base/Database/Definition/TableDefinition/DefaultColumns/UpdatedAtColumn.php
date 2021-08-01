@@ -25,4 +25,8 @@ class UpdatedAtColumn extends AbstractColumn {
     }
 
 
+    public function getTypeIdentifier()
+    {
+        return 'datetime'; //php´s \DateTime()
+    }
 }

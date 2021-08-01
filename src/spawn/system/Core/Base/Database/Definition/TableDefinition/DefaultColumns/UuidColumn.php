@@ -45,7 +45,7 @@ class UuidColumn extends AbstractColumn {
 
     public function canBeNull(): ?bool
     {
-        return false;
+        return true;
     }
 
     public function getForeignKeyConstraint(): ?ForeignKey
@@ -58,4 +58,11 @@ class UuidColumn extends AbstractColumn {
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getTypeIdentifier()
+    {
+        return \PDO::PARAM_STR;
+    }
 }

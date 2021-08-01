@@ -123,6 +123,29 @@ class ColumnTypeOptions {
         return self::TYPE_OPTIONS[$type];
     }
 
+    public const OPTION_DEFAULTS = [
+        self::NOTNULL => true,
+        self::DEFAULT => null,
+        self::AUTOINCREMENT => false,
+        self::LENGTH => null,
+        self::FIXED => false,
+        self::UNSIGNED => false,
+        self::PRECISION => 10,
+        self::SCALE=> 0,
+    ];
+
+    public const OPTION_GETTER_SETTER = [
+        'example' => ['getterMethod', 'setterMethod'],
+        self::NOTNULL => ['getNotnull', 'setNotnull'],
+        self::DEFAULT => ['getDefault', 'setDefault'],
+        self::AUTOINCREMENT => ['getAutoincrement', 'setAutoincrement'],
+        self::LENGTH => ['getLength', 'setLength'],
+        self::FIXED => ['getFixed', 'setFixed'],
+        self::UNSIGNED => ['getUnsigned', 'setUnsigned'],
+        self::PRECISION => ['getPrecision', 'setPrecision'],
+        self::SCALE=> ['getScale', 'setScale'],
+    ];
+
 
 
 

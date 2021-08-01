@@ -8,7 +8,9 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use spawn\system\Core\Base\Database\DatabaseConnection;
+use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnTypeOptions;
 use spawn\system\Core\Helper\Slugifier;
 
 
@@ -49,12 +51,13 @@ abstract class AbstractTable {
             $schemaDiffSql = $oldSchema->getMigrateToSql($schema, $connection->getDatabasePlatform());
             //$schemaDiffSql = array with all necessary sql queries
 
+
             foreach($schemaDiffSql as $sqlQuery) {
                 $connection->executeQuery($sqlQuery);
             }
             $steps = count($schemaDiffSql);
-            IO::printLine(IO::TAB.":: Updated table \"$tableName\" in $steps Steps! ::", IO::RED_TEXT);
 
+            IO::printLine(IO::TAB.":: Updated table \"$tableName\" in $steps Steps! ::", IO::GREEN_TEXT);
         }
         catch(Exception $e) {
             IO::printLine(IO::TAB.":: Error! Could not create or update table \"$tableName\"! ::", IO::RED_TEXT);
@@ -75,10 +78,14 @@ abstract class AbstractTable {
                 $columnNames[] = $columnName;
 
                 if($table->hasColumn($columnName)) {
-                    //update column (^= remove and add the column again)
-                    IO::printLine(IO::TAB.IO::TAB.':: Updating Column '. $columnName .' ::', IO::YELLOW_TEXT, 1);
-                    $this->dropColumnFromTable($table, $table->getColumn($columnName));
-                    $this->createColumnInTable($schema, $table, $column);
+
+                    if(!$this->compareColumnWithDefinition($table, $table->getColumn($columnName), $column)) {
+
+                        IO::printLine(IO::TAB.IO::TAB.':: Updating Column '. $columnName .' ::', IO::YELLOW_TEXT, 1);
+                        //update column (^= remove and add the column again)
+                        $this->dropColumnFromTable($table, $table->getColumn($columnName));
+                        $this->createColumnInTable($schema, $table, $column);
+                    }
                 }
                 else {
                     //create column
@@ -140,7 +147,7 @@ abstract class AbstractTable {
             }
 
             //drop primary key and primary key index
-            if(in_array($currentColumnName, $table->getPrimaryKeyColumns())) {
+            if(in_array($currentColumnName, array_keys($table->getPrimaryKeyColumns()))) {
                 $table->dropPrimaryKey();
             }
 
@@ -201,6 +208,53 @@ abstract class AbstractTable {
 
     }
 
+    protected function compareColumnWithDefinition(Table $table, Column $columnActive, AbstractColumn $columnDefinition): bool {
+        $isEqual = false;
+
+        try {
+            $platform = DatabaseConnection::getConnection()->getDriver()->getDatabasePlatform();
+            $declaredTypeForDriver = Type::getType($columnDefinition->getType())->getSQLDeclaration([], $platform);
+            $currentTypeForDriver = $columnActive->getType()->getSQLDeclaration([], $platform);
+
+            $isEqual = (
+                //type
+                $declaredTypeForDriver == $currentTypeForDriver  &&
+                //is unique
+                !!$columnDefinition->isUnique() == $table->hasIndex($this->toUniqueIndex($table->getName(), $columnActive->getName())) &&
+                //default value
+                $columnDefinition->getDefault() == $columnActive->getDefault() &&
+                //is primary key
+                !!$columnDefinition->isPrimaryKey() == in_array($columnActive->getName(), array_keys($table->getPrimaryKeyColumns()))
+            );
+
+            if($isEqual) {
+
+                $columnDefinitionOptions = $columnDefinition->getOptions();
+                $optionsGetterSetter = ColumnTypeOptions::OPTION_GETTER_SETTER;
+
+                foreach($columnDefinitionOptions as $option => $desiredValue) {
+                    if(isset($optionsGetterSetter[$option])) {
+                        $getter = $optionsGetterSetter[$option][0];
+
+                        $optionEquals = $columnActive->$getter() == $desiredValue;
+
+                        if(!$optionEquals) {
+                            $isEqual = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        catch (\Exception $e) {
+            throw $e;
+        }
+
+        return $isEqual;
+    }
+
+
+
     protected function toDatabaseTableName(string $string): string {
         return Slugifier::toSnakeCase($string);
     }
@@ -220,5 +274,7 @@ abstract class AbstractTable {
     protected function toUniqueIndex(string $table, string $column): string {
         return self::UNIQUE_INDEX_PREFIX.$table.'_'.$column;
     }
+
+
 
 }
