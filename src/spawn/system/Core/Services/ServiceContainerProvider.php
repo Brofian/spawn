@@ -72,11 +72,6 @@ class ServiceContainerProvider {
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Base\Custom\StringConverter',
         ],
-        'system.query.builder.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
-            ServiceProperties::_STATIC => true,
-            ServiceProperties::_CLASS => 'spawn\system\Core\Base\Database\Query\QueryBuilder',
-        ],
         'system.request.curi.valuebag' => [
             ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
             ServiceProperties::_STATIC => true,

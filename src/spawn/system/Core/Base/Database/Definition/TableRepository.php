@@ -2,21 +2,20 @@
 
 namespace spawn\system\Core\Base\Database\Definition;
 
-use Doctrine\DBAL\Types\Type;
+
+use Doctrine\DBAL\Exception;
 use spawn\system\Core\Base\Database\DatabaseConnection;
-use spawn\system\Core\Base\Database\DatabaseTable;
-use spawn\system\Core\Base\Database\DBAL\Criteria;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\AbstractTable;
 use spawn\system\Core\Helper\UUID;
 use spawn\system\Throwables\WrongEntityForRepositoryException;
 
 abstract class TableRepository {
 
-    const TABLE_NAME = 'undefined';
-
     protected array $tableColumns = [];
+    protected string $tableName;
 
-    abstract public function getEntityClass() : string;
+    abstract public static function getEntityClass() : string;
+
 
     public function __construct(
         AbstractTable $tableDefinition
@@ -26,30 +25,66 @@ abstract class TableRepository {
             $this->tableColumns[$tableColumn->getName()] = $tableColumn->getTypeIdentifier();
         }
 
-
-        //TODO: save and use the Database Table class (which is used to create a table) as  the definition for a repository?
-        //TODO: In this case: save values in a good format
-
-        //TODO: Maybe add a reference to another tableRepository, that can be defined in the DatabaseTableDefinition?
-
-        //TODO: Maybe migrate/execute the creation of the Database Table in this object, so no argument is necessary!!!
+        $this->tableName = $tableDefinition->getTableName();
     }
 
-    public function search(Criteria $criteria = null) : EntityCollection {
+    public function search(array $where = [], int $limit = 1000) : EntityCollection {
+        $qb = DatabaseConnection::getConnection()->createQueryBuilder();
+        $query = $qb->select('*')->from($this->tableName)->setMaxResults($limit);
+        $whereFunction = 'where';
+        foreach($where as $column => $value) {
+            if(is_string($value)) {
+                $query->$whereFunction("$column LIKE ':$column'")->setParameter(":$column", $value);
+            }
+            else {
+                $query->$whereFunction("$column = :$column")->setParameter(":$column", $value);
+            }
+
+            $whereFunction = 'andWhere';
+        }
+
         /** @var EntityCollection $entityCollection */
         $entityCollection = new EntityCollection($this->getEntityClass());
+
+        try {
+            $queryResult = $query->executeQuery();
+
+            if(count($where)) {
+                dump($query->fetchAssociative());
+                dump($query->getSQL());
+                dd($query->getParameters());
+            }
+
+            while($row = $queryResult->fetchAssociative()) {
+                if(isset($row['id'])) {
+                    $row['id'] = UUID::bytesToHex($row['id']);
+                }
+                $entityCollection->add($this->arrayToEntity($row));
+            }
+        } catch (Exception $e) {
+            return $entityCollection;
+        }
+
 
         return $entityCollection;
     }
 
-    public function upsert(Entity $entity) {
+
+    public function arrayToEntity(array $values): Entity {
+        /** @var Entity $entityClass */
+        $entityClass = $this->getEntityClass();
+        return $entityClass::getEntityFromArray($values);
+    }
+
+
+    public function upsert(Entity $entity): bool {
         $this->verifyEntityClass($entity);
 
         if($entity->getId() === null) {
-            $this->insert($entity);
+            return $this->insert($entity);
         }
         else {
-            $this->update($entity);
+            return $this->update($entity);
         }
     }
 
@@ -58,20 +93,33 @@ abstract class TableRepository {
         $now = new \DateTime();
 
         $entityArray = $entity->toArray();
-        $entityArray['id'] = $uuid;
-        $entityArray['createdAt'] = $now;
-        $entityArray['updatedAt'] = $now;
 
-        DatabaseConnection::getConnection()->insert(
-            self::TABLE_NAME,
-            $entityArray,
-            $this->getTypeIdentifiersForColumns(array_keys($entityArray))
-        );
+        $entityArray['id'] = $uuid;
+        if(isset($entityArray['createdAt'])) {
+            $entityArray['createdAt'] = $now;
+        }
+        if(isset($entityArray['updatedAt'])) {
+            $entityArray['updatedAt'] = $now;
+        }
+
+
+        try {
+            DatabaseConnection::getConnection()->insert(
+                $this->tableName,
+                $entityArray,
+                $this->getTypeIdentifiersForColumns(array_keys($entityArray))
+            );
+        }
+        catch (\Exception $e) {
+            return false;
+        }
 
         //set the id after the insert command in case of an error
         $entity->setId(UUID::bytesToHex($uuid));
         $entity->setCreatedAt($now);
         $entity->setUpdatedAt($now);
+
+        return true;
     }
 
     protected function update(Entity $entity): bool {
@@ -82,16 +130,23 @@ abstract class TableRepository {
         unset($entityArray['id']);
         $entityArray['updatedAt'] = $now;
 
-        DatabaseConnection::getConnection()->update(
-            self::TABLE_NAME,
-            $entityArray,
-            [
-                'id' => UUID::hexToBytes($id)
-            ],
-            $this->getTypeIdentifiersForColumns(array_keys($entityArray))
-        );
+        try {
+            DatabaseConnection::getConnection()->update(
+                $this->tableName,
+                $entityArray,
+                [
+                    'id' => UUID::hexToBytes($id)
+                ],
+                $this->getTypeIdentifiersForColumns(array_keys($entityArray))
+            );
+        }
+        catch (\Exception $e) {
+            return false;
+        }
+
 
         $entity->setUpdatedAt($now);
+        return true;
     }
 
 

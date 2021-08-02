@@ -8,7 +8,6 @@ use spawn\system\Core\Extensions\Twig\AssetFunctionExtension;
 use spawn\system\Core\Extensions\Twig\DumpFunctionExtension;
 use spawn\system\Core\Extensions\Twig\HashFilterExtension;
 use spawn\system\Core\Extensions\Twig\IconFilterExtension;
-use spawn\system\Core\Extensions\Twig\LinkFilterExtension;
 use spawn\system\Core\Extensions\Twig\PreviewFilterExtension;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use spawn\system\Core\Services\ServiceTags;
@@ -39,9 +38,6 @@ class ExtensionLoader {
 
         $iconFilter = new IconFilterExtension();
         $iconFilter->addToTwig($twig);
-
-        $linkFilter = new LinkFilterExtension();
-        $linkFilter->addToTwig($twig);
 
         $previewFilter = new PreviewFilterExtension();
         $previewFilter->addToTwig($twig);

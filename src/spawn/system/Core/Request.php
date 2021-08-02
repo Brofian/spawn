@@ -103,12 +103,9 @@ class Request
 
         /** @var RoutingHelper $routingHelper */
         $routingHelper = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.routing.helper');
-        /** @var DatabaseHelper $databaseHelper */
-        $databaseHelper = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.database.helper');
 
         $newURL = $routingHelper->rewriteURL(
             $this->requestPath,
-            RewriteUrl::loadAll($databaseHelper),
             $this->curl_values
         );
 
