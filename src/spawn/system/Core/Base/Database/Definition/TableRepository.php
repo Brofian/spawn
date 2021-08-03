@@ -48,8 +48,6 @@ abstract class TableRepository {
         $entityCollection = new EntityCollection($this->getEntityClass());
 
         try {
-
-
             $stmt = $conn->prepare($query->getSQL());
             $count = 1;
             foreach($where as $column => $value) {
@@ -97,19 +95,9 @@ abstract class TableRepository {
     }
 
     protected function insert(Entity $entity): bool {
-        $uuid = UUID::randomBytes();
-        $now = new \DateTime();
-
         $entityArray = $entity->toArray();
 
-        $entityArray['id'] = $uuid;
-        if(isset($entityArray['createdAt'])) {
-            $entityArray['createdAt'] = $now;
-        }
-        if(isset($entityArray['updatedAt'])) {
-            $entityArray['updatedAt'] = $now;
-        }
-
+        $entityArray = $this->prepareValuesForInsert($entityArray);
 
         try {
             DatabaseConnection::getConnection()->insert(
@@ -122,29 +110,29 @@ abstract class TableRepository {
             return false;
         }
 
-        //set the id after the insert command in case of an error
-        $entity->setId(UUID::bytesToHex($uuid));
-        $entity->setCreatedAt($now);
-        $entity->setUpdatedAt($now);
+        $this->adjustEntityAfterSuccessfulInsert($entity, $entityArray);
 
         return true;
     }
+
+    abstract protected function prepareValuesForInsert(array $values): array;
+
+    abstract protected function adjustEntityAfterSuccessfulInsert(Entity $entity, array $insertedValues): void;
 
     protected function update(Entity $entity): bool {
         $now = new \DateTime();
 
         $entityArray = $entity->toArray();
-        $id = $entityArray['id'];
-        unset($entityArray['id']);
-        $entityArray['updatedAt'] = $now;
+
+        $filterColumns = $this->getUpdateFilterColumnsFromValues($entityArray);
+
+        $entityArray = $this->prepareValuesForUpdate($entityArray);
 
         try {
             DatabaseConnection::getConnection()->update(
                 $this->tableName,
                 $entityArray,
-                [
-                    'id' => UUID::hexToBytes($id)
-                ],
+                $filterColumns,
                 $this->getTypeIdentifiersForColumns(array_keys($entityArray))
             );
         }
@@ -152,10 +140,16 @@ abstract class TableRepository {
             return false;
         }
 
+        $this->adjustEntityAfterSuccessfulUpdate($entity, $entityArray);
 
-        $entity->setUpdatedAt($now);
         return true;
     }
+
+    abstract protected function getUpdateFilterColumnsFromValues(array $updateValues): array;
+
+    abstract protected function prepareValuesForUpdate(array $updateValues): array;
+
+    abstract protected function adjustEntityAfterSuccessfulUpdate(Entity $entity, array $updatedValues): void;
 
 
     protected function getTypeIdentifiersForColumns(array $columns): array {

@@ -72,9 +72,7 @@ class RoutingHelper
 
         /** @var SeoUrlRepository $seoUrlRepository */
         $seoUrlRepository = $this->serviceContainer->getServiceInstance('system.repository.seo_urls');
-        $rewrite_urls = $seoUrlRepository->search();
-
-
+        $rewrite_urls = $seoUrlRepository->search(['active'=>true]);
 
         /** @var SeoUrlEntity $seo_url */
         foreach($rewrite_urls as $seo_url) {

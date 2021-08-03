@@ -2,11 +2,13 @@
 
 use bin\spawn\IO;
 use spawn\system\Core\Base\Custom\FileEditor;
-use spawn\system\Core\Base\Helper\DatabaseHelper;
 use spawn\system\Core\base\Migration;
 use spawn\system\Core\Contents\Modules\Module;
 use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Helper\URIHelper;
+use spawnApp\Database\MigrationTable\MigrationEntity;
+use spawnApp\Database\MigrationTable\MigrationRepository;
+use spawn\system\Core\Services\ServiceContainerProvider;
 
 
 /*
@@ -72,18 +74,15 @@ usort($migrations, function($a, $b) {
  * Get already executed Migrations
  */
 
+/** @var MigrationRepository $migrationRepository */
+$migrationRepository = ServiceContainerProvider::getServiceContainer()->getServiceInstance('system.repository.migrations');
+$executedMigrationEntities = $migrationRepository->search();
 
-$dbHelper = new DatabaseHelper();
-$migrationTableExists = $dbHelper->doesTableExist('spawn_migrations');
 
 $executedMigrations = [];
-if($migrationTableExists) {
-    //load executed migrations
-    $erg = $dbHelper->query("SELECT * FROM spawn_migrations");
-
-    foreach($erg as $item) {
-        $executedMigrations[] = $item["class"] . "-" . $item["timestamp"];
-    }
+/** @var MigrationEntity $migrationEntity */
+foreach($executedMigrationEntities as $migrationEntity) {
+    $executedMigrations[] = $migrationEntity->getClass() . "-" . $migrationEntity->getTimestamp();
 }
 
 
@@ -140,25 +139,15 @@ foreach($migrations as $migration) {
  * Save new Migrations
  *
  */
-$sql = "INSERT INTO `spawn_migrations` (`class`,`timestamp`) VALUES ";
-$isFirst = true;
 foreach($newMigrations as $newMigration) {
 
-    switch($isFirst) {
-        case true:
-            $values = "";
-            break;
-        default:
-            $values = ",";
-            break;
-    }
+    $class = str_replace("\\", "/", (string)$newMigration[1]);
+    $timestamp = (int)$newMigration[0];
+    $migrationEntity = new MigrationEntity($class, $timestamp);
 
-    $values .= "(\"". str_replace("\\", "/", (string)$newMigration[1]) ."\",\"".(int)$newMigration[0] ."\")";
-
-    $sql .= $values;
-    $isFirst = false;
+    $migrationRepository->upsert($migrationEntity);
 }
-$dbHelper->query($sql);
+
 
 
 if($problems) {
