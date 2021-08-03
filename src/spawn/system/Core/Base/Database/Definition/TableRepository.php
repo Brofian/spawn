@@ -29,15 +29,16 @@ abstract class TableRepository {
     }
 
     public function search(array $where = [], int $limit = 1000) : EntityCollection {
-        $qb = DatabaseConnection::getConnection()->createQueryBuilder();
+        $conn = DatabaseConnection::getConnection();
+        $qb = $conn->createQueryBuilder();
         $query = $qb->select('*')->from($this->tableName)->setMaxResults($limit);
         $whereFunction = 'where';
         foreach($where as $column => $value) {
             if(is_string($value)) {
-                $query->$whereFunction("$column LIKE ':$column'")->setParameter(":$column", $value);
+                $query->$whereFunction("$column LIKE ?");
             }
             else {
-                $query->$whereFunction("$column = :$column")->setParameter(":$column", $value);
+                $query->$whereFunction("$column = ?");
             }
 
             $whereFunction = 'andWhere';
@@ -47,13 +48,16 @@ abstract class TableRepository {
         $entityCollection = new EntityCollection($this->getEntityClass());
 
         try {
-            $queryResult = $query->executeQuery();
 
-            if(count($where)) {
-                dump($query->fetchAssociative());
-                dump($query->getSQL());
-                dd($query->getParameters());
+
+            $stmt = $conn->prepare($query->getSQL());
+            $count = 1;
+            foreach($where as $column => $value) {
+                $stmt->bindValue($count, $value);
+                $count++;
             }
+
+            $queryResult = $stmt->executeQuery();
 
             while($row = $queryResult->fetchAssociative()) {
                 if(isset($row['id'])) {
@@ -62,6 +66,10 @@ abstract class TableRepository {
                 $entityCollection->add($this->arrayToEntity($row));
             }
         } catch (Exception $e) {
+            if(MODE == 'dev') { dd($e); }
+            return $entityCollection;
+        } catch (\Doctrine\DBAL\Driver\Exception $e) {
+            if(MODE == 'dev') { dd($e); }
             return $entityCollection;
         }
 

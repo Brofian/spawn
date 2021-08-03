@@ -111,6 +111,7 @@ class RoutingHelper
             'action' => $action
         ]);
 
+
         $seoUrl = $seoUrlCollection->first();
 
         if($seoUrl instanceof SeoUrlEntity) {

@@ -89,6 +89,19 @@ class ServiceContainer {
     }
 
     /** @return Service[] */
+    public function getServicesByTags(array $tags) : array {
+        $services = [];
+
+        foreach($this->services as $service) {
+            if(in_array($service->getTag(), $tags)) {
+                $services[$service->getId()] = $service;
+            }
+        }
+
+        return $services;
+    }
+
+    /** @return Service[] */
     public function getServices() : ?array {
         return $this->services;
     }
