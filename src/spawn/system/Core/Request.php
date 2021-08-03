@@ -118,10 +118,6 @@ class Request
                 $this->get->set($key, $value);
             }
         }
-
-
-
-
     }
 
 
@@ -129,7 +125,6 @@ class Request
     {
         Logger::writeToAccessLog("Call to \"{$this->requestURI}\"");
     }
-
 
     public function getGet(): AssociativeCollection {
         return $this->get;

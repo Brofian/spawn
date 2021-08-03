@@ -6,7 +6,9 @@ use spawn\system\Core\Custom\Mutable;
 
 class ValueBag extends Mutable {
 
-
+    public function toArray() {
+        return get_object_vars($this);
+    }
 
 
 

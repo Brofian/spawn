@@ -12,6 +12,7 @@ class StringColumn extends AbstractColumn {
     protected string $columnName;
     protected ?bool $canBeNull;
     protected ?string $default;
+    protected bool $unique;
     protected ?int $length;
     protected ?bool $hasFixedLength;
     protected ?ForeignKey $foreignKey;
@@ -21,6 +22,7 @@ class StringColumn extends AbstractColumn {
         string $columnName,
         ?bool $canBeNull = null,
         ?string $default = null,
+        bool $unique = false,
         ?int $maxLength = null,
         ?bool $hasFixedLength = false,
         ?ForeignKey $foreignKey = null
@@ -29,6 +31,7 @@ class StringColumn extends AbstractColumn {
         $this->columnName = $columnName;
         $this->canBeNull = $canBeNull;
         $this->default = $default;
+        $this->unique = $unique;
         $this->hasFixedLength = $hasFixedLength;
         $this->length = $maxLength;
         $this->foreignKey = $foreignKey;
@@ -43,6 +46,11 @@ class StringColumn extends AbstractColumn {
     public function getType(): string
     {
         return ($this->length !== null || $this->default !== null) ? ColumnTypes::STRING : ColumnTypes::TEXT;
+    }
+
+    public function isUnique(): bool
+    {
+        return $this->unique;
     }
 
     public function hasFixedLength(): ?bool

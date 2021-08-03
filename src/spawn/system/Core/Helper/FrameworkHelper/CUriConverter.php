@@ -23,6 +23,29 @@ class CUriConverter {
         return $cUri;
     }
 
+    public static function fillCUriWithValues(string $cUri, array $parameters): string {
+
+        $requiredParameters = CUriConverter::getParameterNames($cUri);
+
+        $finalParameters = [];
+        foreach($requiredParameters as $requiredParameter) {
+            $current = current($parameters);
+            next($parameters);
+
+            if($current) {
+                $finalParameters[$requiredParameter] = $current;
+            }
+            else {
+                $finalParameters[$requiredParameter] = '';
+            }
+        }
+
+
+
+        return CUriConverter::cUriToUri($cUri, $finalParameters);
+    }
+
+
     /**
      * @param string $uri
      * @param array $vars
@@ -75,5 +98,7 @@ class CUriConverter {
 
         return $matches[1];
     }
+
+
 
 }

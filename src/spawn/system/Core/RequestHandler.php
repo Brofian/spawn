@@ -2,6 +2,7 @@
 
 namespace spawn\system\Core;
 
+use spawn\system\Core\Contents\ValueBag;
 use spawn\system\Core\Helper\RoutingHelper;
 use spawn\system\Core\Services\Service;
 use spawn\system\Core\Services\ServiceContainer;
@@ -14,11 +15,11 @@ class RequestHandler {
     protected ServiceContainer $serviceContainer;
     protected ?Service $controllerService;
     protected ?string $actionMethod;
+    protected ValueBag $cUrlValues;
 
     public function __construct()
     {
         $this->serviceContainer = ServiceContainerProvider::getServiceContainer();
-
     }
 
 
@@ -33,6 +34,7 @@ class RequestHandler {
         $routingHelper = $this->serviceContainer->getServiceInstance('system.routing.helper');
         /** @var Request $request */
         $request = $this->serviceContainer->getServiceInstance('system.kernel.request');
+        $this->cUrlValues = $request->getCurlValues();
         $getBag = $request->getGet();
 
         $routingHelper->route(
@@ -55,8 +57,7 @@ class RequestHandler {
         $controllerInstance = $this->controllerService->getInstance();
         $actionMethod = $this->actionMethod;
 
-        $controllerInstance->$actionMethod();
-
+        $controllerInstance->$actionMethod(...array_values($this->cUrlValues->toArray()));
     }
 
 }

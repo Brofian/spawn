@@ -88,7 +88,7 @@ class RoutingHelper
                 for($i = 1; $i < count($matches); $i++) {
                     $values->set(
                         $parameterNameList[$i-1],
-                        $matches[$i]
+                        $matches[$i][0] ?? null
                     );
                 }
 
@@ -99,8 +99,11 @@ class RoutingHelper
         return self::getFormattedLink('system.fallback.404', 'error404');
     }
 
-    public function getSeoLinkByParameters(string $controller, string $action, array $parameters = []): string {
+    public function getSeoLinkByParameters(?string $controller, ?string $action, array $parameters = []): string {
 
+        if($controller == null || $action == null) {
+            return self::getFormattedLink(self::FALLBACK_SERVICE, self::FALLBACK_ACTION);
+        }
 
         /** @var SeoUrlRepository $seoUrlRepository */
         $seoUrlRepository = $this->serviceContainer->getServiceInstance('system.repository.seo_urls');
@@ -112,10 +115,10 @@ class RoutingHelper
 
         $seoUrl = $seoUrlCollection->first();
 
-        if($seoUrl instanceof SeoUrlEntity) {
 
-            // TODO::implement $parameters in cUrl
-            return $seoUrl->getCUrl();
+        if($seoUrl instanceof SeoUrlEntity) {
+            $cUrl =  $seoUrl->getCUrl();
+            return CUriConverter::fillCUriWithValues($cUrl, $parameters);
         }
         else {
             return self::getFormattedLink(self::FALLBACK_SERVICE, self::FALLBACK_ACTION);
