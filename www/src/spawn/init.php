@@ -2,7 +2,7 @@
 
 
 //set some default values
-define('ROOT', dirname(dirname(__DIR__)) );
+define('ROOT', dirname(__DIR__, 2) );
 define('CACHE_DIR', '/var/cache');
 define('IS_TERMINAL', defined('STDIN'));
 
