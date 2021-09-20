@@ -1,0 +1,29 @@
+sync:
+  defaults:
+    mode: two-way-resolved
+    symlink:
+      mode: portable
+    watch:
+      pollingInterval: 2
+    ignore:
+      paths:
+        - /var/cache
+        - /vendor/shopware/platform/.git
+        - /vendor/shopware/platform/src/Administration/Resources/app/administration/node_modules/
+        - /vendor/shopware/platform/src/Storefront/Resources/app/storefront/node_modules/
+        - /vendor/shopware/administration/Resources/app/administration/node_modules
+        - /vendor/shopware/storefront/Resources/app/storefront/node_modules
+        - /public/media
+        - /public/thumbnail
+      vcs: false
+  spawnSync:
+    alpha: "./www"
+    beta: "docker://spawn_fpm_1/var/www/html"
+    maxStagingFileSize: "1 GB"
+    configurationBeta:
+      stageMode: "neighboring"
+      permissions:
+        defaultOwner: "www-data"
+        defaultGroup: "www-data"
+        defaultFileMode: "0644"
+        defaultDirectoryMode: "0755"

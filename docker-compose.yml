@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      # Mount these folders into the docker container
+      - ./docker/web/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      # Mount the base path for every container, so it is always in sync between containers
+      - project:${SYNC_DESTINATION_PATH}:delegated
+    env_file:
+      - ./.env
+
+
+
+  fpm:
+    # image: php:8.0-fpm # use this line instead of build for a static default php image
+    build:
+      context: .
+      dockerfile: PHP.Dockerfile
+    volumes:
+      - ./docker/scripts/cmd-fix-permissions:/var/www/share/cmd-fix-permissions
+      - project:${SYNC_DESTINATION_PATH}:delegated
+    env_file:
+      - ./.env
+
+
+  db:
+    image: mariadb:latest
+    ports:
+      - ${EXTERNAL_DB_PORT}:3306
+    volumes:
+      - dbdata:/var/lib/mysql
+    env_file:
+      - ./db.env
+
+
+
+volumes:
+  project:
+  dbdata:
