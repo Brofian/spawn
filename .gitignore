@@ -1,0 +1,9 @@
+# Mutagen
+mutagen.yml.lock
+
+# Git
+vendor
+
+#IDE Folders
+.idea
+TODO.php

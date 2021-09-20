@@ -5,10 +5,6 @@ vendor
 # Config Files
 config.php
 
-#IDE Folders
-.idea
-TODO.php
-
 #Tests
 *test.php
 *Test.php
