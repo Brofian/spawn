@@ -7,17 +7,17 @@
 define('MODE', 'dev');
 
 // The main-web-adress
-define('MAIN_ADDRESS',	'www.example.com');
+define('MAIN_ADDRESS',	'127.0.0.1');
 
 // Leave this blank, if you have only the main address
 define('ADDRESSES', 	[]);
 
 
 //DB Credentials
-define('DB_HOST',       'localhost');
-define('DB_USERNAME',   'db1_user');
-define('DB_PASSWORD',   'db1_passwort');
-define('DB_DATABASE',   'db1');
+define('DB_HOST',       'db');
+define('DB_USERNAME',   'db-1-user');
+define('DB_PASSWORD',   'S3cur3Passw0rd');
+define('DB_DATABASE',   'db-1');
 define('DB_PORT',       '3306');
 define('DB_DRIVER',     'pdo_mysql');
 
