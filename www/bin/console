@@ -1,6 +1,3 @@
-#!/usr/bin/env php
-<?php
+#!/bin/bash
 
-include("console.win.php");
-
-
+php -r "include('console.win.php');"
