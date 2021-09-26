@@ -30,3 +30,6 @@ try {
 
 include(__DIR__.'/../database/setup_minimal.php');
 include(__DIR__.'/../database/update.php');
+include(__DIR__.'/../modules/refresh.php');
+include(__DIR__.'/../migrations/execute.php');
+include(__DIR__.'/../cache/clear.php');
