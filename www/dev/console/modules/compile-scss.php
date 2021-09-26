@@ -19,8 +19,8 @@ IO::printLine("> compiling SCSS", IO::YELLOW_TEXT);
 
 
 
-$scssHelper->setBaseVariable("assetsPath", URIHelper::createPath([MAIN_ADDRESS_FULL,CACHE_DIR,"public","assets"], "/"));
-$scssHelper->setBaseVariable("defaultAssetsPath", URIHelper::createPath([MAIN_ADDRESS_FULL,CACHE_DIR,"public","assets"], "/"));
+$scssHelper->setBaseVariable("assetsPath", URIHelper::createPath([MAIN_ADDRESS,CACHE_DIR,"public","assets"], "/"));
+$scssHelper->setBaseVariable("defaultAssetsPath", URIHelper::createPath([MAIN_ADDRESS,CACHE_DIR,"public","assets"], "/"));
 
 try {
     $scssHelper->createCss($moduleCollection);

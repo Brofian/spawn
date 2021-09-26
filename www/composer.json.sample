@@ -25,6 +25,17 @@
     "mouf/nodejs-installer": "~1.0",
     "oomphinc/composer-installers-extender": "*",
 	"webu/app" : "dev-develop as 0.0.1"
+  },
+
+  "extra": {
+    "mouf": {
+      "nodejs": {
+        "version": "^12.10.0",
+        "targetDir": "vendor/nodejs/nodejs",
+        "forceLocal": false,
+        "includeBinInPath": true
+      }
+    }
   }
 
 }

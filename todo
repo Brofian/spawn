@@ -1,0 +1,3 @@
+- move public available files into public directory
+
+- fix the wrong permission on file creation (-> create files with www-data as its owner and group)
