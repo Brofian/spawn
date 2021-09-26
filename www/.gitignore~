@@ -4,7 +4,6 @@ vendor
 
 # Config Files
 config.php
-composer.json
 
 #Tests
 *test.php

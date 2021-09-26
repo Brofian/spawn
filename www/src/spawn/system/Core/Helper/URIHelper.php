@@ -20,7 +20,7 @@ class URIHelper
     /**
      * @param string $string
      * @param string $seperator
-     * @param string $trim
+     * @param bool $trim
      * @return string
      */
     public static function pathifie(string &$string, string $seperator = self::DEFAULT_SEPERATOR, bool $trim = false): string
