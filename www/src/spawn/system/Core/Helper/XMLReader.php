@@ -12,8 +12,9 @@ class XMLReader {
     public static function readFile(string $filePath) : XMLContentModel  {
         $xml = FileEditor::getFileContent(URIHelper::pathifie($filePath));
 
-
-        if(!$xml) return new XMLContentModel("empty");
+        if($xml === false) {
+            return new XMLContentModel("empty");
+        }
 
         $xmlContent = simplexml_load_string($xml);
 

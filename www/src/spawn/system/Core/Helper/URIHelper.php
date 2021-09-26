@@ -28,7 +28,7 @@ class URIHelper
         $string = str_replace(self::SEPERATORS, $seperator, $string);
 
         if($trim) {
-            $string = trim($string, implode("", self::SEPERATORS));
+            $string = rtrim($string, implode("", self::SEPERATORS));
         }
 
         return $string;
@@ -43,7 +43,7 @@ class URIHelper
     public static function joinPaths(string $p1, string $p2, $seperator = self::DEFAULT_SEPERATOR, bool $trim = false)
     {
         if($trim) {
-            $p1 = trim($p1, implode("", self::SEPERATORS));
+            $p1 = rtrim($p1, implode("", self::SEPERATORS));
         }
         $p2 = trim($p2, implode("", self::SEPERATORS));
 
@@ -60,7 +60,7 @@ class URIHelper
 
         $joinedPath = null;
         foreach($paths as $path) {
-            $path = trim($path, implode("", self::SEPERATORS));
+            $path = rtrim($path, implode("", self::SEPERATORS));
 
             if($joinedPath == null) {
                 $joinedPath = $path;

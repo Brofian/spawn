@@ -133,7 +133,7 @@ class Console {
 
     private function findCommandFiles($dir) {
 
-        URIHelper::pathifie($dir, "/");
+        URIHelper::pathifie($dir, DIRECTORY_SEPARATOR);
 
         $filesInDir = scandir($dir );
 

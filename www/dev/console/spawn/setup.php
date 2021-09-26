@@ -28,5 +28,5 @@ try {
 }
 
 
-$dbStructureHelper = new DatabaseStructureHelper();
-$dbStructureHelper->createBasicDatabaseStructure();
+include(__DIR__.'/../database/setup_minimal.php');
+include(__DIR__.'/../database/update.php');
