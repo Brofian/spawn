@@ -1,3 +1,1 @@
-#!/bin/bash
-
-php -r "include('console.win.php');"
+./_console.php
