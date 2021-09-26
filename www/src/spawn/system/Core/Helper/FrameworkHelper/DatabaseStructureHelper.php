@@ -6,6 +6,8 @@ namespace spawn\system\Core\Helper\FrameworkHelper;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\AbstractTable;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use spawn\system\Core\Services\ServiceTags;
+use spawnApp\Database\MigrationTable\MigrationTable;
+use spawnApp\Database\ModuleTable\ModuleTable;
 
 class DatabaseStructureHelper {
 
@@ -21,6 +23,16 @@ class DatabaseStructureHelper {
 
             $table->upsertTable();
         }
+
+    }
+
+    public static function createBasicDatabaseStructure() {
+
+        //create migration table
+        (new MigrationTable())->upsertTable();
+
+        //create module table
+        (new ModuleTable())->upsertTable();
 
     }
 

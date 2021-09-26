@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b54eff0339c01c26b08a2763b104a00f",
+    "content-hash": "bc047376e6e2f936d74f9f90b9ab436d",
     "packages": [
         {
             "name": "composer/installers",
@@ -870,13 +870,13 @@
             "version": "dev-develop",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Brosterios/spawn-app.git",
-                "reference": "74391000b88bbf0818ff01005be42d9e541a1512"
+                "url": "https://github.com/Brofian/spawn-app.git",
+                "reference": "e5a8ae74db080b8e5c24dc7a2a94a8d86befb192"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brosterios/spawn-app/zipball/74391000b88bbf0818ff01005be42d9e541a1512",
-                "reference": "74391000b88bbf0818ff01005be42d9e541a1512",
+                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/e5a8ae74db080b8e5c24dc7a2a94a8d86befb192",
+                "reference": "e5a8ae74db080b8e5c24dc7a2a94a8d86befb192",
                 "shasum": ""
             },
             "type": "library",
@@ -895,10 +895,10 @@
             ],
             "description": "S.P.A.W.N. Application Module",
             "support": {
-                "source": "https://github.com/Brosterios/spawn-app/tree/develop",
-                "issues": "https://github.com/Brosterios/spawn-app/issues"
+                "source": "https://github.com/Brofian/spawn-app/tree/develop",
+                "issues": "https://github.com/Brofian/spawn-app/issues"
             },
-            "time": "2021-07-10T13:58:30+00:00"
+            "time": "2021-08-03T21:53:38+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2295,14 +2295,7 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [
-        {
-            "package": "spawn/app",
-            "version": "dev-develop",
-            "alias": "0.0.1",
-            "alias_normalized": "0.0.1.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "spawn/app": 20
@@ -2316,5 +2309,5 @@
         "ext-dom": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
