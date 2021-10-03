@@ -1,4 +1,3 @@
 - assign /bin/bash as shell for www-data
 
 - create profile for www-data user
--> automatically login the bash user as www-data to prevent file generation as root

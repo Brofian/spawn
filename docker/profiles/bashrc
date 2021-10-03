@@ -1,0 +1,2 @@
+alias ls='ls --lah --color=auto'
+alias cmd-fix-permission='../share/cmd-fix-permissions'

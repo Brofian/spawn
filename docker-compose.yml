@@ -13,19 +13,17 @@ services:
     env_file:
       - ./.env
 
-
-
   fpm:
     # image: php:8.0-fpm # use this line instead of build for a static default php image
     build:
       context: .
       dockerfile: PHP.Dockerfile
     volumes:
+      - ./docker/profiles/bashrc:/etc/bashrc
       - ./docker/scripts:/var/www/share
       - project:${SYNC_DESTINATION_PATH}:delegated
     env_file:
       - ./.env
-
 
   db:
     image: mariadb:latest
