@@ -18,9 +18,9 @@ class ScssHelper
 
     private $baseVariables = array();
 
-    public $cacheFilePath = ROOT . CACHE_DIR . '/public/css';
-    public $baseFolder = ROOT . CACHE_DIR . '/private/resources/modules';
-    public $baseFileName = 'scss/index.scss';
+    public $cacheFilePath = ROOT . '/public/cache/css';
+    public $baseFolder = ROOT . CACHE_DIR . '/resources/modules';
+    public $baseFileName = '/scss/index.scss';
 
 
     public function __construct()
@@ -80,15 +80,12 @@ class ScssHelper
     }
 
 
-    public function createCss(ModuleCollection $moduleCollection)
+    public function createCss()
     {
-
-        $baseFile = URIHelper::joinMultiplePaths($this->baseFolder, $this->baseFileName);
-
+        $baseFile = $this->baseFolder . '/' . $this->baseFileName;
 
         $css = $this->compile($baseFile);
         $cssMinified = $this->compile($baseFile, true);
-
 
         /** @var FileEditor $fileWriter */
         $fileWriter = new FileEditor();

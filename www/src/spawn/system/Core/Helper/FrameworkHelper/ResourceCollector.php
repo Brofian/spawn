@@ -11,17 +11,15 @@ use spawn\system\Core\Helper\URIHelper;
 
 class ResourceCollector {
 
-    /** @var string  */
-    const RESOURCE_CACHE_FOLDER = ROOT . CACHE_DIR . "/private/resources";
-    /** @var string  */
-    const RESOURCE_CACHE_FOLDER_PUBLIC = ROOT . CACHE_DIR . "/public";
+    const PUBLIC_ASSET_PATH = ROOT . '/public/pack/';
+    const RESOURCE_CACHE_PATH = ROOT . '/var/cache/resources/modules';
 
 
     /**
      * @return bool
      */
     public static function isGatheringNeeded() : bool {
-        return !file_exists(self::RESOURCE_CACHE_FOLDER);
+        return true;
     }
 
     /**
@@ -32,68 +30,68 @@ class ResourceCollector {
         $scssIndexFile = "";
         $jsIndexFile = "";
 
-        $entryPointCss = URIHelper::joinMultiplePaths(   self::RESOURCE_CACHE_FOLDER, 'modules', 'scss', 'index.scss');
-        $entryPointJs = URIHelper::joinMultiplePaths(    self::RESOURCE_CACHE_FOLDER, 'modules', 'js',   'index.js');
-        $entryPointAssets = URIHelper::joinMultiplePaths(self::RESOURCE_CACHE_FOLDER_PUBLIC, "assets");
-
         foreach($moduleCollection->getModuleList() as $module) {
-
             //move the modules from this namespace
-            $this->moveModuleData($module, $scssIndexFile, $jsIndexFile, $entryPointCss, $entryPointJs, $entryPointAssets);
+            $this->moveModuleData($module, $scssIndexFile, $jsIndexFile);
         }
 
-        FileEditor::createFile($entryPointCss, "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL . $scssIndexFile);
-        FileEditor::createFile($entryPointJs,  "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL . $jsIndexFile);
-
-
+        //create entry file for css and js compilation
+        FileEditor::createFile(
+            self::RESOURCE_CACHE_PATH.'/scss/index.scss',
+            "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL . $scssIndexFile
+        );
+        FileEditor::createFile(
+            self::RESOURCE_CACHE_PATH.'/js/index.js',
+            "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL . $jsIndexFile
+        );
     }
 
 
-    private function moveModuleData(Module $module, &$scssIndexFile, &$jsIndexFile, $entryPointCss, $entryPointJs, $entryPointAssets) {
+    private function moveModuleData(Module $module, &$scssIndexFile, &$jsIndexFile) {
+
+        if(!$module->getResourcePath()) {
+            return;
+        }
+
+        $absoluteModuleResourcePath = $module->getAbsoluteBasePath() . $module->getResourcePath();
 
         /*
          * SCSS
          */
-        $scssFolder = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), $module->getResourcePath(), "public", "scss");
-
+        $scssFolder = $absoluteModuleResourcePath . '/public/scss';
         if(file_exists($scssFolder . "/base.scss")) {
-            $scssIndexFile .= "@import \"{$module->getName()}/base\";" . PHP_EOL;
+            $scssIndexFile .= "@import \"{$module->getSlug()}/base\";" . PHP_EOL;
         }
         if(file_exists($scssFolder . "/_global/base.scss")) {
-            $scssIndexFile = "@import \"{$module->getName()}/_global/base\";" . PHP_EOL . $scssIndexFile;
+            $scssIndexFile = "@import \"{$module->getSlug()}/_global/base\";" . PHP_EOL . $scssIndexFile;
         }
-        self::copyFolderRecursive($scssFolder, dirname($entryPointCss) . DIRECTORY_SEPARATOR . $module->getName());
+        self::copyFolderRecursive($scssFolder, self::RESOURCE_CACHE_PATH .'/scss/'. $module->getSlug());
 
 
         /*
          * Javascript
          */
-        $jsFolder = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), $module->getResourcePath(), "public", "js");
-
+        $jsFolder = $absoluteModuleResourcePath . '/public/js';
         if(file_exists($jsFolder . "/main.js")) {
-            $jsIndexFile .= "import \"./{$module->getName()}/main.js\";\n";
+            $jsIndexFile .= "import \"./{$module->getSlug()}/main.js\";\n";
         }
         if(file_exists($jsFolder . "/_global/main.js")) {
-            $jsIndexFile = "import \"./{$module->getName()}/_global/main.js\";\n" . $jsIndexFile;
+            $jsIndexFile = "import \"./{$module->getSlug()}/_global/main.js\";\n" . $jsIndexFile;
         }
-
-        self::copyFolderRecursive($jsFolder, dirname($entryPointJs) . DIRECTORY_SEPARATOR . $module->getName());
+        self::copyFolderRecursive($jsFolder, self::RESOURCE_CACHE_PATH .'/js/'. $module->getSlug());
 
         /*
          * Assets
          */
-        $assetsFolder = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), $module->getResourcePath(), "public", "assets");
-        self::copyFolderRecursive($assetsFolder, $entryPointAssets);
-
+        $assetsFolder = $absoluteModuleResourcePath . '/public/assets';
+        $assetsTargetFolder = self::PUBLIC_ASSET_PATH . '/' . $module->getSlug();
+        self::copyFolderRecursive($assetsFolder, $assetsTargetFolder);
     }
 
 
 
 
     public static function copyFolderRecursive(string $source, string $dest) {
-
-        URIHelper::pathifie($source, DIRECTORY_SEPARATOR, false);
-        URIHelper::pathifie($dest, DIRECTORY_SEPARATOR, false);
 
         if(!file_exists($source)) {
             return;
@@ -110,11 +108,11 @@ class ResourceCollector {
             as $item
         ) {
             if ($item->isDir()) {
-                if(!file_exists($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName())) {
-                    FileEditor::createFolder($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                if(!file_exists($dest . '/' . $iterator->getSubPathName())) {
+                    FileEditor::createFolder($dest . '/' . $iterator->getSubPathName());
                 }
             } else {
-                copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                copy($item, $dest . '/' . $iterator->getSubPathName());
             }
         }
 

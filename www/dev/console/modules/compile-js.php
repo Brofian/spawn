@@ -17,11 +17,14 @@ $webpackDir = ROOT . "/src/npm";
 //javascript kompilieren
 IO::printLine("> compiling JavaScript", IO::YELLOW_TEXT);
 
-$result = IO::execInDir("npx webpack --config webpack.config.js --progress", $webpackDir, false, $code);
 
-IO::printLine(IO::TAB . '- ' . $result);
+$output = IO::execInDir("npx webpack --config webpack.config.js --progress", $webpackDir, false, $result, $code);
 
-if($code > 0) {
+IO::printLine(IO::TAB . '- ' . $output);
+
+if($code != 0) {
+    IO::printLine(implode(PHP_EOL, $result), IO::RED_TEXT);
+
     IO::printLine("An Error occurred! There is probably more output above", IO::RED_TEXT);
     die();
 }

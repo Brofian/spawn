@@ -13,20 +13,15 @@ class FileEditor
      */
     public static function createFolder($path)
     {
-        //check parent dir recursively
-        if(!is_dir(dirname($path))) {
-            self::createFolder(dirname($path));
-        }
-
         if (!file_exists($path)) {
             try {
-                mkdir($path);
+                mkdir($path, 0777, true);
                 return true;
             } catch (\Exception $e) {
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -91,7 +86,6 @@ class FileEditor
         catch(\Exception $e) {
             return false;
         }
-
     }
 
 

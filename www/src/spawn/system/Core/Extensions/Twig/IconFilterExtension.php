@@ -22,16 +22,9 @@ class IconFilterExtension extends FilterExtension
      */
     protected function getFilterFunction(): callable
     {
-        return function($icon, $additionalClasses = "") {
+        return function($icon, $namespace = 'SpawnApp', $additionalClasses = '') {
 
-            $iconPath = URIHelper::createPath([
-                ROOT . CACHE_DIR,
-                "public",
-                "assets",
-                "icons",
-                $icon.".svg"
-            ]);
-
+            $iconPath = ROOT . '/public/pack/'.$namespace.'/icons/'.$icon.'.svg';
 
             if(!file_exists($iconPath)) {
                 if(MODE == 'dev')   return "Icon \"" . $iconPath . "\" not found!";

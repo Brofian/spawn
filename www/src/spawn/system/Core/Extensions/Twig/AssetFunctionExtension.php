@@ -29,13 +29,7 @@ class AssetFunctionExtension extends FunctionExtension
                 $namespace = ModuleNamespacer::hashRawNamespace($namespace);
             }
 
-            return URIHelper::createPath([
-                MAIN_ADDRESS_FULL,
-                "var",
-                "cache",
-                "public",
-                $namespace,
-            ], "/");
+            return 'http://'.MAIN_ADDRESS.'/pack/'.$namespace.'/';
         };
     }
 

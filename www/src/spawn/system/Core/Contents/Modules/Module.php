@@ -102,6 +102,10 @@ class Module {
         return $this->basePath;
     }
 
+    public function getAbsoluteBasePath() : string {
+        return ROOT . $this->getBasePath();
+    }
+
 
     public function getResourceConfigJson() : string {
         return json_encode([

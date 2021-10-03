@@ -4,6 +4,8 @@
 
 echo "Fixing file permissions.."
 
-chown -R $WEB_USER:www-data $PROJECT_ROOT
+su -
+
+sudo chown -R $WEB_USER:$WEB_USER $PROJECT_ROOT
 
 echo "Done fixing file permissions!!!"

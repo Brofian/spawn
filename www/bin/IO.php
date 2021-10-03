@@ -67,7 +67,7 @@ class IO {
         echo self::DEFAULT_TEXT;
     }
 
-    public static function exec(string $cmd, bool $simplified = false, int &$errorCode = null) {
+    public static function exec(string $cmd, bool $simplified = false, string &$cmdResult = null, int &$errorCode = null) {
         $output = "";
 
         if($simplified) {
@@ -75,12 +75,12 @@ class IO {
             $errorCode = 0;
         }
         else {
-            $output = exec($cmd, $output, $errorCode);
+            $output = exec($cmd, $cmdResult, $errorCode);
         }
         return $output;
     }
 
-    public static function execInDir(string $cmd, string $dir, bool $simplified = false, int &$errorCode = null) {
+    public static function execInDir(string $cmd, string $dir, bool $simplified = false, string &$cmdResult = null, int &$errorCode = null) {
         $currentDir = getcwd();
 
         if(!file_exists($dir) || !is_dir($dir)) {
@@ -90,7 +90,7 @@ class IO {
         }
 
         chdir($dir);
-        $output = self::exec($cmd, $simplified, $errorCode);
+        $output = self::exec($cmd, $simplified, $cmdResult, $errorCode);
         chdir($currentDir);
 
         return $output;
