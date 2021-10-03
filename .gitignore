@@ -4,6 +4,7 @@ vendor
 #IDE Folders
 .idea
 TODO.php
+*~
 
 # project configuration files
 .env
