@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: PHP.Dockerfile
     volumes:
-      - ./docker/scripts/cmd-fix-permissions:/var/www/share/cmd-fix-permissions
+      - ./docker/scripts:/var/www/share
       - project:${SYNC_DESTINATION_PATH}:delegated
     env_file:
       - ./.env

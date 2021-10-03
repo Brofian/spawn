@@ -1,3 +1,4 @@
-- move public available files into public directory
+- assign /bin/bash as shell for www-data
 
-- fix the wrong permission on file creation (-> create files with www-data as its owner and group)
+- create profile for www-data user
+-> automatically login the bash user as www-data to prevent file generation as root
