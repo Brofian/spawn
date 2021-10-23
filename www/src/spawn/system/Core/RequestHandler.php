@@ -2,6 +2,9 @@
 
 namespace spawn\system\Core;
 
+use spawn\system\Core\Contents\Response\AbstractResponse;
+use spawn\system\Core\Contents\Response\SimpleResponse;
+use spawn\system\Core\Contents\Response\JsonResponse;
 use spawn\system\Core\Contents\ValueBag;
 use spawn\system\Core\Helper\RoutingHelper;
 use spawn\system\Core\Services\Service;
@@ -57,7 +60,32 @@ class RequestHandler {
         $controllerInstance = $this->controllerService->getInstance();
         $actionMethod = $this->actionMethod;
 
-        $controllerInstance->$actionMethod(...array_values($this->cUrlValues->toArray()));
+        $responseObject = $controllerInstance->$actionMethod(...array_values($this->cUrlValues->toArray()));
+        $responseObject = $this->validateAndCovertResponseObject($responseObject);
+
+        dd($responseObject);
+
+        /** @var Response $response */
+        $response = $this->serviceContainer->getServiceInstance('system.kernel.request');
+        $response->setResponseObject($responseObject);
     }
 
+    /**
+     * @param $responseObject
+     * @return AbstractResponse
+     */
+    protected function validateAndCovertResponseObject($responseObject): AbstractResponse {
+        if($responseObject instanceof AbstractResponse) {
+            return $responseObject;
+        }
+
+        if(is_string($responseObject) || is_numeric($responseObject)) {
+            return new SimpleResponse((string)$responseObject);
+        }
+        else if(is_array($responseObject)) {
+            return new JsonResponse($responseObject);
+        }
+
+        return new SimpleResponse('Could not parse Controller Result to Response Object');
+    }
 }

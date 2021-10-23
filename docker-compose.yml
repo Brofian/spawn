@@ -20,7 +20,6 @@ services:
       dockerfile: PHP.Dockerfile
     volumes:
       - ./docker/profiles/bashrc:/etc/bashrc
-      - ./docker/scripts:/var/www/share
       - project:${SYNC_DESTINATION_PATH}:delegated
     env_file:
       - ./.env

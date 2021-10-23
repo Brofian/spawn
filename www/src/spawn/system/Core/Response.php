@@ -8,6 +8,7 @@ namespace spawn\system\Core;
  */
 
 use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Contents\Response\AbstractResponse;
 use spawn\system\Core\Helper\FrameworkHelper\ResourceCollector;
 use spawn\system\Core\Helper\ScssHelper;
 use spawn\system\Core\Helper\TwigHelper;
@@ -24,7 +25,7 @@ class Response
     protected TwigHelper $twigHelper;
     protected ScssHelper $scssHelper;
     protected ModuleCollection $moduleCollection;
-
+    protected AbstractResponse $responseObject;
 
     public function __construct()
     {
@@ -54,11 +55,17 @@ class Response
 
         /* Render Scss */
         if (!$this->scssHelper->cacheExists() || MODE == 'dev') {
-            $this->scssHelper->createCss($this->moduleCollection);
+            $this->scssHelper->createCss();
         }
 
     }
 
+    /**
+     * @param AbstractResponse $responseObject
+     */
+    public function setResponseObject(AbstractResponse $responseObject) {
+        $this->responseObject = $responseObject;
+    }
 
     /**
      * @return string
@@ -67,6 +74,11 @@ class Response
      * @throws SyntaxError
      */
     public function finish(): string {
+
+        if(isset($this->responseObject)) {
+            return $this->responseObject->getResponse();
+        }
+
         /* Render twig */
         return $this->twigHelper->finish();
     }

@@ -4,9 +4,11 @@
 namespace spawn\system\Core\Helper;
 
 
+use Doctrine\DBAL\Exception;
 use spawn\system\Core\Contents\Collection\AssociativeCollection;
 use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Custom\Debugger;
+use spawn\system\Core\Custom\Extensions\TwigRenderException;
 use spawn\system\Core\Extensions\ExtensionLoader;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use Twig\Environment;
@@ -47,7 +49,7 @@ class TwigHelper
         }
 
         try {
-            return $this->twig->render($filePath, $this->context->getArray());
+            return $this->render($filePath, $this->context->getArray());
         }
         catch(LoaderError $loaderError) {
             if($this->isDevEnvironment) throw $loaderError;
@@ -78,7 +80,7 @@ class TwigHelper
         }
 
         try {
-            return $this->twig->render($filePath, $context);
+            return $this->render($filePath, $context);
         }
         catch(LoaderError $loaderError) {
             if($this->isDevEnvironment) throw $loaderError;
@@ -143,7 +145,7 @@ class TwigHelper
             return $this->customoutput;
         }
 
-        return $this->twig->render($this->targetFile, $this->context->getArray());
+        return $this->render($this->targetFile, $this->context->getArray());
     }
 
 
@@ -183,6 +185,20 @@ class TwigHelper
 
         foreach($moduleList as $module) {
             $this->addTemplateDir(ROOT . $module->getBasePath() . $module->getResourcePath() . "/template");
+        }
+    }
+
+    public function render(string $file, ?array $data = null): string {
+
+        if($data === null) {
+            $data = $this->context->getArray();
+        }
+
+        try {
+            return $this->twig->render($file, $data);
+        }
+        catch (\Exception $e) {
+            return (string)(new TwigRenderException($file))->getMessage();
         }
     }
 }

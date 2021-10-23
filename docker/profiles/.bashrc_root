@@ -1,0 +1,48 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# You may uncomment the following lines if you want `ls' to be colorized:
+export LS_OPTIONS='--color=auto --lah'
+eval "$(dircolors -b)"
+alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+alias dir='ls $LS_OPTIONS -lhFA'
+
+# Some more alias to avoid making mistakes:
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+WEB_USER_HOME=$( getent passwd "$WEB_USER" | cut -d: -f6 )
+
+# Copy ssh info from host and set correct permissions
+mkdir -p $WEB_USER_HOME/.ssh
+cp -n /var/windows/ssh/id_rsa $WEB_USER_HOME/.ssh/id_rsa
+cp -n /var/windows/ssh/known_hosts $WEB_USER_HOME/.ssh/known_hosts
+chown -fR $WEB_USER:$WEB_USER $WEB_USER_HOME/.ssh
+chmod -f 0600 $WEB_USER_HOME/.ssh/id_rsa
+
+# Copy composer info from host and set correct permissions
+mkdir -p $WEB_USER_HOME/.composer
+if [[ -f "/var/www/html/auth.json" ]]; then
+    cp -u /var/www/html/auth.json $WEB_USER_HOME/.composer/auth.json
+else
+    cp -n /var/windows/composer/auth.json $WEB_USER_HOME/.composer/auth.json
+fi
+chown -fR $WEB_USER:$WEB_USER $WEB_USER_HOME/.composer
+
+# Fix other permissions
+chown $WEB_USER:$WEB_USER $WEB_USER_HOME
+chown $WEB_USER:$WEB_USER /var/www/html
+
+# Update composer
+composer -q global remove hirak/prestissimo
+composer -q config -g repos.packagist composer https://repo.packagist.org
+composer -q self-update --2
+
+# Check for rsync
+if [[ -f "$WEB_USER_HOME/scripts/install-rsync.sh" ]]; then
+    $WEB_USER_HOME/scripts/install-rsync.sh
+fi
+
+# Su to www-data to make that shizzle usable
+su $WEB_USER -s /bin/bash

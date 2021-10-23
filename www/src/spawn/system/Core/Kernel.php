@@ -71,7 +71,7 @@ class Kernel {
         $this->response = new Response();
         $serviceContainer->defineService(
             'system.kernel.response',
-            Request::class,
+            Response::class,
             ServiceTags::BASE_SERVICE_STATIC,
             true,
             false,
