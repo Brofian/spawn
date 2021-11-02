@@ -63,10 +63,8 @@ class RequestHandler {
         $responseObject = $controllerInstance->$actionMethod(...array_values($this->cUrlValues->toArray()));
         $responseObject = $this->validateAndCovertResponseObject($responseObject);
 
-        dd($responseObject);
-
         /** @var Response $response */
-        $response = $this->serviceContainer->getServiceInstance('system.kernel.request');
+        $response = $this->serviceContainer->getServiceInstance('system.kernel.response');
         $response->setResponseObject($responseObject);
     }
 

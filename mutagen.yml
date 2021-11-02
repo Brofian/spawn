@@ -12,7 +12,7 @@ sync:
       vcs: false
   spawnSync:
     alpha: "./www"
-    beta: "docker://spawn_fpm_1/var/www/html"
+    beta: "docker://spawn-fpm-1/var/www/html"
     maxStagingFileSize: "1 GB"
     configurationBeta:
       stageMode: "neighboring"

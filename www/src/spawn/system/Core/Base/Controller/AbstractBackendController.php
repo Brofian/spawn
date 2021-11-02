@@ -13,10 +13,8 @@ abstract class AbstractBackendController extends AbstractController {
         //assign backend sidebar tree
         $sidebarLinks = $this->gatherSidebarLinks();
         $this->twig->assign('sidebar_tree', $sidebarLinks);
-
         //assign fallback backend content template
         $this->twig->assign('content_file', 'backend/home/content.html.twig');
-
         //set base twig entry point for backend
         $this->twig->setRenderFile('backend/index.html.twig');
     }

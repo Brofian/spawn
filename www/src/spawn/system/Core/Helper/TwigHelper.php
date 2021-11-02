@@ -34,6 +34,7 @@ class TwigHelper
     {
         $this->context = new AssociativeCollection();
         $this->isDevEnvironment = (MODE == 'dev');
+        $this->loadTwig();
     }
 
     /**
@@ -44,9 +45,6 @@ class TwigHelper
      * @throws SyntaxError
      */
     public function renderFile(string $filePath): string {
-        if(!isset($this->twig)) {
-            $this->loadTwig();
-        }
 
         try {
             return $this->render($filePath, $this->context->getArray());
@@ -75,10 +73,6 @@ class TwigHelper
      * @throws SyntaxError
      */
     public function renderFileWithContext(string $filePath, array $context) : string {
-        if(!isset($this->twig)) {
-            $this->loadTwig();
-        }
-
         try {
             return $this->render($filePath, $context);
         }
@@ -103,10 +97,6 @@ class TwigHelper
      * @return string
      */
     public function finish() : string {
-        if(!isset($this->twig)) {
-            $this->loadTwig();
-        }
-
         return $this->startRendering();
     }
 
