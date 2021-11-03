@@ -188,6 +188,9 @@ class TwigHelper
             return $this->twig->render($file, $data);
         }
         catch (\Exception $e) {
+            if(MODE == 'dev') {
+                return $e->getMessage();
+            }
             return (string)(new TwigRenderException($file))->getMessage();
         }
     }
