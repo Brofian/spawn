@@ -102,7 +102,7 @@ class RoutingHelper
     public function getSeoLinkByParameters(?string $controller, ?string $action, array $parameters = []): string {
 
         if($controller == null || $action == null) {
-            return self::getFormattedLink(self::FALLBACK_SERVICE, self::FALLBACK_ACTION);
+            return self::getSeoLinkByParameters(self::FALLBACK_SERVICE, self::FALLBACK_ACTION);
         }
 
         /** @var SeoUrlRepository $seoUrlRepository */
@@ -121,7 +121,7 @@ class RoutingHelper
             return CUriConverter::fillCUriWithValues($cUrl, $parameters);
         }
         else {
-            return self::getFormattedLink(self::FALLBACK_SERVICE, self::FALLBACK_ACTION);
+            return self::getSeoLinkByParameters(self::FALLBACK_SERVICE, self::FALLBACK_ACTION);
         }
     }
 
