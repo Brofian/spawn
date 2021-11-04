@@ -99,16 +99,12 @@ abstract class TableRepository {
 
         $entityArray = $this->prepareValuesForInsert($entityArray);
 
-        try {
-            DatabaseConnection::getConnection()->insert(
-                $this->tableName,
-                $entityArray,
-                $this->getTypeIdentifiersForColumns(array_keys($entityArray))
-            );
-        }
-        catch (\Exception $e) {
-            return false;
-        }
+
+        DatabaseConnection::getConnection()->insert(
+            $this->tableName,
+            $entityArray,
+            $this->getTypeIdentifiersForColumns(array_keys($entityArray))
+        );
 
         $this->adjustEntityAfterSuccessfulInsert($entity, $entityArray);
 
@@ -128,17 +124,13 @@ abstract class TableRepository {
 
         $entityArray = $this->prepareValuesForUpdate($entityArray);
 
-        try {
-            DatabaseConnection::getConnection()->update(
-                $this->tableName,
-                $entityArray,
-                $filterColumns,
-                $this->getTypeIdentifiersForColumns(array_keys($entityArray))
-            );
-        }
-        catch (\Exception $e) {
-            return false;
-        }
+        DatabaseConnection::getConnection()->update(
+            $this->tableName,
+            $entityArray,
+            $filterColumns,
+            $this->getTypeIdentifiersForColumns(array_keys($entityArray))
+        );
+
 
         $this->adjustEntityAfterSuccessfulUpdate($entity, $entityArray);
 
