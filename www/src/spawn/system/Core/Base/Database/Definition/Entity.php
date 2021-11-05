@@ -2,10 +2,14 @@
 
 namespace spawn\system\Core\Base\Database\Definition;
 
+use spawn\system\Core\Contents\Collection\AssociativeCollection;
+use spawn\system\Core\Custom\Mutable;
 
-abstract class Entity {
+abstract class Entity extends Mutable {
 
     protected ?string $id = null;
+
+    protected ?AssociativeCollection $payload = null;
 
     public abstract function getRepositoryClass() : string;
 
@@ -21,5 +25,14 @@ abstract class Entity {
         $this->id = $id;
         return $this;
     }
+
+    public function getPayload(): AssociativeCollection {
+        if(!$this->payload) {
+            $this->payload = new AssociativeCollection();
+        }
+        return $this->payload;
+    }
+
+
 
 }

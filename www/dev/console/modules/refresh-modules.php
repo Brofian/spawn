@@ -81,3 +81,5 @@ foreach($existingModules as $module) {
 
 
 IO::printLine("> - Successfully refreshed Modules", IO::GREEN_TEXT);
+
+

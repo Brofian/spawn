@@ -10,7 +10,7 @@ include(__DIR__ . "/../cache/clear.php");
 include(__DIR__ . "/../database/update.php");
 
 //update module list
-include(__DIR__ . "/../modules/refresh.php");
+include(__DIR__ . "/../modules/refresh-actions.php");
 
 //compile modules
 include(__DIR__ . "/../modules/compile-js.php");

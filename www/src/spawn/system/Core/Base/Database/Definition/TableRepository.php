@@ -16,6 +16,15 @@ abstract class TableRepository {
 
     abstract public static function getEntityClass() : string;
 
+    abstract protected function getUpdateFilterColumnsFromValues(array $updateValues): array;
+
+    abstract protected function prepareValuesForUpdate(array $updateValues): array;
+
+    abstract protected function adjustEntityAfterSuccessfulUpdate(Entity $entity, array $updatedValues): void;
+
+    abstract protected function prepareValuesForInsert(array $values): array;
+
+    abstract protected function adjustEntityAfterSuccessfulInsert(Entity $entity, array $insertedValues): void;
 
     public function __construct(
         AbstractTable $tableDefinition
@@ -28,10 +37,10 @@ abstract class TableRepository {
         $this->tableName = $tableDefinition->getTableName();
     }
 
-    public function search(array $where = [], int $limit = 1000) : EntityCollection {
+    public function search(array $where = [], int $limit = 10000, int $offset = 0) : EntityCollection {
         $conn = DatabaseConnection::getConnection();
         $qb = $conn->createQueryBuilder();
-        $query = $qb->select('*')->from($this->tableName)->setMaxResults($limit);
+        $query = $qb->select('*')->from($this->tableName)->setMaxResults($limit)->setFirstResult($offset);
         $whereFunction = 'where';
         foreach($where as $column => $value) {
             if(is_string($value)) {
@@ -83,6 +92,12 @@ abstract class TableRepository {
     }
 
 
+    /**
+     * @param Entity $entity
+     * @return bool
+     * @throws Exception
+     * @throws WrongEntityForRepositoryException
+     */
     public function upsert(Entity $entity): bool {
         $this->verifyEntityClass($entity);
 
@@ -94,6 +109,11 @@ abstract class TableRepository {
         }
     }
 
+    /**
+     * @param Entity $entity
+     * @return bool
+     * @throws Exception
+     */
     protected function insert(Entity $entity): bool {
         $entityArray = $entity->toArray();
 
@@ -111,13 +131,12 @@ abstract class TableRepository {
         return true;
     }
 
-    abstract protected function prepareValuesForInsert(array $values): array;
-
-    abstract protected function adjustEntityAfterSuccessfulInsert(Entity $entity, array $insertedValues): void;
-
+    /**
+     * @param Entity $entity
+     * @return bool
+     * @throws Exception
+     */
     protected function update(Entity $entity): bool {
-        $now = new \DateTime();
-
         $entityArray = $entity->toArray();
 
         $filterColumns = $this->getUpdateFilterColumnsFromValues($entityArray);
@@ -136,13 +155,6 @@ abstract class TableRepository {
 
         return true;
     }
-
-    abstract protected function getUpdateFilterColumnsFromValues(array $updateValues): array;
-
-    abstract protected function prepareValuesForUpdate(array $updateValues): array;
-
-    abstract protected function adjustEntityAfterSuccessfulUpdate(Entity $entity, array $updatedValues): void;
-
 
     protected function getTypeIdentifiersForColumns(array $columns): array {
         $identifiers = [];
