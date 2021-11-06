@@ -85,6 +85,47 @@ abstract class TableRepository {
     }
 
 
+    public function delete(array $where) {
+        if(empty($where)) {
+            return false;
+        }
+
+        $conn = DatabaseConnection::getConnection();
+        $qb = $conn->createQueryBuilder();
+        $query = $qb->delete($this->tableName);
+
+        $whereFunction = 'where';
+        foreach($where as $column => $value) {
+            if(is_string($value)) {
+                $query->$whereFunction("$column LIKE ?");
+            }
+            else {
+                $query->$whereFunction("$column = ?");
+            }
+
+            $whereFunction = 'andWhere';
+        }
+
+        try {
+            $stmt = $conn->prepare($query->getSQL());
+            $count = 1;
+            foreach($where as $column => $value) {
+                $stmt->bindValue($count, $value);
+                $count++;
+            }
+
+            $stmt->executeQuery();
+        } catch (Exception $e) {
+            if(MODE == 'dev') { dd($e); }
+            return false;
+        } catch (\Doctrine\DBAL\Driver\Exception $e) {
+            if(MODE == 'dev') { dd($e); }
+            return false;
+        }
+
+        return true;
+    }
+
     public function arrayToEntity(array $values): Entity {
         /** @var Entity $entityClass */
         $entityClass = $this->getEntityClass();
@@ -118,7 +159,6 @@ abstract class TableRepository {
         $entityArray = $entity->toArray();
 
         $entityArray = $this->prepareValuesForInsert($entityArray);
-
 
         DatabaseConnection::getConnection()->insert(
             $this->tableName,
