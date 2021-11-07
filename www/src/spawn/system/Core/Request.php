@@ -19,7 +19,7 @@ class Request
     protected AssociativeCollection $get;
     protected AssociativeCollection $post;
     protected AssociativeCollection $cookies;
-    protected ValueBag $curl_values;
+    protected array $curl_values = [];
 
     protected string $requestURI;
     protected string $requestHostName;
@@ -30,8 +30,6 @@ class Request
 
     public function __construct()
     {
-        $this->curl_values = new ValueBag();
-
         $this->enrichGetValueBag();
         $this->enrichPostValueBag();
         $this->enrichCookieValueBag();
@@ -138,7 +136,7 @@ class Request
         return $this->post;
     }
 
-    public function getCurlValues(): ValueBag {
+    public function getCurlValues(): array {
         return $this->curl_values;
     }
 

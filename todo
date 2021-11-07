@@ -1,11 +1,5 @@
--> TODO: The old cUri System uses regex, that includes some text between the curly brackets (e.g. "/backend/{value}/test")
-   TODO: But this System shall only use two curly Brackets without content as placeholder (e.g. "/backend/{}/test")
-   TODO: This should even make the whole system much simpler, by removing the coordination for the keys
-
-   TODO: In the backend config, the cUrl should be displayed as given. But there should also be shown,
-   TODO: which values are needed in the url. Also there should be a preview with replaced brackets
-   TODO: e.g. "/backend/<span class='preview-flag'>controller</span>/test"
-
-
 -> TODO: think of a way to include multiple Options, connected by OR instead of the currently hardcoded AND at the
    TODO: search() or delete() funktion of the TableRepository Class
+
+-> SEO Analizer: save every page load in two tables: today and total. Count and save the today entries every night and save it
+for this day in total

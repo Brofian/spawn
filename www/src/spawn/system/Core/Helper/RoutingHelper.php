@@ -62,7 +62,7 @@ class RoutingHelper
 
 
 
-    public function rewriteURL(string $original, ValueBag &$values): string {
+    public function rewriteURL(string $original, array &$values): string {
 
         $original = trim($original, '/? #');
         if($original == '' || strlen($original)) {
@@ -79,17 +79,12 @@ class RoutingHelper
             $regex = CUriConverter::cUriToRegex($seo_url->getCUrl());
 
             $matches = [];
-            $hasMatched = preg_match_all($regex, $original, $matches);
+            $hasMatched = preg_match($regex, $original, $matches);
 
             if($hasMatched) {
 
-                $parameterNameList = CUriConverter::getParameterNames($seo_url->getCUrl());
-
                 for($i = 1; $i < count($matches); $i++) {
-                    $values->set(
-                        $parameterNameList[$i-1],
-                        $matches[$i][0] ?? null
-                    );
+                    $values[] = $matches[$i];
                 }
 
                 return self::getFormattedLink($seo_url->getController(), $seo_url->getAction());
@@ -118,7 +113,7 @@ class RoutingHelper
 
         if($seoUrl instanceof SeoUrlEntity) {
             $cUrl =  $seoUrl->getCUrl();
-            return CUriConverter::fillCUriWithValues($cUrl, $parameters);
+            return CUriConverter::cUriToUri($cUrl, $parameters);
         }
         else {
             return self::getSeoLinkByParameters(self::FALLBACK_SERVICE, self::FALLBACK_ACTION);

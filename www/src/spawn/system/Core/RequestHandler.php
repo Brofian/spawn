@@ -18,7 +18,7 @@ class RequestHandler {
     protected ServiceContainer $serviceContainer;
     protected ?Service $controllerService;
     protected ?string $actionMethod;
-    protected ValueBag $cUrlValues;
+    protected array $cUrlValues;
 
     public function __construct()
     {
@@ -60,7 +60,7 @@ class RequestHandler {
         $controllerInstance = $this->controllerService->getInstance();
         $actionMethod = $this->actionMethod;
 
-        $responseObject = $controllerInstance->$actionMethod(...array_values($this->cUrlValues->toArray()));
+        $responseObject = $controllerInstance->$actionMethod(...array_values($this->cUrlValues));
         $responseObject = $this->validateAndCovertResponseObject($responseObject);
 
         /** @var Response $response */

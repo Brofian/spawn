@@ -16,58 +16,24 @@ class CUriConverter {
      */
     public static function cUriToUri(string $cUri, array $parameters) {
 
-        foreach($parameters as $key => $value) {
-            $cUri = str_replace("{".$key."}", $value, $cUri);
+        foreach($parameters as $value) {
+            $cUri = preg_replace('/{}/', $value, $cUri, 1);
         }
 
         return $cUri;
     }
-
-    public static function fillCUriWithValues(string $cUri, array $parameters): string {
-
-        $requiredParameters = CUriConverter::getParameterNames($cUri);
-
-        $finalParameters = [];
-        foreach($requiredParameters as $requiredParameter) {
-            $current = current($parameters);
-            next($parameters);
-
-            if($current) {
-                $finalParameters[$requiredParameter] = $current;
-            }
-            else {
-                $finalParameters[$requiredParameter] = '';
-            }
-        }
-
-
-
-        return CUriConverter::cUriToUri($cUri, $finalParameters);
-    }
-
 
     /**
      * @param string $uri
      * @param array $vars
      * @return string|string[]
      */
-    public static function cUriToRegex(string $uri, array &$vars = []) {
+    public static function cUriToRegex(string $uri) {
 
-        $pattern = "/{([^}]*)}/m";
-        preg_match_all($pattern, $uri, $matches);
-
-        $uri = "^/" . trim($uri, "/ \n");
-
-        foreach($matches[0] as $variable) {
-            $uri = str_replace($variable, "([^/]*)", $uri);
-        }
-        foreach($matches[1] as $variable_raw) {
-            $vars[] = $variable_raw;
-        }
-
-        $uri = str_replace("/", "\/", $uri);
-
-        $uri = "/" . $uri . "$/m";
+        $uri = "/" . trim($uri, "/ \n");
+        $uri = str_replace('/', "\/", $uri);
+        $uri = str_replace('{}', "([^\/]*)", $uri);
+        $uri = "/^" . $uri . "$/m";
 
         return $uri;
     }
