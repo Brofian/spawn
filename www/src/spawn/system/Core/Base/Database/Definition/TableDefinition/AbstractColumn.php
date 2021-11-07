@@ -2,7 +2,6 @@
 
 namespace spawn\system\Core\Base\Database\Definition\TableDefinition;
 
-use Doctrine\DBAL\Schema\Column;
 use spawn\system\Core\Base\Database\Definition\TableDefinition\Constants\ColumnTypeOptions;
 
 abstract class AbstractColumn {

@@ -3,7 +3,6 @@
 namespace spawn\system\Core\Helper;
 
 
-use spawn\system\Core\Contents\ValueBag;
 use spawn\system\Core\Helper\FrameworkHelper\CUriConverter;
 use spawn\system\Core\Services\Service;
 use spawn\system\Core\Services\ServiceContainer;

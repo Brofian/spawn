@@ -1,9 +1,9 @@
 <?php
 
-use spawn\system\Core\Services\ServiceContainerProvider;
-use spawn\system\Core\Services\ServiceContainer;
-use spawnApp\Services\SeoUrlManager;
 use bin\spawn\IO;
+use spawn\system\Core\Services\ServiceContainer;
+use spawn\system\Core\Services\ServiceContainerProvider;
+use spawnApp\Services\SeoUrlManager;
 
 /** @var ServiceContainer $serviceContainer */
 $serviceContainer = ServiceContainerProvider::getServiceContainer();

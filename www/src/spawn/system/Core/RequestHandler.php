@@ -3,9 +3,8 @@
 namespace spawn\system\Core;
 
 use spawn\system\Core\Contents\Response\AbstractResponse;
-use spawn\system\Core\Contents\Response\SimpleResponse;
 use spawn\system\Core\Contents\Response\JsonResponse;
-use spawn\system\Core\Contents\ValueBag;
+use spawn\system\Core\Contents\Response\SimpleResponse;
 use spawn\system\Core\Helper\RoutingHelper;
 use spawn\system\Core\Services\Service;
 use spawn\system\Core\Services\ServiceContainer;

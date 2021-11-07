@@ -1,7 +1,7 @@
 <?php
 
-use spawn\system\Core\Helper\FrameworkHelper\DatabaseStructureHelper;
 use bin\spawn\IO;
+use spawn\system\Core\Helper\FrameworkHelper\DatabaseStructureHelper;
 
 IO::printLine("> Updating database...", IO::YELLOW_TEXT);
 

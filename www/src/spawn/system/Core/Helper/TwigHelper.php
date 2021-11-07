@@ -4,7 +4,6 @@
 namespace spawn\system\Core\Helper;
 
 
-use Doctrine\DBAL\Exception;
 use spawn\system\Core\Contents\Collection\AssociativeCollection;
 use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Custom\Debugger;

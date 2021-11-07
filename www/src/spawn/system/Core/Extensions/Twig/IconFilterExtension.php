@@ -4,7 +4,6 @@ namespace spawn\system\Core\Extensions\Twig;
 
 
 use spawn\system\Core\Base\Extensions\Twig\FilterExtension;
-use spawn\system\Core\Helper\URIHelper;
 
 class IconFilterExtension extends FilterExtension
 {

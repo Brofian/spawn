@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-use \bin\spawn\IO;
-use PDO;
-use spawn\system\Core\Helper\FrameworkHelper\DatabaseStructureHelper;
+use bin\spawn\IO;
 
 include(__DIR__ . "/callable/print-spawn.php");
 
