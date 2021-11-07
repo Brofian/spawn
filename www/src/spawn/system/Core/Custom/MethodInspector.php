@@ -57,14 +57,10 @@ class MethodInspector extends Mutable {
 
         /** @var \ReflectionParameter $reflectionParameter */
         foreach ($reflectionParameters as $key => $reflectionParameter) {
-            /** @var \ReflectionNamedType $type */
-            $type = $reflectionParameter->getType();
 
             $parameters[$reflectionParameter->getPosition()] = [
                 'name' => $reflectionParameter->getName(),
-                'type' => $type ? $type->getName() : 'mixed',
-                'allowsNull' => $type ? $type->allowsNull() : false,
-                'default' => $reflectionParameter->getName()
+                'required' => !$reflectionParameter->isOptional()
             ];
         }
 
