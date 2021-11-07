@@ -19,7 +19,7 @@ class ServiceContainer {
     public function defineService(
         string $id,
         ?string $class = null,
-        ?string $tag = null,
+        array $tags = [],
         bool $static = false,
         bool $abstract = false,
         ?string $decorates = null,
@@ -32,7 +32,7 @@ class ServiceContainer {
         $service->setId($id);
         if($class)      $service->setClass($class);
         if($moduleId)   $service->setModuleId($moduleId);
-        if($tag)        $service->setTag($tag);
+        if($tags)       $service->setTags($tags);
         if($abstract)   $service->setAbstract($abstract);
         if($static)     $service->setStatic($static);
         if($decorates)  $service->setDecorates($decorates);
@@ -80,7 +80,7 @@ class ServiceContainer {
         $services = [];
 
         foreach($this->services as $service) {
-            if($service->getTag() == $tag) {
+            if($service->hasTag($tag)) {
                 $services[$service->getId()] = $service;
             }
         }
@@ -93,8 +93,11 @@ class ServiceContainer {
         $services = [];
 
         foreach($this->services as $service) {
-            if(in_array($service->getTag(), $tags)) {
-                $services[$service->getId()] = $service;
+            foreach($tags as $tag) {
+                if($service->hasTag($tag)) {
+                    $services[$service->getId()] = $service;
+                    break;
+                }
             }
         }
 

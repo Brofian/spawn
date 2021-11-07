@@ -2,6 +2,8 @@
 
 namespace spawn\system\Core;
 
+use spawn\system\Core\Base\EventSystem\EventEmitter;
+use spawn\system\Core\Base\EventSystem\Events\RequestRoutedEvent;
 use spawn\system\Core\Contents\Response\AbstractResponse;
 use spawn\system\Core\Contents\Response\JsonResponse;
 use spawn\system\Core\Contents\Response\SimpleResponse;
@@ -45,6 +47,11 @@ class RequestHandler {
             $this->controllerService,
             $this->actionMethod
         );
+
+        $event = new RequestRoutedEvent($request, $this->controllerService, $this->actionMethod);
+        EventEmitter::get()->publish($event);
+        $this->controllerService = $event->getControllerService();
+        $this->actionMethod = $event->getMethod();
 
         if(!$this->controllerService) {
             throw new NoControllerFoundException($getBag->get('controller'));

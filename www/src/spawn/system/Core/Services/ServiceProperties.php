@@ -11,7 +11,7 @@ class ServiceProperties {
     const _DECORATES = 'decorates';
     const _PARENT = 'parent';
     const _ABSTRACT = 'abstract';
-    const _TAG = 'tag';
+    const _TAGS = 'tags';
     const _MODULE_ID = 'module_id';
     const _ARGUMENTS = 'arguments';
 

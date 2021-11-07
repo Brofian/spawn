@@ -56,7 +56,7 @@ class Kernel {
         $serviceContainer->defineService(
             'system.kernel.request',
             Request::class,
-            ServiceTags::BASE_SERVICE_STATIC,
+            [ServiceTags::BASE_SERVICE],
             true,
             false,
             null,
@@ -72,7 +72,7 @@ class Kernel {
         $serviceContainer->defineService(
             'system.kernel.response',
             Response::class,
-            ServiceTags::BASE_SERVICE_STATIC,
+            [ServiceTags::BASE_SERVICE],
             true,
             false,
             null,
@@ -87,7 +87,7 @@ class Kernel {
         $serviceContainer->defineService(
             'system.modules.collection',
             ModuleCollection::class,
-            ServiceTags::BASE_SERVICE_STATIC,
+            [ServiceTags::BASE_SERVICE],
             true,
             false,
             null,

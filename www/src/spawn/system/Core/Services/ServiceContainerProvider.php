@@ -2,78 +2,80 @@
 
 namespace spawn\system\Core\Services;
 
+use spawn\system\Core\Base\EventSystem\EventEmitter;
+use spawn\system\Core\Base\EventSystem\EventInitializer;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 
 class ServiceContainerProvider {
 
     const CORE_SERVICE_LIST = [
         'system.cookie.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\CookieHelper',
         ],
         'system.session.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\SessionHelper',
         ],
         'system.database.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Base\Helper\DatabaseHelper',
         ],
         'system.header.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\HeaderHelper',
         ],
         'system.database.connection' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Base\Database\DatabaseConnection',
         ],
         'system.routing.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\RoutingHelper',
         ],
         'system.twig.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\TwigHelper',
         ],
         'system.scss.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\ScssHelper',
         ],
         'system.xml.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\XMLReader',
         ],
         'system.curi.converter.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Helper\FrameworkHelper\CUriConverter',
         ],
         'system.file.editor.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Base\Custom\FileEditor',
         ],
         'system.logger.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Base\Custom\Logger',
         ],
         'system.string.converter.helper' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Base\Custom\StringConverter',
         ],
         'system.request.curi.valuebag' => [
-            ServiceProperties::_TAG => ServiceTags::BASE_SERVICE_STATIC,
+            ServiceProperties::_TAGS => [ServiceTags::BASE_SERVICE],
             ServiceProperties::_STATIC => true,
             ServiceProperties::_CLASS => 'spawn\system\Core\Contents\ValueBag',
         ],
@@ -88,8 +90,9 @@ class ServiceContainerProvider {
 
             $modules = $moduleLoader->loadModules();
             self::$serviceContainer = $serviceLoader->loadServices($modules);
-
             self::addCoreServices();
+
+            EventInitializer::registerSubscriberFromServices(self::$serviceContainer);
         }
 
         return self::$serviceContainer;

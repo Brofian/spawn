@@ -72,11 +72,12 @@ class ServiceLoader {
                 $service->setStatic($serviceTag->getAttribute("static") != "");
             }
 
-            /** @var XMLContentModel $tagElement */
-            $tagElement = $serviceTag->getChildrenByType("tag")->first();
-            if($tagElement) {
+            /** @var XMLContentModel[] $tagElements */
+            $tagElements = $serviceTag->getChildrenByType("tag");
+            foreach($tagElements as $tagElement) {
                 $service->setTag($tagElement->getValue());
             }
+
 
             /** @var XMLContentModel[] $arguments */
             $arguments = $serviceTag->getChildrenByType("argument");

@@ -20,8 +20,8 @@ class Service extends Mutable {
     protected ?string $decorates = null;
     //if set, this service uses the arguments of its parent before of its own
     protected ?string $parent = null;
-    //free string, that is used to separate services by their functionality
-    protected ?string $tag = ServiceTags::BASE_SERVICE;
+    //free array, that is used to separate services by their functionality
+    protected ?array $tags = [ServiceTags::BASE_SERVICE];
     //the id of the module, this service belongs to
     protected ?string $moduleId = null;
     //the arguments, that are given when the class of this service is instanciated. Can either be a fixed value or another service
@@ -113,15 +113,25 @@ class Service extends Mutable {
         return $this;
     }
 
-    public function getTag(): ?string
+    public function getTags(): array
     {
-        return $this->tag;
+        return $this->tags;
     }
 
-    public function setTag(?string $tag): self
+    public function setTags(array $tags): self
     {
-        $this->tag = $tag;
+        $this->tags = $tags;
         return $this;
+    }
+
+    public function setTag(string $tag): self
+    {
+        $this->tags[] = $tag;
+        return $this;
+    }
+
+    public function hasTag(string $tag): bool {
+        return in_array($tag, $this->tags);
     }
 
     public function getArguments(): ?array
@@ -229,17 +239,16 @@ class Service extends Mutable {
     }
 
 
-
-
     public function __toString()
     {
         $serviceString = '[';
         $serviceString .= "\"id\"=>\"$this->id\",";
         $serviceString .= "\"class\"=>\"$this->class\",";
-        $serviceString .= "\"tag\"=>\"$this->tag\",";
         $serviceString .= "\"abstract\"=>".($this->abstract ? "true" : "false").",";
         $serviceString .= "\"decorates\"=>\"$this->decorates\",";
         $serviceString .= "\"parent\"=>\"$this->parent\",";
+        $hasTags = !empty($this->tags);
+        $serviceString .= "\"tags\"=> [".($hasTags ? "\"".implode("\",\"", $this->tags)."\"" : '')."],";
         $serviceString .= "\"arguments\"=>[";
         $isFirstArgument = true;
         foreach($this->arguments as $argument) {
@@ -263,7 +272,7 @@ class Service extends Mutable {
 
         if($serviceArray["id"]) $service->setId($serviceArray["id"]);
         if($serviceArray["class"]) $service->setClass($serviceArray["class"]);
-        if($serviceArray["tag"]) $service->setTag($serviceArray["tag"]);
+        if($serviceArray["tags"]) $service->setTags($serviceArray["tags"]);
         if($serviceArray["abstract"]) $service->setAbstract($serviceArray["abstract"]);
         if($serviceArray["decorates"]) $service->setDecorates($serviceArray["decorates"]);
         if($serviceArray["parent"]) $service->setParent($serviceArray["parent"]);
