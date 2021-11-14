@@ -70,7 +70,7 @@ abstract class AbstractColumn {
         }
 
         $givenOptions = [
-            'notnull' => $this->canBeNull(),
+            'notnull' => !$this->canBeNull(),
             'length' => $this->getLength(),
             'unsigned' => $this->isUnsigned(),
             'default' => $default,

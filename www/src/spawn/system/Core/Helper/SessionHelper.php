@@ -63,16 +63,11 @@ class SessionHelper
         return (session_status() == PHP_SESSION_ACTIVE);
     }
 
-    /**
-     * @return bool
-     */
-    private function startSession()
+
+    private function startSession(): bool
     {
         if ($this->isSessionActive() == false) {
-            //$sessionStarted = session_start(['read_and_close'  => true]);
-            $_SESSION = [];
-
-            $sessionStarted = true;
+            $sessionStarted = session_start();
             return $sessionStarted;
         }
         return false;

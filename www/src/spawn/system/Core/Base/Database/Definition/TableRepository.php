@@ -190,7 +190,6 @@ abstract class TableRepository {
             $this->getTypeIdentifiersForColumns(array_keys($entityArray))
         );
 
-
         $this->adjustEntityAfterSuccessfulUpdate($entity, $entityArray);
 
         return true;

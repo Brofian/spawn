@@ -2,7 +2,6 @@
 
 namespace spawn\system\Core\Services;
 
-use spawn\system\Core\Base\EventSystem\EventEmitter;
 use spawn\system\Core\Base\EventSystem\EventInitializer;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 

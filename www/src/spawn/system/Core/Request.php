@@ -8,11 +8,12 @@ namespace spawn\system\Core;
 
 use spawn\system\Core\Contents\Collection\AssociativeCollection;
 use spawn\system\Core\Custom\Logger;
+use spawn\system\Core\Custom\Mutable;
 use spawn\system\Core\Helper\RoutingHelper;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use spawnApp\Models\RewriteUrl;
 
-class Request
+class Request extends Mutable
 {
     protected AssociativeCollection $get;
     protected AssociativeCollection $post;
