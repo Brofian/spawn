@@ -22,7 +22,7 @@ class Console {
         // remove "bin/console" -> can normally be ignored
         array_shift($arguments);
         //the command, e.g. "debug:test"
-        $this->command = array_shift($arguments);
+        $this->command = array_shift($arguments) ?? '';
 
         // check special parameters
         if(in_array('-v',$arguments)) IO::$verboseLevel = 1;
