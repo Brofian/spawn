@@ -41,30 +41,29 @@ class IO {
     public static function print(string $text, string $flag = "", int $minVerboseLevel = 0) : bool {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo $flag . $text . self::DEFAULT_TEXT;
+        echo $flag . $text;
         return true;
     }
 
     public static function printLine(string $text, string $flag = "", int $minVerboseLevel = 0) : bool {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo $flag . $text . PHP_EOL . self::DEFAULT_TEXT;
+        echo $flag . $text . PHP_EOL;
         return true;
     }
 
     public static function endLine(string $flag = "", int $minVerboseLevel = 0) : bool {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo $flag . PHP_EOL . self::DEFAULT_TEXT;
+        echo $flag . PHP_EOL;
         return true;
     }
 
     public static function printObject($object, int $minVerboseLevel = 0) {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo self::YELLOW_TEXT;
         var_dump($object);
-        echo self::DEFAULT_TEXT;
+        return true;
     }
 
     public static function exec(string $cmd, bool $simplified = false, string &$cmdResult = null, int &$errorCode = null) {
@@ -103,7 +102,7 @@ class IO {
         $isFirstQuery = true;
         do {
             if(!$isFirstQuery) {
-                self::printLine($errorMessage);
+                self::printError($errorMessage);
             }
             $isFirstQuery = false;
 
@@ -170,5 +169,20 @@ class IO {
         self::printLine("");
     }
 
+    public static function printError(string $text, int $minVerboseLevel = 0): void {
+        self::printLine($text, self::RED_TEXT, $minVerboseLevel);
+    }
 
+    public static function printSuccess(string $text, int $minVerboseLevel = 0): void {
+        self::printLine($text, self::GREEN_TEXT, $minVerboseLevel);
+    }
+
+    public static function printWarning(string $text, int $minVerboseLevel = 0): void {
+        self::printLine($text, self::YELLOW_TEXT, $minVerboseLevel);
+    }
+
+    public static function reset() {
+        self::print('', self::DEFAULT_TEXT);
+        self::print('', self::BLACK_BG);
+    }
 }

@@ -4,163 +4,224 @@
 namespace spawn\bin;
 
 use bin\spawn\IO;
+use spawn\system\Core\Custom\AbstractCommand;
 use spawn\system\Core\Helper\URIHelper;
+use spawn\system\Core\Services\Service;
+use spawn\system\Core\Services\ServiceContainerProvider;
+use spawn\system\Core\Services\ServiceTags;
 
 class Console {
-
-    const COMMAND_ROOT = ROOT . "\\dev\\console";
-    const IGNORED_DIRS = [
-        '.',
-        '..',
-        'callable'
-    ];
-
-
 
     /** @var mixed|string  */
     private $command = "";
     /** @var array  */
     private $params = [];
 
-    /** @var array  */
-    private $commandList = [];
-
     public function __construct($arguments)
     {
+        // remove "bin/console" -> can normally be ignored
+        array_shift($arguments);
+        //the command, e.g. "debug:test"
+        $this->command = array_shift($arguments);
+
+        // check special parameters
         if(in_array('-v',$arguments)) IO::$verboseLevel = 1;
         else if(in_array('-vv',$arguments)) IO::$verboseLevel = 2;
         else if(in_array('-vvv',$arguments)) IO::$verboseLevel = 3;
+        $arguments = array_diff( $arguments, ['-v', '-vv', '-vvv'] );
 
-        $this->command = array_shift($arguments);
+        $this->params = $this->interpretParameters($arguments);
 
-        $this->params = $arguments;
+        $matchingCommands = $this->findMatchingCommands();
 
-        $this->commandList = $this->findCommandFiles(self::COMMAND_ROOT);
-        $this->runCommand();
-    }
+        $perfectMatches = count($matchingCommands['perfectMatches']);
+        if($perfectMatches === 1) {
 
+            if(in_array('--help', $arguments) || in_array('-h', $arguments)) {
+                $this->printCommandHelp($matchingCommands['perfectMatches'][0]);
+                return;
+            }
 
-    private function runCommand() {
-
-        if(count($this->params) < 1) {
-            IO::printLine("Please enter a command!");
-            $this->printAvailableCommands($this->commandList);
+            $this->executeCommand($matchingCommands['perfectMatches'][0]);
             return;
         }
-        else if($this->params[0] == "help" || $this->params[0] == "?") {
-            $this->printAvailableCommands($this->commandList, "", "");
-            return;
+        elseif($perfectMatches > 1) {
+            $matchingCommands['matches'] = $matchingCommands['perfectMatches'];
         }
 
-        $path = explode(":",trim($this->params[0], ":"));
+        IO::printError('No matching command found!');
+        IO::reset();
 
-        $availableCommands = $this->commandList;
-        $cmd = "";
-        $parsedCmd = "";
-
-        while(count($path) > 0) {
-
-            $cmd = array_shift($path);
-
-            if(isset($availableCommands[(string)$cmd])) {
-                //known command
-
-
-                if(is_array($availableCommands[(string)$cmd])) {
-                    $availableCommands = $availableCommands[(string)$cmd];
-                    $parsedCmd .= $cmd . ":";
-                    continue;
-                }
-                else if(is_file($availableCommands[(string)$cmd])) {
-                    include($availableCommands[(string)$cmd]);
-                    return;
-                }
-
-            }
-            else {
-                //unknown command
-                break;
-            }
-
+        if(count($matchingCommands['matches'])) {
+            $this->listPossibleCommands($matchingCommands['matches']);
         }
-
-
-        IO::printLine("\"{$cmd}\" is not a valid command! Did you mean on of these? ", IO::RED_TEXT);
-        IO::endLine(IO::WHITE_TEXT);
-        $this->printAvailableCommands($availableCommands, $parsedCmd);
 
     }
 
+    protected function interpretParameters(array $parameters): array {
+        $parameterList = [];
+        $standaloneParameterIndex = 0;
 
-    private function printAvailableCommands(array $availableCommands, $prefix = "", $cFlags = null) {
-        $colorFlag = ($cFlags === null) ? IO::RED_BG : $cFlags;
+        foreach($parameters as $param) {
 
-        IO::endLine($colorFlag);
-
-        $printCommand = function($array, $printFunction, $cmd = "", $nestingLevel = 0) {
-            foreach($array as $key => $item) {
-
-                if($nestingLevel == 0) {
-                    IO::endLine();
-                }
-
-                if($cmd == "")  {
-                    $command = $key;
-                }
-                else if(substr($cmd, -1,1) == ":") {
-                    $command = $cmd . $key;
-                    $nestingLevel++;
-                }
-                else {
-                    $command = $cmd . ":" . $key;
-                }
-
-
-                if(is_array($item)) {
-                    $printFunction($item, $printFunction, $command, $nestingLevel+1);
-                }
-                else {
-                    IO::printLine(IO::TAB . $command);
-                }
-
-            }
-        };
-
-        $printCommand($availableCommands, $printCommand, $prefix);
-
-        IO::endLine(IO::BLACK_BG);
-    }
-
-    private function findCommandFiles($dir) {
-
-        URIHelper::pathifie($dir, DIRECTORY_SEPARATOR);
-
-        $filesInDir = scandir($dir );
-
-        $commands = [];
-
-        foreach($filesInDir as $fileInDir) {
-
-            if(in_array($fileInDir, self::IGNORED_DIRS)) {
+            if(ltrim($param, '-') === '') {
                 continue;
             }
 
-            $path = $dir."/".$fileInDir;
-
-            if(is_dir($path)) {
-                $commands[$fileInDir] = $this->findCommandFiles($path);
+            if(substr($param, 0, 2) == '--') {
+                // e.g. "--test" or "--test=Helloworld"
+                $param = ltrim($param, '-');
+                if(strpos($param, '=') !== false) {
+                    list($param, $value) = explode('=', $param, 2);
+                    $parameterList[$param] = $value;
+                }
+                else {
+                    $parameterList[$param] = true;
+                }
             }
-            else if(is_file($path)) {
-                $fileInDir = str_replace(".php", "", $fileInDir);
-
-                $commands[$fileInDir] = $path;
+            elseif (substr($param, 0, 1) == '-') {
+                // e.g. "-e" or "-eHelloworld"
+                $param = ltrim($param, '-');
+                if(strlen($param) > 1) {
+                    $parameterList[$param[0]] = substr($param, 1);
+                }
+                else {
+                    $parameterList[$param] = true;
+                }
             }
+            else {
+                $parameterList[$standaloneParameterIndex] = $param;
+                $standaloneParameterIndex++;
+            }
+
         }
 
-        return $commands;
+        return $parameterList;
     }
 
 
+    /**
+     * @return Service[]
+     */
+    protected function findMatchingCommands(): array {
+        $commandServices = ServiceContainerProvider::getServiceContainer()->getServicesByTag(ServiceTags::CONSOLE_COMMAND);
+        $commandPieces = explode(':', $this->command);
+        $commandPiecesLength = count($commandPieces);
+
+        $matchingCommands = [
+            'bestMatch' => 0,
+            'matches' => [],
+            'perfectMatches' => []
+        ];
+
+
+        foreach($commandServices as $serviceId => $commandService) {
+            /** @var AbstractCommand $class */
+            $class = $commandService->getClass();
+
+            $matchingLevel = $this->matchCommandWithPattern($class::getCommand(), explode(':', $this->command), $commandPiecesLength);
+            if($matchingLevel == $commandPiecesLength) {
+                $matchingCommands['perfectMatches'][] = $commandService;
+            }
+            elseif ($matchingLevel == $matchingCommands['bestMatch']) {
+                $matchingCommands['matches'][] = $commandService;
+            }
+            elseif($matchingLevel > $matchingCommands['bestMatch']) {
+                $matchingCommands['bestMatch'] = $matchingLevel;
+                $matchingCommands['matches'] = [$commandService];
+            }
+        }
+
+        return $matchingCommands;
+    }
+
+    protected function matchCommandWithPattern(string $pattern, array $commandPieces, int $commandPiecesLength): int {
+        $patternPieces = explode(':', $pattern);
+        $matchingParts = 0;
+
+
+        foreach($patternPieces as $pos => $patternPiece) {
+            if($pos < $commandPiecesLength && strpos($patternPiece, $commandPieces[$pos]) === 0) {
+                $matchingParts++;
+            }
+            else {
+                break;
+            }
+        }
+
+        return $matchingParts;
+    }
+
+
+    protected function executeCommand(Service $commandService): void {
+        /** @var AbstractCommand $instance */
+        $instance = $commandService->getInstance();
+        $parameters = $instance::createParameterArray($this->params);
+        $result = $instance->execute($parameters);
+
+        IO::endLine();
+        if($result) {
+            IO::printError('An error occurred! There is probably more output above!');
+        }
+        else {
+            IO::printSuccess('Command successfully executed!');
+        }
+        IO::reset();
+    }
+
+    /**
+     * @param Service[] $possibleCommands
+     */
+    protected function listPossibleCommands(array $possibleCommands): void {
+
+        $segmentLengths = [];
+        $lines = [];
+        foreach($possibleCommands as $commandService) {
+            /** @var AbstractCommand $class */
+            $class = $commandService->getClass();
+            $command = $class::getCommand();
+            $description = $class::getShortDescription();
+            $line = [$command, '   ', $description];
+            $lines[] = $line;
+
+            foreach($line as $pos => $segment) {
+                $length = strlen($segment);
+                if(!isset($segmentLengths[$pos]) || $length > $segmentLengths[$pos]) {
+                    $segmentLengths[$pos] = $length;
+                }
+            }
+        }
+
+
+        $totalLineLength = 0;
+        foreach($segmentLengths as $segmentLength) {
+            $totalLineLength += $segmentLength;
+        }
+
+        $emptyLine = str_pad('', $totalLineLength, ' ');
+
+
+        IO::endLine();
+        IO::printLine($emptyLine, IO::RED_BG);
+        IO::printLine(str_pad('Did you mean any of these?', $totalLineLength, ' '));
+        IO::printLine($emptyLine);
+        foreach($lines as $line) {
+            foreach($line as $pos => $segment) {
+                IO::print(str_pad($segment, $segmentLengths[$pos], ' '));
+            }
+            IO::endLine();
+        }
+        IO::printLine($emptyLine);
+        IO::reset();
+        IO::endLine();
+    }
+
+
+    protected function printCommandHelp(Service $command): void {
+        //TODO
+        IO::printLine('TODO');
+        return;
+    }
 
 
 }
