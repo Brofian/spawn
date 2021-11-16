@@ -7,8 +7,8 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:F-H00/webu-app.git"
-    },
+      "url": "git@github.com:F-H00/spawn-app.git"
+    }
   ],
 
 
