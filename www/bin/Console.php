@@ -184,23 +184,39 @@ class Console {
      */
     protected function listPossibleCommands(array $possibleCommands): void {
 
-        $segmentLengths = [];
-        $lines = [];
+        $sortedCommands = [];
         foreach($possibleCommands as $commandService) {
             /** @var AbstractCommand $class */
             $class = $commandService->getClass();
-            $command = $class::getCommand();
-            $description = $class::getShortDescription();
-            $line = [$command, '   ', $description];
-            $lines[] = $line;
+            $namespace = explode(':', $class::getCommand())[0];
+            $sortedCommands[$namespace][] = $commandService;
+        }
 
-            foreach($line as $pos => $segment) {
-                $length = strlen($segment);
-                if(!isset($segmentLengths[$pos]) || $length > $segmentLengths[$pos]) {
-                    $segmentLengths[$pos] = $length;
+        $segmentLengths = [];
+        $lines = [];
+        /** @var string $namespace      @var array $commandList    */
+        foreach($sortedCommands as $namespace => $commandList) {
+            $lines[] = ["[$namespace]", '', ''];
+
+            foreach($commandList as $commandService) {
+                /** @var AbstractCommand $class */
+                $class = $commandService->getClass();
+                $command = $class::getCommand();
+                $description = $class::getShortDescription();
+                $line = ['   ', $command, '   ', $description];
+                $lines[] = $line;
+
+                foreach($line as $pos => $segment) {
+                    $length = strlen($segment);
+                    if(!isset($segmentLengths[$pos]) || $length > $segmentLengths[$pos]) {
+                        $segmentLengths[$pos] = $length;
+                    }
                 }
             }
+
+            $lines[] = ['', '', ''];
         }
+
 
 
         $totalLineLength = 0;
