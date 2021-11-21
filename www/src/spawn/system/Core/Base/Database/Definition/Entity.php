@@ -34,5 +34,4 @@ abstract class Entity extends Mutable {
     }
 
 
-
 }

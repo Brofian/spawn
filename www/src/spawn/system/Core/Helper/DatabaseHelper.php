@@ -2,6 +2,7 @@
 
 namespace spawn\system\Core\Base\Helper;
 
+use PDOStatement;
 use spawn\system\Core\Base\Database\DatabaseConnection;
 
 class DatabaseHelper
@@ -43,7 +44,7 @@ class DatabaseHelper
     /**
      * @param $sql
      * @param bool $preventFetchAll
-     * @return array|bool|false|\PDOStatement
+     * @return array|bool|false|PDOStatement
      */
     public function query($sql, bool $preventFetchAll = false) {
         try {
@@ -63,7 +64,7 @@ class DatabaseHelper
     /**
      * @return DatabaseConnection
      */
-    public function getConnection() {
+    public function getConnection(): DatabaseConnection {
         return $this->connection;
     }
 

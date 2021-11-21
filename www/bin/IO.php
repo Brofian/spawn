@@ -96,16 +96,28 @@ class IO {
     }
 
 
-    public static function readLine(string $text = "", callable $validationFunc = null, $errorMessage = "Invalid input! Try again! ") {
+    /**
+     * @param string $text
+     * @param callable|null $validationFunc
+     * @param string $errorMessage
+     * @param int $maxTries
+     * @return bool|string
+     */
+    public static function readLine(string $text = "", callable $validationFunc = null, $errorMessage = "Invalid input! Try again! ", int $maxTries = 5) {
         if(!self::$onCommandLine) return false;
 
-        $isFirstQuery = true;
+        $tries = 0;
         do {
-            if(!$isFirstQuery) {
+            if($tries > 0) {
                 self::printError($errorMessage);
-            }
-            $isFirstQuery = false;
 
+                if($tries >= $maxTries) {
+                    return false;
+                }
+
+            }
+
+            $tries++;
             $answer = readline($text);
         }
         while($validationFunc != null && !$validationFunc($answer));
@@ -123,13 +135,13 @@ class IO {
         foreach($lines as $line) {
             for($i=0; $i < count($line); $i++) {
                 if(isset($colLenghts[$i])) {
-                    $currentLength = strlen($line[$i]);
+                    $currentLength = strlen((string)$line[$i]);
                     if($colLenghts[$i] < $currentLength) {
                         $colLenghts[$i] = $currentLength;
                     }
                 }
                 else {
-                    $colLenghts[$i] = strlen($line[$i]);
+                    $colLenghts[$i] = strlen((string)$line[$i]);
                 }
             }
         }
@@ -145,7 +157,7 @@ class IO {
             self::print("|");
             $col = 0;
             foreach($line as $item) {
-                self::print(" ".str_pad($item, $colLenghts[$col]+1)."|");
+                self::print(" ".str_pad((string)$item, $colLenghts[$col]+1)."|");
                 $col++;
             }
             self::printLine("");
@@ -171,14 +183,17 @@ class IO {
 
     public static function printError(string $text, int $minVerboseLevel = 0): void {
         self::printLine($text, self::RED_TEXT, $minVerboseLevel);
+        self::reset();
     }
 
     public static function printSuccess(string $text, int $minVerboseLevel = 0): void {
         self::printLine($text, self::GREEN_TEXT, $minVerboseLevel);
+        self::reset();
     }
 
     public static function printWarning(string $text, int $minVerboseLevel = 0): void {
         self::printLine($text, self::YELLOW_TEXT, $minVerboseLevel);
+        self::reset();
     }
 
     public static function reset() {

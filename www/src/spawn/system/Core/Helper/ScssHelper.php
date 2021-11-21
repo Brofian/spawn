@@ -95,7 +95,6 @@ class ScssHelper
         $minifiedFilePath = URIHelper::joinPaths($this->cacheFilePath, 'all.min.css');
         $fileWriter->createFile($minifiedFilePath, $cssMinified);
 
-
     }
 
 

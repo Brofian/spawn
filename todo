@@ -4,10 +4,10 @@
 -> SEO Analizer: save every page load in two tables: today and total. Count and save the today entries every night and save it
 for this day in total
 
--> create old bin/console command as classes in the new service format
-
 -> create function "printCommandHelp" for Console class
 
 -> test (and fix, if needed) if the new bin/console services can be used without a database table, because it is used to create them
+
+-> The ModuleLoader class should only read from the cache-file or the database and never create its own entries in the db. This is done by the modules:refresh command
 
 -> add a simple (service controlled) way to use a single cronjob for many actions

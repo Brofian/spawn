@@ -11,6 +11,17 @@ class DatabaseConnection
 
     protected static ?DBALConnection $connection = null;
 
+    /**
+     * @param string $host
+     * @param string $database
+     * @param string $port
+     * @param string $username
+     * @param string $password
+     * @param string $driver
+     * @param bool $persistConnection
+     * @return DBALConnection
+     * @throws DatabaseConnectionException
+     */
     public static function createNewConnection(
         string $host = DB_HOST,
         string $database = DB_DATABASE,
@@ -46,7 +57,10 @@ class DatabaseConnection
         return $connection;
     }
 
-
+    /**
+     * @return DBALConnection
+     * @throws DatabaseConnectionException
+     */
     public static function getConnection(): DBALConnection
     {
         if(self::$connection == null) {

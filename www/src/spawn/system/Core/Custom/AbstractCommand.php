@@ -24,7 +24,7 @@ abstract class AbstractCommand {
         $values = [];
 
         foreach($parameters as $parameter => $keys) {
-            $values[$parameter] = null;
+            $values[$parameter] = false;
 
             if(is_array($keys)) {
                 foreach($keys as $key) {

@@ -157,7 +157,17 @@ class Console {
         /** @var AbstractCommand $instance */
         $instance = $commandService->getInstance();
         $parameters = $instance::createParameterArray($this->params);
-        $result = $instance->execute($parameters);
+
+        try {
+            $result = $instance->execute($parameters);
+        }
+        catch (\Exception $e) {
+            IO::printError('ERROR ' . $e->getCode() .' => '. $e->getMessage());
+            IO::printError($e->getFile() .':'.$e->getLine());
+            IO::printError(implode(PHP_EOL, $e->getTrace()));
+            $result = $e->getCode();
+        }
+
 
         IO::endLine();
         if($result) {
