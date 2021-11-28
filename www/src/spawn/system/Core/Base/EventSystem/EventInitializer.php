@@ -3,7 +3,6 @@
 namespace spawn\system\Core\Base\EventSystem;
 
 use spawn\system\Core\Services\ServiceContainer;
-use spawn\system\Core\Services\ServiceContainerProvider;
 
 class EventInitializer {
 

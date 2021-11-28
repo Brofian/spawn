@@ -7,7 +7,7 @@ namespace spawn\system\Core;
  *  The Main Class to store all Response informations
  */
 
-use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Base\Database\Definition\EntityCollection;
 use spawn\system\Core\Contents\Response\AbstractResponse;
 use spawn\system\Core\Helper\FrameworkHelper\ResourceCollector;
 use spawn\system\Core\Helper\ScssHelper;
@@ -24,7 +24,7 @@ class Response
     protected string $html = '';
     protected TwigHelper $twigHelper;
     protected ScssHelper $scssHelper;
-    protected ModuleCollection $moduleCollection;
+    protected EntityCollection $moduleCollection;
     protected AbstractResponse $responseObject;
 
     public function __construct()

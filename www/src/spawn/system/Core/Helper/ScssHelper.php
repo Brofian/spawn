@@ -13,13 +13,11 @@ class ScssHelper
 
     const SCSS_FILES_PATH = ROOT . '/vendor/scssphp/scssphp/scss.inc.php';
 
-    private $alwaysReload = false;
-
-    private $baseVariables = array();
-
-    public $cacheFilePath = ROOT . '/public/cache/css';
-    public $baseFolder = ROOT . CACHE_DIR . '/resources/modules';
-    public $baseFileName = '/scss/index.scss';
+    private bool $alwaysReload = false;
+    private array $baseVariables = array();
+    public string $cacheFilePath = ROOT . '/public/cache/css';
+    public string $baseFolder = ROOT . CACHE_DIR . '/resources/modules';
+    public string $baseFileName = '/scss/index.scss';
 
 
     public function __construct()
@@ -27,7 +25,6 @@ class ScssHelper
         $this->alwaysReload = (MODE == 'dev');
         require_once self::SCSS_FILES_PATH;
     }
-
 
 
     private function compile(string $baseFile, bool $compressed = false)

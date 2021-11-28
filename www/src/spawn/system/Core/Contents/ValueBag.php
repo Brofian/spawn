@@ -10,6 +10,4 @@ class ValueBag extends Mutable {
         return get_object_vars($this);
     }
 
-
-
 }

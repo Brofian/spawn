@@ -4,13 +4,8 @@ namespace spawn\system\Core\Helper;
 
 class SessionHelper
 {
+    private array $session = array();
 
-    /** @var array */
-    private $session = array();
-
-    /**
-     * SessionHelper constructor.
-     */
     public function __construct()
     {
         $this->startSession();
@@ -25,18 +20,12 @@ class SessionHelper
     }
 
 
-    /**
-     * @param string $key
-     * @param $value
-     * @param bool $overrideExisting
-     * @return bool
-     */
-    public function set(string $key, $value, bool $overrideExisting = true)
+    public function set(string $key, $value, bool $overrideExisting = true): bool
     {
-        $this->startSession();
         if (isset($this->session[$key]) && $overrideExisting == false) {
             return false;
         }
+
         $_SESSION[$key] = $value;
         $this->session[$key] = $value;
         return true;
@@ -45,9 +34,9 @@ class SessionHelper
     /**
      * @param string $key
      * @param bool $fallback
-     * @return bool|mixed
+     * @return mixed
      */
-    public function get(string $key, $fallback = false)
+    public function get(string $key, $fallback = null)
     {
         if ($this->isSessionActive() == false || isset($this->session[$key]) == false) {
             return $fallback;
@@ -55,28 +44,22 @@ class SessionHelper
         return $this->session[$key];
     }
 
-    /**
-     * @return bool
-     */
+
     private function isSessionActive(): bool
     {
         return (session_status() == PHP_SESSION_ACTIVE);
     }
 
-
     private function startSession(): bool
     {
         if ($this->isSessionActive() == false) {
-            $sessionStarted = session_start();
-            return $sessionStarted;
+            return session_start();
         }
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function destroySession()
+
+    public function destroySession(): bool
     {
         if ($this->isSessionActive()) {
             session_destroy();

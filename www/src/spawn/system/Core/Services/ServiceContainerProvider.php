@@ -2,6 +2,7 @@
 
 namespace spawn\system\Core\Services;
 
+use spawn\system\Core\Base\Database\Definition\EntityCollection;
 use spawn\system\Core\Base\EventSystem\EventInitializer;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 
@@ -87,6 +88,7 @@ class ServiceContainerProvider {
             $serviceLoader = new ServiceLoader();
             $moduleLoader = new ModuleLoader();
 
+            /** @var EntityCollection $modules */
             $modules = $moduleLoader->loadModules();
             self::$serviceContainer = $serviceLoader->loadServices($modules);
             self::addCoreServices();
@@ -116,10 +118,6 @@ class ServiceContainerProvider {
         }
 
     }
-
-
-
-
 
 
 }

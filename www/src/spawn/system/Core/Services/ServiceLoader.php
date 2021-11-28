@@ -3,29 +3,31 @@
 namespace spawn\system\Core\Services;
 
 
-use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Base\Database\Definition\EntityCollection;
 use spawn\system\Core\Contents\XMLContentModel;
-use spawn\system\Core\Helper\URIHelper;
 use spawn\system\Core\Helper\XMLReader;
+use spawnApp\Database\ModuleTable\ModuleEntity;
 
 class ServiceLoader {
 
-    public function loadServices(ModuleCollection $moduleCollection) : ServiceContainer {
+    public function loadServices(EntityCollection $moduleCollection): ServiceContainer
+    {
 
-        if(ServiceCache::doesServiceCacheExist() && MODE != 'dev') {
+        if (ServiceCache::doesServiceCacheExist() && MODE != 'dev') {
             return ServiceCache::readServiceCache();
         }
 
         $serviceContainer = new ServiceContainer();
 
-        foreach($moduleCollection->getModuleList() as $module) {
+        /** @var ModuleEntity $module */
+        foreach ($moduleCollection->getArray() as $module) {
             $moduleId = $module->getId();
-            $pluginXMLPath = URIHelper::joinMultiplePaths(ROOT, $module->getBasePath(), "plugin.xml");
+            $pluginXMLPath = ROOT . $module->getPath() . "/plugin.xml";
             $pluginXML = XMLReader::readFile($pluginXMLPath);
 
             $services = $this->extractServicesFromPluginXMl($pluginXML);
 
-            foreach($services as $service) {
+            foreach ($services as $service) {
                 $service->setModuleId($moduleId);
                 $serviceContainer->addService($service);
             }

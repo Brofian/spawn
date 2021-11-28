@@ -2,18 +2,25 @@
 
 namespace spawn\system\Core\Helper;
 
+use Exception;
+
 class UUID
 {
 
     public const UUID_LENGTH = 24;
     public const UUID_PATTERN = '/^([a-f0-9]*)$/m';
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     public static function randomBytes(): string
     {
         return random_bytes(self::UUID_LENGTH);
     }
 
-    public static function randomHex(): string {
+    public static function randomHex(): string
+    {
         return self::bytesToHex(self::randomBytes());
     }
 

@@ -3,7 +3,7 @@
 namespace spawn\system\Core\Extensions\Twig;
 
 
-use spawn\system\Core\Base\Extensions\Twig\FilterExtension;
+use spawn\system\Core\Extensions\Twig\Abstracts\FilterExtension;
 
 class PreviewFilterExtension extends FilterExtension
 {

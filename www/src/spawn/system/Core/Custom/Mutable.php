@@ -13,15 +13,30 @@ abstract class Mutable {
     public function get(string $key) {
         if($this->has($key)) {
             return $this->$key;
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-    public function has(string $key): bool {
+    public function has(string $key): bool
+    {
         return isset($this->$key);
     }
 
+
+    public function __set($name, $value)
+    {
+        $this->set($name, $value, true);
+    }
+
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    public function __isset($name)
+    {
+        return $this->has($name);
+    }
 
 }

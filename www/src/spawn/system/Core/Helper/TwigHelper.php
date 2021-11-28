@@ -4,12 +4,14 @@
 namespace spawn\system\Core\Helper;
 
 
+use Exception;
+use spawn\system\Core\Base\Database\Definition\EntityCollection;
 use spawn\system\Core\Contents\Collection\AssociativeCollection;
-use spawn\system\Core\Contents\Modules\ModuleCollection;
 use spawn\system\Core\Custom\Debugger;
 use spawn\system\Core\Custom\Extensions\TwigRenderException;
 use spawn\system\Core\Extensions\ExtensionLoader;
 use spawn\system\Core\Services\ServiceContainerProvider;
+use spawnApp\Database\ModuleTable\ModuleEntity;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -47,16 +49,13 @@ class TwigHelper
 
         try {
             return $this->render($filePath, $this->context->getArray());
-        }
-        catch(LoaderError $loaderError) {
+        } catch(LoaderError $loaderError) {
             if($this->isDevEnvironment) throw $loaderError;
             return "";
-        }
-        catch(RuntimeError $runtimeError) {
+        } catch(RuntimeError $runtimeError) {
             if($this->isDevEnvironment) throw $runtimeError;
             return "";
-        }
-        catch (SyntaxError $syntaxError) {
+        } catch (SyntaxError $syntaxError) {
             if($this->isDevEnvironment) throw $syntaxError;
             return "";
         }
@@ -74,16 +73,13 @@ class TwigHelper
     public function renderFileWithContext(string $filePath, array $context) : string {
         try {
             return $this->render($filePath, $context);
-        }
-        catch(LoaderError $loaderError) {
+        } catch(LoaderError $loaderError) {
             if($this->isDevEnvironment) throw $loaderError;
             return "";
-        }
-        catch(RuntimeError $runtimeError) {
+        } catch(RuntimeError $runtimeError) {
             if($this->isDevEnvironment) throw $runtimeError;
             return "";
-        }
-        catch (SyntaxError $syntaxError) {
+        } catch (SyntaxError $syntaxError) {
             if($this->isDevEnvironment) throw $syntaxError;
             return "";
         }
@@ -159,8 +155,7 @@ class TwigHelper
     public function setOutput($value): self {
         if(is_string($value)) {
             $this->customoutput = $value;
-        }
-        else {
+        } else {
             $this->customoutput = json_encode($value);
         }
 
@@ -168,12 +163,19 @@ class TwigHelper
     }
 
 
-    public function loadTemplateDirFromModuleCollection(ModuleCollection $moduleCollection) {
-        $moduleList = $moduleCollection->getModuleList();
-        ModuleCollection::sortModulesByWeight($moduleList);
+    public function loadTemplateDirFromModuleCollection(EntityCollection $moduleCollection)
+    {
+        /** @var ModuleEntity[] $moduleList */
+        $moduleList = $moduleCollection->getArray();
+        $moduleList = ModuleEntity::sortModuleEntityArrayByWeight($moduleList);
 
-        foreach($moduleList as $module) {
-            $this->addTemplateDir(ROOT . $module->getBasePath() . $module->getResourcePath() . "/template");
+        foreach ($moduleList as $module) {
+            $resourcePath = $module->getResourceConfigValue('path');
+            if (!$resourcePath) {
+                continue;
+            }
+
+            $this->addTemplateDir(ROOT . $module->getPath() . $resourcePath . "/template");
         }
     }
 
@@ -185,8 +187,7 @@ class TwigHelper
 
         try {
             return $this->twig->render($file, $data);
-        }
-        catch (\Exception $e) {
+        } catch (Exception $e) {
             if(MODE == 'dev') {
                 return $e->getMessage();
             }

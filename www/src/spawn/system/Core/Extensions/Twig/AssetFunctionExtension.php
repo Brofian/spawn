@@ -2,8 +2,8 @@
 
 namespace spawn\system\Core\Extensions\Twig;
 
-use spawn\system\Core\Base\Extensions\Twig\FunctionExtension;
 use spawn\system\Core\Contents\Modules\ModuleNamespacer;
+use spawn\system\Core\Extensions\Twig\Abstracts\FunctionExtension;
 
 class AssetFunctionExtension extends FunctionExtension
 {
@@ -25,7 +25,7 @@ class AssetFunctionExtension extends FunctionExtension
         return function ($namespace, $doHash = false) {
 
             if($doHash) {
-                $namespace = ModuleNamespacer::hashRawNamespace($namespace);
+                $namespace = ModuleNamespacer::hashNamespace($namespace);
             }
 
             return 'http://'.MAIN_ADDRESS.'/pack/'.$namespace.'/';

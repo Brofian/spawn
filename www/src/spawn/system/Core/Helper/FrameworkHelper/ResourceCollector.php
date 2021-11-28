@@ -4,11 +4,12 @@ namespace spawn\system\Core\Helper\FrameworkHelper;
 
 use RecursiveIteratorIterator;
 use spawn\system\Core\Base\Custom\FileEditor;
-use spawn\system\Core\Contents\Modules\Module;
-use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawnApp\Database\ModuleTable\ModuleEntity;
 
 
-class ResourceCollector {
+class ResourceCollector
+{
 
     const PUBLIC_ASSET_PATH = ROOT . '/public/pack/';
     const RESOURCE_CACHE_PATH = ROOT . '/var/cache/resources/modules';
@@ -22,21 +23,23 @@ class ResourceCollector {
     }
 
     /**
-     * @param ModuleCollection $moduleCollection
+     * @param EntityCollection $moduleCollection
      */
-    public function gatherModuleData(ModuleCollection $moduleCollection) {
+    public function gatherModuleData(EntityCollection $moduleCollection)
+    {
 
         $scssIndexFile = "";
         $jsIndexFile = "";
 
-        foreach($moduleCollection->getModuleList() as $module) {
+        /** @var ModuleEntity $module */
+        foreach ($moduleCollection->getArray() as $module) {
             //move the modules from this namespace
             $this->moveModuleData($module, $scssIndexFile, $jsIndexFile);
         }
 
         //create entry file for css and js compilation
         FileEditor::createFile(
-            self::RESOURCE_CACHE_PATH.'/scss/index.scss',
+            self::RESOURCE_CACHE_PATH . '/scss/index.scss',
             "/* Index File - generated automatically*/" . PHP_EOL . PHP_EOL . $scssIndexFile
         );
         FileEditor::createFile(
@@ -46,19 +49,22 @@ class ResourceCollector {
     }
 
 
-    private function moveModuleData(Module $module, &$scssIndexFile, &$jsIndexFile) {
+    private function moveModuleData(ModuleEntity $module, &$scssIndexFile, &$jsIndexFile)
+    {
 
-        if(!$module->getResourcePath()) {
+        $resourcePath = $module->getResourceConfigValue('path');
+
+        if (!$resourcePath) {
             return;
         }
 
-        $absoluteModuleResourcePath = $module->getAbsoluteBasePath() . $module->getResourcePath();
+        $absoluteModuleResourcePath = ROOT . $module->getPath() . $resourcePath;
 
         /*
          * SCSS
          */
         $scssFolder = $absoluteModuleResourcePath . '/public/scss';
-        if(file_exists($scssFolder . "/base.scss")) {
+        if (file_exists($scssFolder . "/base.scss")) {
             $scssIndexFile .= "@import \"{$module->getSlug()}/base\";" . PHP_EOL;
         }
         if(file_exists($scssFolder . "/_global/base.scss")) {

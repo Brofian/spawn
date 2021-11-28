@@ -2,28 +2,31 @@
 
 namespace spawn\system\Core\Services;
 
-class ServiceProperties {
+class ServiceProperties
+{
 
-    const _ID = 'id';
-    const _CLASS = 'class';
-    const _STATIC = 'static';
-    const _INSTANCE = 'instance';
-    const _DECORATES = 'decorates';
-    const _PARENT = 'parent';
-    const _ABSTRACT = 'abstract';
-    const _TAGS = 'tags';
-    const _MODULE_ID = 'module_id';
-    const _ARGUMENTS = 'arguments';
+    public const _ID = 'id';
+    public const _CLASS = 'class';
+    public const _STATIC = 'static';
+    public const _INSTANCE = 'instance';
+    public const _DECORATES = 'decorates';
+    public const _PARENT = 'parent';
+    public const _ABSTRACT = 'abstract';
+    public const _TAGS = 'tags';
+    public const _MODULE_ID = 'module_id';
+    public const _ARGUMENTS = 'arguments';
 
-    public static function getPropertyList(): array {
+    public static function getPropertyList(): array
+    {
         $oClass = new \ReflectionClass(static::class);
         return $oClass->getConstants();
     }
 
-    public static function getPropertyGetterMethods(): array {
+    public static function getPropertyGetterMethods(): array
+    {
         $getterMethods = [];
-        foreach(self::getPropertyList() as $property => $value) {
-            $getMethodName = str_replace('_','', ucwords('get_'.$value, '_'));
+        foreach (self::getPropertyList() as $property => $value) {
+            $getMethodName = str_replace('_', '', ucwords('get_' . $value, '_'));
             $getterMethods[$value] = $getMethodName;
         }
         return $getterMethods;

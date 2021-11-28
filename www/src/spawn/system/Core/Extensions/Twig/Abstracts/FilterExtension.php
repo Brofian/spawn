@@ -1,12 +1,13 @@
 <?php
 
-namespace spawn\system\Core\Base\Extensions\Twig;
+namespace spawn\system\Core\Extensions\Twig\Abstracts;
 
 
 use Twig\Environment;
 use Twig\TwigFilter;
 
-abstract class FilterExtension {
+abstract class FilterExtension
+{
 
     /**
      * @param Environment $twig

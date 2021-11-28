@@ -18,7 +18,7 @@ class ServiceTags {
     const EXTENSION_TWIG = 'extension.twig';
     /* A class, that implements the EventSubscriber interface to be called by an event */
     const EVENT_SUBSCRIBER_SERVICE = 'event.subscriber';
-    /* Makes classes executable on the cli via bin/console (they should extend the AbstractCommand) */
+    /* Makes classes executable on the CLI via bin/console (they should always extend the AbstractCommand class) */
     const CONSOLE_COMMAND = 'console.command';
 
 }

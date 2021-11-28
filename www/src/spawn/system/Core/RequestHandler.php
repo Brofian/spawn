@@ -26,14 +26,23 @@ class RequestHandler {
         $this->serviceContainer = ServiceContainerProvider::getServiceContainer();
     }
 
-
-    public function handleRequest(): void {
+    /**
+     * @throws NoActionFoundInControllerException
+     * @throws NoControllerFoundException
+     */
+    public function handleRequest(): void
+    {
         $this->findRouting();
         $this->callControllerMethod();
     }
 
 
-    protected function findRouting() {
+    /**
+     * @throws NoActionFoundInControllerException
+     * @throws NoControllerFoundException
+     */
+    protected function findRouting()
+    {
         /** @var RoutingHelper $routingHelper */
         $routingHelper = $this->serviceContainer->getServiceInstance('system.routing.helper');
         /** @var Request $request */

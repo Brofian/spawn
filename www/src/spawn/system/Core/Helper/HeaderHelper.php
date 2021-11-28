@@ -2,6 +2,7 @@
 
 namespace spawn\system\Core\Helper;
 
+use Exception;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use spawn\system\Throwables\HeadersSendByException;
 
@@ -14,10 +15,6 @@ class HeaderHelper {
     private bool $headersSendBy = false;
 
 
-    public function __construct()
-    {
-
-    }
 
     /**
      * @param string $targetId
@@ -40,16 +37,12 @@ class HeaderHelper {
      * @throws HeadersSendByException
      */
     public function setHeader(string $header, int $responseCode = 200, bool $replaceExisting = false) {
-        if($this->headersSendBy) {
+        try {
+            header($header, $replaceExisting, $responseCode);
+        } catch (Exception $exception) {
             throw new HeadersSendByException();
         }
-
-        header($header, $replaceExisting, $responseCode);
     }
 
-
-    public function setHeadersSentBy() {
-        $this->headersSendBy = true;
-    }
 
 }

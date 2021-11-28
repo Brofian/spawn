@@ -4,17 +4,19 @@ namespace spawn\system\Core\base;
 
 use spawn\system\Core\Base\Helper\DatabaseHelper;
 
-abstract class Migration {
+abstract class AbstractMigration
+{
 
     /**
      * @return int
      */
-    abstract public static function getUnixTimestamp() : int;
+    abstract public static function getUnixTimestamp(): int;
 
     /**
      * Migration constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
 

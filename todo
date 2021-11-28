@@ -11,3 +11,8 @@ for this day in total
 -> The ModuleLoader class should only read from the cache-file or the database and never create its own entries in the db. This is done by the modules:refresh command
 
 -> add a simple (service controlled) way to use a single cronjob for many actions
+
+-> implement a way to separate resources by the namespace and the "use" statement inside the plugins.xml
+
+-> Find a better way to get the current http_host than by calling $_SERVER['http_host'] (not trust worthy)
+ D:\docker_projects\spawn\www\src\spawn\system\Core\Helper\CookieHelper.php

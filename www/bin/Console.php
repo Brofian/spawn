@@ -5,7 +5,6 @@ namespace spawn\bin;
 
 use bin\spawn\IO;
 use spawn\system\Core\Custom\AbstractCommand;
-use spawn\system\Core\Helper\URIHelper;
 use spawn\system\Core\Services\Service;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use spawn\system\Core\Services\ServiceTags;

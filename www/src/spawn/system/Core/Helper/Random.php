@@ -2,13 +2,16 @@
 
 namespace spawn\system\Core\Base\Helper;
 
-class RANDOM {
+class Random
+{
 
-    public static function randomInt(int $max = PHP_INT_MAX) {
+    public static function randomInt(int $max = PHP_INT_MAX)
+    {
         return rand(0, PHP_INT_MAX);
     }
 
-    public static function randomHex(int $max = PHP_INT_MAX) {
+    public static function randomHex(int $max = PHP_INT_MAX)
+    {
         $rValue = self::randomInt($max);
         return dechex($rValue);
     }

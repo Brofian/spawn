@@ -5,27 +5,15 @@ namespace spawn\system\Core\Helper;
 class CookieHelper
 {
 
-    /** @var array */
-    private $cookies = array();
+    private array $cookies = array();
 
-    /**
-     * CookieHelper constructor.
-     */
+
     public function __construct()
     {
         $this->cookies = $_COOKIE;
     }
 
 
-    /**
-     * @param string $key
-     * @param string $value
-     * @param bool $overrideExisting
-     * @param string $path
-     * @param int $expires
-     * @param bool $secure
-     * @return bool
-     */
     public function set(string $key, string $value, bool $overrideExisting = true, string $path = "/", int $expires = 0, bool $secure = false, bool $httpOnly = false, string $sameSite = "Strict")
     {
         if (isset($this->cookies[$key]) && $overrideExisting == false) return false;
@@ -49,11 +37,13 @@ class CookieHelper
     /**
      * @param string $key
      * @param bool $fallback
-     * @return bool|mixed
+     * @return mixed
      */
-    public function get(string $key, bool $fallback = false)
+    public function get(string $key, bool $fallback = null)
     {
-        if (isset($this->cookies[$key])) return $this->cookies[$key];
+        if (isset($this->cookies[$key])) {
+            return $this->cookies[$key];
+        }
         return $fallback;
     }
 

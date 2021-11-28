@@ -2,8 +2,8 @@
 
 namespace spawn\system\Core\Extensions;
 
-use spawn\system\Core\Base\Extensions\Twig\FilterExtension;
-use spawn\system\Core\Base\Extensions\Twig\FunctionExtension;
+use spawn\system\Core\Extensions\Twig\Abstracts\FilterExtension;
+use spawn\system\Core\Extensions\Twig\Abstracts\FunctionExtension;
 use spawn\system\Core\Extensions\Twig\AssetFunctionExtension;
 use spawn\system\Core\Extensions\Twig\DumpFunctionExtension;
 use spawn\system\Core\Extensions\Twig\HashFilterExtension;

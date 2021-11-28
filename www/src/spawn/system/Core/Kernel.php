@@ -2,20 +2,23 @@
 
 namespace spawn\system\Core;
 
-use spawn\system\Core\Contents\Modules\ModuleCollection;
+use spawn\system\Core\Base\Database\Definition\EntityCollection;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 use spawn\system\Core\Services\ServiceContainer;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use spawn\system\Core\Services\ServiceTags;
+use spawn\system\Throwables\NoActionFoundInControllerException;
+use spawn\system\Throwables\NoControllerFoundException;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class Kernel {
+class Kernel
+{
 
     protected Request $request;
     protected Response $response;
-    protected ModuleCollection $moduleCollection;
+    protected EntityCollection $moduleCollection;
 
     public function __construct()
     {
@@ -28,11 +31,14 @@ class Kernel {
         $this->defineModuleCollection($serviceContainer);
         $this->defineRequest($serviceContainer);
         $this->defineResponse($serviceContainer);
-
-
     }
 
-    public function handle(): void {
+    /**
+     * @throws NoActionFoundInControllerException
+     * @throws NoControllerFoundException
+     */
+    public function handle(): void
+    {
         $requestHandler = new RequestHandler();
         $requestHandler->handleRequest();
     }
@@ -83,10 +89,11 @@ class Kernel {
         return $this->response;
     }
 
-    protected function defineModuleCollection(ServiceContainer $serviceContainer): ModuleCollection {
+    protected function defineModuleCollection(ServiceContainer $serviceContainer): EntityCollection
+    {
         $serviceContainer->defineService(
             'system.modules.collection',
-            ModuleCollection::class,
+            EntityCollection::class,
             [ServiceTags::BASE_SERVICE],
             true,
             false,

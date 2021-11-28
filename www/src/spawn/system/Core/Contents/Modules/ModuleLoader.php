@@ -2,211 +2,176 @@
 
 namespace spawn\system\Core\Contents\Modules;
 
-use spawn\system\Core\Base\Database\DatabaseConnection;
+use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawn\system\Core\Base\Helper\DatabaseHelper;
 use spawn\system\Core\Contents\XMLContentModel;
 use spawn\system\Core\Helper\Slugifier;
-use spawn\system\Core\Helper\URIHelper;
 use spawn\system\Core\Helper\XMLReader;
-use spawnApp\Models\ModuleStorage;
+use spawnApp\Database\ModuleTable\ModuleEntity;
+use spawnApp\Database\ModuleTable\ModuleRepository;
+use spawnApp\Database\ModuleTable\ModuleTable;
 
-class ModuleLoader {
+class ModuleLoader
+{
 
     const REL_XML_PATH = "/plugin.xml";
 
     protected array $moduleRootPaths = [
-        "/custom",
-        "/vendor"
+        ROOT . "/custom",
+        ROOT . "/vendor"
     ];
 
     protected array $ignoredDirs = [
-        ".",
-        ".."
+        '.',
+        '..',
     ];
 
-    private ?ModuleCollection $moduleCollection = null;
 
-
-    public function __construct()
+    public function loadModules(): EntityCollection
     {
-        $this->moduleCollection = new ModuleCollection();
-    }
+        $databaseTable = new DatabaseHelper();
 
-
-    public function loadModules() : ModuleCollection {
-        $connection = new DatabaseConnection();
-
-        $moduleEntries = ModuleStorage::findAll($connection);
-
-        if(count($moduleEntries) < 1) {
-            return $this->readModules($connection);
+        if ($this->doesCacheExist()) {
+            return $this->readModulesFromCache();
         }
 
-        $this->moduleCollection = new ModuleCollection();
-
-        foreach($moduleEntries as $moduleEntry) {
-
-            $module = new Module($moduleEntry->getSlug());
-
-            $module
-                ->setId((string)$moduleEntry->getId())
-                ->setActive($moduleEntry->isActive())
-                ->setSlug($moduleEntry->getSlug())
-                ->setBasePath($moduleEntry->getPath());
-
-            $resourceConfig = json_decode($moduleEntry->getResourceConfig());
-            $module
-                ->setUsingNamespaces($resourceConfig->using??[])
-                ->setResourceWeight((int)$resourceConfig->weight??1)
-                ->setResourceNamespace($resourceConfig->namespace??ModuleNamespacer::getGlobalNamespace())
-                ->setResourceNamespaceRaw($resourceConfig->namespace_raw??ModuleNamespacer::getGlobalNamespaceRaw())
-                ->setResourcePath($resourceConfig->path??"");
-
-
-            $informations = json_decode($moduleEntry->getInformations());
-
-            foreach($informations as $key => $value) {
-                $module->setInformation($key, $value);
-            }
-
-            $this->moduleCollection->addModule($module);
+        if ($databaseTable->doesTableExist(ModuleTable::TABLE_NAME)) {
+            return $this->readModulesFromDB();
         }
 
-        return $this->moduleCollection;
+        return $this->readModulesFromFileSystem();
     }
 
-    /**
-     * This functions reads the modules live from the existing files
-     */
-    public function readModules(DatabaseConnection $connection, bool $saveModulesToDB = true) : ModuleCollection {
+    protected function doesCacheExist(): bool
+    {
+        //TODO: There is currently no module file cache
+        //      if there will be one added, also implement the readModulesFromCache function below
+        return false;
+    }
 
-        /*
-         * Stucture:
-         * - moduleRootPath
-         * -- moduleNamespacePath
-         * --- modulePath (snake-case)
-         */
+    protected function readModulesFromCache(): EntityCollection
+    {
+        $moduleCollection = new EntityCollection(ModuleEntity::class);
 
+        //TODO: There is currently no module file cache
+        //      if there will be one added, also implement the doesCacheExist function above
 
-        $moduleCount = 0;
-        foreach($this->moduleRootPaths as $rootPath) {
-            $currentPath = URIHelper::joinPaths(ROOT, $rootPath);
-            if(!is_dir($currentPath)) continue;
+        return $moduleCollection;
+    }
 
-            $modulePathElements = scandir($currentPath);
+    protected function readModulesFromDB(): EntityCollection
+    {
+        //load modules from database
+        $moduleRepository = new ModuleRepository(new ModuleTable());
+        return $moduleRepository->search();
+    }
 
-            foreach($modulePathElements as $namespace) {
-                if(in_array($namespace, $this->ignoredDirs)) continue;
-                $currentNamespacePath = URIHelper::joinPaths($currentPath, $namespace);
-                if(!is_dir($currentNamespacePath)) continue;
+    protected function readModulesFromFileSystem(): EntityCollection
+    {
+        $moduleCollection = new EntityCollection(ModuleEntity::class);
 
+        foreach ($this->moduleRootPaths as $rootPath) {
+            if (!is_dir($rootPath)) continue;
+            $namespaces = scandir($rootPath);
 
-                $moduleElements = scandir($currentNamespacePath);
-                foreach($moduleElements as $moduleElement) {
-                    $currentModulePath = URIHelper::joinPaths($currentNamespacePath, $moduleElement);
-                    if($this->isModuleDirectory($currentModulePath)) {
+            foreach ($namespaces as $namespace) {
+                if (in_array($namespace, $this->ignoredDirs)) {
+                    continue;
+                }
+                $namespacePath = "$rootPath/$namespace";
 
-                        $slug = Slugifier::slugify($namespace.'-'.$moduleElement);
+                $possibleModulesForNamespace = scandir($namespacePath);
+                foreach ($possibleModulesForNamespace as $possibleModule) {
+                    if (in_array($possibleModule, $this->ignoredDirs)) {
+                        continue;
+                    }
 
-                        $this->loadModule($currentModulePath, $slug, $connection, $saveModulesToDB);
-                        $moduleCount++;
+                    $currentModulePath = "$namespacePath/$possibleModule";
+                    if ($this->isModuleDirectory($currentModulePath)) {
+                        $moduleEntity = $this->generateModuleEntityFromFolder(
+                            $currentModulePath,
+                            $slug = Slugifier::slugify($namespace . '-' . $possibleModule)
+                        );
+                        $moduleCollection->add($moduleEntity);
                     }
                 }
             }
         }
 
-
-        return $this->moduleCollection;
+        return $moduleCollection;
     }
 
+    protected function generateModuleEntityFromFolder(string $absolutePath, string $slug): ModuleEntity
+    {
+        $moduleData = [
+            'slug' => $slug,
+            'path' => str_replace(ROOT, '', $absolutePath),
+            'active' => Slugifier::isSystemSlug($slug),
+            'id' => null
+        ];
 
+        $data = $this->getModuleDataFromXML($absolutePath . self::REL_XML_PATH);
+        $moduleData['information'] = json_encode($data['information']);
+        $moduleData['resourceConfig'] = json_encode($data['config']);
 
-    protected function isModuleDirectory($directory) : bool {
-        $xmlFilePath = URIHelper::joinPaths($directory, "plugin.xml");
+        return ModuleEntity::getEntityFromArray($moduleData);
+    }
+
+    protected function isModuleDirectory(string $directory): bool
+    {
+        $xmlFilePath = "$directory/plugin.xml";
         return (file_exists($xmlFilePath) && is_file($xmlFilePath));
     }
 
+    protected function getModuleDataFromXML(string $xmlPath): array
+    {
+        $data = [
+            'information' => [],
+            'config' => []
+        ];
 
-    private function loadModule(string $basePath, string $slug, DatabaseConnection $connection, bool $saveModule = true) {
-
-        $module = new Module($slug);
-        $module->setActive(false);
-        $module->setBasePath(str_replace(ROOT, "", $basePath));
-        $module->setSlug($slug);
-
-        $moduleXML = (new XMLReader())->readFile($basePath . self::REL_XML_PATH);
-
-
-
+        /** @var XMLContentModel $moduleXML */
+        $moduleXML = (new XMLReader())->readFile($xmlPath);
 
         /*
-         * Set Module Informations
+         * Get module information
          */
-        /** @var XMLContentModel $moduleInfo */
         $moduleInfo = $moduleXML->getChildrenByType("info")->first();
-        if($moduleInfo) {
-            foreach($moduleInfo->getChildren() as $childInfo) {
-                $module->setInformation($childInfo->getType(), trim($childInfo->getValue()));
+        if ($moduleInfo) {
+            /** @var XMLContentModel $childInfo */
+            foreach ($moduleInfo->getChildren() as $childInfo) {
+                $data['information'][$childInfo->getType()] = trim($childInfo->getValue());
             }
         }
 
 
-
         /*
-         * Load Resources
+         * Get module config
          */
+        $config = &$data['config'];
         /** @var XMLContentModel $moduleResources */
         $moduleResources = $moduleXML->getChildrenByType("resources")->first();
         if($moduleResources) {
-
-            $module->setResourceWeight((int)$moduleResources->getAttribute("weight"));
-            $module->setResourcePath($moduleResources->getValue());
-            $namespace = $moduleResources->getAttribute("namespace");
-
-            if(!$namespace) {
-                $namespace = ModuleNamespacer::getGlobalNamespaceRaw();
-                $namespaceHash = ModuleNamespacer::getGlobalNamespace();
-            }
-            else {
-                $namespaceHash = ModuleNamespacer::hashRawNamespace($namespace);
-            }
-
-            $module->setResourceNamespace($namespaceHash);
-            $module->setResourceNamespaceRaw($namespace);
+            $config['path'] = $moduleResources->getValue();
+            $config['weight'] = (int)$moduleResources->getAttribute("weight");
+            $config['namespace'] = $moduleResources->getAttribute("namespace") ?? ModuleNamespacer::GLOBAL_NAMESPACE_RAW;
         }
 
-
         /*
-         * Load "using"
+         * Get module "use" data (to include resources from another namespace)
          */
         /** @var XMLContentModel $moduleUsing */
         $moduleUsing = $moduleXML->getChildrenByType("using")->first();
-        if($moduleUsing) {
-
+        if ($moduleUsing) {
             $usingNamespaces = [];
-            foreach($moduleUsing->getChildrenByType("namespace") as $namespace) {
+            foreach ($moduleUsing->getChildrenByType("namespace") as $namespace) {
                 $usingNamespaces[] = $namespace->getValue();
             }
-
-            $module->setUsingNamespaces($usingNamespaces);
+            $config['using'] = $usingNamespaces;
         }
 
 
-        if($saveModule) {
-            $moduleStorage = new ModuleStorage(
-                $module->getSlug(),
-                $module->getBasePath(),
-                $module->isActive(),
-                $module->getInformationsAsJson(),
-                $module->getResourceConfigJson()
-            );
-            $moduleStorage->save($connection);
-        }
-
-
-
-        $this->moduleCollection->addModule($module);
+        return $data;
     }
-
-
 
 }

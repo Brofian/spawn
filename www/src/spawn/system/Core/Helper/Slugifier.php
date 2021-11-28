@@ -2,7 +2,18 @@
 
 namespace spawn\system\Core\Helper;
 
-class Slugifier {
+class Slugifier
+{
+
+    public const SYSTEM_SLUGS = [
+        'spawnApp'
+    ];
+
+
+    public static function isSystemSlug(string $slug): bool
+    {
+        return in_array($slug, self::SYSTEM_SLUGS);
+    }
 
 
     /**
@@ -10,15 +21,9 @@ class Slugifier {
      * @param string $subjectString
      * @return string
      */
-    public static function slugify(string $subjectString): string {
-
-        $subjectString = str_replace(['_', '-', '/', '\\', '.', ','], ' ', $subjectString);
-
-        $subjectString = ucwords($subjectString);
-
-        $subjectString = str_replace(' ', '', $subjectString);
-
-        return $subjectString;
+    public static function slugify(string $subjectString): string
+    {
+        return self::toPascalCase($subjectString);
     }
 
     /**
@@ -26,8 +31,13 @@ class Slugifier {
      * @param string $subjectString
      * @return string
      */
-    public static function toPascalCase(string $subjectString): string {
-        return self::slugify($subjectString);
+    public static function toPascalCase(string $subjectString): string
+    {
+        $subjectString = str_replace(['_', '-', '/', '\\', '.', ','], ' ', $subjectString);
+        $subjectString = ucwords($subjectString);
+        $subjectString = str_replace(' ', '', $subjectString);
+
+        return $subjectString;
     }
 
 
