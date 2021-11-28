@@ -1,18 +1,17 @@
--> TODO: think of a way to include multiple Options, connected by OR instead of the currently hardcoded AND at the
-   TODO: search() or delete() funktion of the TableRepository Class
-
--> SEO Analizer: save every page load in two tables: today and total. Count and save the today entries every night and save it
-for this day in total
+-> think of a way to include multiple Options, connected by OR instead of the currently hardcoded AND at the
+   search() or delete() funktion of the TableRepository Class
 
 -> create function "printCommandHelp" for Console class
 
 -> test (and fix, if needed) if the new bin/console services can be used without a database table, because it is used to create them
 
--> The ModuleLoader class should only read from the cache-file or the database and never create its own entries in the db. This is done by the modules:refresh command
-
 -> add a simple (service controlled) way to use a single cronjob for many actions
+
+-> SEO Analizer: save every page load in two tables: today and total. Count and save the today entries every night and save it
+   for this day in total
+
 
 -> implement a way to separate resources by the namespace and the "use" statement inside the plugins.xml
 
 -> Find a better way to get the current http_host than by calling $_SERVER['http_host'] (not trust worthy)
- D:\docker_projects\spawn\www\src\spawn\system\Core\Helper\CookieHelper.php
+   D:\docker_projects\spawn\www\src\spawn\system\Core\Helper\CookieHelper.php
