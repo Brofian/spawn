@@ -8,7 +8,7 @@ abstract class AbstractCommand {
 
     abstract public static function getShortDescription(): string;
 
-    abstract protected static function getParameters(): array;
+    abstract public static function getParameters(): array;
 
     /**
      * The executed content of the command. Should return 0 when successful.

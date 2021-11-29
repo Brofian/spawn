@@ -244,7 +244,53 @@ class Console {
 
     protected function printCommandHelp(Service $command): void {
         //TODO
-        IO::printLine('TODO');
+        /** @var AbstractCommand $commandClass */
+        $commandClass = $command->getClass();
+
+        $commandName = $commandClass::getCommand();
+        $commandDescription = $commandClass::getShortDescription();
+        $commandParameters = $commandClass::getParameters();
+
+        IO::printWarning('Command:     '.IO::LIGHT_YELLOW_TEXT.$commandName);
+        IO::printWarning('Description: '.IO::LIGHT_YELLOW_TEXT.$commandDescription);
+
+        if(!empty($commandParameters)) {
+            IO::printWarning('Parameters:');
+
+
+            foreach($commandParameters as $parameter => $possibilities) {
+                if(is_string($possibilities)) {
+                    if(strlen($possibilities) > 1)
+                        $possibilities = "--$possibilities";
+                    else
+                        $possibilities = "-$possibilities";
+
+                    IO::printLine(sprintf('     %-\' 15s     %s', $possibilities, $parameter), IO::LIGHT_YELLOW_TEXT);
+                }
+                else {
+                    $first = true;
+                    foreach ($possibilities as $possibility) {
+                        if(strlen($possibility) > 1)
+                            $possibility = "--$possibility";
+                        else
+                            $possibility = "-$possibility";
+
+
+                        if($first) {
+                            IO::printLine(sprintf('     %-\' 15s     %s', $possibility, $parameter), IO::LIGHT_YELLOW_TEXT);
+                            $first = false;
+                        }
+                        else {
+                            IO::printLine(sprintf('     %-\' 15s', $possibility), IO::LIGHT_YELLOW_TEXT);
+                        }
+                    }
+                }
+                IO::endLine();
+            }
+        }
+
+
+        IO::reset();
         return;
     }
 
