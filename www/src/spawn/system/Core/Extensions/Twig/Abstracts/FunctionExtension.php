@@ -16,7 +16,7 @@ abstract class FunctionExtension
         $function = new TwigFunction(
             $this->getFunctionName(),
             $this->getFunctionFunction(),
-            $this->getFunctionoptions()
+            $this->getFunctionOptions()
         );
 
         $twig->addFunction($function);
