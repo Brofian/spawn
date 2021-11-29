@@ -6,7 +6,7 @@ class Slugifier
 {
 
     public const SYSTEM_SLUGS = [
-        'spawnApp'
+        'SpawnApp'
     ];
 
 

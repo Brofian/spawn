@@ -38,12 +38,12 @@ abstract class AbstractTable {
 
             if($schema->hasTable($tableName)) {
                 //update
-                IO::printLine(IO::TAB.":: Updating Table \"$tableName\" ::", IO::YELLOW_TEXT);
+                IO::printLine(IO::TAB.":: Updating Table \"$tableName\"", IO::YELLOW_TEXT);
                 $this->updateTable($schema);
             }
             else {
                 //create
-                IO::printLine(IO::TAB.":: Creating Table \"$tableName\" ::", IO::YELLOW_TEXT);
+                IO::printLine(IO::TAB.":: Creating Table \"$tableName\"", IO::YELLOW_TEXT);
                 $this->createTable($schema);
             }
 
@@ -57,10 +57,10 @@ abstract class AbstractTable {
             }
             $steps = count($schemaDiffSql);
 
-            IO::printLine(IO::TAB.":: Updated table \"$tableName\" in $steps Steps! ::", IO::GREEN_TEXT);
+            IO::printLine(IO::TAB.":: Updated table \"$tableName\" in $steps Steps!", IO::GREEN_TEXT);
         }
         catch(Exception $e) {
-            IO::printLine(IO::TAB.":: Error! Could not create or update table \"$tableName\"! ::", IO::RED_TEXT);
+            IO::printLine(IO::TAB.":: Error! Could not create or update table \"$tableName\"!", IO::RED_TEXT);
             throw $e;
         }
 
@@ -81,7 +81,7 @@ abstract class AbstractTable {
 
                     if(!$this->compareColumnWithDefinition($table, $table->getColumn($columnName), $column)) {
 
-                        IO::printLine(IO::TAB.IO::TAB.':: Updating Column '. $columnName .' ::', IO::YELLOW_TEXT, 1);
+                        IO::printLine(IO::TAB.IO::TAB.':: Updating Column '. $columnName, IO::YELLOW_TEXT, 1);
                         //update column (^= remove and add the column again)
                         $this->dropColumnFromTable($table, $table->getColumn($columnName));
                         $this->createColumnInTable($schema, $table, $column);
@@ -89,7 +89,7 @@ abstract class AbstractTable {
                 }
                 else {
                     //create column
-                    IO::printLine(IO::TAB.IO::TAB.':: Creating Column '. $columnName .' ::', IO::YELLOW_TEXT, 1);
+                    IO::printLine(IO::TAB.IO::TAB.':: Creating Column '. $columnName, IO::YELLOW_TEXT, 1);
                     $this->createColumnInTable($schema, $table, $column);
                 }
             }
@@ -101,7 +101,7 @@ abstract class AbstractTable {
                 $currentColumnName = $currentColumn->getName();
 
                 if(!in_array($currentColumnName, $columnNames)) {
-                    IO::printLine(IO::TAB.IO::TAB.':: Removing Column '. $currentColumnName .' ::', IO::YELLOW_TEXT, 1);
+                    IO::printLine(IO::TAB.IO::TAB.':: Removing Column '. $currentColumnName, IO::YELLOW_TEXT, 1);
 
                     $this->dropColumnFromTable($table, $currentColumn);
                 }
@@ -121,7 +121,7 @@ abstract class AbstractTable {
             $newTable = $schema->getTable($this->getTableName());
 
             foreach($this->getTableColumns() as $column) {
-                IO::printLine(IO::TAB.IO::TAB.':: Creating Column '. $this->toDatabaseColumnName($column->getName()) .' ::', IO::YELLOW_TEXT, 1);
+                IO::printLine(IO::TAB.IO::TAB.':: Creating Column '. $this->toDatabaseColumnName($column->getName()), IO::YELLOW_TEXT, 1);
                 $this->createColumnInTable($schema, $newTable, $column);
             }
         }
@@ -170,16 +170,16 @@ abstract class AbstractTable {
             $table->addColumn($columnName, $column->getType(), $column->getOptions());
 
             if($column->isPrimaryKey() && $table->hasPrimaryKey() == false) {
-                IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Primary Key for '. $columnName .' ::', IO::YELLOW_TEXT, 2);
+                IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Primary Key for '. $columnName, IO::YELLOW_TEXT, 2);
                 $table->setPrimaryKey([$columnName]);
             }
             else if($column->isUnique()) {
-                IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Unique Index for '. $columnName .' ::', IO::YELLOW_TEXT, 2);
+                IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Unique Index for '. $columnName, IO::YELLOW_TEXT, 2);
                 $table->addUniqueIndex([$columnName], $this->toUniqueIndex($table->getName(), $columnName));
             }
 
             if($column->getForeignKeyConstraint()) {
-                IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Foreign Key Constraint for '. $columnName .' ::', IO::YELLOW_TEXT, 2);
+                IO::printLine(IO::TAB.IO::TAB.IO::TAB.':: Adding Foreign Key Constraint for '. $columnName, IO::YELLOW_TEXT, 2);
 
                 $foreignKeyConstraintData = $column->getForeignKeyConstraint();
                 $remoteTableName = $foreignKeyConstraintData->getForeignTableName();

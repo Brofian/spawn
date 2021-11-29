@@ -243,7 +243,6 @@ class Console {
 
 
     protected function printCommandHelp(Service $command): void {
-        //TODO
         /** @var AbstractCommand $commandClass */
         $commandClass = $command->getClass();
 

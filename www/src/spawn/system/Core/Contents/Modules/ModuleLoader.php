@@ -36,7 +36,10 @@ class ModuleLoader
         }
 
         if ($databaseTable->doesTableExist(ModuleTable::TABLE_NAME)) {
-            return $this->readModulesFromDB();
+            $moduleCollection = $this->readModulesFromDB();
+            if($moduleCollection->count()) {
+                return $moduleCollection;
+            }
         }
 
         return $this->readModulesFromFileSystem();
@@ -75,18 +78,20 @@ class ModuleLoader
             $namespaces = scandir($rootPath);
 
             foreach ($namespaces as $namespace) {
-                if (in_array($namespace, $this->ignoredDirs)) {
+                $namespacePath = "$rootPath/$namespace";
+                if (in_array($namespace, $this->ignoredDirs) || !is_dir($namespacePath)) {
                     continue;
                 }
-                $namespacePath = "$rootPath/$namespace";
+
 
                 $possibleModulesForNamespace = scandir($namespacePath);
+
                 foreach ($possibleModulesForNamespace as $possibleModule) {
-                    if (in_array($possibleModule, $this->ignoredDirs)) {
+                    $currentModulePath = "$namespacePath/$possibleModule";
+                    if (in_array($possibleModule, $this->ignoredDirs) || !is_dir($currentModulePath)) {
                         continue;
                     }
 
-                    $currentModulePath = "$namespacePath/$possibleModule";
                     if ($this->isModuleDirectory($currentModulePath)) {
                         $moduleEntity = $this->generateModuleEntityFromFolder(
                             $currentModulePath,
