@@ -7,7 +7,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:F-H00/spawn-app.git"
+      "url": "git@github.com:Brofian/spawn-app.git"
     }
   ],
 
@@ -24,7 +24,8 @@
     "ext-dom": "*",
     "mouf/nodejs-installer": "~1.0",
     "oomphinc/composer-installers-extender": "*",
-	"webu/app" : "dev-develop as 0.0.1"
+    "spawn/app": "dev-develop",
+    "doctrine/dbal": "^3.2"
   },
 
   "extra": {

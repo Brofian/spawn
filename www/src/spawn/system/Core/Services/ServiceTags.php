@@ -20,5 +20,7 @@ class ServiceTags {
     const EVENT_SUBSCRIBER_SERVICE = 'event.subscriber';
     /* Makes classes executable on the CLI via bin/console (they should always extend the AbstractCommand class) */
     const CONSOLE_COMMAND = 'console.command';
+    /* Defines a service, that will be executed by the cron manager */
+    const CRON_SERVICE = 'cron.service';
 
 }

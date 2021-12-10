@@ -163,7 +163,7 @@ class Console {
         catch (\Exception $e) {
             IO::printError('ERROR ' . $e->getCode() .' => '. $e->getMessage());
             IO::printError($e->getFile() .':'.$e->getLine());
-            IO::printError(implode(PHP_EOL, $e->getTrace()));
+            IO::printError($e->getTraceAsString());
             $result = $e->getCode();
         }
 
