@@ -46,12 +46,17 @@ abstract class TableRepository {
             if(is_string($value)) {
                 $query->$whereFunction("$column LIKE ?");
             }
+            else if(is_array($value) && isset($value['operator'], $value['value'])) {
+                $query->$whereFunction("$column ".$value['operator']." ?");
+            }
             else {
                 $query->$whereFunction("$column = ?");
             }
 
             $whereFunction = 'andWhere';
         }
+
+        dump($query->getSQL());
 
         /** @var EntityCollection $entityCollection */
         $entityCollection = new EntityCollection($this->getEntityClass());

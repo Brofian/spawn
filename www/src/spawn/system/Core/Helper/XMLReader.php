@@ -13,6 +13,7 @@ class XMLReader {
         $xml = FileEditor::getFileContent(URIHelper::pathifie($filePath));
 
         if($xml === false) {
+            dump('Warning! Could not import path ' . $filePath);
             return new XMLContentModel("empty");
         }
 
