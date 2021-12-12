@@ -922,12 +922,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn-app.git",
-                "reference": "d8ee7798581907c04e4d326280072b2cdfe3b587"
+                "reference": "eb4f88270bfd3558368a3a17fd9f206843db614a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/d8ee7798581907c04e4d326280072b2cdfe3b587",
-                "reference": "d8ee7798581907c04e4d326280072b2cdfe3b587",
+                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/eb4f88270bfd3558368a3a17fd9f206843db614a",
+                "reference": "eb4f88270bfd3558368a3a17fd9f206843db614a",
                 "shasum": ""
             },
             "type": "library",
@@ -950,7 +950,7 @@
                 "source": "https://github.com/Brofian/spawn-app/tree/develop",
                 "issues": "https://github.com/Brofian/spawn-app/issues"
             },
-            "time": "2021-12-12T18:39:00+00:00"
+            "time": "2021-12-12T20:19:43+00:00"
         },
         {
             "name": "symfony/debug",
