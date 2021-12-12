@@ -1,9 +1,4 @@
--> think of a way to include multiple Options, connected by OR instead of the currently hardcoded AND at the
-   search() or delete() funktion of the TableRepository Class
-
--> add a simple (service controlled) way to use a single cronjob for many actions
--> Implement cronjob pattern validation and testing
-D:\docker_projects\spawn\www\src\spawn\system\Core\Base\Cron\CronManager.php
+-> replace the old repository search() function parameter with an criteria object in the definition and all occurences
 
 -> SEO Analizer: save every page load in two tables: today and total. Count and save the today entries every night and save it
    for this day in total
