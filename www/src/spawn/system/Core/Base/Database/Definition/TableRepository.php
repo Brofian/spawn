@@ -48,6 +48,7 @@ abstract class TableRepository {
             }
             else if(is_array($value) && isset($value['operator'], $value['value'])) {
                 $query->$whereFunction("$column ".$value['operator']." ?");
+                $where[$column] = $value['value'];
             }
             else {
                 $query->$whereFunction("$column = ?");
@@ -55,8 +56,6 @@ abstract class TableRepository {
 
             $whereFunction = 'andWhere';
         }
-
-        dump($query->getSQL());
 
         /** @var EntityCollection $entityCollection */
         $entityCollection = new EntityCollection($this->getEntityClass());
@@ -104,6 +103,10 @@ abstract class TableRepository {
             if(is_string($value)) {
                 $query->$whereFunction("$column LIKE ?");
             }
+            elseif(is_array($value) && !empty($value)) {
+                $placeholders = str_split(str_repeat('?', count($value)));
+                $query->$whereFunction("$column IN (".implode(',', $placeholders).")");
+            }
             else {
                 $query->$whereFunction("$column = ?");
             }
@@ -115,8 +118,17 @@ abstract class TableRepository {
             $stmt = $conn->prepare($query->getSQL());
             $count = 1;
             foreach($where as $column => $value) {
-                $stmt->bindValue($count, $value);
-                $count++;
+
+                if(is_array($value)) {
+                    foreach($value as $v) {
+                        $stmt->bindValue($count, $v);
+                        $count++;
+                    }
+                }
+                else {
+                    $stmt->bindValue($count, $value);
+                    $count++;
+                }
             }
 
             $stmt->executeQuery();
