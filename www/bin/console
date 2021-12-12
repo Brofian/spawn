@@ -8,6 +8,8 @@ if (PHP_VERSION_ID < 70400) {
 
 
 include __DIR__ . "/../src/spawn/init.php";
+include __DIR__ . "/Console.php";
+include __DIR__ . "/IO.php";
 
 \bin\spawn\IO::$onCommandLine = true;
 

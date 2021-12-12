@@ -4,10 +4,11 @@
 namespace spawn\bin;
 
 use bin\spawn\IO;
-use spawn\system\Core\Custom\AbstractCommand;
-use spawn\system\Core\Services\Service;
-use spawn\system\Core\Services\ServiceContainerProvider;
-use spawn\system\Core\Services\ServiceTags;
+use Exception;
+use spawnCore\Custom\FoundationStorage\AbstractCommand;
+use spawnCore\ServiceSystem\Service;
+use spawnCore\ServiceSystem\ServiceContainerProvider;
+use spawnCore\ServiceSystem\ServiceTags;
 
 class Console {
 
@@ -160,7 +161,7 @@ class Console {
         try {
             $result = $instance->execute($parameters);
         }
-        catch (\Exception $e) {
+        catch (Exception $e) {
             IO::printError('ERROR ' . $e->getCode() .' => '. $e->getMessage());
             IO::printError($e->getFile() .':'.$e->getLine());
             IO::printError($e->getTraceAsString());
