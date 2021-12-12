@@ -2,7 +2,7 @@
 
 namespace spawn\system\Core\Contents\Modules;
 
-use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawnCore\Database\Entity\EntityCollection;
 use spawn\system\Core\Base\Helper\DatabaseHelper;
 use spawn\system\Core\Contents\XMLContentModel;
 use spawn\system\Core\Helper\Slugifier;

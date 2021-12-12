@@ -2,7 +2,7 @@
 
 namespace spawn\system\Core;
 
-use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawnCore\Database\Entity\EntityCollection;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
 use spawn\system\Core\Services\ServiceContainer;
 use spawn\system\Core\Services\ServiceContainerProvider;

@@ -3,7 +3,7 @@
 namespace spawn\system\Core\Services;
 
 
-use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawnCore\Database\Entity\EntityCollection;
 use spawn\system\Core\Contents\XMLContentModel;
 use spawn\system\Core\Helper\XMLReader;
 use spawnApp\Database\ModuleTable\ModuleEntity;

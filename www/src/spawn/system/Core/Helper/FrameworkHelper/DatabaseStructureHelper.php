@@ -3,7 +3,7 @@
 namespace spawn\system\Core\Helper\FrameworkHelper;
 
 
-use spawn\system\Core\Base\Database\Definition\TableDefinition\AbstractTable;
+use spawnCore\Database\Entity\TableDefinition\AbstractTable;
 use spawn\system\Core\Services\ServiceContainerProvider;
 use spawn\system\Core\Services\ServiceTags;
 use spawnApp\Database\MigrationTable\MigrationTable;

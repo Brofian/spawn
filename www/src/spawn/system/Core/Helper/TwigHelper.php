@@ -5,7 +5,7 @@ namespace spawn\system\Core\Helper;
 
 
 use Exception;
-use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawnCore\Database\Entity\EntityCollection;
 use spawn\system\Core\Contents\Collection\AssociativeCollection;
 use spawn\system\Core\Custom\Debugger;
 use spawn\system\Core\Custom\Extensions\TwigRenderException;

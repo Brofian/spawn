@@ -4,7 +4,7 @@ namespace spawn\system\Core\Helper\FrameworkHelper;
 
 use RecursiveIteratorIterator;
 use spawn\system\Core\Base\Custom\FileEditor;
-use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawnCore\Database\Entity\EntityCollection;
 use spawnApp\Database\ModuleTable\ModuleEntity;
 
 

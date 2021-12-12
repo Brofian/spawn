@@ -4,7 +4,7 @@ namespace spawn\system\Core\Services;
 
 use spawn\system\Core\Base\Custom\FileEditor;
 use spawn\system\Core\Base\Database\DatabaseConnection;
-use spawn\system\Core\Base\Database\Definition\EntityCollection;
+use spawnCore\Database\Entity\EntityCollection;
 use spawn\system\Core\Base\EventSystem\EventInitializer;
 use spawn\system\Core\Base\Helper\DatabaseHelper;
 use spawn\system\Core\Contents\Modules\ModuleLoader;
