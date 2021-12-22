@@ -3,6 +3,7 @@ var
 vendor
 public/pack
 public/cache
+src/custom/modules
 
 # Config Files
 config.php
