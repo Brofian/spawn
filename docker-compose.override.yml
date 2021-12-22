@@ -1,0 +1,10 @@
+version: '3'
+services:
+  fpm:
+    volumes:
+      - ~/.ssh:/var/windows/ssh:ro
+      - ~/.composer:/var/windows/composer:ro
+      - ./docker/profiles/.bashrc_root:/root/.bashrc:ro
+      - ./docker/profiles/.profile_www-data:/var/www/.profile:ro
+      - ./docker/profiles/.bashrc_www-data:/var/www/.bashrc:ro
+      - ./docker/scripts:/var/www/share

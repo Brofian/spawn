@@ -41,33 +41,32 @@ class IO {
     public static function print(string $text, string $flag = "", int $minVerboseLevel = 0) : bool {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo $flag . $text . self::DEFAULT_TEXT;
+        echo $flag . $text;
         return true;
     }
 
     public static function printLine(string $text, string $flag = "", int $minVerboseLevel = 0) : bool {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo $flag . $text . PHP_EOL . self::DEFAULT_TEXT;
+        echo $flag . $text . PHP_EOL;
         return true;
     }
 
     public static function endLine(string $flag = "", int $minVerboseLevel = 0) : bool {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo $flag . PHP_EOL . self::DEFAULT_TEXT;
+        echo $flag . PHP_EOL;
         return true;
     }
 
     public static function printObject($object, int $minVerboseLevel = 0) {
         if(!self::$onCommandLine || $minVerboseLevel > self::$verboseLevel) return false;
 
-        echo self::YELLOW_TEXT;
         var_dump($object);
-        echo self::DEFAULT_TEXT;
+        return true;
     }
 
-    public static function exec(string $cmd, bool $simplified = false, int &$errorCode = null) {
+    public static function exec(string $cmd, bool $simplified = false, string &$cmdResult = null, int &$errorCode = null) {
         $output = "";
 
         if($simplified) {
@@ -75,12 +74,12 @@ class IO {
             $errorCode = 0;
         }
         else {
-            $output = exec($cmd, $output, $errorCode);
+            $output = exec($cmd, $cmdResult, $errorCode);
         }
         return $output;
     }
 
-    public static function execInDir(string $cmd, string $dir, bool $simplified = false, int &$errorCode = null) {
+    public static function execInDir(string $cmd, string $dir, bool $simplified = false, string &$cmdResult = null, int &$errorCode = null) {
         $currentDir = getcwd();
 
         if(!file_exists($dir) || !is_dir($dir)) {
@@ -90,23 +89,35 @@ class IO {
         }
 
         chdir($dir);
-        $output = self::exec($cmd, $simplified, $errorCode);
+        $output = self::exec($cmd, $simplified, $cmdResult, $errorCode);
         chdir($currentDir);
 
         return $output;
     }
 
 
-    public static function readLine(string $text = "", callable $validationFunc = null, $errorMessage = "Invalid input! Try again! ") {
+    /**
+     * @param string $text
+     * @param callable|null $validationFunc
+     * @param string $errorMessage
+     * @param int $maxTries
+     * @return bool|string
+     */
+    public static function readLine(string $text = "", callable $validationFunc = null, $errorMessage = "Invalid input! Try again! ", int $maxTries = 5) {
         if(!self::$onCommandLine) return false;
 
-        $isFirstQuery = true;
+        $tries = 0;
         do {
-            if(!$isFirstQuery) {
-                self::printLine($errorMessage);
-            }
-            $isFirstQuery = false;
+            if($tries > 0) {
+                self::printError($errorMessage);
 
+                if($tries >= $maxTries) {
+                    return false;
+                }
+
+            }
+
+            $tries++;
             $answer = readline($text);
         }
         while($validationFunc != null && !$validationFunc($answer));
@@ -124,13 +135,13 @@ class IO {
         foreach($lines as $line) {
             for($i=0; $i < count($line); $i++) {
                 if(isset($colLenghts[$i])) {
-                    $currentLength = strlen($line[$i]);
+                    $currentLength = strlen((string)$line[$i]);
                     if($colLenghts[$i] < $currentLength) {
                         $colLenghts[$i] = $currentLength;
                     }
                 }
                 else {
-                    $colLenghts[$i] = strlen($line[$i]);
+                    $colLenghts[$i] = strlen((string)$line[$i]);
                 }
             }
         }
@@ -146,7 +157,7 @@ class IO {
             self::print("|");
             $col = 0;
             foreach($line as $item) {
-                self::print(" ".str_pad($item, $colLenghts[$col]+1)."|");
+                self::print(" ".str_pad((string)$item, $colLenghts[$col]+1)."|");
                 $col++;
             }
             self::printLine("");
@@ -170,5 +181,23 @@ class IO {
         self::printLine("");
     }
 
+    public static function printError(string $text, int $minVerboseLevel = 0): void {
+        self::printLine($text, self::RED_TEXT, $minVerboseLevel);
+        self::reset();
+    }
 
+    public static function printSuccess(string $text, int $minVerboseLevel = 0): void {
+        self::printLine($text, self::GREEN_TEXT, $minVerboseLevel);
+        self::reset();
+    }
+
+    public static function printWarning(string $text, int $minVerboseLevel = 0): void {
+        self::printLine($text, self::YELLOW_TEXT, $minVerboseLevel);
+        self::reset();
+    }
+
+    public static function reset() {
+        self::print('', self::DEFAULT_TEXT);
+        self::print('', self::BLACK_BG);
+    }
 }

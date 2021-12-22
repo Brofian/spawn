@@ -8,7 +8,7 @@ define('IS_TERMINAL', defined('STDIN'));
 
 
 //load config
-require(ROOT . DIRECTORY_SEPARATOR . "config.php");
+require(ROOT ."/config.php");
 if(!defined('MODE')) {
     echo "Please create the config.php file with the sample pattern";
     die();
@@ -18,7 +18,5 @@ if(!defined('MODE')) {
 require(ROOT . "/dev/main.php");
 
 
-//load autoloader
-require(ROOT . "/src/spawn/.autoloader/AutoloadInit.php");
 //load twig autoloader
 require_once(ROOT . "/vendor/autoload.php");

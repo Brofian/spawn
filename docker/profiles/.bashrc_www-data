@@ -1,0 +1,19 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# You may uncomment the following lines if you want `ls' to be colorized:
+export LS_OPTIONS='--color=auto -lah'
+eval "`dircolors -b`"
+alias ls='ls $LS_OPTIONS'
+alias ll='ls $LS_OPTIONS -l'
+alias l='ls $LS_OPTIONS -lA'
+alias dir='ls $LS_OPTIONS -lhFA'
+
+alias cu='composer update --profile --no-suggest --ansi'
+alias ci='composer install --profile --no-suggest --ansi'
+
+# Fix permissions
+chmod -f +x $SYNC_DESTINATION_PATH/bin/console
+chmod -f +x $SYNC_DESTINATION_PATH/psh.phar
+chmod -f 0600 $SYNC_DESTINATION_PATH/config/jwt/*.pem
+
+# Initialize ssh agent
+{ eval `ssh-agent`; ssh-add; } &>/dev/null

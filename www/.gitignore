@@ -1,10 +1,12 @@
 # Individual contents and cache
 var
 vendor
+public/pack
+public/cache
 
 # Config Files
 config.php
-composer.json
+
 
 #Tests
 *test.php

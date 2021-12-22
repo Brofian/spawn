@@ -1,0 +1,13 @@
+#!php
+<?php
+
+$containerName = 'spawn-fpm-1';
+$containerName2 = 'spawn_fpm_1';
+
+//get container id
+$result = exec('docker ps -aqf "name='.$containerName.'"', $output);
+if(!$result) {
+    $result = exec('docker ps -aqf "name='.$containerName2.'"', $output);
+}
+
+passthru('docker exec -it ' . $result . ' bash');
