@@ -1,4 +1,5 @@
 -> [Feature] Separate javascript and css, but allow cross imports
+	->>> Adjust scss and js helper to run multiple times for every namespace file
 
 -> [BUG] CRSF Token invalidates after inserting wrong data in the backend login
 
