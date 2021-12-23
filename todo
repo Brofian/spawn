@@ -1,4 +1,8 @@
+-> [Feature] Separate javascript and css, but allow cross imports
+
 -> [BUG] CRSF Token invalidates after inserting wrong data in the backend login
+
+-> create a backend configuration
 
 -> create a backend configuration to select the 404 controller and action and load this automatically instead of the currently
 hardcoded fallback
