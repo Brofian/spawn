@@ -11,12 +11,9 @@ const babelrc = require('./.babelrc');
 module.exports = {
     mode: "production", // "production" | "development" | "none"
 
-    //entrypoint for compiling
-    entry: path.resolve(__dirname, '../../var/cache/resources/modules/js/index.js'),
     //output folder and file
     output: {
-        filename: 'index.js',
-        path: path.resolve(__dirname, '../../public/cache/js/'),
+        filename: 'index.js'
     },
     //folder to search for imported files
     resolve: {
