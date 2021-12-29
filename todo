@@ -1,12 +1,13 @@
--> [Feature] Separate javascript and css, but allow cross imports
-	->>> Adjust scss and js helper to run multiple times for every namespace file
-
 -> [BUG] CRSF Token invalidates after inserting wrong data in the backend login
 
--> create a backend configuration
+-> Finish Backend configuration
+	--> add entity select (html, css and js)
 
 -> create a backend configuration to select the 404 controller and action and load this automatically instead of the currently
 hardcoded fallback
+
+-> [FEATURE] Add a translation system
+	-> loaded some translations from the template. For example: the name, description, help-text or placeholder of a configuration
 
 -> SEO Analizer: save every page load in two tables: today and total. Count and save the today entries every night and save it
    for this day in total
