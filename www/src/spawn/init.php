@@ -17,6 +17,8 @@ if(!defined('MODE')) {
 //load custom elements
 require(ROOT . "/dev/main.php");
 
+//load autoloader
+require(ROOT . "/src/spawn/.autoloader/AutoloadInit.php");
 
 //load twig autoloader
 require_once(ROOT . "/vendor/autoload.php");

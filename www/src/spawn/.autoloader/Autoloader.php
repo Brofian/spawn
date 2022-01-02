@@ -2,25 +2,25 @@
 
 namespace spawn\autoloader;
 
-use spawn\system\Core\Base\Custom\FileCrawler;
-use spawn\system\Core\Base\Custom\FileEditor;
-use spawn\system\Core\Helper\URIHelper;
-use spawn\system\Throwables\ClassNotFoundException;
+use spawnCore\Custom\Gadgets\FileCrawler;
+use spawnCore\Custom\Gadgets\FileEditor;
+use spawnCore\Custom\Gadgets\URIHelper;
+use spawnCore\Custom\Throwables\ClassNotFoundException;
 
 class Autoloader
 {
     const FILENAME =  ROOT . CACHE_DIR . '/private/generated/autoloader/classpaths.php';
 
-    public $classpaths = array();
-    public $alwaysReload = false;
+    public array $classpaths = array();
+    public bool $alwaysReload = false;
 
     public function __construct()
     {
         $this->alwaysReload = (MODE == 'dev');
 
         //load FileEditor
-        require_once(ROOT . '/src/spawn/system/Core/Custom/FileEditor.php');
-        require_once(ROOT . '/src/spawn/system/Core/Helper/URIHelper.php');
+        require_once(ROOT . '/vendor/spawn/app/src/Spawn/Custom/Gadgets/FileEditor.php');
+        require_once(ROOT . '/vendor/spawn/app/src/Spawn/Custom/Gadgets/URIHelper.php');
     }
 
     //the autoload function
@@ -87,7 +87,7 @@ class Autoloader
     private function createPathsFile($fileName)
     {
         //load all classes recursivly
-        require_once(ROOT . "/src/spawn/system/Core/Custom/FileCrawler.php");
+        require_once(ROOT . "/vendor/spawn/app/src/Spawn/Custom/Gadgets/FileCrawler.php");
 
 
         $crawl = function($root) {
@@ -138,6 +138,5 @@ class Autoloader
 
         FileEditor::insert($fileName, $classPathList);
     }
-
 
 }
