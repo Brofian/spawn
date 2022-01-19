@@ -111,7 +111,8 @@ class Autoloader
                         //get the namespace
                         $namespace = $namespaceMatches[1];
                         //append the classname to the namespace
-                        $namespace .= "\\" . substr($filename, 0, strrpos($filename, '.'));
+                        $strPos = (int)(strrpos($filename, '.'));
+                        $namespace .= "\\" . substr($filename, 0, $strPos);
 
 
                         //save in the classes array
