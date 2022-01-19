@@ -23,6 +23,7 @@ services:
       - project:${SYNC_DESTINATION_PATH}:delegated
     env_file:
       - ./.env
+      - ./composer.env
 
   db:
     image: mariadb:latest

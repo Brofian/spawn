@@ -27,7 +27,6 @@
     "spawn/app": "dev-develop",
     "doctrine/dbal": "^3.2"
   },
-
   "extra": {
     "mouf": {
       "nodejs": {
@@ -37,6 +36,20 @@
         "includeBinInPath": true
       }
     }
-  }
-
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": {
+      "spawn/*": "source"
+    },
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "mouf/nodejs-installer": true,
+      "composer/installers": true,
+      "oomphinc/composer-installers-extender": true
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev"
 }
