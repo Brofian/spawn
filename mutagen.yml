@@ -9,6 +9,9 @@ sync:
       paths:
         # - /var/cache
         - /public/media
+        - /public/cache
+        - /public/cache
+        - /public/pack
       vcs: false
   spawnSync:
     alpha: "./www"

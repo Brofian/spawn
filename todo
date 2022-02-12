@@ -1,5 +1,7 @@
 -> [BUG] CRSF Token invalidates after inserting wrong data in the backend login
 
+-> Allow customSelect and entitySelect to select multiple entries
+
 -> automatically detect another language from the first url parameter. Alternatively create a url config, that lists all possible urls and their corresponding language
 
 -> SEO Analizer: save every page load in two tables: today and total. Count and save the today entries every night and save it
