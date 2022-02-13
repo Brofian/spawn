@@ -3,7 +3,7 @@
     require_once(__DIR__."/../src/spawn/init.php");
 
     //load environment
-    $environment = new \spawnCore\CardinalSystem\Environment();
+    $environment = new \SpawnCore\System\CardinalSystem\Environment();
 
     echo $environment->handle();
 

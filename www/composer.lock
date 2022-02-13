@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e09fdd396957042826bf177933d70dbf",
+    "content-hash": "2daca73108b0058c86a06f8586ebbeae",
     "packages": [
         {
             "name": "composer/installers",
@@ -922,19 +922,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn-app.git",
-                "reference": "6039321dd51c76507f13e0e92ba985f4110559de"
+                "reference": "49ab5a05cca989d228722ddb460c6ffb0a015958"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/6039321dd51c76507f13e0e92ba985f4110559de",
-                "reference": "6039321dd51c76507f13e0e92ba985f4110559de",
+                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/49ab5a05cca989d228722ddb460c6ffb0a015958",
+                "reference": "49ab5a05cca989d228722ddb460c6ffb0a015958",
                 "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "spawnApp\\": "src/",
-                    "spawnCore\\": "src/Spawn"
+                    "SpawnBackend\\": "src/Backend",
+                    "SpawnCore\\": "src/Core"
                 }
             },
             "license": [
@@ -950,7 +950,7 @@
                 "source": "https://github.com/Brofian/spawn-app/tree/develop",
                 "issues": "https://github.com/Brofian/spawn-app/issues"
             },
-            "time": "2022-01-14T15:55:46+00:00"
+            "time": "2022-02-13T19:23:41+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2348,11 +2348,11 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "spawn/app": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "ext-json": "*",

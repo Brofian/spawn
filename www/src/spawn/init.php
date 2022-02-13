@@ -8,7 +8,7 @@ define('IS_TERMINAL', defined('STDIN'));
 
 
 //load config
-require(ROOT ."/config.php");
+require(ROOT . "/config.php");
 if(!defined('MODE')) {
     echo "Please create the config.php file with the sample pattern";
     die();
