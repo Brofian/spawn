@@ -1,6 +1,6 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # You may uncomment the following lines if you want `ls' to be colorized:
-export LS_OPTIONS='--color=auto --lah'
+export LS_OPTIONS='--color=auto -lah'
 eval "$(dircolors -b)"
 alias ls='ls $LS_OPTIONS'
 alias ll='ls $LS_OPTIONS -l'
@@ -28,7 +28,11 @@ if [[ -f "/var/www/html/auth.json" ]]; then
 else
     cp -n /var/windows/composer/auth.json $WEB_USER_HOME/.composer/auth.json
 fi
-#chown -fR $WEB_USER:$WEB_USER $WEB_USER_HOME/.composer
+
+if [[ -f "/var/www/.composer/auth.json" ]]; then
+	chown -fR $WEB_USER:$WEB_USER $WEB_USER_HOME/.composer
+fi
+
 
 # Fix other permissions
 chown $WEB_USER:$WEB_USER $WEB_USER_HOME
