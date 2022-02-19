@@ -7,8 +7,8 @@ sync:
       pollingInterval: 2
     ignore:
       paths:
-        # - /var/cache
-        - /public/media
+        - /var/cache
+        - /public/cache
       vcs: false
   spawnSync:
     alpha: "./www"
