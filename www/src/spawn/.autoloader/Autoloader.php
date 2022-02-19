@@ -99,6 +99,7 @@ class Autoloader
             $crawler = new FileCrawler();
             $crawler->addIgnoredDirName('cache');
             $crawler->addIgnoredDirName('vendor');
+            $crawler->addIgnoredDirName('npm');
 
             $data = $crawler->searchInfos(
                 $root,

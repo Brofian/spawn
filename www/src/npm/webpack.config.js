@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 const path = require('path');
 const babelrc = require('./.babelrc');
-
 //
 // To start the compiling of the javascript, run the following command in THIS directory:
 // npx webpack --config webpack.config.js
@@ -50,7 +49,8 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
              $: require.resolve('jquery'),
-             jQuery: require.resolve('jquery')
+             jQuery: require.resolve('jquery'),
+             HighlightJs: require.resolve('highlight.js')
         }),
      ],
 };
