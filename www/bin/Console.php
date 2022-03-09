@@ -5,17 +5,15 @@ namespace spawn\bin;
 
 use bin\spawn\IO;
 use Exception;
-use spawnCore\Custom\FoundationStorage\AbstractCommand;
-use spawnCore\ServiceSystem\Service;
-use spawnCore\ServiceSystem\ServiceContainerProvider;
-use spawnCore\ServiceSystem\ServiceTags;
+use SpawnCore\System\Custom\FoundationStorage\AbstractCommand;
+use SpawnCore\System\ServiceSystem\Service;
+use SpawnCore\System\ServiceSystem\ServiceContainerProvider;
+use SpawnCore\System\ServiceSystem\ServiceTags;
 
 class Console {
 
-    /** @var mixed|string  */
-    private $command = "";
-    /** @var array  */
-    private $params = [];
+    private string $command = "";
+    private array $params = [];
 
     public function __construct($arguments)
     {

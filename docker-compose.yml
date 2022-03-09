@@ -5,9 +5,12 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
+      - "443:443"
     volumes:
-      # Mount these folders into the docker container
+      # Mount these files and folders into the docker container
       - ./docker/web/nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+      - ./docker/web/nginx/sites-enabled/:/etc/nginx/sites-enabled/
+      - ./docker/web/nginx/ssl/:/etc/nginx/ssl/
       # Mount the base path for every container, so it is always in sync between containers
       - project:${SYNC_DESTINATION_PATH}:delegated
     env_file:
@@ -23,6 +26,7 @@ services:
       - project:${SYNC_DESTINATION_PATH}:delegated
     env_file:
       - ./.env
+      - ./composer.env
 
   db:
     image: mariadb:latest

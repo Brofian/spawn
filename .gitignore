@@ -11,3 +11,4 @@ TODO.php
 db.env
 mutagen.yml
 mutagen.yml.lock
+composer.env
