@@ -1,7 +1,6 @@
 *What is Spawn?*
 ---
-"Standard PHP Application without Norms"
-
+"Selfmade PHP application website network"
 
 Spawn is a simple PHP framework, following the pattern of bigger frameworks like e.g. Symfony.
 But Spawn itself is significantly smaller and doesnt contain as much premade content as the bigger alternatives. This makes it
