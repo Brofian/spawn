@@ -2,6 +2,16 @@
 
 namespace bin\spawn;
 
+if(!function_exists("readline")) {
+    //polyfill
+    function readline($prompt = null){
+        if($prompt){
+            echo $prompt;
+        }
+        return rtrim(fgets(STDIN, 1024));
+    }
+}
+
 class IO {
 
     const DEFAULT_TEXT = "\e[39m";
