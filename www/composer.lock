@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4006218281ed970adbb39572916a1f5c",
+    "content-hash": "1b747a9a37745d7b70b92d33855953fc",
     "packages": [
         {
             "name": "composer/installers",
@@ -978,12 +978,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn-app.git",
-                "reference": "f9600045c3bddf08edb2a1aef2c321cd0c5f9547"
+                "reference": "9c4c9b86a80dc94be2f02aa917803a8132128b1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/f9600045c3bddf08edb2a1aef2c321cd0c5f9547",
-                "reference": "f9600045c3bddf08edb2a1aef2c321cd0c5f9547",
+                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/9c4c9b86a80dc94be2f02aa917803a8132128b1d",
+                "reference": "9c4c9b86a80dc94be2f02aa917803a8132128b1d",
                 "shasum": ""
             },
             "type": "library",
@@ -1006,7 +1006,7 @@
                 "source": "https://github.com/Brofian/spawn-app/tree/develop",
                 "issues": "https://github.com/Brofian/spawn-app/issues"
             },
-            "time": "2022-02-19T23:18:04+00:00"
+            "time": "2022-03-20T16:20:46+00:00"
         },
         {
             "name": "spawn/composer_repository",
