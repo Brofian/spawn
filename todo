@@ -1,7 +1,8 @@
--> catch the post request from the github webhook and create a function accordingly
+-> create a way to submit a form from any other (button) element
 
+-> create a method of linking the accordion trigger with the body without needing them to be in the same parent
 
-
+-> create a password reset function
 
 -> [BUG] CRSF Token invalidates after inserting wrong data in the backend login
 

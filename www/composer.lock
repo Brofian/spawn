@@ -978,12 +978,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn-app.git",
-                "reference": "2f5a99ffc7c552f3b5a0d4809f632a97b4382c0c"
+                "reference": "0b322d41ecc64fed3a04c765658d4889007b53ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/2f5a99ffc7c552f3b5a0d4809f632a97b4382c0c",
-                "reference": "2f5a99ffc7c552f3b5a0d4809f632a97b4382c0c",
+                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/0b322d41ecc64fed3a04c765658d4889007b53ad",
+                "reference": "0b322d41ecc64fed3a04c765658d4889007b53ad",
                 "shasum": ""
             },
             "type": "library",
@@ -1006,7 +1006,7 @@
                 "source": "https://github.com/Brofian/spawn-app/tree/develop",
                 "issues": "https://github.com/Brofian/spawn-app/issues"
             },
-            "time": "2022-03-20T19:56:50+00:00"
+            "time": "2022-03-20T20:13:48+00:00"
         },
         {
             "name": "spawn/composer_repository",
@@ -1014,12 +1014,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn_composer_repository.git",
-                "reference": "c90ee597fc1c50de701e68bfc5d79759d272d228"
+                "reference": "e1a05439c608cbf08448e289baf0fd1a85aaef42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn_composer_repository/zipball/c90ee597fc1c50de701e68bfc5d79759d272d228",
-                "reference": "c90ee597fc1c50de701e68bfc5d79759d272d228",
+                "url": "https://api.github.com/repos/Brofian/spawn_composer_repository/zipball/e1a05439c608cbf08448e289baf0fd1a85aaef42",
+                "reference": "e1a05439c608cbf08448e289baf0fd1a85aaef42",
                 "shasum": ""
             },
             "default-branch": true,
@@ -1042,7 +1042,7 @@
                 "source": "https://github.com/Brofian/spawn_composer_repository/tree/master",
                 "issues": "https://github.com/Brofian/spawn_composer_repository/issues"
             },
-            "time": "2022-03-20T20:09:08+00:00"
+            "time": "2022-03-20T20:49:59+00:00"
         },
         {
             "name": "symfony/debug",
