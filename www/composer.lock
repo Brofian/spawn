@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57c1d9a311cf60c6c59436eda5896418",
+    "content-hash": "4006218281ed970adbb39572916a1f5c",
     "packages": [
         {
             "name": "composer/installers",
@@ -1007,6 +1007,42 @@
                 "issues": "https://github.com/Brofian/spawn-app/issues"
             },
             "time": "2022-02-19T23:18:04+00:00"
+        },
+        {
+            "name": "spawn/composer_repository",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Brofian/spawn_composer_repository.git",
+                "reference": "a8cb56818721209811a089376148d3b056422b25"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Brofian/spawn_composer_repository/zipball/a8cb56818721209811a089376148d3b056422b25",
+                "reference": "a8cb56818721209811a089376148d3b056422b25",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SpawnComposerRepository\\": "src"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Fabian Holzwarth"
+                }
+            ],
+            "description": "S.P.A.W.N. Composer Repository Module",
+            "support": {
+                "source": "https://github.com/Brofian/spawn_composer_repository/tree/master",
+                "issues": "https://github.com/Brofian/spawn_composer_repository/issues"
+            },
+            "time": "2022-03-20T19:23:32+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2406,7 +2442,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "spawn/app": 20
+        "spawn/app": 20,
+        "spawn/composer_repository": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
@@ -2417,5 +2454,5 @@
         "ext-simplexml": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
