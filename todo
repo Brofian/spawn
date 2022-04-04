@@ -1,3 +1,5 @@
+-> IMPORTANT: change the seo_url filter and the complete routing to use the name column, instead of controller and method
+
 -> create a default class for REST Calls (see spawn/composer_repository/src/Services/GithubWebhookInterpreter.php::doRestCall())
 
 -> spawn\composer_repository\src\Controllers\ComposerController.php:32

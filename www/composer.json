@@ -29,6 +29,7 @@
     "ext-pdo": "*",
     "ext-simplexml": "*",
     "doctrine/dbal": "^3.2",
+    "jaybizzle/crawler-detect": "^1.2",
     "mobiledetect/mobiledetectlib": "^2.8",
     "mouf/nodejs-installer": "~1.0",
     "oomphinc/composer-installers-extender": "*",
