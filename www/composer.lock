@@ -1030,12 +1030,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn-app.git",
-                "reference": "0b322d41ecc64fed3a04c765658d4889007b53ad"
+                "reference": "b732bc94157837e9eee022b3949881fcc9c25f64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/0b322d41ecc64fed3a04c765658d4889007b53ad",
-                "reference": "0b322d41ecc64fed3a04c765658d4889007b53ad",
+                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/b732bc94157837e9eee022b3949881fcc9c25f64",
+                "reference": "b732bc94157837e9eee022b3949881fcc9c25f64",
                 "shasum": ""
             },
             "type": "library",
@@ -1058,7 +1058,7 @@
                 "source": "https://github.com/Brofian/spawn-app/tree/develop",
                 "issues": "https://github.com/Brofian/spawn-app/issues"
             },
-            "time": "2022-03-20T20:13:48+00:00"
+            "time": "2022-04-05T21:15:22+00:00"
         },
         {
             "name": "spawn/composer_repository",
