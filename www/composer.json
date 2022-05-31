@@ -15,10 +15,6 @@
     {
       "type": "vcs",
       "url": "git@github.com:Brofian/spawn-app.git"
-    },
-    {
-      "type": "composer",
-      "url": "https://fabianholzwarth.de/composer"
     }
   ],
 
@@ -35,7 +31,6 @@
     "oomphinc/composer-installers-extender": "*",
     "scssphp/scssphp": "^1.4.0",
     "spawn/app": "dev-develop",
-    "spawn/composer_repository": "dev-master",
     "symfony/debug": "^4.4",
     "symfony/debug-bundle": "^5.2",
     "symfony/var-dumper": "^5.2",
