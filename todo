@@ -1,25 +1,11 @@
--> IMPORTANT: change the seo_url filter and the complete routing to use the name column, instead of controller and method
+-> move remaining parts of the wordle game from the website to the games module
 
--> create a default class for REST Calls (see spawn/composer_repository/src/Services/GithubWebhookInterpreter.php::doRestCall())
+-> Create a value to identify modules, that shall be compiled (currently, every namespace will always be compiled)
 
--> spawn\composer_repository\src\Controllers\ComposerController.php:32
--> try creating a valid composer package from the loaded data
--> only load and update this data when the webhook is activated! Store the github response in the repository data and the generated packages.json in the project data field
--> then output the project data as the packages.json answer instead
-
--> find the correct repository to update by the repository name
-
--> (optional) create a fitting backend display for the packages data
-
--> try reading the composer.json in the referenced repository and get data like description, etc.
 
 -> create a TODO list for the website for better listing
 
--> create a user login module for the frontend
-
 -> create a way to submit a form from any other (button) element
-
--> create a method of linking the accordion trigger with the body without needing them to be in the same parent
 
 -> create a password reset function
 

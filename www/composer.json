@@ -6,15 +6,18 @@
 
 
 
-
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:Brofian/spawn_composer_repository.git"
+      "url": "git@github.com:Brofian/spawn-app.git"
     },
     {
       "type": "vcs",
-      "url": "git@github.com:Brofian/spawn-app.git"
+      "url": "git@github.com:Brofian/spawn-common.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:Brofian/spawn-games.git"
     }
   ],
 
@@ -31,10 +34,16 @@
     "oomphinc/composer-installers-extender": "*",
     "scssphp/scssphp": "^1.4.0",
     "spawn/app": "dev-develop",
+    "spawn/common": "dev-master",
+    "spawn/games": "dev-master",
     "symfony/debug": "^4.4",
     "symfony/debug-bundle": "^5.2",
     "symfony/var-dumper": "^5.2",
     "twig/twig": "^3.0"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
   },
   "extra": {
     "mouf": {
