@@ -946,12 +946,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn-app.git",
-                "reference": "2305246457e7d769578d9c6012fac2cb090d6fcd"
+                "reference": "d8e21114a967658b3ae19504c4a8c43aa58baa9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/2305246457e7d769578d9c6012fac2cb090d6fcd",
-                "reference": "2305246457e7d769578d9c6012fac2cb090d6fcd",
+                "url": "https://api.github.com/repos/Brofian/spawn-app/zipball/d8e21114a967658b3ae19504c4a8c43aa58baa9d",
+                "reference": "d8e21114a967658b3ae19504c4a8c43aa58baa9d",
                 "shasum": ""
             },
             "type": "library",
@@ -974,7 +974,7 @@
                 "source": "https://github.com/Brofian/spawn-app/tree/develop",
                 "issues": "https://github.com/Brofian/spawn-app/issues"
             },
-            "time": "2022-05-31T18:40:55+00:00"
+            "time": "2022-07-22T16:34:20+00:00"
         },
         {
             "name": "spawn/common",
@@ -982,12 +982,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Brofian/spawn-common.git",
-                "reference": "79e3cb0f229e292b24f02ecb65a3c69c5df1d190"
+                "reference": "48aa53bf23e88f3b50bfa6829b7e423d17fe9fdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-common/zipball/79e3cb0f229e292b24f02ecb65a3c69c5df1d190",
-                "reference": "79e3cb0f229e292b24f02ecb65a3c69c5df1d190",
+                "url": "https://api.github.com/repos/Brofian/spawn-common/zipball/48aa53bf23e88f3b50bfa6829b7e423d17fe9fdd",
+                "reference": "48aa53bf23e88f3b50bfa6829b7e423d17fe9fdd",
                 "shasum": ""
             },
             "default-branch": true,
@@ -1010,7 +1010,7 @@
                 "source": "https://github.com/Brofian/spawn-common/tree/master",
                 "issues": "https://github.com/Brofian/spawn-common/issues"
             },
-            "time": "2022-03-19T10:51:49+00:00"
+            "time": "2022-07-22T16:34:44+00:00"
         },
         {
             "name": "spawn/games",
@@ -1018,13 +1018,16 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:Brofian/spawn-games.git",
-                "reference": "273eae1e0e5515a536c04d65073cb63abe0ec9ba"
+                "reference": "d8fab5061d2dfe553ab63cb964a3ed0441f3903c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Brofian/spawn-games/zipball/273eae1e0e5515a536c04d65073cb63abe0ec9ba",
-                "reference": "273eae1e0e5515a536c04d65073cb63abe0ec9ba",
+                "url": "https://api.github.com/repos/Brofian/spawn-games/zipball/d8fab5061d2dfe553ab63cb964a3ed0441f3903c",
+                "reference": "d8fab5061d2dfe553ab63cb964a3ed0441f3903c",
                 "shasum": ""
+            },
+            "require": {
+                "spawn/common": "*"
             },
             "default-branch": true,
             "type": "library",
@@ -1046,7 +1049,7 @@
                 "source": "https://github.com/Brofian/spawn-games/tree/master",
                 "issues": "https://github.com/Brofian/spawn-games/issues"
             },
-            "time": "2022-07-17T14:54:49+00:00"
+            "time": "2022-07-22T16:38:17+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2818,5 +2821,5 @@
         "ext-simplexml": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
