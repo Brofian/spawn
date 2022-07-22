@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.10.0"
   },
   "dependencies": {
     "@babel/core": "^7.13.8",
@@ -17,7 +17,6 @@
     "@babel/plugin-transform-object-assign": "^7.12.13",
     "@babel/preset-env": "^7.13.8",
     "babel-loader": "^8.2.2",
-    "highlight.js": "*",
     "jquery": "^3.5.1",
     "npx": "^10.2.2",
     "webpack": "^5.24.2"

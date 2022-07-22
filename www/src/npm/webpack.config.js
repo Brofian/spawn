@@ -49,8 +49,7 @@ module.exports = {
     plugins: [
         new webpack.ProvidePlugin({
              $: require.resolve('jquery'),
-             jQuery: require.resolve('jquery'),
-             HighlightJs: require.resolve('highlight.js')
+             jQuery: require.resolve('jquery')
         }),
      ],
 };

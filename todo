@@ -1,4 +1,4 @@
--> move remaining parts of the wordle game from the website to the games module
+-> pass css and js variables to the template to dynamically include the correct files (or multiple if given)
 
 -> Create a value to identify modules, that shall be compiled (currently, every namespace will always be compiled)
 
