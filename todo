@@ -1,7 +1,8 @@
+-> remove stale repository services from xml files
+
 -> pass css and js variables to the template to dynamically include the correct files (or multiple if given)
 
 -> Create a value to identify modules, that shall be compiled (currently, every namespace will always be compiled)
-
 
 -> create a TODO list for the website for better listing
 
@@ -11,9 +12,9 @@
 
 -> create a command to activate/disable modules
 
--> generalize repositories to something like "product.repository" as preparation for an automatic API
-
 -> create a unified API for all repositories
+
+-> create and use a required value for repository API´s
 
 -> Allow customSelect and entitySelect to select multiple entries
 
