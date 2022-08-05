@@ -1,4 +1,7 @@
--> remove stale repository services from xml files
+-> finish entity-api.function.js (search parameters, upsert, and delete method)
+-> finish ApiController (search parameters, delete method)
+
+-> create a backend for configuring scripts to the database
 
 -> pass css and js variables to the template to dynamically include the correct files (or multiple if given)
 
@@ -12,11 +15,11 @@
 
 -> create a command to activate/disable modules
 
--> create a unified API for all repositories
-
 -> create and use a required value for repository API´s
 
 -> Allow customSelect and entitySelect to select multiple entries
+
+-> update entitySelect to use new api class
 
 -> automatically detect another language from the first url parameter. Alternatively create a url config, that lists all possible urls and their corresponding language
 

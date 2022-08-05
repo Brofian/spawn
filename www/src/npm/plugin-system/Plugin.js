@@ -5,7 +5,7 @@ export default class Plugin {
     _$element = null;
     _pluginName = "";
     _selector = "";
-    options = {};
+    static options = {};
 
     _initialized = false;
 
@@ -14,14 +14,15 @@ export default class Plugin {
      * @param  $element
      * @param {string} pluginName
      * @param {string} selector
+     * @param {object} configuration
      * @private
      */
-    constructor(element, $element, pluginName, selector) {
+    constructor(element, $element, pluginName, selector, configuration = {}) {
         this._element = element;
         this._$element = $element;
         this._pluginName = pluginName;
         this._selector = selector;
-        this.options = {};
+        this.options = configuration;
 
         if(!this._initialized) {
             this._setup();
@@ -36,9 +37,7 @@ export default class Plugin {
             for(let option in this.options) {
                 if(this.options.hasOwnProperty(option)) {
                     let prop = this.options[option];
-                    if(prop) {
-                        this.options[option] = this._element.dataset[prop];
-                    }
+                    this.options[option] = this._element.dataset[option] ?? prop;
                 }
             }
         }

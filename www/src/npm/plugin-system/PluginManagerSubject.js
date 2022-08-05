@@ -82,7 +82,8 @@ export default class PluginManagerSubject {
                     boundElement,
                     jQuery(boundElement),
                     pluginName,
-                    pluginBinding
+                    pluginBinding,
+                    pluginClass.options
                 )
             };
 
