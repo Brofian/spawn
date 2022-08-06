@@ -8,7 +8,6 @@ require("Autoloader.php");
 //prepare global autoload class
 global $autoloadClass;
 $autoloadClass = new \spawn\autoloader\Autoloader();
-$autoloadClass->alwaysReload = (MODE == "dev");
 
 //set autloader
 spl_autoload_register(
