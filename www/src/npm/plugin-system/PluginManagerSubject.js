@@ -3,6 +3,7 @@ export default class PluginManagerSubject {
     registeredPluginList = [];
     pluginsInitialized = false;
     initializedPluginList = [];
+    processedElements = [];
 
 
 
@@ -68,16 +69,43 @@ export default class PluginManagerSubject {
     initializePlugin(pluginClass, pluginBinding, pluginName, scope) {
         var me = this;
 
+        if (typeof pluginClass !== 'function') {
+            throw new Error('The passed plugin is not a function or a class.');
+        }
+
+        // cleanup stale references
+        if(this.processedElements[pluginName]) {
+            for(let ref of this.processedElements[pluginName]) {
+                if(!document.contains(ref)) {
+                    let index;
+                    while((index = this.processedElements[pluginName].indexOf(ref)) > -1) {
+                        this.processedElements[pluginName].splice(index, 1);
+                    }
+                    this.processedElements[pluginName].remove
+                }
+            }
+        }
+
+
         var boundElements = scope.querySelectorAll(pluginBinding);
 
         for(let boundElement of boundElements ) {
 
-            if (typeof pluginClass !== 'function') {
-                throw new Error('The passed plugin is not a function or a class.');
+            if(this.processedElements[pluginName] && this.processedElements[pluginName].includes(boundElement)) {
+                // element is already processed -> search it and run the update method
+                for(let el of this.initializedPluginList) {
+                    if(el.plugin === pluginClass && el.element === boundElement) {
+                        el.instance.onPluginElementUpdate();
+                        break;
+                    }
+                }
+
+                continue;
             }
 
             var element = {
                 plugin: pluginClass,
+                element: boundElement,
                 instance: new pluginClass(
                     boundElement,
                     jQuery(boundElement),
@@ -89,10 +117,12 @@ export default class PluginManagerSubject {
 
             me.initializedPluginList.push(element);
 
+            if(!this.processedElements[pluginName]) {
+                this.processedElements[pluginName] = [];
+            }
+            this.processedElements[pluginName].push(boundElement);
         }
-
     }
-
 
     purgeRegisteredPlugins() {
         var me = this;

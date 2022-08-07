@@ -1,5 +1,7 @@
--> finish entity-api.function.js (search parameters, upsert, and delete method)
--> finish ApiController (search parameters, delete method)
+-> finish entity-api.function.js (upsert, and delete method)
+-> finish ApiController (delete method)
+
+-> fix Bug: loading entity table without criteria after loading entitytable with criteria, uses old criteria ... dont know why
 
 -> create a backend for configuring scripts to the database
 

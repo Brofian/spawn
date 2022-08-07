@@ -1,3 +1,5 @@
+import EventManager from "EventManager";
+
 export default class Plugin {
 
     /** @var {HTMLElement} _element*/
@@ -41,6 +43,10 @@ export default class Plugin {
                 }
             }
         }
+    }
+
+    onPluginElementUpdate() {
+        // empty placeholder
     }
 
     init() {
